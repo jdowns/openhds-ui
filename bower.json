@@ -1,0 +1,24 @@
+{
+  "name": "openhds-ui",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jdowns/openhds-ui",
+  "authors": [
+    "John <john.downs@acm.org>"
+  ],
+  "description": "An angular front end for OpenHDS",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "BSD 3-Clause",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "karma-jasmine": "~0.3.5",
+    "angular": "~1.4.0"
+  }
+}

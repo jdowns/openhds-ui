@@ -1,0 +1,239 @@
+<form name="individualForm" class="form-horizontal" novalidate>
+  <fieldset>
+
+    <!-- Form Name -->
+    <!--<legend>Create {{selectedHousehold == null ? "Head of Household" : "Member of Household"}}</legend>-->
+    <legend>Create Head of Household</legend>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label">Location</label>
+      <div class="col-md-4 con">
+	<input type="text" class="form-control input-md" value="{{selectedLocation.locationName}}" ng-disabled="true"/>
+      </div>
+    </div>
+
+    <div class="form-group"  ng-show="selectedHousehold != null">
+      <label class="col-md-4 control-label">Household</label>
+      <div class="col-md-4 con">
+	<input type="text" class="form-control input-md" value="{{selectedHousehold.groupName}}" ng-disabled="true"/>
+      </div>
+    </div>
+
+    <!-- 			<div class="form-group">			 -->
+    <!-- 				<label class="col-md-4 control-label">Collection Date</label> -->
+    <!-- 				<div class="col-md-4 con"> -->
+    <!-- 				 	<input type="text" class="form-control input-md" value="{{newIndividual.collectionDateTime | date:'yyyy-MM-dd HH:mm:ss'}}" ng-disabled="true"/> -->
+    <!-- 				</div> -->
+    <!-- 			</div> -->
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.fieldWorkerExtId.$invalid && !individualForm.fieldWorkerExtId.$pristine}">
+      <label class="col-md-4 control-label" for="fieldWorkerId">Field Worker ID*</label>
+      <div class="col-md-4">
+	<input type="text" id="fieldWorkerId" name="fieldWorkerId" placeholder="Field Worker ID" class="form-control input-md" ng-model="newIndividual.fieldWorkerExtId" ng-required="true"/>
+	<span class="alert alert-error" ng-show="individualForm.fieldWorkerExtId.$dirty && individualForm.fieldWorkerExtId.$invalid">
+	  <small ng-if="individualForm.fieldWorkerExtId.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualFirstName.$invalid && !individualForm.individualFirstName.$pristine}">
+      <label class="col-md-4 control-label" for="firstName">First
+	Name*</label>
+      <div class="col-md-4">
+	<input id="firstName" name="firstName" type="text"
+	       placeholder="First Name" class="form-control input-md"
+	       ng-model="newIndividual.individualFirstName" ng-required="true">
+	<span class="help-block" ng-show="individualForm.individualFirstName.$invalid && !individualForm.individualFirstName.$pristine">
+	  <small ng-if="individualForm.individualFirstName.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualLastName.$invalid && !individualForm.individualLastName.$pristine}">
+      <label class="col-md-4 control-label" for="lastName">Last
+	Name*</label>
+      <div class="col-md-4">
+	<input id="lastName" name="lastName" type="text"
+	       placeholder="Last Name" class="form-control input-md"
+	       ng-model="newIndividual.individualLastName" ng-required="true">
+	<span class="help-block" ng-show="individualForm.individualLastName.$invalid && !individualForm.individualLastName.$pristine">
+	  <small ng-if="individualForm.individualLastName.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualOtherNames.$invalid && !individualForm.individualOtherNames.$pristine}">
+      <label class="col-md-4 control-label" for="lastName">House Name</label>
+      <div class="col-md-4">
+	<input id="individualOtherNames" name="individualOtherNames" type="text"
+	       placeholder="House Name" class="form-control input-md"
+	       ng-model="newIndividual.individualOtherNames" ng-required="false">
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualGender.$invalid && !individualForm.individualGender.$pristine}">
+      <label class="col-md-4 control-label" for="gender">Gender*</label>
+      <div class="col-md-4">
+	<select id="gender" ng-model="newIndividual.individualGender"
+		ng-required="true" class="form-control">
+	  <option value="MALE">Male</option>
+	  <option value="FEMALE">Female</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualGender.$invalid && !individualForm.individualGender.$pristine">
+	  <small ng-if="individualForm.individualGender.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualAge.$invalid && !individualForm.individualAge.$pristine}">
+      <label class="col-md-4 control-label" for="individualAge">Age*</label>
+      <div class="col-md-4">
+	<input id="individualAge" name="individualAge" type="text" placeholder="Age" class="form-control input-md" ng-model="newIndividual.individualAge" ng-required="true" ng-blur="setDOB()" ng-pattern="/^(0?[0-9]?[0-9]|10[0-9]|110)$/">
+	<span class="help-block" ng-show="individualForm.individualAge.$invalid && !individualForm.individualAge.$pristine">
+	  <small ng-if="individualForm.individualAge.$error.required">Required</small>
+	  <small ng-if="individualForm.individualAge.$error.pattern">Age must be between 0 and 110</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualAgeUnits.$invalid && !individualForm.individualAgeUnits.$pristine}">
+      <label class="col-md-4 control-label" for="gender">Age Units*</label>
+      <div class="col-md-4">
+	<select id="gender" ng-model="newIndividual.individualAgeUnits"
+		ng-required="true" class="form-control" ng-change="setDOB()">
+	  <option value="Years">Years</option>
+	  <option value="Months">Months</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualAgeUnits.$invalid && !individualForm.individualAgeUnits.$pristine">
+	  <small ng-if="individualForm.individualAgeUnits.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualDateOfBirth.$invalid && !individualForm.individualDateOfBirth.$pristine}">
+      <label class="col-md-4 control-label" for="individualDateOfBirth">Date of Birth*</label>
+      <div class="col-md-4">
+	<p class="input-group">
+	  <input type="text" ng-disabled="true" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="newIndividual.individualDateOfBirth" is-open="opened"
+		 min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+		 show-current-day="false"
+		 date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" id="individualDateOfBirth" name="individualDateOfBirth"/>
+	  <span class="input-group-btn">
+	    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	  </span>
+	</p>
+	<span class="help-block" ng-show="individualForm.individualDateOfBirth.$invalid && !individualForm.individualDateOfBirth.$pristine">
+	  <small ng-if="individualForm.individualDateOfBirth.$invalid">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-show="selectedHousehold != null" ng-class="{'has-error' : individualForm.individualRelationshipToHeadOfHousehold.$invalid && !individualForm.individualRelationshipToHeadOfHousehold.$pristine}">
+      <label class="col-md-4 control-label" for="individualRelationshipToHeadOfHousehold">Relationship to Head of Household*</label>
+      <div class="col-md-4">
+	<select id="individualRelationshipToHeadOfHousehold" ng-model="newIndividual.individualRelationshipToHeadOfHousehold"
+		ng-required="selectedHousehold != null" class="form-control">
+	  <option value="2">Spouse</option>
+	  <option value="3">Son/Daughter</option>
+	  <option value="4">Brother/Sister</option>
+	  <option value="5">Parent</option>
+	  <option value="6">Grandchild</option>
+	  <option value="7">Not Related</option>
+	  <option value="8">Other Relative</option>
+	  <option value="9">Don't Know</option>
+	  <option value="10">Cousin</option>
+	  <option value="11">Nephew/Niece</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualRelationshipToHeadOfHousehold.$invalid && !individualForm.individualRelationshipToHeadOfHousehold.$pristine">
+	  <small ng-if="individualForm.individualRelationshipToHeadOfHousehold.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualPhoneNumber.$invalid && !individualForm.individualPhoneNumber.$pristine}">
+      <label class="col-md-4 control-label" for="individualPhoneNumber">Personal Phone Number</label>
+      <div class="col-md-4">
+	<input id="individualPhoneNumber" name="individualPhoneNumber" type="text"
+	       placeholder="Personal Phone Number" class="form-control input-md"
+	       ng-model="newIndividual.individualPhoneNumber" ng-required="false">
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualOtherPhoneNumber.$invalid && !individualForm.individualOtherPhoneNumber.$pristine}">
+      <label class="col-md-4 control-label" for="individualOtherPhoneNumber">Other Phone Number</label>
+      <div class="col-md-4">
+	<input id="individualOtherPhoneNumber" name="individualOtherPhoneNumber" type="text"
+	       placeholder="Other Phone Number" class="form-control input-md"
+	       ng-model="newIndividual.individualOtherPhoneNumber" ng-required="false">
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualNationality.$invalid && !individualForm.individualNationality.$pristine}">
+      <label class="col-md-4 control-label" for="individualNationality">Nationality*</label>
+      <div class="col-md-4">
+	<select id="individualNationality" ng-model="newIndividual.individualNationality"
+		ng-required="true" class="form-control">
+	  <option value="Equato Guinean">Equato Guinean</option>
+	  <option value="Other African Country">Other African Country</option>
+	  <option value="Asian">Asian</option>
+	  <option value="Other Non-African Country">Other Non-African Country</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualNationality.$invalid && !individualForm.individualNationality.$pristine">
+	  <small ng-if="individualForm.individualNationality.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualLanguagePreference.$invalid && !individualForm.individualLanguagePreference.$pristine}">
+      <label class="col-md-4 control-label" for="individualLanguagePreference">Language Preference*</label>
+      <div class="col-md-4">
+	<select id="individualLanguagePreference" ng-model="newIndividual.individualLanguagePreference"
+		ng-required="true" class="form-control">
+	  <option value="Spanish">Spanish</option>
+	  <option value="Fang">Fang</option>
+	  <option value="Bubi">Bubi</option>
+	  <option value="English">English</option>
+	  <option value="French">French</option>
+	  <option value="Other">Other</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualLanguagePreference.$invalid && !individualForm.individualLanguagePreference.$pristine">
+	  <small ng-if="individualForm.individualLanguagePreference.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualDip.$invalid && !individualForm.individualDip.$pristine}">
+      <label class="col-md-4 control-label" for="individualDip">DIP</label>
+      <div class="col-md-4">
+	<input id="individualDip" name="individualDip" type="text"
+	       placeholder="DIP" class="form-control input-md"
+	       ng-model="newIndividual.individualDip" ng-required="false">
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error' : individualForm.individualMemberStatus.$invalid && !individualForm.individualMemberStatus.$pristine}">
+      <label class="col-md-4 control-label" for="gender">Member Status*</label>
+      <div class="col-md-4">
+	<select id="individualMemberStatus" ng-model="newIndividual.individualMemberStatus"
+		ng-required="true" class="form-control">
+	  <option value="Permanent">Permanent</option>
+	  <option value="Visitor">Visitor</option>
+	</select>
+	<span class="help-block" ng-show="individualForm.individualMemberStatus.$invalid && !individualForm.individualMemberStatus.$pristine">
+	  <small ng-if="individualForm.individualMemberStatus.$error.required">Required</small>
+	</span>
+      </div>
+    </div>
+
+    <!-- Button (Double) -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="createButton"></label>
+      <div class="col-md-8">
+	<button id="createButton" name="createButton" class="btn btn-default btn-inverse" ng-click="createNewIndividual()" ng-disabled="!individualForm.$valid">Create</button>
+	<button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelNewIndividual()">Cancel</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>

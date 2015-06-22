@@ -2,7 +2,7 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-describe('OpenHDS App', function() {
+describe('LocationCtrl', function() {
 
   it('should redirect index.html to index.html#/', function() {
     browser.get('app/index.html');

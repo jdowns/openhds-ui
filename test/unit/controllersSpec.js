@@ -1,34 +1,56 @@
 'use strict';
 
 /* jasmine specs for controllers go here */
-describe('OpenHDS controllers', function() {
+describe('LocationCtrl', function() {
 
-  beforeEach(function(){
-    this.addMatchers({
-      toEqualData: function(expected) {
-        return angular.equals(this.actual, expected);
-      }
+    var scope, ctrl, coords;
+
+    function geoCallback(pos) {
+        coords = pos.coords;
+        it('should have latitude', function() {
+            expect(scope.latitude).toEqual(coords.latitude);
+        });
+
+        it('should have longitude', function() {
+            expect(scope.longitude).toEqual(coords.longitude);
+        });
+
+        it('should have accuracy', function() {
+            expect(scope.accuracy).toEqual(coords.accuracy);
+        });
+
+        it('should have altitude', function() {
+            expect(scope.altitude).toEqual(coords.altitude);
+        });
+    }
+
+    navigator.geolocation.getCurrentPosition(geoCallback);
+
+    beforeEach(module('openhds'));
+
+    beforeEach(inject(function($controller) {
+        scope = {};
+        ctrl = $controller('LocationCtrl', {$scope: scope});
+    }))
+
+    it('should have a location hierarchy', function() {
+        expect(scope.locationHierarchy).toEqual([]);
     });
-  });
 
-  beforeEach(module('openhdsApp'));
-
-  describe('AppCtrl', function(){
-    var scope, ctrl, $httpBackend;
-
-    beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
-      $httpBackend = _$httpBackend_;
-      $httpBackend.expectGET('/').
-          respond('Hello, World!');
-
-      scope = $rootScope.$new();
-      ctrl = $controller('AppCtrl', {$scope: scope});
-    }));
-
-
-    it('True should be true', function() {
-        expect(true).toBe(true);
+    it('should have a location name', function() {
+        expect(scope.locationName).toEqual('');
     });
 
-  });
+    it('should have a location type', function() {
+        expect(scope.locationType).toEqual('rural');
+    });
+
+    it('should have field worker ID', function() {
+        expect(scope.fieldWorkerId).toEqual(null);
+    });
+
+    it('should have an init function', function() {
+        expect(scope.init()).toBe(1);
+    });
+
 });

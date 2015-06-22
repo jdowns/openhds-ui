@@ -13,7 +13,7 @@ openhdsApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'partials/phone-list.html',
+        templateUrl: 'partials/form.html',
         controller: 'AppCtrl'
       }).
       otherwise({

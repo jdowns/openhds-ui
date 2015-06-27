@@ -30,4 +30,4 @@ openhds.controller('LocationCtrl', ['$scope',
             //TODO: use geolocation for lat and long
 
         }
-}]);
+    }]);

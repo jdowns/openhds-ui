@@ -1,6 +1,5 @@
 'use strict';
 
-/* jasmine specs for controllers go here */
 describe('LocationCtrl', function() {
 
     var scope, ctrl, coords;

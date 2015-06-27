@@ -5,11 +5,11 @@
 var openhdsServices = angular.module('openhdsServices', ['ngResource']);
 
 openhdsServices.factory('LocationHierarchies', ['$resource',
-  function($resource){
-    return $resource('/locationhierarchies', {}, {
-      query: {method:'GET', params:{}, isArray:true}
-    });
-  }]);
+    function($resource){
+        return $resource('/locationhierarchies', {}, {
+            query: {method:'GET', params:{}, isArray:true}
+        });
+    }]);
 
 openhdsServices.factory('LocationHierarchyLevels', ['$resource',
     function($resource) {
@@ -17,3 +17,4 @@ openhdsServices.factory('LocationHierarchyLevels', ['$resource',
             query: {method: 'GET', params:{}, isArray:true}
         });
     }]);
+

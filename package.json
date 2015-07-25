@@ -6,6 +6,7 @@
   "repository": "https://github.com/jdowns/angular-seed",
   "license": "MIT",
   "engines": {
+    "node": "0.12.4",
     "npm": "2.1.x"
   },
   "devDependencies": {

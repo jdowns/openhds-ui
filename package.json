@@ -17,6 +17,9 @@
     "protractor": "^2.1.0",
     "shelljs": "^0.2.6"
   },
+  "dependencies": {
+      "bower": "0.6.x"
+      },
   "scripts": {
     "postinstall": "bower install",
 

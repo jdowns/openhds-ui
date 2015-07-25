@@ -1,16 +1,45 @@
 'use strict';
 
-describe('openHDS.view1 module', function() {
+describe('openHDS.location module', function() {
 
-  beforeEach(module('openHDS.view1'));
+    var locationCtrl;
+    var scope = {};
+    var $location, $route, $rootScope;
 
-  describe('view1 controller', function(){
+    describe('Location Controller', function() {
+        beforeEach(module('openHDS.location'));
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view1Ctrl = $controller('LocationCtrl');
-      expect(view1Ctrl).toBeDefined();
-    }));
+        beforeEach(inject(function(_$location_, _$route_, _$rootScope_){
+            $location = _$location_;
+            $route = _$route_;
+            $rootScope = _$rootScope_;
+        }));
 
-  });
+        beforeEach(inject(function($controller, $http) {
+            locationCtrl = $controller('LocationCtrl', {
+                    $scope: scope,
+                    $http: $http,
+                    scopeService: {}});
+        }));
+
+        // We need to setup a mock backend to handle the fetching of templates from the 'templateUrl'.
+        beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('locationView/location-form.html').respond(200, 'main HTML');
+        }));
+
+        it('LocationController should be defined', function() {
+            expect(locationCtrl).toBeDefined();
+        });
+
+        it('Location controller data should be defined', function() {
+           expect(scope.data).toBeDefined();
+        });
+
+        it('Location controller should handle route at /form/location', function() {
+            $location.path('/form/location');
+            $rootScope.$digest();
+            expect($location.path()).toBe('/form/location');
+            expect($route.current.controller).toBe('LocationCtrl');
+        })
+    });
 });

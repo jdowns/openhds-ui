@@ -1,42 +1,15 @@
 'use strict';
 
-/* https://github.com/angular/protractor/blob/master/docs/toc.md */
-
 describe('my app', function() {
 
+    it('Filling out new location form creates new location', function () {
+        browser.get('/app#/form/location');
+        expect(browser.getLocationAbsUrl()).toMatch('/form/location');
 
-  it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
-    browser.get('index.html');
-    expect(browser.getLocationAbsUrl()).toMatch("/view1");
-  });
+        var parentName = element(by.css('parentLocationHierarchy.name'));
+        expect(parentName).toBeDefined();
 
-
-  describe('view1', function() {
-
-    beforeEach(function() {
-      browser.get('index.html#/location');
+        var locationName = element(by.css('locationName'))
+        expect(locationName).toBeDefined();
     });
-
-
-    it('should render form when user navigates to /location', function() {
-      expect(element.all(by.css('[ng-view] legend')).first().getText()).
-        toMatch(/Create Location/);
-    });
-
-  });
-
-
-  describe('view2', function() {
-
-    beforeEach(function() {
-      browser.get('index.html#/view2');
-    });
-
-
-    it('should render view2 when user navigates to /view2', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 2/);
-    });
-
-  });
 });

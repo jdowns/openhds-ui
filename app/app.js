@@ -3,7 +3,6 @@
 angular.module('openHDS', [
   'ngRoute',
   'openHDS.location',
-  'openHDS.version'
 ])
 
 .config(['$routeProvider', function($routeProvider) {

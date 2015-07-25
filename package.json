@@ -10,7 +10,7 @@
     "npm": "2.1.x"
   },
   "devDependencies": {
-    "bower": "^1.3.1",
+    "bower": "1.4.1",
     "http-server": "^0.6.1",
     "jasmine-core": "^2.3.4",
     "karma": "~0.12",
@@ -22,7 +22,7 @@
     "shelljs": "^0.2.6"
   },
   "dependencies": {
-      "bower": "0.6.x"
+      "bower": "1.4.1.x"
       },
   "scripts": {
     "postinstall": "bower install",

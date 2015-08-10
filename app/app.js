@@ -2,6 +2,7 @@
 
 angular.module('openHDS', [
   'ngRoute',
+    'openHDS.login',
   'openHDS.location',
 ])
 

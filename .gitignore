@@ -5,3 +5,10 @@ bower_components/
 tmp
 .DS_Store
 .idea
+.divshot*
+*.zip
+*.org
+*.log
+*.iml
+*.txt
+npm-debug.log*

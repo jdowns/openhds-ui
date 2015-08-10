@@ -3,10 +3,6 @@
 angular.module('openHDS.location', ['ngRoute'])
 
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/login', {
-            templateUrl: 'locationView/login.html',
-            controller: 'LocationCtrl'
-        });
 
         $routeProvider.when('/form/location', {
             templateUrl: 'locationView/location-form.html',

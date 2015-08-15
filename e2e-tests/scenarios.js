@@ -14,6 +14,9 @@ describe('OpenHDS: ', function() {
 
         newLocationPage.validate();
         newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0', 'abc123');
+        var individualPage = newLocationPage.submit();
+
+        individualPage.validate();
     });
 
 });
@@ -84,12 +87,13 @@ function NewLocationPage() {
 
     this.submit = function() {
         this.createButton.click();
+        return new NewIndividualPage();
     }
 }
 
 function NewIndividualPage() {
     this.validate = function() {
-        expect(browser.getLocationAbsUrl()).toBeEqual('/location/new');
+        expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
     }
 }
 

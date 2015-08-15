@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('openHDS', [
-  'ngRoute',
+    'ngRoute',
     'openHDS.login',
-  'openHDS.location',
+    'openHDS.location',
+    'openHDS.individual',
 ])
 
 .config(['$routeProvider', function($routeProvider) {

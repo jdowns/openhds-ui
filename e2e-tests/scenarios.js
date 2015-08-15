@@ -33,10 +33,10 @@ function LoginPage() {
 
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/login');
-        expect(this.usernameTextbox).toBeDefined();
-        expect(this.passwordTextbox).toBeDefined();
-        expect(this.serverTextbox).toBeDefined();
-        expect(this.loginButton).toBeDefined();
+        expect(this.usernameTextbox).not.toBeNull();
+        expect(this.passwordTextbox).not.toBeNull();
+        expect(this.serverTextbox).not.toBeNull();
+        expect(this.loginButton).not.toBeNull();
     };
 
     this.login = function(username, password, server) {
@@ -57,20 +57,20 @@ function NewLocationPage() {
     this.altitude = getElement('altitude');
     this.accuracy = getElement('accuracy');
     this.fieldWorker = getElement('fieldWorkerId');
-    this.createButton = getElement('create');
-    this.cancelButton = getElement('cancel');
+    this.createButton = getElement('createButton');
+    this.cancelButton = getElement('cancelButton');
 
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/location/new')
-        expect(this.locationName).toBeDefined();
-        expect(this.locationType).toBeDefined();
-        expect(this.latitude).toBeDefined();
-        expect(this.longitude).toBeDefined();
-        expect(this.altitude).toBeDefined();
-        expect(this.accuracy).toBeDefined();
-        expect(this.fieldWorker).toBeDefined();
-        expect(this.createButton).toBeDefined();
-        expect(this.cancelButton).toBeDefined();
+        expect(this.locationName).not.toBeNull();
+        expect(this.locationType).not.toBeNull();
+        expect(this.latitude).not.toBeNull();
+        expect(this.longitude).not.toBeNull();
+        expect(this.altitude).not.toBeNull();
+        expect(this.accuracy).not.toBeNull();
+        expect(this.fieldWorker).not.toBeNull();
+        expect(this.createButton).not.toBeNull();
+        expect(this.cancelButton).not.toBeNull();
     };
 
     this.fill = function(locationName, locationType,

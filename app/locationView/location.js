@@ -4,21 +4,21 @@ angular.module('openHDS.location', ['ngRoute'])
 
     .config(['$routeProvider', function($routeProvider) {
 
-        $routeProvider.when('/form/location', {
+        $routeProvider.when('/location/new', {
             templateUrl: 'locationView/location-form.html',
-            controller: 'LocationCtrl'
+            controller: 'LocationController'
         });
 
     }])
 
-    .controller('LocationCtrl', ['$scope', '$http', 'scopeService', function($scope, $http, scopeService) {
+    .controller('LocationController', ['$scope', '$http', 'userService', function($scope, $http, scopeService) {
         $scope.data = scopeService;
     }])
 
-    .factory('scopeService', function() {
+    .factory('userService', function() {
         var scopeServiceInstance = {
             username: '',
-            password: '',
+            enterPassword: '',
             server: 'http://localhost:3000',
             fieldWorkerId: null,
             locationHierarchy: ['Country', 'Region', 'District', 'Village', 'Subvillage'],

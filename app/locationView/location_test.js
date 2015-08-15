@@ -19,7 +19,7 @@ describe('openHDS.location module', function() {
             locationCtrl = $controller('LocationCtrl', {
                     $scope: scope,
                     $http: $http,
-                    scopeService: {}});
+                    userService: {}});
         }));
 
         // We need to setup a mock backend to handle the fetching of templates from the 'templateUrl'.

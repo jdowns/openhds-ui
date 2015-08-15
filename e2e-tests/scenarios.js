@@ -132,6 +132,7 @@ function NewIndividualPage() {
 
     this.submit = function() {
         this.submitForm.click();
+        return new DashboardPage();
     }
 }
 

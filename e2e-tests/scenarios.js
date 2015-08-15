@@ -17,6 +17,10 @@ describe('OpenHDS: ', function() {
         var individualPage = newLocationPage.submit();
 
         individualPage.validate();
+        individualPage.fill("john", "a.", "smith", "9/1/1980", "suzie a. smith", "john b. smith", "");
+        dashboardPage = individualPage.submit();
+
+        dashboardPage.validate();
     });
 
 });
@@ -103,6 +107,7 @@ function NewIndividualPage() {
     this.mother = getElement('mother');
     this.father = getElement('father');
     this.relationships = getElement('relationships');
+    this.submitForm = getElement('submit');
 
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
@@ -113,6 +118,20 @@ function NewIndividualPage() {
         expectNotNull(this.mother);
         expectNotNull(this.father);
         expectNotNull(this.relationships);
+    };
+
+    this.fill = function(firstName, middleName, lastName, dateOfBirth, mother, father, relationships) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.mother = mother;
+        this.father = father;
+        this.relationships = relationships;
+    };
+
+    this.submit = function() {
+        this.submitForm.click();
     }
 }
 
@@ -129,3 +148,5 @@ function DashboardPage() {
         return new NewLocationPage();
     }
 }
+
+

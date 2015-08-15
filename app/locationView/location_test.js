@@ -16,7 +16,7 @@ describe('openHDS.location module', function() {
         }));
 
         beforeEach(inject(function($controller, $http) {
-            locationCtrl = $controller('LocationCtrl', {
+            locationCtrl = $controller('LocationController', {
                     $scope: scope,
                     $http: $http,
                     userService: {}});
@@ -35,11 +35,11 @@ describe('openHDS.location module', function() {
            expect(scope.data).toBeDefined();
         });
 
-        it('Location controller should handle route at /form/location', function() {
-            $location.path('/form/location');
+        it('Location controller should handle route at /location/new', function() {
+            $location.path('/location/new');
             $rootScope.$digest();
-            expect($location.path()).toBe('/form/location');
-            expect($route.current.controller).toBe('LocationCtrl');
+            expect($location.path()).toBe('/location/new');
+            expect($route.current.controller).toBe('LocationController');
         })
     });
 });

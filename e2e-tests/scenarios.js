@@ -21,6 +21,10 @@ describe('OpenHDS: ', function() {
 
 });
 
+function expectNotNull(element) {
+    expect(element).not.toBeNull();
+}
+
 function getElement(id) {
     return element(by.id(id));
 }
@@ -33,10 +37,10 @@ function LoginPage() {
 
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/login');
-        expect(this.usernameTextbox).not.toBeNull();
-        expect(this.passwordTextbox).not.toBeNull();
-        expect(this.serverTextbox).not.toBeNull();
-        expect(this.loginButton).not.toBeNull();
+        expectNotNull(this.usernameTextbox);
+        expectNotNull(this.passwordTextbox);
+        expectNotNull(this.serverTextbox);
+        expectNotNull(this.loginButton);
     };
 
     this.login = function(username, password, server) {
@@ -62,15 +66,15 @@ function NewLocationPage() {
 
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/location/new')
-        expect(this.locationName).not.toBeNull();
-        expect(this.locationType).not.toBeNull();
-        expect(this.latitude).not.toBeNull();
-        expect(this.longitude).not.toBeNull();
-        expect(this.altitude).not.toBeNull();
-        expect(this.accuracy).not.toBeNull();
-        expect(this.fieldWorker).not.toBeNull();
-        expect(this.createButton).not.toBeNull();
-        expect(this.cancelButton).not.toBeNull();
+        expectNotNull(this.locationName);
+        expectNotNull(this.locationType);
+        expectNotNull(this.latitude);
+        expectNotNull(this.longitude);
+        expectNotNull(this.altitude);
+        expectNotNull(this.accuracy);
+        expectNotNull(this.fieldWorker);
+        expectNotNull(this.createButton);
+        expectNotNull(this.cancelButton);
     };
 
     this.fill = function(locationName, locationType,
@@ -92,8 +96,23 @@ function NewLocationPage() {
 }
 
 function NewIndividualPage() {
+    this.firstName = getElement('firstName');
+    this.middleName = getElement('middleName');
+    this.lastName = getElement('lastName');
+    this.dateOfBirth = getElement('dateOfBirth');
+    this.mother = getElement('mother');
+    this.father = getElement('father');
+    this.relationships = getElement('relationships');
+
     this.validate = function() {
         expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
+        expectNotNull(this.firstName);
+        expectNotNull(this.middleName);
+        expectNotNull(this.lastName);
+        expectNotNull(this.dateOfBirth);
+        expectNotNull(this.mother);
+        expectNotNull(this.father);
+        expectNotNull(this.relationships);
     }
 }
 
@@ -110,5 +129,3 @@ function DashboardPage() {
         return new NewLocationPage();
     }
 }
-
-

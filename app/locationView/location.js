@@ -11,15 +11,12 @@ angular.module('openHDS.location', ['ngRoute'])
 
     }])
 
-    .controller('LocationController', ['$scope', '$http', 'userService', function($scope, $http, scopeService) {
+    .controller('LocationController', ['$scope', '$http', 'userService', 'locationService', function($scope, $http, scopeService, locationService) {
         $scope.data = scopeService;
     }])
 
-    .factory('userService', function() {
+    .factory('locationService', function() {
         var scopeServiceInstance = {
-            username: '',
-            enterPassword: '',
-            server: 'http://localhost:3000',
             fieldWorkerId: null,
             locationHierarchy: ['Country', 'Region', 'District', 'Village', 'Subvillage'],
             locationType: null,
@@ -39,14 +36,14 @@ angular.module('openHDS.location', ['ngRoute'])
             console.log(scopeServiceInstance.pos.coords);
         });
 
-        $http.get('http://10.0.1.28:5000/locationHierarchy')
-            .success(function(d, s, h, c) {
-                scopeServiceInstance.locationHierarchy = d;
-                console.log(scopeServiceInstance.locationHierarchy[0]);
-            })
-            .error(function(d, s, h, c) {
-                console.log('Unable to connect to remote server. Please check your connection.');
-            });
+        //$http.get('http://10.0.1.28:5000/locationHierarchy')
+        //    .success(function(d, s, h, c) {
+        //        scopeServiceInstance.locationHierarchy = d;
+        //        console.log(scopeServiceInstance.locationHierarchy[0]);
+        //    })
+        //    .error(function(d, s, h, c) {
+        //        console.log('Unable to connect to remote server. Please check your connection.');
+        //    });
 
         return scopeServiceInstance;
     });

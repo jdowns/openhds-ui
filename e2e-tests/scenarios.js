@@ -2,12 +2,10 @@
 
 describe('OpenHDS: ', function() {
 
-    it('User is able to login and create a new location', function () {
+    it('User is able to create a new location with a single resident', function () {
         browser.get('/app');
-        var loginPage = new LoginPage();
-        loginPage.validate();
-        var dashboardPage = loginPage.login('user', 'password', 'https://arcane-lake-8447.herokuapp.com/')
 
+        var dashboardPage = new DashboardPage();
         dashboardPage.validate();
 
         var newLocationPage = dashboardPage.createNewLocation();
@@ -31,30 +29,6 @@ function expectNotNull(element) {
 
 function getElement(id) {
     return element(by.id(id));
-}
-
-function LoginPage() {
-    this.usernameTextbox = getElement('username');
-    this.passwordTextbox = getElement('password');
-    this.serverTextbox = getElement('server');
-    this.loginButton = getElement('login');
-
-    this.validate = function() {
-        expect(browser.getLocationAbsUrl()).toEqual('/login');
-        expectNotNull(this.usernameTextbox);
-        expectNotNull(this.passwordTextbox);
-        expectNotNull(this.serverTextbox);
-        expectNotNull(this.loginButton);
-    };
-
-    this.login = function(username, password, server) {
-        this.usernameTextbox.sendKeys(username);
-        this.passwordTextbox.sendKeys(password);
-        this.serverTextbox.sendKeys(server);
-        this.loginButton.click();
-
-        return new DashboardPage();
-    }
 }
 
 function NewLocationPage() {

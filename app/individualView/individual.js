@@ -11,6 +11,14 @@ angular.module('openHDS.individual', ['ngRoute'])
 
     }])
 
-    .controller('IndividualController', ['$scope', '$http', 'userService', function($scope, $http, scopeService) {
-        $scope.data = scopeService;
+    .controller('IndividualController', ['$scope', '$http', function($scope, $http) {
+        $scope.firstName = 'first name';
+        $scope.lastName = 'last name';
+        $scope.middleName = 'middle name';
+        $scope.gender = 'm/f';
+        $scope.dateOfBirth = '1/1/1980';
+        $scope.mother = "";
+        $scope.father = "";
+        $scope.fieldWorkerId = 123;
+        //$http.post()
     }]);

@@ -5,7 +5,7 @@ angular.module('openHDS.location', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider.when('/location/new', {
-            templateUrl: 'locationView/location-form.html',
+            templateUrl: 'locationView/create.html',
             controller: 'LocationController'
         });
 

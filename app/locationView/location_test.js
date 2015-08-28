@@ -23,8 +23,8 @@ describe('openHDS.location module', function() {
         }));
 
         // We need to setup a mock backend to handle the fetching of templates from the 'templateUrl'.
-        beforeEach(inject(function($httpBackend){
-            $httpBackend.expectGET('locationView/location-form.html').respond(200, 'main HTML');
+        beforeEach(inject(function($httpBackend) {
+            $httpBackend.expectGET('locationView/create.html').respond(200, 'main HTML');
         }));
 
         it('LocationController should be defined', function() {
@@ -40,6 +40,6 @@ describe('openHDS.location module', function() {
             $rootScope.$digest();
             expect($location.path()).toBe('/location/new');
             expect($route.current.controller).toBe('LocationController');
-        })
+        });
     });
 });

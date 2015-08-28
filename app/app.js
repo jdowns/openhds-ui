@@ -8,5 +8,8 @@ angular.module('openHDS', [
 ])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/dashboard'});
+    $routeProvider
+
+
+        .otherwise({redirectTo: '/dashboard'});
 }]);

@@ -10,7 +10,8 @@ module.exports = function(config){
         'app/locationView/*.js',
         'app/dashboardView/*.js',
         'app/individualView/*.js',
-        'app/relationshipView/*.js'
+        'app/relationshipView/*.js',
+        'app/clientService/*.js'
     ],
 
     autoWatch : true,

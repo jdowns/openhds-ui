@@ -1,4 +1,4 @@
-<form name="locationForm" class="form-horizontal" novalidate>
+<form name="locationForm" class="form-horizontal" ng-submit="submitForm()" novalidate>
     <fieldset>
         <legend>Create Location</legend>
 
@@ -91,7 +91,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="createButton"></label>
             <div class="col-md-8">
-                <a class="btn btn-success" id='createButton' href="#/individual/new">Create</a>
+                <input type='submit' class="btn btn-success" id='createButton' />
                 <button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelLocation()">Cancel</button>
             </div>
         </div>

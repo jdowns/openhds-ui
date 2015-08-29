@@ -11,11 +11,12 @@ describe('OpenHDS: ', function() {
         var newLocationPage = dashboardPage.createNewLocation();
 
         newLocationPage.validate();
-        newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0', 'abc123');
+        newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0', 'fieldWorker');
         var individualPage = newLocationPage.submit();
 
         individualPage.validate();
-        individualPage.fill("john", "a.", "smith", "9/1/1980", "suzie a. smith", "john b. smith", "");
+        individualPage.fill("john", "a.", "smith", "9/1/1980", "suzie a. smith", "john b. smith");
+        expect(individualPage.fieldWorkerId.getAttribute('value')).toBe("fieldWorker");
         dashboardPage = individualPage.submit();
 
         dashboardPage.validate();
@@ -32,13 +33,13 @@ function getElement(id) {
 }
 
 function NewLocationPage() {
-    this.locationName = getElement('locationName');
+    this.locationName = getElement('locationName-input');
     this.locationType = getElement('locationType');
-    this.latitude = getElement('latitude');
-    this.longitude = getElement('longitude');
-    this.altitude = getElement('altitude');
-    this.accuracy = getElement('accuracy');
-    this.fieldWorker = getElement('fieldWorkerId');
+    this.latitude = getElement('latitude-input');
+    this.longitude = getElement('longitude-input');
+    this.altitude = getElement('altitude-input');
+    this.accuracy = getElement('accuracy-input');
+    this.fieldWorker = getElement('fieldWorkerId-input');
     this.createButton = getElement('createButton');
     this.cancelButton = getElement('cancelButton');
 
@@ -56,15 +57,13 @@ function NewLocationPage() {
     };
 
     this.fill = function(locationName, locationType,
-                         latitude, longitude, altitude, accuracy,
-                         fieldWorker) {
+                         latitude, longitude, altitude, accuracy) {
         this.locationName.sendKeys(locationName);
         element(by.cssContainingText('option', locationType)).click();
         this.latitude.sendKeys(latitude);
         this.longitude.sendKeys(longitude);
         this.altitude.sendKeys(altitude);
         this.accuracy.sendKeys(accuracy);
-        this.fieldWorker.sendKeys(fieldWorker);
     };
 
     this.submit = function() {
@@ -81,6 +80,7 @@ function NewIndividualPage() {
     this.mother = getElement('mother');
     this.father = getElement('father');
     this.relationships = getElement('relationships');
+    this.fieldWorkerId = getElement('fieldWorkerId-input');
     this.submitForm = getElement('submit');
 
     this.validate = function() {
@@ -92,6 +92,7 @@ function NewIndividualPage() {
         expectNotNull(this.mother);
         expectNotNull(this.father);
         expectNotNull(this.relationships);
+        expectNotNull(this.fieldWorkerId);
     };
 
     this.fill = function(firstName, middleName, lastName, dateOfBirth, mother, father, relationships) {

@@ -11,7 +11,8 @@ module.exports = function(config){
         'app/dashboardView/*.js',
         'app/individualView/*.js',
         'app/relationshipView/*.js',
-        'app/clientService/*.js'
+        'app/clientService/*.js',
+        'app/userService/*.js'
     ],
 
     autoWatch : true,

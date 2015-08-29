@@ -2,12 +2,13 @@
 
 describe('openHDS.dashboard module', function() {
 
-    var loginController;
+    var dashboardController;
     var scope = {};
     var $location, $route, $rootScope;
 
     describe('Dashboard Controller', function() {
-        beforeEach(module('openHDS.dashboard'));
+        beforeEach(module('openHDS.login'));
+        beforeEach(module('openHDS.user'))
 
         beforeEach(inject(function(_$location_, _$route_, _$rootScope_){
             $location = _$location_;
@@ -15,13 +16,19 @@ describe('openHDS.dashboard module', function() {
             $rootScope = _$rootScope_;
         }));
 
-        beforeEach(inject(function($controller, $http, $injector) {
-            loginController = $controller('Dashboard', {
+        beforeEach(inject(function($controller, $http, _userService_) {
+            dashboardController = $controller('DashboardController', {
                 $scope: scope,
                 $http: $http,
-                $userService: $injector.get('userService')
+                userService: _userService_
             });
         }));
+
+        it('User service should be defined', function() {
+            expect(dashboardController).toBeDefined();
+            expect(scope.userService).toBeDefined();
+            expect(scope.userService.fieldWorkerID).toBe("fieldWorker");
+        })
 
     });
 });

@@ -4,6 +4,7 @@ describe('openHDS.location module', function() {
 
     var locationCtrl;
     var scope = {};
+    var backend;
     var $location, $route, $rootScope;
 
     describe('Location Controller', function() {
@@ -24,10 +25,10 @@ describe('openHDS.location module', function() {
 
         // We need to setup a mock backend to handle the fetching of templates from the 'templateUrl'.
         beforeEach(inject(function($httpBackend) {
-            $httpBackend.expectGET('locationView/create.html').respond(200, 'main HTML');
+            backend = $httpBackend;
         }));
 
-        it('LocationController should be defined', function() {
+        it('should be defined', function() {
             expect(locationCtrl).toBeDefined();
         });
 
@@ -36,10 +37,21 @@ describe('openHDS.location module', function() {
         });
 
         it('Location controller should handle route at /location/new', function() {
+            backend.expectGET('locationView/create.html').respond(200, 'main HTML');
+
             $location.path('/location/new');
             $rootScope.$digest();
             expect($location.path()).toBe('/location/new');
             expect($route.current.controller).toBe('LocationController');
+        });
+
+        it('submitting form should call server', function() {
+            var newLocations = {};
+            backend.when('POST', 'http://localhost:5000/locations', newLocations).respond({"uuid": 123});
+
+            var result = scope.submitForm();
+            backend.flush();
+            expect(scope.locationId.uuid).toBe(123);
         });
     });
 });

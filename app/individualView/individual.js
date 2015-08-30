@@ -21,5 +21,4 @@ angular.module('openHDS.individual', ['ngRoute'])
         $scope.mother = "";
         $scope.father = "";
         $scope.fieldWorkerID = userService.fieldWorkerID;
-        //$http.post()
     }]);

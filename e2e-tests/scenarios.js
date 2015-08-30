@@ -1,22 +1,24 @@
 'use strict';
 
-describe('OpenHDS: ', function() {
+describe('OpenHDS workflows ', function() {
 
-    it('User is able to create a new location with a single resident', function () {
+    it('Allows a user to create a new location with an individual', function () {
         browser.get('/app');
 
         var dashboardPage = new DashboardPage();
         dashboardPage.validate();
+        dashboardPage.setFieldWorkerId('field-worker');
+        expect(dashboardPage.fieldWorker.getAttribute('value')).toBe('field-worker');
 
         var newLocationPage = dashboardPage.createNewLocation();
 
         newLocationPage.validate();
-        newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0', 'fieldWorker');
+        newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0');
         var individualPage = newLocationPage.submit();
 
         individualPage.validate();
         individualPage.fill("john", "a.", "smith", "9/1/1980", "suzie a. smith", "john b. smith");
-        expect(individualPage.fieldWorkerId.getAttribute('value')).toBe("fieldWorker");
+        expect(individualPage.fieldWorkerId.getAttribute('value')).toBe("field-worker");
         dashboardPage = individualPage.submit();
 
         dashboardPage.validate();
@@ -112,6 +114,7 @@ function NewIndividualPage() {
 }
 
 function DashboardPage() {
+    this.fieldWorker = getElement('fieldWorkerId-input');
     this.newLocationButton = getElement('new-location');
 
     this.validate = function() {
@@ -122,6 +125,11 @@ function DashboardPage() {
     this.createNewLocation = function() {
         this.newLocationButton.click();
         return new NewLocationPage();
+    };
+
+    this.setFieldWorkerId = function(fieldWorkerName) {
+        this.fieldWorker.clear();
+        this.fieldWorker.sendKeys(fieldWorkerName);
     }
 }
 

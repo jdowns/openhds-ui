@@ -12,7 +12,9 @@ module.exports = function(config){
         'app/individualView/*.js',
         'app/relationshipView/*.js',
         'app/clientService/*.js',
-        'app/userService/*.js'
+        'app/userService/*.js',
+        'app/census/*.js',
+        'test/*.js'
     ],
 
     autoWatch : true,

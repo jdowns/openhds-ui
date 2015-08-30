@@ -11,5 +11,8 @@ angular.module('openHDS.login', ['ngRoute'])
 
     .controller('DashboardController', ['$scope', '$http', '$location', 'userService',
         function($scope, $http, $location, userService) {
-        $scope.userService = userService;
+            $scope.userService = userService;
+            $scope.newLocation = function() {
+                $location.path('/location/new');
+            }
     }]);

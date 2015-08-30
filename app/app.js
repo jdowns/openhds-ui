@@ -31,4 +31,46 @@ angular.module('openHDS', [
             transclude: true,
             priority: 10
         };
-    });
+    })
+    .service('domainModels', Models);
+
+function Models() {
+    this.Location = Location;
+}
+
+function Location() {
+        this.uuid = null;
+}
+
+        //uuid (string, optional),
+        //    voidBy (User, optional),
+        //    voidReason (string, optional),
+        //    voidDate (ZonedDateTime, optional),
+        //    insertBy (User, optional),
+        //    insertDate (ZonedDateTime, optional),
+        //    lastModifiedBy (User, optional),
+        //    lastModifiedDate (ZonedDateTime, optional),
+        //    status (string, optional),
+        //    collectedBy (FieldWorker, optional),
+        //    collectionDateTime (ZonedDateTime, optional),
+        //    statusMessage (string, optional),
+        //    extId (string, optional),
+        //    name (string, optional),
+        //    type (string, optional),
+        //    longitude (string, optional),
+        //    latitude (string, optional),
+        //    accuracy (string, optional),
+        //    altitude (string, optional),
+        //    locationHierarchy (LocationHierarchy, optional),
+        //    buildingNumber (string, optional),
+        //    floorNumber (string, optional),
+        //    regionName (string, optional),
+        //    provinceName (string, optional),
+        //    subDistrictName (string, optional),
+        //    districtName (string, optional),
+        //    sectorName (string, optional),
+        //    localityName (string, optional),
+        //    communityName (string, optional),
+        //    communityCode (string, optional),
+        //    mapAreaName (string, optional),
+        //    description (string, optional)

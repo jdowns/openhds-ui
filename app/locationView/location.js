@@ -23,8 +23,11 @@ angular.module('openHDS.location', ['ngRoute'])
 
             };
             $scope.submitForm = function() {
+                console.log('submitting form...');
                 $http.post(server + '/locations', $scope.data)
                     .success(function(data, status, headers, config) {
+                        console.log('success!');
+                        $scope.locationId = data;
                         $location.path('/individual/new');
                     });
             };

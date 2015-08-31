@@ -35,13 +35,13 @@ function getElement(id) {
 }
 
 function NewLocationPage() {
-    this.locationName = getElement('locationName-input');
+    this.locationName = getElement('locationName');
     this.locationType = getElement('locationType');
-    this.latitude = getElement('latitude-input');
-    this.longitude = getElement('longitude-input');
-    this.altitude = getElement('altitude-input');
-    this.accuracy = getElement('accuracy-input');
-    this.fieldWorker = getElement('fieldWorkerId-input');
+    this.latitude = getElement('latitude');
+    this.longitude = getElement('longitude');
+    this.altitude = getElement('altitude');
+    this.accuracy = getElement('accuracy');
+    this.fieldWorker = getElement('fieldWorkerId');
     this.createButton = getElement('createButton');
     this.cancelButton = getElement('cancelButton');
 
@@ -82,7 +82,7 @@ function NewIndividualPage() {
     this.mother = getElement('mother');
     this.father = getElement('father');
     this.relationships = getElement('relationships');
-    this.fieldWorkerId = getElement('fieldWorkerId-input');
+    this.fieldWorkerId = getElement('fieldWorkerId');
     this.submitForm = getElement('submit');
 
     this.validate = function() {
@@ -114,11 +114,11 @@ function NewIndividualPage() {
 }
 
 function DashboardPage() {
-    this.fieldWorker = getElement('fieldWorkerId-input');
+    this.fieldWorker = getElement('fieldWorkerId');
     this.newLocationButton = getElement('new-location');
 
     this.validate = function() {
-        expect(browser.getLocationAbsUrl()).toEqual('/dashboard');
+        expect(browser.getLocationAbsUrl()).toEqual('/home');
         expect(this.newLocationButton).toBeDefined();
     };
 

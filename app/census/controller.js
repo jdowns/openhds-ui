@@ -1,15 +1,59 @@
 'use strict';
 
-angular.module('openHDS.census', [])
-    .controller('CensusController', ['$scope', '$http', function($scope, $http) {
+angular.module('openHDS.census', ['ngRoute'])
+    .config(function($routeProvider) {
+        $routeProvider.
+            when('/home', {templateUrl: 'census/view/home.html'}).
+            when('/location/new', {templateUrl: 'census/view/create-location.html'}).
+            when('/individual/new', {templateUrl: 'census/view/create-individual.html'})
+    })
 
-        $scope.createLocation = function(collectedBy, externalId, name, locationType, parent) {
-            $scope.location = new $scope.Location(new Date(), collectedBy, externalId, name, locationType, parent);
-            $scope.fieldWorkerId = collectedBy;
-            $http.post($scope.server, $scope.location)
+    .controller('CensusController', ['$scope', '$http', '$location', 'Model', function($scope, $http, $location, Model) {
+        $scope.model = {
+            server: "http://www.example.com",
+            fieldWorker: "fooBar",
+            locationBinding: {
+                externalId: '',
+                name: '',
+                locationType: '',
+                parent: ''
+            },
+            individualBinding: {
+                externalId: '',
+                gender: '',
+                dateOfBirth: '',
+                firstName: ''
+            }
+        };
+
+        $scope.Date = function() {
+            return new Date();
+        };
+
+        $scope.startNewLocation = function() {
+            $location.path('/location/new');
+        };
+
+        $scope.startNewIndividual = function() {
+            $location.path('/individual/new');
+        };
+
+        $scope.returnToDashboard = function() {
+            $location.path('/home');
+        };
+
+        $scope.setServer = function(server) {
+            $scope.model.server = server;
+        };
+
+        $scope.createLocation = function() {
+            $scope.model.location = new $scope.Location($scope.Date(), $scope.model.locationBinding);
+            var url = $scope.model.server + '/locations';
+            $http.post(url, $scope.model.location)
                 .then(
                     function(response) {
-                        $scope.location.uuid = response.data
+                        $scope.model.location.uuid = response.data;
+                        $scope.startNewIndividual();
                     },
                     function(response) {
 
@@ -17,17 +61,22 @@ angular.module('openHDS.census', [])
                 );
         };
 
-        $scope.Location = function(collectionDate, collectedBy, externalId, name, locationType, parent) {
-            this.collectionDate = collectionDate;
-            this.collectedBy = collectedBy;
-            this.externalId = externalId;
-            this.name = name;
-            this.locationType = locationType;
-            this.parent = parent;
+        $scope.createIndividual = function() {
+            $scope.model.individual = new $scope.Individual($scope.Date, $scope.model.individualBinding);
+            var url = $scope.model.server + '/individuals';
+            $http.post(url, $scope.model.individual)
+                .then(
+                    function(response) {
+                        $scope.model.individual.uuid = response.data;
+                        $scope.returnToDashboard();
+                    },
+                    function(response) {
+
+                    }
+            )
         };
 
-        $scope.setServer = function(server) {
-            $scope.server = server;
-        }
+        $scope.Location = Model.Location;
+        $scope.Individual = Model.Individual;
 
     }]);

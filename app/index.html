@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
+<body ng-controller="CensusController">
 
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
@@ -19,16 +19,10 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/bootstrap/js/dropdown.js"></script>
 <script src="app.js"></script>
-<script src="locationView/location.js"></script>
-<script src="individualView/individual.js"></script>
-<script src="dashboardView/dashboard.js"></script>
-<script src="clientService/service.js"></script>
-<script src="userService/userService.js"></script>
-
+<script src="census/models.js"></script>
+<script src="census/controller.js"></script>
 
   <div ng-view></div>
-
-{{ data.fieldWorkerId }}
 
 </body>
 </html>

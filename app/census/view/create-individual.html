@@ -5,59 +5,64 @@
         <div class="form-group">
             <label class="col-md-4 control-label">First Name</label>
             <div class="col-md-4 control-label">
-                <input ng-model='firstName' id="firstName" type="text" class="form-control input-md" value="{{firstName}}"/>
+                <input ng-model='model.individualBinding.firstName' id="firstName" type="text" class="form-control input-md" value="{{firstName}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Middle Name</label>
             <div class="col-md-4 control-label">
-                <input ng-model='middleName' id="middleName" type="text" class="form-control input-md" value="{{middleName}}"/>
+                <input ng-model='model.individualBinding.middleName' id="middleName" type="text" class="form-control input-md" value="{{middleName}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Last Name</label>
             <div class="col-md-4 control-label">
-                <input ng-model='lastName' id="lastName" type="text" class="form-control input-md" value="{{lastName}}"/>
+                <input ng-model='model.individualBinding.lastName' id="lastName" type="text" class="form-control input-md" value="{{lastName}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Gender</label>
             <div class="col-md-4 control-label">
-                <input ng-model='gender' id="gender" type="text" class="form-control input-md" value="{{gender}}"/>
+                <input ng-model='model.individualBinding.gender' id="gender" type="text" class="form-control input-md" value="{{gender}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Date of Birth</label>
             <div class="col-md-4 control-label">
-                <input ng-model='dateOfBirth' id="dateOfBirth" type="text" class="form-control input-md" value="{{dateOfBirth}}"/>
+                <input ng-model='model.individualBinding.dateOfBirth' id="dateOfBirth" type="text" class="form-control input-md" value="{{dateOfBirth}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Mother</label>
             <div class="col-md-4 control-label">
-                <input ng-model='mother' id="mother" type="text" class="form-control input-md" value="{{mother}}"/>
+                <input ng-model='model.individualBinding.mother' id="mother" type="text" class="form-control input-md" value="{{mother}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Father</label>
             <div class="col-md-4 control-label">
-                <input ng-model='father' id="father" type="text" class="form-control input-md" value="{{father}}"/>
+                <input ng-model='model.individualBinding.father' id="father" type="text" class="form-control input-md" value="{{father}}"/>
             </div>
         </div>
 
-        <wrap-input name="fieldWorkerId" value="Field Worker ID" type="text" ng-model="fieldWorkerID">Field Worker ID</wrap-input>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Field Worker ID</label>
+            <div class="col-md-4 control-label">
+                <input ng-model='model.fieldWorkerId' id="fieldWorkerId" type="text" class="form-control input-md"/>
+            </div>
+        </div>
 
         <div class="form-group">
 
             <div class="row">
                 <div class="col-md-4 control-label">
-                    <a class="btn btn-success" id='submit' href="#/dashboard">Save</a>
+                    <a class="btn btn-success" id='submit' href="#/home">Save</a>
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }])
 
-    .controller('CensusController', ['$scope', '$http', '$location', 'Model', 'CensusBackendService', function($scope, $http, $location, Model, CensusService) {
+    .controller('CensusController', ['$scope', '$http', '$location', 'Model', 'CensusBackendService', 'NavigationService', function($scope, $http, $location, Model, CensusService, Navigation) {
         $scope.navigation = new Model.Navigation($location);
         $scope.Location = Model.Location;
         $scope.Individual = Model.Individual;
@@ -101,19 +101,3 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
         };
 
     }]);
-
-function Navigation ($location) {
-    this.startCensus = function() {
-        $location.path('/census');
-    };
-    this.startNewLocation = function() {
-        $location.path('/location/new');
-    };
-    this.startNewIndividual = function() {
-        $location.path('/individual/new');
-    };
-
-    this.returnToDashboard = function() {
-        $location.path('/home');
-    };
-}

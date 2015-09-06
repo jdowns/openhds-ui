@@ -2,7 +2,9 @@
 console.log("Starting application");
 
 angular.module('openHDS', ['ngRoute'])
-    .config(['$routeProvider', routeConfig])
+    .config(['$routeProvider', routeConfig]);
+
+angular.module('openHDS.core', [])
     .config(['$httpProvider', corsConfig]);
 
 function routeConfig($routeProvider) {

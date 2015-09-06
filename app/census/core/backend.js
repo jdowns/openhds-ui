@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('openHDS').factory('BackendService', BackendService);
+angular.module('openHDS.core').factory('BackendService', BackendService);
 
 BackendService.$inject = ['$http'];
 

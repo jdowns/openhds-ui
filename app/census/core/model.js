@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('openHDS').factory('ModelService', ModelService);
+angular.module('openHDS.core').factory('ModelService', ModelService);
 
 function ModelService() {
     var vm = this;

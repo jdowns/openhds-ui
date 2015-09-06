@@ -4,7 +4,7 @@ describe('Backend Service', function() {
     var backendService;
     var $httpBackend;
     
-    beforeEach(module('openHDS'));
+    beforeEach(module('openHDS.core'));
     beforeEach(inject(function(_$httpBackend_, _BackendService_) {
         backendService = _BackendService_;
         $httpBackend = _$httpBackend_;

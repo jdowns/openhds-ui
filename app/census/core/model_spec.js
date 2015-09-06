@@ -1,9 +1,9 @@
 'use strict';
 
-describe('Models', function() {
+describe('Models.core', function() {
     var modelService;
 
-    beforeEach(module('openHDS'));
+    beforeEach(module('openHDS.core'));
     beforeEach(inject(function(_ModelService_) {
         modelService = _ModelService_;
     }));

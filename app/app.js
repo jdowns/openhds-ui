@@ -7,6 +7,8 @@ angular.module('openHDS', ['ngRoute'])
 angular.module('openHDS.core', [])
     .config(['$httpProvider', corsConfig]);
 
+angular.module('openHDS.model', ['openHDS.core']);
+
 function routeConfig($routeProvider) {
     $routeProvider
         .when('/home', {templateUrl: 'census/view/home.html'})

@@ -1,22 +1,6 @@
 angular.module('openHDS.model', [])
     .service('Model', function() {
 
-        this.Navigation = function($location) {
-            this.startCensus = function() {
-                $location.path('/census');
-            };
-            this.startNewLocation = function() {
-                $location.path('/location/new');
-            };
-            this.startNewIndividual = function() {
-                $location.path('/individual/new');
-            };
-
-            this.returnToDashboard = function() {
-                $location.path('/home');
-            };
-        };
-
         this.fieldWorkerId = "";
         this.locationHierarchyId = "";
 

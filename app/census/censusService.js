@@ -1,4 +1,4 @@
-angular.module('openHDS.censusService', ['ngRoute']).factory('CensusBackendService', ['$http', function($http) {
+angular.module('openHDS.censusService', ['openHDS.model']).factory('CensusBackendService', ['$http', 'Model', function($http, Model) {
 
     function hash(pw) {
         return pw;
@@ -34,26 +34,20 @@ angular.module('openHDS.censusService', ['ngRoute']).factory('CensusBackendServi
     }
 
 
-    function fwbulk(backend) {
-
-        $http.get(backend + "/fieldWorkers/bulk").then(
+    function createLocation(scope) {
+        scope.model.location = new Model.Location(scope.Date(), scope.model.locationBinding);
+        var url = scope.model.server + '/locations';
+        $http.post(url, scope.model.location)
+            .then(
             function(response) {
-                response.data.forEach(function(fw) {
-                    if (validate(fw, $scope, username, password)) {
-                        $scope.model.fieldWorker = { uuid: fw.uuid };
-                    }
-                });
-                if ($scope.model.fieldWorker != undefined) {
-                    $scope.errors = undefined;
-                    $scope.navigation.startNewLocation();
-                } else {
-                    $scope.errors = "Invalid login credentials";
-                }
-            });
+                scope.model.location = response.data;
+            }
+        );
     }
 
     fieldWorkers = {
-        login: login
+        login: login,
+        createLocation: createLocation,
     };
     return fieldWorkers;
 }]);

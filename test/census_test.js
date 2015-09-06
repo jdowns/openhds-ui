@@ -164,12 +164,6 @@ function locationSetup($backend, scope, locationsResponse) {
         this.setupModel();
     };
 
-    this.setupBackendExpectations = function() {
-        $backend.expectPOST(url + '/locations', location).respond(201, locationsResponse);
-        $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
-        $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
-    };
-
     this.setupModel = function() {
         var model = {
             "collectedByUuid": "abc-123",
@@ -212,8 +206,8 @@ function setupLocationsExpectations($backend, scope) {
     var location = scope.Location(now, scope.model.locationBinding);
 
     $backend.expectPOST(url + '/locations', location).respond(201, locationsResponse());
-    $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
     $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
+
 }
 
 function fieldWorkersResponse() {

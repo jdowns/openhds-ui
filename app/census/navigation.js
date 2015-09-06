@@ -1,5 +1,5 @@
 angular.module('openHDS.navigation', []).factory('NavigationService', ['$location', function($location) {
-    function Navigation ($location) {
+    function Navigation () {
         this.startCensus = function() {
             $location.path('/census');
         };

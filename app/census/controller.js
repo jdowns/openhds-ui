@@ -13,7 +13,7 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
     }])
 
     .controller('CensusController', ['$scope', '$http', '$location', 'Model', 'CensusBackendService', 'NavigationService', function($scope, $http, $location, Model, CensusService, Navigation) {
-        $scope.navigation = new Model.Navigation($location);
+        $scope.navigation = new Navigation();
         $scope.Location = Model.Location;
         $scope.Individual = Model.Individual;
 
@@ -35,22 +35,6 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
             if(!$scope.errors) {
                 $scope.navigation.startNewLocation();
             }
-
-            //$http.get($scope.model.login.backend + "/fieldWorkers/bulk")
-            //    .then(
-            //        function(response) {
-            //            response.data.forEach(function(fw) {
-            //                if (validate(fw, $scope, username, password)) {
-            //                    $scope.model.fieldWorker = { uuid: fw.uuid };
-            //                }
-            //            });
-            //            if ($scope.model.fieldWorker != undefined) {
-            //                $scope.errors = undefined;
-            //                $scope.navigation.startNewLocation();
-            //            } else {
-            //                $scope.errors = "Invalid login credentials";
-            //            }
-            //        });
         };
 
         $scope.model = {
@@ -74,15 +58,8 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
         };
 
         $scope.createLocation = function() {
-            $scope.model.location = new $scope.Location($scope.Date(), $scope.model.locationBinding);
-            var url = $scope.model.server + '/locations';
-            $http.post(url, $scope.model.location)
-                .then(
-                    function(response) {
-                        $scope.model.location = response.data;
-                        $scope.navigation.startNewIndividual();
-                    }
-                );
+            CensusService.createLocation($scope);
+            $scope.navigation.startNewIndividual();
         };
 
         $scope.createIndividual = function() {

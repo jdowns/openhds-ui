@@ -3,10 +3,8 @@ var now = new Date();
 var url = 'http://www.example.com';
 
 function loadModules() {
-    module('openHDS.census');
-    module('openHDS.model');
-    module('openHDS.censusService');
-    module('openHDS.navigation');
+    module('ngRoute');
+    module('openHDS');
 }
 
 describe("Census workflow", function () {
@@ -53,10 +51,14 @@ describe("Census workflow", function () {
     });
 
     it("is an error if the user tries to log in twice", function() {
-        delete scope.errors;
-        scope.model.fieldWorker = {"uuid": "123-145"};
-        setLogin(scope);
-        scope.fieldWorkerLogin();
+        withBackend(function() {
+            $backend.expectGET("census/view/home.html").respond(200, 'HTML main');
+
+            delete scope.errors;
+            scope.model.fieldWorker = {"uuid": "123-145"};
+            setLogin(scope);
+            scope.fieldWorkerLogin();
+        });
 
         expect(scope.errors).toBe("Already logged in. Please log out.");
     });
@@ -97,7 +99,9 @@ describe("Census workflow", function () {
     });
 
     it("should relate an individual to a location", function() {
-
+        withBackend(function() {
+            $backend.expectGET("census/view/home.html").respond(200, 'HTML main');
+        })
     });
 
     // should include multiple individuals in a household without having to respecify location

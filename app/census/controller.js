@@ -1,17 +1,6 @@
 'use strict';
 
-angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
-    .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
-        $routeProvider.
-            when('/home', {templateUrl: 'census/view/home.html'}).
-            when('/location/new', {templateUrl: 'census/view/create-location.html'}).
-            when('/individual/new', {templateUrl: 'census/view/create-individual.html'});
-
-        $httpProvider.defaults.useXDomain = true;
-        $httpProvider.defaults.headers.Authorization = 'Basic dXNlcjpwYXNzd29yZA==';
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }])
-
+angular.module('openHDS')
     .controller('CensusController', ['$scope', '$http', '$location', 'Model', 'CensusBackendService', 'NavigationService', function($scope, $http, $location, Model, CensusService, Navigation) {
         $scope.navigation = new Navigation();
         $scope.Location = Model.Location;

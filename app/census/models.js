@@ -1,4 +1,4 @@
-angular.module('openHDS.model', [])
+angular.module('openHDS')
     .service('Model', function() {
 
         this.fieldWorkerId = "";

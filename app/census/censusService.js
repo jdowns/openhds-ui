@@ -1,4 +1,5 @@
-angular.module('openHDS.censusService', ['openHDS.model']).factory('CensusBackendService', ['$http', 'Model', function($http, Model) {
+angular.module('openHDS')
+    .factory('CensusBackendService', ['$http', 'Model', function($http, Model) {
 
     function hash(pw) {
         return pw;

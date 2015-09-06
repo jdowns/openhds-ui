@@ -9,5 +9,12 @@
     "afterEach": false,
     "module": false,
     "inject": false
-  }
+  },
+  "browser": true,
+  "jasmine": true,
+  "predef": [
+    "require",
+    "define",
+    "notify"
+  ]
 }

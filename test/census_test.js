@@ -2,6 +2,13 @@
 var now = new Date();
 var url = 'http://www.example.com';
 
+function loadModules() {
+    module('openHDS.census');
+    module('openHDS.model');
+    module('openHDS.censusService');
+    module('openHDS.navigation');
+}
+
 describe("Census workflow", function () {
     var $backend, $rootScope, $route, $location;
     var censusController;
@@ -127,11 +134,7 @@ function login(scope) {
     scope.fieldWorkerLogin();
 }
 
-function loadModules() {
-    module('openHDS.census');
-    module('openHDS.model');
-    module('openHDS.censusService')
-}
+
 
 function injectDependencies(reference) {
     inject(function($controller, $http, $httpBackend, _$rootScope_, _$route_, _$location_) {

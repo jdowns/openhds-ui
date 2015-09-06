@@ -3,12 +3,10 @@
 angular.module('openHDS', [
     'ngRoute',
     'openHDS.model',
-    'openHDS.census',
-    'openHDS.censusService',
-    'openHDS.navigation'
+    'openHDS.census'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .otherwise({redirectTo: '/home'});
-}]);
+}])

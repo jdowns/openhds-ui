@@ -32,7 +32,11 @@ describe('Fieldworker Service', function() {
 function withBackendPromise(backend, f) {
     var deferred = q.defer();
     var httpPromise = deferred.promise;
-    deferred.resolve("Truthy");
+    deferred.resolve({data: {
+        fieldWorkerId: "username",
+        passwordHash: "password",
+        uuid: "abc-123"
+    }});
     spyOn(backend, 'get').and.returnValue(httpPromise);
     f();
     rootScope.$apply();

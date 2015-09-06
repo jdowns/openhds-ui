@@ -12,6 +12,7 @@ function BackendService($http) {
     return vm;
 
     function get(url) {
+        console.log("The real thing!");
         return $http.get(vm.hostname + url);
     }
 }

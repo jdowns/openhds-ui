@@ -1,5 +1,5 @@
 'use strict';
-console.log("APP!");
+console.log("Starting application");
 
 angular.module('openHDS', ['ngRoute'])
     .config(['$routeProvider', routeConfig])

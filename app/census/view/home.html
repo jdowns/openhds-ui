@@ -1,16 +1,35 @@
+<div ng-hide="errors == null || errors == undefined" id="errors">!{{errors}}!</div>
 <div class="row">
     <div class="form-group" >
-        <label class="col-md-4 control-label" for="fieldWorkerId"></label>
+        <label class="col-md-4 control-label" for="fieldWorkerId">Field Worker ID</label>
         <div class="col-md-4">
-            <input id="fieldWorkerId" name="fieldWorkerId" ng-model=model.fieldWorkerId class="form-control input-md"/>
+            <input id="fieldWorkerId" name="fieldWorkerId" ng-model=model.login.username class="form-control input-md"/>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="form-group">
-        <a class="btn btn-success" id='new-location' ng-click="startNewLocation()">Create New Location</a>
+    <div class="form-group" >
+        <label class="col-md-4 control-label" for="password">Password</label>
+        <div class="col-md-4">
+            <input id="password" name="password" ng-model=model.login.password class="form-control input-md"/>
+        </div>
     </div>
 </div>
 
-{{ model.fieldWorkerId }}
+<div class="row">
+    <div class="form-group" >
+        <label class="col-md-4 control-label" for="backend">Backend</label>
+        <div class="col-md-4">
+            <input id="backend" name="backend" ng-model=model.login.backend class="form-control input-md"/>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group" >
+        <div class="col-md-4">
+            <a class="btn btn-success" id='new-location' ng-click="fieldWorkerLogin()">Login</a>
+        </div>
+    </div>
+</div>

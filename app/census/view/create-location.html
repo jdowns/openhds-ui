@@ -2,12 +2,18 @@
     <fieldset>
         <legend>Create Location</legend>
 
-        <div class="row">
-            <div class="form-group" >
-                <label class="col-md-4 control-label" for="parentLocationHierarchy.name">Parent Location</label>
-                <div class="col-md-4">
-                    <input id="parentLocationHierarchy.name" name="parentLocationHierarchy.name" ng-model=model.parentLocationHierarchy.name class="form-control input-md"/>
-                </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="locationHierarchy">Location Hierarchy*</label>
+            <div class="col-md-4">
+                <select id="locationHierarchy" ng-model="model.location"
+                        ng-required="true" class="form-control">
+                    <!--  ng-options="l.name for l in locationTypes">-->
+                    <option value="RUR">Rural</option>
+                    <option value="URB">Urban</option>
+                </select>
+					<span class="help-block" ng-show="locationForm.locationType.$invalid && !locationForm.locationType.$pristine">
+						<small ng-if="locationForm.locationType.$error.required">Required</small>
+					</span>
             </div>
         </div>
 
@@ -76,7 +82,7 @@
             <div class="form-group" >
                 <label class="col-md-4 control-label" for="fieldWorkerId">Field Worker ID</label>
                 <div class="col-md-4">
-                    <input id="fieldWorkerId" name="fieldWorkerId" ng-model=model.fieldWorkerId class="form-control input-md"/>
+                    <input ng-readonly="true" id="fieldWorkerId" name="fieldWorkerId" ng-model=model.fieldWorker.uuid class="form-control input-md"/>
                 </div>
             </div>
         </div>
@@ -86,12 +92,8 @@
             <label class="col-md-4 control-label" for="createButton"></label>
             <div class="col-md-8">
                 <input type='submit' class="btn btn-success" id='createButton' />
-                <button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" >Cancel</button>
             </div>
         </div>
 
     </fieldset>
 </form>
-
-Hai
-{{ model.fieldWorkerId }}

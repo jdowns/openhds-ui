@@ -1,56 +1,77 @@
 'use strict';
+var now = new Date();
+var url = 'http://www.example.com';
 
 describe("Census workflow", function () {
     var $backend, $rootScope, $route, $location;
-
     var censusController;
     var scope = {};
-    var url = 'http://example.com';
-    var now = new Date();
     var uuid = '123-456-789';
-    var fieldWorkerId = "a-field-worker";
 
-    beforeEach(module('openHDS.census'));
-    beforeEach(module('openHDS.model'));
+    function withBackend(f) {
+        f();
+        $backend.flush();
+        $rootScope.$digest();
+    }
 
-    beforeEach(inject(function($controller, $http, $httpBackend, _$rootScope_, _$route_, _$location_) {
-        $backend = $httpBackend;
-        $rootScope = _$rootScope_;
-        $route = _$route_;
-        $location = _$location_;
-        censusController = $controller('CensusController', {
-            $scope: scope,
-            $http: $http
-        });
-        scope.setServer(url);
-
-        scope.Date = function() {
-            return now;
-        }
-    }));
+    beforeEach(function() {
+        loadModules();
+        var reference = injectDependencies({scope: scope});
+        scope = reference.scope;
+        $backend = reference.$backend;
+        $rootScope = reference.$rootScope;
+        $route = reference.$route;
+        $location = reference.$location;
+        censusController = reference.censusController;
+    });
 
     afterEach(function() {
         $backend.verifyNoOutstandingExpectation();
         $backend.verifyNoOutstandingRequest();
     });
 
+    it("should get the fieldWorker uuid from the backend", function() {
+        withBackend(function() {
+            setupCensusExpectations($backend);
+            scope.navigation.startCensus();
+            expect($location.path()).toBe('/census');
 
-    it("should submit the new location and the url should be /individuals/new and preserves state", function() {
-        scope.startNewLocation();
+            login(scope);
+            scope.navigation.startNewLocation();
+        });
 
+        expect(scope.model.fieldWorker.uuid).toBe("76bb5548-d6c9-4e84-a89b-7263144eae34");
+        expect(scope.model.login.backend).toBe("http://www.example.com");
         expect($location.path()).toBe('/location/new');
-        var location = scopeCreateLocation();
-        $rootScope.$digest();
+    });
 
-        expect(scope.model.fieldWorkerId).toBe(location.collectedBy);
-        expect(scope.model.location.uuid).toBe(uuid);
+    it("is an error if the user tries to log in twice", function() {
+        delete scope.errors;
+        scope.model.fieldWorker = {"uuid": "123-145"};
+        login(scope);
+        scope.fieldWorkerLogin();
+
+        expect(scope.errors).toBe("Already logged in. Please log out.");
+    });
+
+
+    it("should submit the new location", function() {
+        withBackend(function() {
+            scope.navigation.startNewLocation();
+            expect($location.path()).toBe('/location/new');
+
+            new locationSetup($backend, scope, uuid).addNewLocationToModel();
+
+            scope.createLocation();
+        });
+
+        expect(scope.model.location.uuid).toBe("e2d6b8d2-ff7d-4fcb-b59a-c20ec97106f4");
         expect($location.path()).toBe('/individual/new');
-        expect(scope.model.fieldWorkerId).toBe(location.collectedBy)
     });
 
 
     it("should submit the individual to the backend on create", function() {
-        scope.startNewIndividual();
+        scope.navigation.startNewIndividual();
         $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
 
         $rootScope.$digest();
@@ -77,33 +98,9 @@ describe("Census workflow", function () {
 
     // Helper Functions below here
 
-    function setupLocationsBackend(location) {
-        $backend.expectPOST(url + '/locations', location).respond(201, uuid);
-        $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
-        $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
-
-    }
-
     function setupIndividualsBackend(individual) {
         $backend.expectPOST(url + '/individuals', individual).respond(201, uuid);
         $backend.expectGET("census/view/home.html").respond(200, 'HTML main');
-    }
-
-
-    function scopeCreateLocation(fieldWorkerId) {
-        scope.model.locationBinding.externalId = 'Test Location';
-        scope.model.locationBinding.name = 'Sunnyside';
-        scope.model.locationBinding.locationType = 'Neighborhood';
-        scope.model.locationBinding.parent = 'Borough';
-
-        scope.model.fieldWorkerId = fieldWorkerId;
-
-        setupLocationsBackend(scope.Location(now, scope.model.locationBinding));
-
-        scope.createLocation();
-
-        $backend.flush();
-        return scope.model.location;
     }
 
     function scopeCreateIndividual() {
@@ -120,3 +117,158 @@ describe("Census workflow", function () {
         return scope.model.individual;
     }
 });
+
+function login(scope) {
+    scope.model.login = {
+        backend: "http://www.example.com",
+        username: "fieldworker",
+        password: "password"
+    };
+    scope.fieldWorkerLogin();
+}
+
+function loadModules() {
+    module('openHDS.census');
+    module('openHDS.model');
+    module('openHDS.censusService')
+}
+
+function injectDependencies(reference) {
+    inject(function($controller, $http, $httpBackend, _$rootScope_, _$route_, _$location_) {
+        reference.$backend = $httpBackend;
+        reference.$rootScope = _$rootScope_;
+        reference.$route = _$route_;
+        reference.$location = _$location_;
+        reference.censusController = $controller('CensusController', {
+            $scope: reference.scope,
+            $http: $http
+        });
+
+        reference.scope.Date = function() {
+            return now;
+        }
+    });
+
+    return reference;
+}
+
+function locationSetup($backend, scope, locationsResponse) {
+
+    var location = scope.Location(now, scope.model.locationBinding);
+
+    this.addNewLocationToModel = function() {
+        setupLocationsExpectations($backend, scope);
+        this.setupModel();
+    };
+
+    this.setupBackendExpectations = function() {
+        $backend.expectPOST(url + '/locations', location).respond(201, locationsResponse);
+        $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
+        $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
+    };
+
+    this.setupModel = function() {
+        var model = {
+            "collectedByUuid": "abc-123",
+            "locationHierarchyUuid": "def-123",
+            "location": {
+                "collectionDateTime": "2015-08-29T16:30Z",
+                "extId": "A place",
+                "name": "Test Place",
+                "type": "Home",
+                "longitude": "74.0000",
+                "latitude": "41.0000",
+                "accuracy": "1.000000",
+                "altitude": "1.000000",
+                "buildingNumber": "0",
+                "floorNumber": "1",
+                "regionName": "Northeast",
+                "provinceName": "New York",
+                "subDistrictName": "Queens",
+                "districtName": "Sunnyside",
+                "sectorName": "Sunnyside Gardens",
+                "localityName": "Sunnyside Gardens",
+                "communityName": "Sunnyside Gardens",
+                "communityCode": "11104",
+                "mapAreaName": "Testing",
+                "description": "A Test"
+            }
+        };
+
+        scope.model.locationBinding = model;
+    };
+    return this;
+}
+
+function setupCensusExpectations($backend) {
+    $backend.expectGET("http://www.example.com/fieldWorkers/bulk").respond(200, fieldWorkersResponse());
+    $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
+}
+
+function setupLocationsExpectations($backend, scope) {
+    var location = scope.Location(now, scope.model.locationBinding);
+
+    $backend.expectPOST(url + '/locations', location).respond(201, locationsResponse());
+    $backend.expectGET("census/view/create-location.html").respond(200, 'HTML main');
+    $backend.expectGET("census/view/create-individual.html").respond(200, 'HTML main');
+}
+
+function fieldWorkersResponse() {
+    return [
+        {
+            "uuid": "76bb5548-d6c9-4e84-a89b-7263144eae34",
+            "insertBy": {
+                "uuid": "UNKNOWN"
+            },
+            "insertDate": "2015-08-30T00:09:15.636Z[UTC]",
+            "lastModifiedBy": {
+                "uuid": "UNKNOWN"
+            },
+            "lastModifiedDate": "2015-08-30T00:09:15.636Z[UTC]",
+            "fieldWorkerId": "fieldworker",
+            "firstName": "default fieldworker",
+            "lastName": "default fieldworker",
+            "passwordHash": "password"
+        },
+        {
+            "uuid": "UNKNOWN",
+            "insertBy": {
+                "uuid": "UNKNOWN"
+            },
+            "insertDate": "2015-08-30T00:09:15.644Z[UTC]",
+            "lastModifiedBy": {
+                "uuid": "UNKNOWN"
+            },
+            "lastModifiedDate": "2015-08-30T00:09:15.644Z[UTC]",
+            "fieldWorkerId": "UNKNOWN_NAME",
+            "passwordHash": "UNKNOWN_NAME"
+        }
+    ];
+}
+
+function locationsResponse() {
+    var response = {
+        "uuid": "e2d6b8d2-ff7d-4fcb-b59a-c20ec97106f4",
+        "insertBy": {
+            "uuid": "UNKNOWN"
+        },
+        "insertDate": "2015-09-05T12:25:29.247Z[UTC]",
+        "lastModifiedBy": {
+            "uuid": "UNKNOWN"
+        },
+        "lastModifiedDate": "2015-09-05T12:25:29.247Z[UTC]",
+        "collectedBy": {
+            "uuid": "76bb5548-d6c9-4e84-a89b-7263144eae34"
+        },
+        "collectionDateTime": "2015-09-05T12:25:29.247Z[UTC]",
+        "extId": "location-0",
+        "name": "location-0",
+        "type": "RURAL",
+        "locationHierarchy": {
+            "uuid": "80bd4d80-504d-4b13-8ce2-09d3fd112170"
+        },
+        "description": "sample location",
+        "link": []
+    };
+    return response;
+}

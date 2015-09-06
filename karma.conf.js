@@ -7,12 +7,6 @@ module.exports = function(config){
         'app/bower_components/angular/angular.js',
         'app/bower_components/angular-route/angular-route.js',
         'app/bower_components/angular-mocks/angular-mocks.js',
-        'app/locationView/*.js',
-        'app/dashboardView/*.js',
-        'app/individualView/*.js',
-        'app/relationshipView/*.js',
-        'app/clientService/*.js',
-        'app/userService/*.js',
         'app/census/*.js',
         'test/*.js'
     ],

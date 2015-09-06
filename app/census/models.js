@@ -1,21 +1,41 @@
 angular.module('openHDS.model', [])
     .service('Model', function() {
 
-        /* For mocking during tests to prevent
-        *  millisecond boundary errors
-        */
+        this.Navigation = function($location) {
+            this.startCensus = function() {
+                $location.path('/census');
+            };
+            this.startNewLocation = function() {
+                $location.path('/location/new');
+            };
+            this.startNewIndividual = function() {
+                $location.path('/individual/new');
+            };
+
+            this.returnToDashboard = function() {
+                $location.path('/home');
+            };
+        };
+
         this.fieldWorkerId = "";
+        this.locationHierarchyId = "";
+
         this.setFieldWorkerId = function(fieldWorkerId) {
             this.fieldWorkerId = fieldWorkerId;
         };
 
-        this.Location = function(collectionDate, binding) {
-            this.collectionDate = collectionDate;
-            this.collectedBy = this.fieldworkerId;
-            this.externalId = binding.externalId;
-            this.name = binding.name;
-            this.locationType = binding.locationType;
-            this.parent = binding.parent;
+        this.setLocationHierarchyId = function(locationHierarchyId) {
+            this.locationHierarchyId = locationHierarchyId;
+        };
+
+        this.Location = function(collectionDate, data) {
+
+            this.location = {
+                "collectedByUuid": this.fieldWorkerId,
+                "locationHierarchyUuid": this.locationHierarchyId,
+                "location": data
+            };
+            location.collectionDateTime = collectionDate;
         };
 
         this.Individual = function(collectionDate, binding) {

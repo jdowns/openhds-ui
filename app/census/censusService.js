@@ -36,7 +36,8 @@ angular.module('openHDS.censusService', ['openHDS.model']).factory('CensusBacken
 
     function createLocation(scope) {
         scope.model.location = new Model.Location(scope.Date(), scope.model.locationBinding);
-        var url = scope.model.server + '/locations';
+        var url = scope.model.login.backend + '/locations';
+        console.log(url);
         $http.post(url, scope.model.location)
             .then(
             function(response) {

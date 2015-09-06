@@ -23,35 +23,19 @@ angular.module('openHDS.census', ['ngRoute', 'openHDS.censusService'])
 
         $scope.fieldWorkerLogin = function() {
             if ($scope.model.fieldWorker != undefined) {
+                console.log("Invalid login!");
                 $scope.errors = "Already logged in. Please log out.";
                 return;
             }
-            var username = $scope.model.login.username;
-            var password = $scope.model.login.password;
-            var backend = $scope.model.login.backend;
 
-            CensusService.login($scope, backend, username, password);
+            CensusService.login($scope, $scope.model.login.backend,
+                $scope.model.login.username, $scope.model.login.password);
 
             if(!$scope.errors) {
                 $scope.navigation.startNewLocation();
             }
         };
 
-        $scope.model = {
-            server: "http://www.example.com",
-            locationBinding: {
-                externalId: '',
-                name: '',
-                locationType: '',
-                parent: ''
-            },
-            individualBinding: {
-                externalId: '',
-                gender: '',
-                dateOfBirth: '',
-                firstName: ''
-            }
-        };
 
         $scope.Date = function() {
             return new Date();

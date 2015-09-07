@@ -10,7 +10,6 @@ function hash(val) {
 
 function FieldWorkerService(BackendService, ModelService) {
     var loggedIn = false;
-    var currentFieldWorker;
 
     return {
         authorize: authorize,
@@ -23,21 +22,26 @@ function FieldWorkerService(BackendService, ModelService) {
     }
 
     function getCurrentFieldWorker() {
-        return currentFieldWorker;
+        return ModelService.currentFieldWorker;
     }
+
+
 
     function authorize(username, password, callback) {
         var result;
-        BackendService.get("/fieldWorker/bulk")
+        function validate(fieldWorker) {
+            if(fieldWorker.fieldWorkerId == username && fieldWorker.passwordHash == hash(password)) {
+                loggedIn = true;
+                ModelService.currentFieldWorker = fieldWorker.uuid;
+            }
+        }
+
+        BackendService.get("/fieldWorkers/bulk.json")
             .then(
                 function(response) {
-                    if(response.data.fieldWorkerId == username &&
-                            response.data.passwordHash == hash(password)) {
-                        loggedIn = true;
-                        currentFieldWorker = response.data.uuid;
-                    } else {
-                        console.log(response.data)
-                    }
+                    var fws = response.data;
+
+                    fws.forEach(validate);
 
                 },
                 function(error) {

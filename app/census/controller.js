@@ -2,7 +2,6 @@
 
 angular.module('openHDS')
     .controller('CensusController', ['$scope', '$http', '$location', 'Model', 'CensusBackendService', 'NavigationService', function($scope, $http, $location, Model, CensusService, Navigation) {
-        $scope.navigation = new Navigation();
         $scope.Location = Model.Location;
         $scope.Individual = Model.Individual;
 
@@ -21,7 +20,7 @@ angular.module('openHDS')
                 $scope.model.login.username, $scope.model.login.password);
 
             if(!$scope.errors) {
-                $scope.navigation.startNewLocation();
+                Navigation.startNewLocation();
             }
         };
 
@@ -32,7 +31,7 @@ angular.module('openHDS')
 
         $scope.createLocation = function() {
             CensusService.createLocation($scope);
-            $scope.navigation.startNewIndividual();
+            Navigation.startNewIndividual();
         };
 
         $scope.createIndividual = function() {
@@ -42,7 +41,7 @@ angular.module('openHDS')
                 .then(
                     function(response) {
                         $scope.model.individual.uuid = response.data;
-                        $scope.navigation.returnToDashboard();
+                        Navigation.returnToDashboard();
                     },
                     function(response) {
 

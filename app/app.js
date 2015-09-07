@@ -1,6 +1,7 @@
 'use strict';
 console.log("Starting application");
 
+
 angular.module('openHDS.core', ['ngRoute'])
     .config(['$httpProvider', corsConfig])
     .config(['$routeProvider', routeConfig]);
@@ -8,6 +9,9 @@ angular.module('openHDS.core', ['ngRoute'])
 angular.module('openHDS.model', ['openHDS.core']);
 
 angular.module('openHDS.view', ['openHDS.core']);
+
+//angular.module('openHDS', ['openHDS.core, openHDS.view', 'openHDS.model']);
+
 
 function routeConfig($routeProvider) {
     $routeProvider

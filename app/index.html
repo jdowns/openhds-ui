@@ -25,7 +25,8 @@
 <script src="census/model/fieldworker.js"></script>
 <script src="census/view/loginController.js"></script>
 
-  <div ng-hide="errors == null || errors == undefined" id="errors">!{{errors}}!</div>
+
+  <div class="alert alert-danger" ng-show="vm.errors" id="errors">{{vm.errors}}</div>
 
   <div ng-view></div>
 

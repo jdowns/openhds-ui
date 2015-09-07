@@ -5,7 +5,6 @@ function LoginController(FieldWorkerService, BackendService) {
     vm.login = login;
 
     function login() {
-        //todo: make sure form validates required fields
         BackendService.hostname = vm.server;
         FieldWorkerService.authorize(vm.username, vm.password)
     }

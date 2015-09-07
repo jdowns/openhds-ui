@@ -8,10 +8,7 @@ angular.module('openHDS.core', ['ngRoute'])
 
 angular.module('openHDS.model', ['openHDS.core']);
 
-angular.module('openHDS.view', ['openHDS.core']);
-
-//angular.module('openHDS', ['openHDS.core, openHDS.view', 'openHDS.model']);
-
+angular.module('openHDS.view', ['openHDS.core', 'openHDS.model']);
 
 function routeConfig($routeProvider) {
     $routeProvider

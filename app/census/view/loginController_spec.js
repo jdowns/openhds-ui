@@ -13,17 +13,32 @@ function mockFieldWorkerService() {
     };
 }
 
+function MockBackendService() {
+    var vm = this;
+    vm.hostname = "http://www.example.com";
+}
+
 describe("Login Controller", function() {
-    var locationController;
+    var loginController;
+    var backendService = new MockBackendService();
+    var fieldworkerService = mockFieldWorkerService()
     beforeEach(module('openHDS.view'));
     beforeEach(inject(function($controller) {
-        locationController = $controller('LoginController', {
+        loginController = $controller('LoginController', {
             $scope: {},
-            FieldWorkerService: mockFieldWorkerService
+            FieldWorkerService: fieldworkerService,
+            BackendService: backendService
         })
     }));
 
-    it('should be defined', function() {
-        expect(locationController).toBeDefined();
+    it('login should set current fieldworker and server', function() {
+
+        loginController.username = "fieldworker";
+        loginController.password = "password";
+        loginController.server = "http://www.example.org";
+
+        loginController.login();
+
+        expect(loginController).toBeDefined();
     })
 });

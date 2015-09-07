@@ -25,5 +25,17 @@ describe('Backend Service', function() {
 
         $httpBackend.flush();
         expect(passed).toBe(true);
+    });
+
+    it('should have a post method that returns a promise', function() {
+        var passed = false;
+        $httpBackend.expectPOST("http://www.example.com/url", {}).respond(200, fieldWorkersResponse());
+
+        backendService.post("/url", {}).then(function() {
+            passed = true;
+        });
+
+        $httpBackend.flush();
+        expect(passed).toBe(true);
     })
 });

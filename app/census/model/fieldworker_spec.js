@@ -20,7 +20,7 @@ describe('Fieldworker Service', function() {
 
 
     it('should authorize a valid user', inject(function(FieldWorkerService, BackendService, ModelService) {
-        withBackendPromise(BackendService, function() {
+        withBackendPromiseGet(BackendService, function() {
             FieldWorkerService.authorize('fieldworker', 'password');
         });
 
@@ -30,7 +30,7 @@ describe('Fieldworker Service', function() {
     }));
 });
 
-function withBackendPromise(backend, f) {
+function withBackendPromiseGet(backend, f) {
     var deferred = q.defer();
     var httpPromise = deferred.promise;
     var responseData = [

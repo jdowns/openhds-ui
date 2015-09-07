@@ -12,5 +12,5 @@ describe('Models.core', function() {
         expect(modelService.currentFieldWorker).toEqual({});
         expect(modelService.currentLocation).toEqual({});
         expect(modelService.currentIndividual).toEqual({});
-    })
-})
+    });
+});

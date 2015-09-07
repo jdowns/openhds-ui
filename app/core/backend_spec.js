@@ -39,3 +39,36 @@ describe('Backend Service', function() {
         expect(passed).toBe(true);
     })
 });
+
+function fieldWorkersResponse() {
+    return [
+        {
+            "uuid": "76bb5548-d6c9-4e84-a89b-7263144eae34",
+            "insertBy": {
+                "uuid": "UNKNOWN"
+            },
+            "insertDate": "2015-08-30T00:09:15.636Z[UTC]",
+            "lastModifiedBy": {
+                "uuid": "UNKNOWN"
+            },
+            "lastModifiedDate": "2015-08-30T00:09:15.636Z[UTC]",
+            "fieldWorkerId": "fieldworker",
+            "firstName": "default fieldworker",
+            "lastName": "default fieldworker",
+            "passwordHash": "password"
+        },
+        {
+            "uuid": "UNKNOWN",
+            "insertBy": {
+                "uuid": "UNKNOWN"
+            },
+            "insertDate": "2015-08-30T00:09:15.644Z[UTC]",
+            "lastModifiedBy": {
+                "uuid": "UNKNOWN"
+            },
+            "lastModifiedDate": "2015-08-30T00:09:15.644Z[UTC]",
+            "fieldWorkerId": "UNKNOWN_NAME",
+            "passwordHash": "UNKNOWN_NAME"
+        }
+    ];
+}

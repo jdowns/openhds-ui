@@ -11,7 +11,7 @@ module.exports = function(config){
         'app/census/*.js',
         'app/census/core/*.js',
         'app/census/model/*.js',
-
+        'app/census/view/*.js',
         'test/*.js'
     ],
 

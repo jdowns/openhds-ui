@@ -9,6 +9,8 @@ angular.module('openHDS.core', [])
 
 angular.module('openHDS.model', ['openHDS.core']);
 
+angular.module('openHDS.view', ['openHDS.core']);
+
 function routeConfig($routeProvider) {
     $routeProvider
         .when('/home', {templateUrl: 'census/view/home.html'})

@@ -25,9 +25,7 @@ function FieldWorkerService(BackendService, ModelService) {
         return ModelService.currentFieldWorker;
     }
 
-
-
-    function authorize(username, password, callback) {
+    function authorize(username, password) {
         var result;
         function validate(fieldWorker) {
             if(fieldWorker.fieldWorkerId == username && fieldWorker.passwordHash == hash(password)) {

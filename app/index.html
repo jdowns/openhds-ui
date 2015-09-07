@@ -23,10 +23,12 @@
 <script src="core/model.js"></script>
 <script src="core/navigationService.js"></script>
 <script src="census/model/fieldworker.js"></script>
+<script src="census/model/location.js"></script>
+
 <script src="census/view/loginController.js"></script>
 
 
-  <div class="alert alert-danger" ng-show="vm.errors" id="errors">{{vm.errors}}</div>
+  <div class="alert alert-danger" ng-show="vm.errors" id="errors">!{{vm.errors}}!</div>
 
   <div ng-view></div>
 

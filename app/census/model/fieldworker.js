@@ -25,12 +25,13 @@ function FieldWorkerService(BackendService, ModelService) {
         return ModelService.currentFieldWorker;
     }
 
-    function authorize(username, password) {
-        var result;
+    function authorize(username, password, callback) {
         function validate(fieldWorker) {
             if(fieldWorker.fieldWorkerId == username && fieldWorker.passwordHash == hash(password)) {
                 loggedIn = true;
                 ModelService.currentFieldWorker = fieldWorker.uuid;
+                console.log("Login success");
+                callback(true);
             }
         }
 
@@ -38,12 +39,16 @@ function FieldWorkerService(BackendService, ModelService) {
             .then(
                 function(response) {
                     var fws = response.data;
-
                     fws.forEach(validate);
+                    if (!loggedIn) {
+                        callback(false);
+                    }
 
                 },
                 function(error) {
                     loggedIn = false;
+                    console.log("Login failure");
+                    callback(false);
                 }
             );
     }

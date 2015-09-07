@@ -21,7 +21,8 @@ describe('Fieldworker Service', function() {
 
     it('should authorize a valid user', inject(function(FieldWorkerService, BackendService, ModelService) {
         withBackendPromiseGet(BackendService, function() {
-            FieldWorkerService.authorize('fieldworker', 'password');
+            var noop = function(result) {};
+            FieldWorkerService.authorize('fieldworker', 'password', noop);
         });
 
         expect(BackendService.get).toHaveBeenCalledWith("/fieldWorkers/bulk.json");

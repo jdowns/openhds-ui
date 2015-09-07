@@ -6,9 +6,11 @@ angular.module('openHDS.core', ['ngRoute'])
     .config(['$httpProvider', corsConfig])
     .config(['$routeProvider', routeConfig]);
 
-angular.module('openHDS.model', ['openHDS.core']);
+angular.module('openHDS.model', ['openHDS.core'])
+    .config(['$httpProvider', corsConfig]);
 
-angular.module('openHDS.view', ['openHDS.core', 'openHDS.model']);
+angular.module('openHDS.view', ['openHDS.core', 'openHDS.model'])
+    .config(['$httpProvider', corsConfig]);
 
 function routeConfig($routeProvider) {
     $routeProvider
@@ -25,5 +27,7 @@ function routeConfig($routeProvider) {
 function corsConfig($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     $httpProvider.defaults.headers.Authorization = 'Basic dXNlcjpwYXNzd29yZA==';
+    $httpProvider.defaults.withCredentials = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    console.log("CORS configured");
 }

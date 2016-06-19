@@ -168,6 +168,12 @@ public class Application extends WebMvcAutoConfiguration {
         return ResponseEntity.status(HttpStatus.CREATED).body(stringify(result));
     }
 
+    @RequestMapping(value="/locationHierarchy", method=RequestMethod.GET)
+    public ResponseEntity<List<LocationHierarchy>> getLocationHierarchies() {
+        List<LocationHierarchy> result = locationHierarchyService.getAll();
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
     @RequestMapping(value="/projectCode", method=RequestMethod.POST)
     public ResponseEntity<String> createProjectCode(@RequestBody ProjectCodeRequest request) {
         String result = projectCodeService.createEntity(request);

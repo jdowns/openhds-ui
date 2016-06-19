@@ -8,11 +8,19 @@ function LocationController(BackendService, AppState, $location) {
     BackendService.get("/projectCode/locationType")
         .then(
             function(response) {
-                console.log(JSON.stringify(response));
                 vm.codes = response.data;
             },
             function(response) {
                 console.log("Unable to fetch project codes! " + JSON.stringify(response));
+            }
+        );
+    BackendService.get("/locationHierarchy")
+        .then(
+            function(response) {
+                vm.hierarchies = response.data;
+            },
+            function(response) {
+                console.log("Unable to fetch location hierarchies! " + JSON.stringify(response));
             }
         );
     if (!AppState.user) {

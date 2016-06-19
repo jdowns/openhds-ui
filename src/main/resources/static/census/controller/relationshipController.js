@@ -8,7 +8,16 @@ function RelationshipController(BackendService, AppState, $location) {
         $location.url('/');
         return vm;
     }
-    
+    BackendService.get("/projectCode/relationshipType")
+        .then(
+            function(response) {
+                console.log(JSON.stringify(response));
+                vm.codes = response.data;
+            },
+            function(response) {
+                console.log("Unable to fetch project codes! " + JSON.stringify(response));
+            }
+        );
     vm.collectedByUuid = AppState.user.userId;
     vm.create = validateCreate;
 

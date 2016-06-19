@@ -5,7 +5,6 @@
         <textbox label="External ID" id="extId" ng-model="model.extId"></textbox>
         <selectbox label="Location Type" id="locationType" ng-model="model.type">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
-
         </selectbox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>

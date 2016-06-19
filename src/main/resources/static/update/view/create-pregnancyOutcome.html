@@ -1,0 +1,9 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Pregnancy Outcome</legend>
+        <textbox label="Mother" id="mother" ng-model="model.mother.uuid"></textbox>
+        <datebox label="Outcome Date" id="outcomeDate" ng-model="model.outcomeDate"></datebox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <submitbutton></submitbutton>
+    </fieldset>
+</form>

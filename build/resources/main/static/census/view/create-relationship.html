@@ -1,0 +1,23 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Relationship</legend>
+        <textbox label="Individual A" id="individualA" ng-model="model.individualA.uuid"></textbox>
+        <textbox label="Individual B" id="individualB" ng-model="model.individualB.uuid"></textbox>
+        <selectbox ng-model="model.relationshipType" id="relationshipType" label="Relationship Type">
+            <option value="SELF">Self</option>
+            <option value="SPOUSE">Spouse</option>
+            <option value="SON_OR_DAUGHTER">Child</option>
+            <option value="BROTHER_OR_SISTER">Sibling</option>
+            <option value="PARENT">Parent</option>
+            <option value="GRANDCHILD">Grandchild</option>
+            <option value="OTHER_RELATIVE">Other Relative</option>
+            <option value="NOT_RELATED">Not Related</option>
+            <option value="UNKNOWN">Unknown</option>
+        </selectbox>
+        <datebox label="Start Date" id="startDate" ng-model="model.startDate"></datebox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <submitbutton></submitbutton>
+    </fieldset>
+    {{model}}
+
+</form>

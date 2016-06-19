@@ -1,0 +1,13 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Social Group</legend>
+        <textbox label="Group Name" id="groupName" ng-model="model.groupName"></textbox>
+        <textbox label="External ID" id="extId" ng-model="model.extId"></textbox>
+        <selectbox label="Group Type" id="groupType" ng-model="model.groupType">
+            <option value="COHORT">Cohort</option>
+            <option value="FAMILY">Family</option>
+        </selectbox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <submitbutton></submitbutton>
+    </fieldset>
+</form>

@@ -1,0 +1,11 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Location Hierarchy</legend>
+        <textbox label="Name" id="name" ng-model="model.name"></textbox>
+        <textbox label="External ID" id="extId" ng-model="model.extId"></textbox>
+        <textbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></textbox>
+        <submitbutton></submitbutton>
+
+        <label>TODO: add child as new individual</label>
+    </fieldset>
+</form>

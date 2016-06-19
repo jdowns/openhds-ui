@@ -1,0 +1,10 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Visit</legend>
+        <textbox label="External ID" id="extId" ng-model="model.extId"></textbox>
+        <textbox label="Location" id="location" ng-model="model.location.uuid"></textbox>
+        <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"></datebox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <submitbutton></submitbutton>
+    </fieldset>
+</form>

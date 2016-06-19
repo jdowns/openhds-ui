@@ -1,0 +1,13 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<fieldset>
+        <legend>Create Individual</legend>
+        <textbox labelText="First Name" id="firstName" name="firstName" ng-model="model.firstName"></textbox>
+        <textbox labelText="External ID" id="extId" name="extId" ng-model="model.extId"></textbox>
+        <selectbox ng-model="model.gender" id="gender" name="gender" labeltext="Gender*">
+            <option value="FEMALE">Female</option>
+            <option value="MALE">Male</option>
+        </selectbox>
+        <constbox labelText="Field Worker ID" id="fieldWorkerId" name="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <submitbutton></submitbutton>
+    </fieldset>
+</form>

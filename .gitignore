@@ -2,6 +2,7 @@ logs/*
 !.gitkeep
 node_modules/
 bower_components/
+src/main/resources/static/bower_components
 tmp
 .DS_Store
 .idea
@@ -12,4 +13,6 @@ tmp
 *.iml
 *.txt
 npm-debug.log*
-
+gradle
+gradlew
+gradlew.bat

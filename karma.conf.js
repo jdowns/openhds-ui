@@ -10,6 +10,9 @@ module.exports = function(config){
         'test/framework.js',
         'src/main/resources/static/app.js',
         'src/main/resources/static/census/controller/*.js',
+        'src/main/resources/static/auth/controller/*.js',
+        'src/main/resources/static/census/test/*.js',
+        'src/main/resources/static/auth/test/*.js',
         'src/main/resources/static/core/*.js',
         'test/*.js'
     ],

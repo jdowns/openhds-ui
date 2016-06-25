@@ -5,24 +5,6 @@ angular.module('openHDS.view')
 function LocationController(BackendService, AppState, $location) {
     var vm = this;
 
-    BackendService.get("/projectCode/locationType")
-        .then(
-            function(response) {
-                vm.codes = response.data;
-            },
-            function(response) {
-                console.log("Unable to fetch project codes! " + JSON.stringify(response));
-            }
-        );
-    BackendService.get("/locationHierarchy")
-        .then(
-            function(response) {
-                vm.hierarchies = response.data;
-            },
-            function(response) {
-                console.log("Unable to fetch location hierarchies! " + JSON.stringify(response));
-            }
-        );
     if (!AppState.user) {
         $location.url('/');
         return vm;
@@ -30,7 +12,29 @@ function LocationController(BackendService, AppState, $location) {
 
     vm.collectedByUuid = AppState.user.userId;
     vm.create = validateCreate;
+    vm.loadData = loadData;
 
+    function loadData() {
+        BackendService.get("/projectCode/locationType")
+            .then(
+                function (response) {
+                    vm.codes = response.data;
+                },
+                function (response) {
+                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
+                }
+            );
+        BackendService.get("/locationHierarchy")
+            .then(
+                function (response) {
+                    vm.hierarchies = response.data;
+                },
+                function (response) {
+                    console.log("Unable to fetch location hierarchies! " + JSON.stringify(response));
+                }
+            );
+    }
+    
     function validateCreate(formValid) {
         if (formValid) {
             create();

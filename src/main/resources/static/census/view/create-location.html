@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate ng-init="model.loadData()">
     <fieldset>
         <legend>Create Location</legend>
         <textbox label="Location Name" id="locationName" ng-model="model.name"></textbox>

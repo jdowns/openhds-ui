@@ -4,15 +4,13 @@ module.exports = function(config){
     basePath : './',
 
     files : [
-        'app/bower_components/angular/angular.js',
-        'app/bower_components/angular-route/angular-route.js',
-        'app/bower_components/angular-mocks/angular-mocks.js',
+        'src/main/resources/static/bower_components/angular/angular.js',
+        'src/main/resources/static/bower_components/angular-route/angular-route.js',
+        'src/main/resources/static/bower_components/angular-mocks/angular-mocks.js',
         'test/framework.js',
-        'app/app.js',
-        //'app/census/*.js',
-        'app/core/*.js',
-        'app/census/model/*.js',
-        'app/census/view/*.js',
+        'src/main/resources/static/app.js',
+        'src/main/resources/static/census/controller/*.js',
+        'src/main/resources/static/core/*.js',
         'test/*.js'
     ],
 

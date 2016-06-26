@@ -54,6 +54,11 @@ function routeConfig($routeProvider) {
             controller: 'VisitController',
             controllerAs: 'model'
         })
+        .when('/visit', {
+            templateUrl: 'update/view/handle-visit.html',
+            controller: 'VisitEventsController',
+            controllerAs: 'model'
+        })
         .when('/inMigration/new', {
             templateUrl: 'update/view/create-inMigration.html',
             controller: 'InMigrationController',

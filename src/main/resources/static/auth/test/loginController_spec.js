@@ -45,6 +45,7 @@ describe('LoginController', function() {
             controller.username = "validFieldworker";
             controller.password = "validPassword";
             controller.isSupervisor = false;
+            //noinspection JSUnresolvedFunction
             withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
                 controller.login(true);
             }, q, rootScope);
@@ -62,6 +63,7 @@ describe('LoginController', function() {
             controller.username = "validSupervisor";
             controller.password = "validPassword";
             controller.isSupervisor = true;
+            //noinspection JSUnresolvedFunction
             withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
                 controller.login(true);
             }, q, rootScope);
@@ -79,6 +81,7 @@ describe('LoginController', function() {
             controller.username = "invalidSupervisor";
             controller.password = "invalidPassword";
             controller.isSupervisor = true;
+            //noinspection JSUnresolvedFunction
             withMockPromiseRejected(BackendServiceMock.post, expectedResponse, function() {
                 controller.login(true);
             }, q, rootScope);

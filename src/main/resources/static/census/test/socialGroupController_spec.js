@@ -1,5 +1,5 @@
 "use strict";
-describe('LocationController', function() {
+describe('SocialGroupController', function() {
     var $controller;
     var controller;
 
@@ -14,9 +14,10 @@ describe('LocationController', function() {
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post']);
+        BackendServiceMock = jasmine.createSpyObj('BackendService', ['get', 'post']);
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
+            groupTypeCodes: ["foo"],
             loadData: function() {}
         };
 
@@ -24,37 +25,32 @@ describe('LocationController', function() {
 
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
-        controller = $controller('LocationController',
+        controller = $controller('SocialGroupController',
             {   BackendService: BackendServiceMock,
                 AppState: AppStateMock,
                 $location: $locationMock
             });
     }));
 
-    describe('LocationController', function() {
+    describe('SocialGroupController', function() {
         it('initializes', function() {
             expect(controller).toEqual(jasmine.anything());
         });
 
-        it('loads project codes and location hierarchies', function() {
-            controller.loadData();
-            expect(AppStateMock.loadData).toHaveBeenCalled();
-        });
-
         it('submits location then redirects to social group page', function() {
-            var expectedResponse = {data: "location-uuid"};
-            controller.name = "test";
+            var expectedResponse = {data: "group-uuid"};
+            controller.groupName = "test";
             controller.extId = "test";
-            controller.type = "foo";
-            
+            controller.groupType = "foo";
+
             withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
                 controller.create(true);
             }, q, rootScope);
-            expect(AppStateMock.location).toEqual("location-uuid");
-            expect($locationMock.url).toHaveBeenCalledWith("/socialGroup/new");
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/location",
+            expect(AppStateMock.socialGroup).toEqual("group-uuid");
+            expect($locationMock.url).toHaveBeenCalledWith("/individual/new");
+            expect(BackendServiceMock.post).toHaveBeenCalledWith("/socialGroup",
                 {
-                    location: {name: "test", extId: "test", type: "foo", collectionDateTime: controller.date},
+                    socialGroup: {groupName: "test", extId: "test", groupType: "foo", collectionDateTime: controller.date},
                     collectedByUuid: 123
                 });
         });

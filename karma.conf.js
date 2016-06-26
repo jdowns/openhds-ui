@@ -11,9 +11,11 @@ module.exports = function(config){
         'src/main/resources/static/app.js',
         'src/main/resources/static/census/controller/*.js',
         'src/main/resources/static/auth/controller/*.js',
+        'src/main/resources/static/update/controller/*.js',
         'src/main/resources/static/census/test/*.js',
         'src/main/resources/static/auth/test/*.js',
-        'src/main/resources/static/core/*.js',
+        'src/main/resources/static/auth/test/*.js',
+        'src/main/resources/static/update/test/*.js',
         'test/*.js'
     ],
 

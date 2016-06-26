@@ -15,24 +15,7 @@ function LocationController(BackendService, AppState, $location) {
     vm.loadData = loadData;
 
     function loadData() {
-        BackendService.get("/projectCode/locationType")
-            .then(
-                function (response) {
-                    vm.codes = response.data;
-                },
-                function (response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        BackendService.get("/locationHierarchy")
-            .then(
-                function (response) {
-                    vm.hierarchies = response.data;
-                },
-                function (response) {
-                    console.log("Unable to fetch location hierarchies! " + JSON.stringify(response));
-                }
-            );
+        AppState.loadData();
     }
     
     function validateCreate(formValid) {
@@ -42,21 +25,24 @@ function LocationController(BackendService, AppState, $location) {
     }
 
     function create() {
+        vm.date = new Date().toISOString();
         var body = {
             location: {
                 name: vm.name,
                 extId: vm.extId,
                 type: vm.type,
-                collectionDateTime: new Date().toISOString()
+                collectionDateTime: vm.date
             },
             collectedByUuid: vm.collectedByUuid
         };
         BackendService.post("/location", body).then(
             function (response) {
-                console.log("yay! " + JSON.stringify(response));
+                AppState.location = response.data;
+                $location.url("/socialGroup/new");
             },
             function (response) {
-                console.log("oops " + response.status);
+                console.log("Something went wrong! " + response.status +
+                            " Submitted: " + JSON.stringify(body));
             }
         );
     }

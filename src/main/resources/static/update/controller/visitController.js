@@ -18,16 +18,18 @@ function VisitController(BackendService, AppState, $location) {
         }
     }
     function create() {
+        vm.date = new Date().toISOString();
         var body = {
             visit: {
                 extId: vm.extId,
                 location: vm.location,
                 visitDate: vm.visitDate,
-                collectionDateTime: new Date().toISOString()
+                collectionDateTime: vm.date
             },
             collectedByUuid: vm.collectedByUuid};
         BackendService.post("/visit", body).then(
             function(response) {
+                $location.url('/visit');
                 console.log("yay! visit " + JSON.stringify(response));
             },
             function(response) {

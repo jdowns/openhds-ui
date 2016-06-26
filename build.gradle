@@ -10,12 +10,18 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.craigburke.karma' version '1.4.3'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 // tag::plugin[]
 apply plugin: 'docker'
 // end::plugin[]
+
+
 
 // This is used as the docker image prefix (org)
 group = 'gregturn'

@@ -30,6 +30,14 @@ function VisitController(BackendService, AppState, $location) {
         BackendService.post("/visit", body).then(
             function(response) {
                 $location.url('/visit');
+                BackendService.get("/individual?location=" + vm.location).then(
+                    function(response) {
+
+                    },
+                    function(response) {
+                        
+                    }
+                );
                 console.log("yay! visit " + JSON.stringify(response));
             },
             function(response) {

@@ -14,7 +14,7 @@ describe('VisitController', function () {
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post']);
+        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post', 'get']);
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
             loadData: function () {
@@ -42,7 +42,9 @@ describe('VisitController', function () {
         controller.type = "foo";
 
         withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function () {
-            controller.create(true);
+            withMockPromiseResolved(BackendServiceMock.get, {}, function () {
+                controller.create(true);
+            }, q, rootScope);
         }, q, rootScope);
         expect($locationMock.url).toHaveBeenCalledWith("/visit");
         expect(BackendServiceMock.post).toHaveBeenCalledWith("/visit",

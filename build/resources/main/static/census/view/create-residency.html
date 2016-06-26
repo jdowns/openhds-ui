@@ -6,9 +6,6 @@
 
         <selectbox ng-model="model.startType" id="startType" label="Start Type*">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
-            <!--<option value="BIRTH_MIGRATION">Birth</option>-->
-            <!--<option value="INTERNAL_MIGRATION">Internal Migration</option>-->
-            <!--<option value="UNKNOWN">Unknown</option>-->
         </selectbox>
         <datebox label="Start Date" id="startDate" ng-model="model.startDate"></datebox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>

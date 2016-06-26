@@ -5,11 +5,13 @@ angular.module('openHDS.view')
 function LoginController(BackendService, AppState, $location) {
     var vm = this;
     vm.isSupervisor = false;
+    vm.loginPending = false;
     vm.create = validateCreate;
     vm.login = login;
 
     function login(formValid) {
         if (formValid) {
+            vm.loginPending = true;
             console.log("Form is valid " + JSON.stringify(vm));
             var body = {
                 username: vm.username,

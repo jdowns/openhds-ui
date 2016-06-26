@@ -5,16 +5,6 @@
         <textbox label="Social Group" id="socialGroup" ng-model="model.socialGroup.uuid"></textbox>
         <selectbox label="Start Type" id="startType" ng-model="model.startType">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
-
-            <!--<option value="SELF">Head</option>-->
-            <!--<option value="SPOUSE">Spouse</option>-->
-            <!--<option value="SON_OR_DAUGHTER">Child</option>-->
-            <!--<option value="BROTHER_OR_SISTER">Sibling</option>-->
-            <!--<option value="PARENT">Parent</option>-->
-            <!--<option value="GRANDCHILD">Grandchild</option>-->
-            <!--<option value="OTHER_RELATIVE">Other Relative</option>-->
-            <!--<option value="NOT_RELATED">Not Related</option>-->
-            <!--<option value="UNKNOWN">Unknown</option>-->
         </selectbox>
         <datebox label="Start Date" id="startDate" ng-model="model.startDate"></datebox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>

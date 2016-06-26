@@ -13,6 +13,5 @@ tmp
 *.iml
 *.txt
 npm-debug.log*
-gradle
 gradlew.bat
 build

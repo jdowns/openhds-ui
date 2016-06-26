@@ -8,36 +8,30 @@ function SocialGroupController(BackendService, AppState, $location) {
         $location.url('/');
         return vm;
     }
-    BackendService.get("/projectCode/socialGroupType")
-        .then(
-            function(response) {
-                console.log(JSON.stringify(response));
-                vm.codes = response.data;
-            },
-            function(response) {
-                console.log("Unable to fetch project codes! " + JSON.stringify(response));
-            }
-        );
-    
-    vm.collectedByUuid = AppState.user.userId;
-    vm.create = validateCreate;
 
+    vm.collectedByUuid = AppState.user.userId;
+    vm.codes = AppState.groupTypeCodes;
+    vm.create = validateCreate;
+    
     function validateCreate(formValid) {
         if (formValid) {
             create();
         }
     }
     function create() {
+        vm.date = new Date().toISOString();
         var body = {
             socialGroup:
             {
                 groupName: vm.groupName,
                 extId: vm.extId,
                 groupType: vm.groupType,
-                collectionDateTime: new Date().toISOString()},
+                collectionDateTime: vm.date},
             collectedByUuid: vm.collectedByUuid};
         BackendService.post("/socialGroup", body).then(
             function(response) {
+                AppState.socialGroup = response.data;
+                $location.url('/individual/new');
                 console.log("yay! " + JSON.stringify(response));
             },
             function(response) {

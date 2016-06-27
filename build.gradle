@@ -57,8 +57,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
     compile("org.springframework.boot:spring-boot-devtools")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.5'
+    compile group: 'com.netflix.feign', name: 'feign-core', version: '8.17.0'
+    compile group: 'com.netflix.feign', name: 'feign-gson', version: '8.17.0'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 task wrapper(type: Wrapper) {

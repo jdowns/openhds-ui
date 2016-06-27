@@ -2,9 +2,11 @@ package openhds.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import openhds.domain.*;
+import openhds.domain.Request;
+import openhds.domain.Response;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 public abstract class HttpService {
     @Autowired
     private RestTemplate restTemplate;
-
-    private String baseUrl = "http://localhost:8080";
+    @Value("${openHdsRestUrl}")
+    private String baseUrl;
 
     public abstract String createEntity(Request request);
 

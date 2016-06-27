@@ -1,6 +1,6 @@
 package openhds.domain;
 
-class Entity implements Response {
+public class Entity implements Response {
 
     private String uuid;
     private String extId;

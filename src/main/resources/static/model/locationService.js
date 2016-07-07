@@ -4,7 +4,7 @@ angular.module('openHDS.core').factory('LocationService', LocationService);
 
 LocationService.$inject = ['BackendService', 'AppState'];
 
-function LocationService(Backendservice, AppState) {
+function LocationService(BackendService, AppState) {
     var vm = this;
     vm.create = create;
 

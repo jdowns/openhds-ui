@@ -31,7 +31,7 @@ public class ControllerTest<MODEL extends Model> {
     protected RestClient<MODEL> client;
 
     @InjectMocks
-    protected Controller underTest;
+    protected ControllerBase underTest;
     protected MODEL expected;
 
     @Test
@@ -53,7 +53,7 @@ public class ControllerTest<MODEL extends Model> {
         List<MODEL> expectedContent = Lists.newArrayList();
         OpenHdsRestResponse<MODEL> expectedResponse = new OpenHdsRestResponse<>();
         expectedResponse.setContent(expectedContent);
-        when(client.getFiltered(filterParams)).thenReturn(expectedResponse);
+        when(client.get(filterParams)).thenReturn(expectedResponse);
         final ResponseEntity<List<MODEL>> models = underTest.get(0L, 1L, false);
 
         assertEquals(HttpStatus.OK, models.getStatusCode());

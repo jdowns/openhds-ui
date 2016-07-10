@@ -1,7 +1,6 @@
 package openhds;
 
 import com.google.common.collect.ImmutableMap;
-
 import openhds.domain.Model;
 import openhds.domain.Request;
 import org.springframework.http.HttpStatus;

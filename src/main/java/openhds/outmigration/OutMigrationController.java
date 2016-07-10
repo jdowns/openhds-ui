@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/outMigration")
 public class OutMigrationController extends openhds.ControllerBase<OutMigration, OutMIgrationRequest> {
     @Autowired
-    public OutMigrationController(RestClient<OutMigration> client) {
+    public OutMigrationController(OutMigrationClient client) {
         this.client = client;
     }
 }

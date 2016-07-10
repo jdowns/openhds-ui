@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/Membership")
 public class MembershipController extends openhds.ControllerBase<Membership, MembershipRequest> {
     @Autowired
-    public MembershipController(RestClient<Membership> client) {
+    public MembershipController(MembershipClient client) {
         this.client = client;
     }
 }

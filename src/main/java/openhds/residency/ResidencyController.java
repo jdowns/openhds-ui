@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/residency")
 public class ResidencyController extends openhds.ControllerBase<Residency, Request> {
     @Autowired
-    public ResidencyController(RestClient<Residency> client) {
+    public ResidencyController(ResidencyClient client) {
         this.client = client;
     }
 }

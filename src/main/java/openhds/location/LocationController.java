@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/location")
 public class LocationController extends openhds.ControllerBase<Location, LocationRequest> {
     @Autowired
-    public LocationController(RestClient<Location> client) {
+    public LocationController(LocationClient client) {
         this.client = client;
     }
 }

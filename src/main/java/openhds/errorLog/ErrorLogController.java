@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/errorLogs")
 public class ErrorLogController extends openhds.ControllerBase<ErrorLog, ErrorLogRequest> {
     @Autowired
-    public ErrorLogController(RestClient<ErrorLog> client) {
+    public ErrorLogController(ErrorLogClient client) {
         this.client = client;
     }
 }

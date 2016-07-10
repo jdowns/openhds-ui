@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/visit")
 public class VisitController extends openhds.ControllerBase<Visit, VisitRequest> {
     @Autowired
-    public VisitController(RestClient<Visit> client) {
+    public VisitController(VisitClient client) {
         this.client = client;
     }
 }

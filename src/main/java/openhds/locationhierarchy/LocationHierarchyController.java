@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/locationHierarchy")
 public class LocationHierarchyController extends openhds.ControllerBase<LocationHierarchy, LocationHierarchyRequest> {
     @Autowired
-    public LocationHierarchyController(RestClient<LocationHierarchy> client) {
+    public LocationHierarchyController(LocationHierarchyClient client) {
         this.client = client;
     }
 }

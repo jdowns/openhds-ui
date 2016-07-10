@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/relationship")
 public class RelationshipController extends openhds.ControllerBase<Relationship, RelationshipRequest> {
     @Autowired
-    public RelationshipController(RestClient<Relationship> client) {
+    public RelationshipController(RelationshipClient client) {
         this.client = client;
     }
 }

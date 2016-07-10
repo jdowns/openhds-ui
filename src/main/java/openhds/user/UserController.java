@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/user")
 public class UserController extends openhds.ControllerBase<User, Request> {
     @Autowired
-    public UserController(RestClient<User> client) {
+    public UserController(UserClient client) {
         this.client = client;
     }
 }

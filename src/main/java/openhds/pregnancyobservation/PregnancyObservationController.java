@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/pregnancyObservation")
 public class PregnancyObservationController extends openhds.ControllerBase<PregnancyObservation, PregnancyObservationRequest> {
     @Autowired
-    public PregnancyObservationController(RestClient<PregnancyObservation> client) {
+    public PregnancyObservationController(PregnancyObservationClient client) {
         this.client = client;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/projectCode")
 public class ProjectCodeController extends openhds.ControllerBase<ProjectCode, ProjectCodeRequest> {
     @Autowired
-    public ProjectCodeController(RestClient<ProjectCode> client) {
+    public ProjectCodeController(ProjectCodeClient client) {
         this.client = client;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/event")
 public class EventController extends openhds.ControllerBase<Event, EventRequest> {
     @Autowired
-    public EventController(RestClient<Event> client) {
+    public EventController(EventClient client) {
         this.client = client;
     }
 }

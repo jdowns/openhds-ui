@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/individual")
 public class IndividualController extends openhds.ControllerBase<Individual, IndividualRequest> {
     @Autowired
-    public IndividualController(RestClient<Individual> client) {
+    public IndividualController(IndividualClient client) {
         this.client = client;
     }
 }

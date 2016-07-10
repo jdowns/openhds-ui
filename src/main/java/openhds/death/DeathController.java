@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/death")
 public class DeathController extends openhds.ControllerBase<Death, DeathRequest> {
     @Autowired
-    public DeathController(RestClient<Death> client) {
+    public DeathController(DeathClient client) {
         this.client = client;
     }
 }

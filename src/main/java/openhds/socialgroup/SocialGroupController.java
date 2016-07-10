@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/socialGroup")
 public class SocialGroupController extends openhds.ControllerBase<SocialGroup, SocialGroupRequest> {
     @Autowired
-    public SocialGroupController(RestClient<SocialGroup> client) {
+    public SocialGroupController(SocialGroupClient client) {
         this.client = client;
     }
 }

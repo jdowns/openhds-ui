@@ -1,4 +1,4 @@
 package openhds.errorLog;
 
-public class ErrorLogRequest {
+public class ErrorLogRequest extends openhds.domain.Request {
 }

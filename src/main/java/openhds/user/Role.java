@@ -43,6 +43,7 @@ public class Role {
 
     @Override
     public boolean equals(Object other) {
+        
         return EqualsBuilder.reflectionEquals(this, other);
     }
 

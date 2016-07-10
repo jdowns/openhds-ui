@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@RestController
+@RequestMapping(value="/api")
 public class ControllerBase<MODEL extends Model, REQUEST extends Request> implements openhds.Controller<MODEL, REQUEST> {
 
     protected RestClient<MODEL> client;
@@ -21,6 +23,7 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
     @RequestMapping(value="/", method= RequestMethod.POST)
     public ResponseEntity<MODEL> create(@RequestBody REQUEST request) {
         final Model model = client.create(request);
+        //noinspection unchecked
         return ResponseEntity.status(HttpStatus.CREATED).body((MODEL)model);
     }
 
@@ -43,6 +46,7 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
     @RequestMapping(value="/{uuid}", method=RequestMethod.GET)
     public ResponseEntity<MODEL> get(@PathVariable(value="uuid") UUID uuid) {
         final Model model = client.get(uuid);
+        //noinspection unchecked
         return ResponseEntity.status(HttpStatus.OK).body((MODEL)model);
     }
 

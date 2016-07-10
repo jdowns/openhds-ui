@@ -1,5 +1,6 @@
 package openhds;
 
+import feign.Headers;
 import feign.Param;
 import feign.QueryMap;
 import feign.RequestLine;
@@ -10,7 +11,8 @@ import openhds.domain.Request;
 import java.util.Map;
 import java.util.UUID;
 
-public interface RestClient<MODEL extends Model> extends openhds.domain.Client {
+@Headers("Content-Type: application/json")
+public interface RestClient<MODEL extends Model> {
     @RequestLine("GET /")
     OpenHdsRestResponse<MODEL> get(@QueryMap Map<String, Object> params);
 

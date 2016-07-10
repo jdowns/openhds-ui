@@ -23,7 +23,7 @@ public class User implements openhds.domain.Model {
     private String username;
     private String fieldWorkerId;
     private String passwordHash;
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
     boolean deleted = false;
 
     public String getUuid() {

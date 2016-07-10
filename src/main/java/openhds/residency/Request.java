@@ -1,13 +1,13 @@
 package openhds.residency;
 
 public class Request extends openhds.domain.Request {
-    private Model residency;
+    private Residency residency;
 
-    public Model getResidency() {
+    public Residency getResidency() {
         return residency;
     }
 
-    public void setResidency(Model residency) {
+    public void setResidency(Residency residency) {
         this.residency = residency;
     }
 }

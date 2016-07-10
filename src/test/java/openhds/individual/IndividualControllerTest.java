@@ -9,7 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class IndividualControllerTest extends ControllerTest {
 
-    @Mock Client client;
+    @Mock
+    IndividualClient client;
     @InjectMocks
     IndividualController underTest;
 

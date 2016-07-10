@@ -1,5 +1,3 @@
 package openhds.domain;
 
-public interface Model {
-
-}
+public interface Model {}

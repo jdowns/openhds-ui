@@ -10,7 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class DeathControllerTest extends ControllerTest {
 
-    @Mock Client client;
+    @Mock
+    DeathClient client;
     @InjectMocks DeathController underTest;
 
 

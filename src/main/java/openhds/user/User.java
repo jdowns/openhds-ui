@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
+public class User implements openhds.domain.Model {
 
     public User() {
     }

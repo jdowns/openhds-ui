@@ -2,11 +2,10 @@ package openhds.locationhierarchylevel;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model  implements openhds.domain.Model  {
     private String uuid;
     private String name;
 
-    @Override
     public String getUuid() {
         return uuid;
     }

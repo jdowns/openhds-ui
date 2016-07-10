@@ -1,8 +1,7 @@
 package openhds.visit;
 
-import openhds.domain.Entity;
 
-public class Model extends Entity {
+public class Model implements openhds.domain.Model  {
 
     private String visitDate;
     private openhds.location.Model location;

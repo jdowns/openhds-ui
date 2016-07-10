@@ -1,8 +1,20 @@
 angular.module('openHDS.view')
     .controller('LocationController',
-        ['BackendService', 'AppState', '$location', LocationController]);
+        ['LocationClient', 'AppState', '$location', LocationController]);
 
-function LocationController(BackendService, AppState, $location) {
+function Location(name, extId, type, date, collectedBy) {
+    this.collectedByUuid = collectedBy;
+    this.location = {
+        name: name,
+        extId: extId,
+        type: type,
+        collectionDateTime: date
+    };
+}
+
+
+
+function LocationController(LocationClient, AppState, $location) {
     var vm = this;
 
     if (!AppState.user) {
@@ -25,17 +37,10 @@ function LocationController(BackendService, AppState, $location) {
     }
 
     function create() {
-        vm.date = new Date().toISOString();
-        var body = {
-            location: {
-                name: vm.name,
-                extId: vm.extId,
-                type: vm.type,
-                collectionDateTime: vm.date
-            },
-            collectedByUuid: vm.collectedByUuid
-        };
-        BackendService.post("/location", body).then(
+        vm.date = new Date().toISOString(); // for testing
+        var body = new Location(vm.name, vm.extId, vm.type, vm.date, vm.collectedByUuid);
+
+        LocationClient.create(body).then(
             function (response) {
                 AppState.location = response.data;
                 $location.url("/socialGroup/new");

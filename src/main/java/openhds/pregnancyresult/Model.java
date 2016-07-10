@@ -2,13 +2,12 @@ package openhds.pregnancyresult;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model  implements openhds.domain.Model  {
     private String uuid;
     private String type;
     private openhds.pregnancyoutcome.Model pregnancyOutcome;
     private openhds.individual.Model child;
 
-    @Override
     public String getUuid() {
         return uuid;
     }

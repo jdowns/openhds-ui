@@ -2,7 +2,7 @@ package openhds.domain;
 
 import java.util.List;
 
-public class OpenHdsRestResponse<T> {
+public class OpenHdsRestResponse<T extends Model> {
     public class Page {
         Long size;
         Long totalElements;

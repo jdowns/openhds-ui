@@ -1,6 +1,6 @@
 package openhds.death;
 
-class Model {
+public class Model implements openhds.domain.Model {
     private String uuid;
     private openhds.visit.Model visit;
     private openhds.individual.Model individual;

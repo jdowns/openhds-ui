@@ -2,7 +2,7 @@ package openhds.membership;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model  implements openhds.domain.Model  {
     private openhds.individual.Model individual;
     private openhds.socialgroup.Model socialGroup;
     private String startDate;

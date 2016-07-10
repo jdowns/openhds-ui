@@ -2,14 +2,13 @@ package openhds.pregnancyobservation;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model  implements openhds.domain.Model  {
     private String uuid;
     private openhds.visit.Model visit;
     private String expectedDeliveryDate;
     private String pregnancyDate;
     private openhds.individual.Model mother;
 
-    @Override
     public String getUuid() {
         return uuid;
     }

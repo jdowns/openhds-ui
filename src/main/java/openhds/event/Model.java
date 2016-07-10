@@ -1,4 +1,4 @@
 package openhds.event;
 
-public class Model {
+public class Model implements openhds.domain.Model {
 }

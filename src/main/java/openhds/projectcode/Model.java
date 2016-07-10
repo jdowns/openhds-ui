@@ -1,15 +1,13 @@
 package openhds.projectcode;
 
-import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model implements openhds.domain.Model  {
     private String uuid;
     private String codeName;
     private String codeGroup;
     private String codeValue;
     private String description;
 
-    @Override
     public String getUuid() {
         return uuid;
     }

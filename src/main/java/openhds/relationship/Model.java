@@ -2,7 +2,7 @@ package openhds.relationship;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model implements openhds.domain.Model  {
     private openhds.individual.Model individualA;
     private openhds.individual.Model individualB;
     private String startDate;
@@ -50,7 +50,6 @@ public class Model implements Response {
         this.collectionDateTime = collectionDateTime;
     }
 
-    @Override
     public String getUuid() {
         return uuid;
     }

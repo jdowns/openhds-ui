@@ -2,7 +2,7 @@ package openhds.inmigration;
 
 import openhds.domain.Response;
 
-public class Model implements Response {
+public class Model  implements openhds.domain.Model  {
 
     private String uuid;
     private String origin;
@@ -13,7 +13,6 @@ public class Model implements Response {
     private openhds.individual.Model individual;
     private openhds.residency.Model residency;
 
-    @Override
     public String getUuid() {
         return uuid;
     }

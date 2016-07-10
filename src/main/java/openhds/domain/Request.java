@@ -9,5 +9,5 @@ public class Request {
         this.collectedByUuid = collectedByUuid;
     }
 
-    private String collectedByUuid;
+    protected String collectedByUuid;
 }

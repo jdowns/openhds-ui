@@ -62,6 +62,7 @@ dependencies {
     compile group: 'com.netflix.feign', name: 'feign-gson', version: '8.17.0'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile('io.rest-assured:rest-assured:3.0.0')
 }
 
 task wrapper(type: Wrapper) {

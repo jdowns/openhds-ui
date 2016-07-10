@@ -17,7 +17,7 @@ public interface RestClient<MODEL extends Model> {
     OpenHdsRestResponse<MODEL> get(@QueryMap Map<String, Object> params);
 
     @RequestLine("GET /{id}")
-    MODEL get(@Param("id") UUID uuid);
+    MODEL get(@Param("id") String uuid);
 
     @RequestLine("GET /bulk")
     OpenHdsRestResponse<MODEL> getAll();
@@ -41,5 +41,5 @@ public interface RestClient<MODEL extends Model> {
     MODEL create(Request request);
 
     @RequestLine("DELETE /{id}")
-    MODEL delete(@Param("id") UUID uuid);
+    MODEL delete(@Param("id") String uuid);
 }

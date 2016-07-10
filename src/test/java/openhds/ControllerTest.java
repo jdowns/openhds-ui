@@ -51,8 +51,7 @@ public class ControllerTest<MODEL extends Model> {
         filterParams.put("size", 1L);
         filterParams.put("sort", false);
         List<MODEL> expectedContent = Lists.newArrayList();
-        OpenHdsRestResponse<MODEL> expectedResponse = new OpenHdsRestResponse<>();
-        expectedResponse.setContent(expectedContent);
+        OpenHdsRestResponse<MODEL> expectedResponse = new OpenHdsRestResponse<>(null, expectedContent, null);
         when(client.get(filterParams)).thenReturn(expectedResponse);
         final ResponseEntity<List<MODEL>> models = underTest.get(0L, 1L, false);
 
@@ -63,8 +62,7 @@ public class ControllerTest<MODEL extends Model> {
     @Test
     public void getAllTest() {
         List<MODEL> expectedContent = Lists.newArrayList();
-        OpenHdsRestResponse<MODEL> expected = new OpenHdsRestResponse<>();
-        expected.setContent(expectedContent);
+        OpenHdsRestResponse<MODEL> expected = new OpenHdsRestResponse<>(null, expectedContent, null);
         when(client.getAll()).thenReturn(expected);
 
         final ResponseEntity<List<Model>> all = underTest.getAll();
@@ -75,7 +73,7 @@ public class ControllerTest<MODEL extends Model> {
 
     @Test
     public void getOneTest() {
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
 
         when(client.get(uuid)).thenReturn(expected);
 
@@ -91,14 +89,13 @@ public class ControllerTest<MODEL extends Model> {
         UUID locationUuid = UUID.randomUUID();
         Date afterDate = new Date();
         Date beforeDate = new Date();
-        Map<String, Object> filterParams = HttpParamService.locationHierarchyFilter(locationHierarchyUuid, afterDate, beforeDate);
+        Map<String, Object> filterParams = HttpParamService.locationHierarchyFilter(locationHierarchyUuid.toString(), afterDate, beforeDate);
 
         List<MODEL> expectedContent = Lists.newArrayList();
-        OpenHdsRestResponse<MODEL> expected = new OpenHdsRestResponse<>();
-        expected.setContent(expectedContent);
+        OpenHdsRestResponse<MODEL> expected = new OpenHdsRestResponse<>(null, expectedContent, null);
         when(client.getFilteredByLocationHierarchy(filterParams)).thenReturn(expected);
 
-        final ResponseEntity<List<MODEL>> allFiltered = underTest.getAllFiltered(locationHierarchyUuid, locationUuid, afterDate, beforeDate);
+        final ResponseEntity<List<MODEL>> allFiltered = underTest.getAllFiltered(locationHierarchyUuid.toString(), locationUuid.toString(), afterDate, beforeDate);
 
         assertEquals(HttpStatus.OK, allFiltered.getStatusCode());
         assertEquals(expectedContent, allFiltered.getBody());
@@ -107,8 +104,7 @@ public class ControllerTest<MODEL extends Model> {
     @Test
     public void getVoidedTest() {
         List<MODEL> expectedContent = Lists.newArrayList();
-        OpenHdsRestResponse<MODEL> expectedResponse = new OpenHdsRestResponse<>();
-        expectedResponse.setContent(expectedContent);
+        OpenHdsRestResponse<MODEL> expectedResponse = new OpenHdsRestResponse<>(null, expectedContent, null);
 
         when(client.getVoided()).thenReturn(expectedResponse);
 
@@ -121,9 +117,9 @@ public class ControllerTest<MODEL extends Model> {
     public void deleteTest() {
         UUID uuid = UUID.randomUUID();
 
-        underTest.delete(uuid);
+        underTest.delete(uuid.toString());
 
-        verify(client, times(1)).delete(uuid);
+        verify(client, times(1)).delete(uuid.toString());
     }
 
 }

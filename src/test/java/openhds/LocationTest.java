@@ -1,40 +1,33 @@
 package openhds;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
+import openhds.domain.OpenHdsRestResponse;
 import openhds.location.Location;
 import openhds.location.LocationClient;
 import openhds.location.LocationRequest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.when;
 
 public class LocationTest extends FunctionalTestBase {
     @Autowired
     LocationClient locationClient;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    final static String baseUrl = "/api/location/";
+    private final static String baseUrl = "/api/location/";
 
     @Test
     public void createLocationTest() throws Exception {
+        final LocationRequest locationRequest = RandomEntityFactory.createLocationRequest();
+        final Location locationResponse = RandomEntityFactory.createLocationResponse(locationRequest);
 
-        String uuid = UUID.randomUUID().toString();
-        Location location = new Location("test-location", "test-type", null);
-        LocationRequest request = new LocationRequest(location, uuid);
-        Location expected = new Location("test-location", "test-type", uuid);
+        when(locationClient.create(locationRequest)).thenReturn(locationResponse);
 
-        when(locationClient.create(request)).thenReturn(expected);
-
-        String requestString = objectMapper.writeValueAsString(request);
-        String expectedString = objectMapper.writeValueAsString(expected);
+        String requestString = objectMapper.writeValueAsString(locationRequest);
+        String expectedString = objectMapper.writeValueAsString(locationResponse);
         given()
                 .body(requestString).
         when()
@@ -44,4 +37,36 @@ public class LocationTest extends FunctionalTestBase {
                .statusCode(201)
                .body(equalTo(expectedString));
     }
+
+    @Test
+    public void getSingleLocationTest() throws Exception {
+        Location expected = RandomEntityFactory.createLocationResponse();
+        String uuid = expected.getUuid();
+        String expectedString = objectMapper.writeValueAsString(expected);
+
+        when(locationClient.get(uuid)).thenReturn(expected);
+
+        given().when()
+                .contentType(ContentType.JSON)
+                .get(baseUrl + uuid).
+        then()
+                .statusCode(200)
+                .body(equalTo(expectedString));
+    }
+
+    @Test
+    public void getLocationPage() throws Exception {
+        OpenHdsRestResponse<Location> response = RandomEntityFactory.createLocationResponse(20);
+        when(locationClient.get(anyMap())).thenReturn(response);
+
+        String expectedString = objectMapper.writeValueAsString(response.getContent());
+
+        given().when()
+                .contentType(ContentType.JSON)
+                .get(baseUrl).
+        then()
+                .statusCode(200)
+                .body(equalTo(expectedString));
+    }
+
 }

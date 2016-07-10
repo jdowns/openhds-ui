@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class HttpParamService {
-    public static Map<String, Object> locationHierarchyFilter(UUID locationHierarchyUuid,
+    public static Map<String, Object> locationHierarchyFilter(String locationHierarchyUuid,
                                                               Date afterDate,
                                                               Date beforeDate) {
         Map<String, Object> filterParams = new HashMap<>();

@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-@RestController
-@RequestMapping(value="/api")
-public class ControllerBase<MODEL extends Model, REQUEST extends Request> implements openhds.Controller<MODEL, REQUEST> {
+public abstract class ControllerBase<MODEL extends Model, REQUEST extends Request> implements openhds.Controller<MODEL, REQUEST> {
 
     protected RestClient<MODEL> client;
 
@@ -28,9 +25,9 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
 
     @Override
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public ResponseEntity<List<MODEL>> get(@RequestParam(name = "page", defaultValue = "1L") Long page,
-                                           @RequestParam(name = "size", defaultValue = "20L") Long size,
-                                           @RequestParam(name = "sort", defaultValue = "true") Boolean sort) {
+    public ResponseEntity<List<MODEL>> get(@RequestParam(name = "page", defaultValue = "1") Long page,
+                                           @RequestParam(name = "size", defaultValue = "20") Long size,
+                                           @RequestParam(name = "sort", defaultValue = "false") Boolean sort) {
         Map<String, Object> filterParams = ImmutableMap.of("page", page, "size", size, "sort", sort);
         return ResponseEntity.status(HttpStatus.OK).body(client.get(filterParams).getContent());
     }
@@ -43,7 +40,7 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
 
     @Override
     @RequestMapping(value="/{uuid}", method=RequestMethod.GET)
-    public ResponseEntity<MODEL> get(@PathVariable(value="uuid") UUID uuid) {
+    public ResponseEntity<MODEL> get(@PathVariable(value="uuid") String uuid) {
         final Model model = client.get(uuid);
         //noinspection unchecked
         return ResponseEntity.status(HttpStatus.OK).body((MODEL)model);
@@ -52,8 +49,8 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
     @Override
     @RequestMapping(value = "/byLocation", method = RequestMethod.GET)
     public ResponseEntity<List<MODEL>> getAllFiltered(
-            @RequestParam(name = "locationHierarchyUuid", required = false) UUID locationHierarchyUuid,
-            @RequestParam(name = "locationUuid", required = false) UUID locationUuid, // note: unused
+            @RequestParam(name = "locationHierarchyUuid", required = false) String locationHierarchyUuid,
+            @RequestParam(name = "locationUuid", required = false) String locationUuid, // note: unused
             @RequestParam(name = "afterDate", required = false) Date afterDate,
             @RequestParam(name = "beforeDate", required = false) Date beforeDate) {
         Map<String, Object> filterParams = HttpParamService.locationHierarchyFilter(locationHierarchyUuid, afterDate, beforeDate);
@@ -71,7 +68,7 @@ public class ControllerBase<MODEL extends Model, REQUEST extends Request> implem
 
     @Override
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    public void delete(UUID uuid) {
+    public void delete(String uuid) {
         client.delete(uuid);
     }
 }

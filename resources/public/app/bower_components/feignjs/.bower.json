@@ -1,0 +1,43 @@
+{
+  "name": "feignjs",
+  "version": "0.0.6",
+  "homepage": "http://feignjs.github.io/feignjs/",
+  "description": "feign-like descriptive rest-client",
+  "main": "dist/feign.web.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "feign",
+    "rest",
+    "descriptive",
+    "client"
+  ],
+  "dependencies": {
+    "args-js": "^0.10.6",
+    "lodash": "^3.9.3",
+    "uri-templates": "https://github.com/feignjs/uri-templates.git#v0.1.7"
+  },
+  "authors": [
+    "Peter Mucha"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "samples",
+    "docs"
+  ],
+  "_release": "0.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.6",
+    "commit": "99394a7162659ee5632dcc842f26261c38bbab8d"
+  },
+  "_source": "https://github.com/feignjs/feignjs.git",
+  "_target": "0.0.6",
+  "_originalSource": "feignjs"
+}

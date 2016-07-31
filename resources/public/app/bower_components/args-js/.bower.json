@@ -1,0 +1,24 @@
+{
+  "name": "args.js",
+  "version": "0.10.12",
+  "homepage": "http://joebain.github.io/args.js",
+  "description": "Create javascript functions with optional, default and named paramaters.",
+  "main": "Args.js",
+  "keywords": [
+    "function",
+    "args",
+    "arguments",
+    "paramaters",
+    "api"
+  ],
+  "license": "MIT",
+  "_release": "0.10.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.10.12",
+    "commit": "eec6e8e3168e3d13d6fec56347bbc96609359958"
+  },
+  "_source": "https://github.com/autographer/args.js.git",
+  "_target": "^0.10.6",
+  "_originalSource": "args-js"
+}

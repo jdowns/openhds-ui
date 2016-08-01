@@ -1,5 +1,5 @@
 (ns ohds.fieldworker-service
-  (require [clj-http.client :as client]
+  (:require [clj-http.client :as client]
            [cheshire.core :refer :all]
            [crypto.password.bcrypt :as bcrypt]
 

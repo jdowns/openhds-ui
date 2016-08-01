@@ -8,17 +8,23 @@ function AppState($http) {
     console.log("Init app state");
     var vm = this;
     vm.loadData = loadData;
+    vm.loadLocationType = loadLocationType;
 
-    function loadData() {
-        $http.get("/api/projectCode/locationType")
+    function loadLocationType(callback) {
+        $http.get("/api/projectcode/locationType")
             .then(
                 function (response) {
                     vm.locationCodes = response.data;
+                    callback(response.data);
                 },
                 function (response) {
                     console.log("Unable to fetch project codes! " + JSON.stringify(response));
                 }
             );
+    }
+
+    function loadData() {
+
         $http.get("/api/locationHierarchy")
             .then(
                 function (response) {

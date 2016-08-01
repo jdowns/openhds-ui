@@ -5,7 +5,9 @@
             [schema.core :as s]
 
             [ohds.user-service :as uc]
-            [ohds.fieldworker-service :as fc]))
+            [ohds.fieldworker-service :as fc]
+            [ohds.projectcode-service :as pc]
+            [ohds.location-service :as lc]))
 
 (s/defschema LoginAttempt
   {:username s/Str
@@ -18,6 +20,19 @@
    :firstName (s/maybe s/Str)
    :lastName (s/maybe s/Str)})
 
+(s/defschema ProjectCode
+  {:uuid s/Str
+   :codeName s/Str
+   :codeGroup s/Str
+   :codeValue s/Str
+   :description s/Str})
+
+(s/defschema LocationRequest
+  {:name s/Str
+   :extId s/Str
+   :type s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
 
 (def my-app
   (api
@@ -40,6 +55,13 @@
               (ok id)
               (unauthorized)))))
 
+      (context "/projectcode" []
+        (GET "/:group" []
+          :summary "Get all project codes for a group"
+          :return [ProjectCode]
+          :path-params [group :- s/Str]
+          (ok (pc/codes group))
+          ))
       (context "/fieldworker" []
         (PUT "/" []
           :summary "Log in fieldworker"
@@ -55,11 +77,20 @@
           :return (s/maybe s/Str)
           :body [fieldworker-request FieldWorkerRequest]
           (let [id (fc/create-fieldworker fieldworker-request)]
-            (println "Create Fieldworker" id)
             (if (some? id)
               (ok id)
               (bad-request))))
-        ))))
+        )
+      (context "/location" []
+        (POST "/" []
+          :summary "Create new location"
+          :return (s/maybe s/Str)
+          :body [location-request LocationRequest]
+          (let [id (lc/create-location location-request)]
+            (println "Create Fieldworker" id)
+            (if (some? id)
+              (ok id)
+              (bad-request))))))))
 
 (def app
   (routes

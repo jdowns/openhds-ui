@@ -1,6 +1,6 @@
 angular.module('openHDS.view')
     .controller('LocationController',
-        ['AppState', '$location', LocationController]);
+                ['AppState', '$location', '$http', LocationController]);
 
 function Location(name, extId, type, date, collectedBy) {
     this.collectedByUuid = collectedBy;
@@ -12,9 +12,7 @@ function Location(name, extId, type, date, collectedBy) {
     };
 }
 
-
-
-function LocationController(AppState, $location) {
+function LocationController(AppState, $location, $http) {
     var vm = this;
 
     if (!AppState.user) {
@@ -27,28 +25,47 @@ function LocationController(AppState, $location) {
     vm.loadData = loadData;
 
     function loadData() {
-        AppState.loadData();
+        $http.get('/api/projectcode/locationType')
+            .then(
+                function(response) {
+                    console.log("got data: "+ JSON.stringify(response.data));
+                    vm.codes = response.data;
+                },
+                function (response) {
+
+                });
     }
 
     function validateCreate(formValid) {
         if (formValid) {
             create();
         }
+        else {
+            console.log("invalid form...");
+        }
     }
 
     function create() {
+        console.log("creating...");
         vm.date = new Date().toISOString(); // for testing
-        var body = new Location(vm.name, vm.extId, vm.type, vm.date, vm.collectedByUuid);
+        var body = {
+            name: vm.name,
+            extId: vm.extId,
+            type: vm.type,
+            collectionDateTime: vm.date,
+            collectedByUuid: vm.collectedByUuid
+        };
 
-        LocationClient.create(body).then(
-            function (response) {
-                AppState.location = response.data;
-                $location.url("/socialGroup/new");
-            },
-            function (response) {
-                console.log("Something went wrong! " + response.status +
-                            " Submitted: " + JSON.stringify(body));
-            }
+        $http.post("/api/location", body)
+            .then(
+                function (response) {
+                    AppState.location = response.data;
+                    $location.url("/socialGroup/new");
+                },
+                function (response) {
+                    console.log("Something went wrong! " + response.status +
+                                " Submitted: " + JSON.stringify(body));
+                }
         );
     }
 }

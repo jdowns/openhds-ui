@@ -20,4 +20,6 @@
 
 (comment
   (codes :locationType)
+  (codes :socialGroupType)
+  (codes "socialGroupType")
   )

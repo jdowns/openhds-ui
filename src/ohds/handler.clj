@@ -7,7 +7,8 @@
             [ohds.user-service :as uc]
             [ohds.fieldworker-service :as fc]
             [ohds.projectcode-service :as pc]
-            [ohds.location-service :as lc]))
+            [ohds.location-service :as lc]
+            [ohds.socialgroup-service :as sgc]))
 
 (s/defschema LoginAttempt
   {:username s/Str
@@ -34,6 +35,13 @@
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
+(s/defschema SocialGroupRequest
+  {:groupName s/Str
+   :extId s/Str
+   :groupType s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
 (def my-app
   (api
     {:swagger
@@ -45,6 +53,7 @@
 
     (context "/api" []
       :tags ["api"]
+
       (context "/user" []
         (PUT "/" []
           :summary "Log in user"
@@ -60,8 +69,8 @@
           :summary "Get all project codes for a group"
           :return [ProjectCode]
           :path-params [group :- s/Str]
-          (ok (pc/codes group))
-          ))
+          (ok (pc/codes group))))
+
       (context "/fieldworker" []
         (PUT "/" []
           :summary "Log in fieldworker"
@@ -79,8 +88,18 @@
           (let [id (fc/create-fieldworker fieldworker-request)]
             (if (some? id)
               (ok id)
-              (bad-request))))
-        )
+              (bad-request)))))
+
+      (context "/socialgroup" []
+        (POST "/" []
+          :summary "Create new social group"
+          :return (s/maybe s/Str)
+          :body [socialgroup-request SocialGroupRequest]
+          (let [id (sgc/create-socialgroup socialgroup-request)]
+            (if (some? id)
+              (ok id)
+              (bad-request)))))
+
       (context "/location" []
         (POST "/" []
           :summary "Create new location"

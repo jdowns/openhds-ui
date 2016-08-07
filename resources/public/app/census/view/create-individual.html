@@ -1,9 +1,9 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate ng-init="model.loadData()">
     <fieldset>
         <legend>Create Individual</legend>
-        <textbox labelText="First Name" id="firstName" name="firstName" ng-model="model.firstName"></textbox>
-        <textbox labelText="External ID" id="extId" name="extId" ng-model="model.extId"></textbox>
-        <selectbox ng-model="model.gender" id="gender" name="gender" labeltext="Gender*">
+        <textbox label="First Name" id="firstName" name="firstName" ng-model="model.firstName"></textbox>
+        <textbox label="External ID" id="extId" name="extId" ng-model="model.extId"></textbox>
+        <selectbox ng-model="model.gender" id="gender" name="gender" label="Gender*">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
         </selectbox>
         <selectbox label="Group Membership Start Type" id="startType" ng-model="model.membershipStartType">
@@ -14,8 +14,8 @@
             <option ng-repeat="code in model.residencyCodes" value="{{code.codeValue}}">{{code.codeName}}</option>
         </selectbox>
         <datebox label="Residency Start Date" id="startDate" ng-model="model.residencyStartDate"></datebox>
-        <checkbox labelText="More Individuals" id="moreIndividuals" ng-model="model.areMoreIndividuals"></checkbox>
-        <constbox labelText="Field Worker ID" id="fieldWorkerId" name="fieldWorkerId"
+        <checkbox label="More Individuals" id="moreIndividuals" ng-model="model.areMoreIndividuals"></checkbox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" name="fieldWorkerId"
                   ng-model="model.collectedByUuid"></constbox>
 
         <submitbutton></submitbutton>

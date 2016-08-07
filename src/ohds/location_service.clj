@@ -1,38 +1,25 @@
 (ns ohds.location-service
-  (:require [clj-http.client :as client]
-            [ohds.service :refer [parse-body gen-url post-header auth-header]]))
+  (:require [ohds.service :refer [create-entity]]))
 
-
-(defn post-location
-  [location]
-  (client/post (gen-url "/locations")
-               (post-header location)))
-
-(defn create-location'
-  "Create new location"
+(defn model->request
+  "Transform frontend model to rest model"
   [{:keys [name extId type collectionDateTime collectedByUuid]}]
-  (let [request
-        {:location {:name name
-                    :extId extId
-                    :type type
-                    :collectionDateTime collectionDateTime
-                    }
-         :collectedByUuid collectedByUuid}]
-    (println request)
-    (-> (post-location request)
-        (parse-body))))
+  {:location {:name name
+              :extId extId
+              :type type
+              :collectionDateTime collectionDateTime}
+   :collectedByUuid collectedByUuid})
 
 (defn create-location
-  [location]
-  (:uuid (create-location' location)))
+  "Create a new location and return it's id"
+  [request]
+  (->> (model->request request)
+       (create-entity "/locations")))
 
 (comment
-  (parse-body (client/get (gen-url "/locations/bulk.json")
-                          auth-header))
-
   (create-location
-   {:name "floof"
-    :extId "floof"
+   {:name "test location"
+    :extId "test location"
     :type "RURAL"
     :collectionDateTime "2016-08-01T00:56:55.920Z"
     :collectedByUuid "fbf0953f-6f32-4fef-a111-43cf63059100"})

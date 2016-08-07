@@ -1,6 +1,7 @@
 (ns ohds.service
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
+            [clj-http.client :as client]
             [cheshire.core :refer :all]))
 
 (defn get-config []
@@ -32,3 +33,18 @@
   (-> response
       :body
       (parse-string true)))
+
+(defn http-post
+  [url body]
+  (client/post (gen-url url)
+               (post-header body)))
+
+(defn create-entity
+  [url body]
+  (println "in create entity" url body)
+  (-> url
+      (http-post body)
+      ((fn [response] (println response)
+         response))
+      parse-body
+      :uuid))

@@ -31,4 +31,4 @@
   [response]
   (-> response
       :body
-      (parse-string keyword)))
+      (parse-string true)))

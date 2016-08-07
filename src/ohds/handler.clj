@@ -106,7 +106,6 @@
           :return (s/maybe s/Str)
           :body [location-request LocationRequest]
           (let [id (lc/create-location location-request)]
-            (println "Create Fieldworker" id)
             (if (some? id)
               (ok id)
               (bad-request))))))))

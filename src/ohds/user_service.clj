@@ -1,29 +1,31 @@
 (ns ohds.user-service
   (require [clj-http.client :as client]
            [cheshire.core :refer :all]
-           [crypto.password.bcrypt :as password]))
+           [crypto.password.bcrypt :as password]
+           [ohds.service :refer :all]))
 
-(defn parse-body
-  "Extracts JSON body from http response and reformats as edn"
-  [response]
-  (-> response
-      :body
-      (parse-string keyword)))
 
 (defn all-users []
   (client/get "http://localhost:8080/users/bulk.json"
               {:basic-auth ["user" "password"]}))
 
-(defn find-user
+(defn validate-password
+  [expected pw-hash]
+  (password/check expected pw-hash))
+
+(defn find-user'
   "Find user that matches login attempt"
-  [{:keys [username password]}]
+  [{:keys [username password]} users]
   (->>
-   (all-users)
-   (parse-body)
+   users
    (filter #(= username (:username %)))
-   (filter #(password/check password (:passwordHash %)))
+   (filter #(validate-password password (:passwordHash %)))
    (first)
    :uuid))
+
+(defn find-user
+  [login-attempt]
+  (find-user' login-attempt (parse-body (all-users))))
 
 (comment
   (find-user {:username "user"

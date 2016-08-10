@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="openHDS.view">
+<head>
+  <meta charset="utf-8">
+  <title>OpenHDS</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/bootstrap/js/dropdown.js"></script>
+<script src="bower_components/feignjs/dist/feign.js"></script>
+
+<script src="app.js"></script>
+
+<script src="core/backend.js"></script>
+<script src="core/appState.js"></script>
+<script src="client/client.js"></script>
+<script src="core/componentDirectives.js"></script>
+
+<script src="auth/controller/fieldworkerController.js"></script>
+<script src="auth/controller/userController.js"></script>
+<script src="auth/controller/loginController.js"></script>
+
+<script src="census/controller/locationController.js"></script>
+<script src="census/controller/socialGroupController.js"></script>
+<script src="census/controller/individualController.js"></script>
+<script src="census/controller/membershipController.js"></script>
+<script src="census/controller/relationshipController.js"></script>
+<script src="census/controller/residencyController.js"></script>
+
+<script src="update/controller/deathController.js"></script>
+<script src="update/controller/inMigrationController.js"></script>
+<script src="update/controller/outMigrationController.js"></script>
+<script src="update/controller/pregnancyObservationController.js"></script>
+<script src="update/controller/pregnancyOutcomeController.js"></script>
+<script src="update/controller/pregnancyResultController.js"></script>
+<script src="update/controller/visitController.js"></script>
+
+<script src="study/controller/locationHierarchyController.js"></script>
+<script src="study/controller/locationHierarchyLevelController.js"></script>
+<script src="study/controller/projectCodeController.js"></script>
+
+  <div class="alert alert-danger" ng-show="vm.errors" id="errors">!{{vm.errors}}!</div>
+
+<div class="container">
+    <div ng-view></div>
+</div>
+
+</body>
+</html>

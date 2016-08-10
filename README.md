@@ -1,4 +1,5 @@
 # ohds
+[![Build Status](https://travis-ci.org/munk/openhds-ui.svg?branch=master)](https://travis-ci.org/munk/openhds-ui)
 
 FIXME
 
@@ -21,4 +22,7 @@ java -jar target/server.jar
 
 ## License
 
-Copyright ©  FIXME
+Copyright ©  2016 John Downs
+
+# User Interface for OpenHDS data collection
+

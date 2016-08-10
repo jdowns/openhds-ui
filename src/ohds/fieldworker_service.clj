@@ -1,38 +1,33 @@
 (ns ohds.fieldworker-service
   (:require [clj-http.client :as client]
            [cheshire.core :refer :all]
-           [crypto.password.bcrypt :as password]
+           [crypto.password.bcrypt :as bcrypt]
 
            [ohds.service :refer [parse-body gen-url post-header auth-header]]))
 
 
-(defn all-users []
+(defn- all-users []
   (client/get (gen-url "/fieldWorkers/bulk.json")
               auth-header))
 
-(defn post-fieldworker [fieldworker]
+(defn- post-fieldworker [fieldworker]
   (client/post (gen-url "/fieldWorkers")
                (post-header fieldworker)))
 
-(defn validate-password
-  [expected pw-hash]
-  (password/check expected pw-hash))
-
-(defn find-fieldworker'
-  "Find user that matches login attempt"
-  [{:keys [username password]} users]
-  (println "field-fieldworker'" username password users)
+(defn- find-fieldworker'
+  "Find fieldworker that matches login attempt"
+  [username password]
   (->>
-   users
+   (all-users)
+   parse-body
    (filter #(= username (:fieldWorkerId %)))
-   (filter #(validate-password password (:passwordHash %)))
-   (first)
-   :uuid))
+   (filter #(bcrypt/check password (:passwordHash %)))
+   first))
 
 (defn find-fieldworker
-  [login-attempt]
-  (find-fieldworker' login-attempt (parse-body (all-users))))
-
+  "Find fieldworker that matches login attempt and return id"
+  [{:keys [username password]}]
+  (:uuid (find-fieldworker' username password)))
 
 (defn create-fieldworker'
   "Create new fieldworker"
@@ -53,8 +48,7 @@
   (:uuid (create-fieldworker' fieldworker)))
 
 (comment
-  (find-fieldworker' {:username "tester"
-                      :password "foo"} (parse-body (all-users)))
+  (find-fieldworker' "tester" "foo")
 
   (create-fieldworker {:fieldWorkerId "testr"
                        :password "testr"})

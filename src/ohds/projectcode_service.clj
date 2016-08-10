@@ -2,22 +2,28 @@
   (:require [clj-http.client :as client]
             [ohds.service :refer [parse-body gen-url post-header auth-header]]))
 
-(def project-codes
-  (atom
-   (->
-    (gen-url "/projectCodes/bulk.json")
-    (client/get auth-header)
-    parse-body)))
+(defn project-codes
+  []
+  (->
+   (gen-url "/projectCodes/bulk.json")
+   (client/get auth-header)
+   parse-body))
 
 (defn code-groups
   []
-  (set (map :codeGroup @project-codes)))
+  (set (map :codeGroup (project-codes))))
 
 (defn codes
   [group]
-  (filter #(= (:codeGroup %) (name group))
-          @project-codes))
+  (->>
+   (project-codes)
+   (filter #(= (:codeGroup %)
+               (name group)))
+   flatten))
 
 (comment
+  (project-codes)
   (codes :locationType)
+  (codes :socialGroupType)
+  (codes "socialGroupType")
   )

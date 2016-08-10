@@ -1,8 +1,8 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate ng-init="model.loadData()">
     <fieldset>
         <legend>Create Relationship</legend>
-        <textbox label="Individual A" id="individualA" ng-model="model.individualA.uuid"></textbox>
-        <textbox label="Individual B" id="individualB" ng-model="model.individualB.uuid"></textbox>
+        <textbox label="Individual A" id="individualA" ng-model="model.headOfHousehold"></textbox>
+        <textbox label="Individual B" id="individualB" ng-model="model.individualB"></textbox>
         <selectbox ng-model="model.relationshipType" id="relationshipType" label="Relationship Type">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
 

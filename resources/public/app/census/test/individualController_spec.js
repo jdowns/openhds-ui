@@ -7,7 +7,13 @@ describe('IndividualController', function() {
     var AppStateMock;
     var $locationMock;
 
+    var $httpBackend;
+
     beforeEach(module('openHDS.view'));
+
+    beforeEach(inject(function(_$httpBackend_) {
+        $httpBackend = _$httpBackend_;
+    }));
 
     beforeEach(inject(function($q, $rootScope, _$controller_) {
         $controller = _$controller_;
@@ -36,6 +42,12 @@ describe('IndividualController', function() {
 
     describe('IndividualController', function() {
 
+        it('http test...', function() {
+//            $httpBackend.expectGET('/api/v2').respond('hai');
+//            controller.testIt();
+//            $httpBackend.flush();
+        });
+        /*
         it('submits single individual then redirects to relationship page', function() {
             var expectedResponse = {data: "individual-uuid"};
             controller.firstName = "test";
@@ -98,5 +110,6 @@ describe('IndividualController', function() {
                         collectionDateTime: controller.date},
                     collectedByUuid: 123});
         });
+*/
     });
 });

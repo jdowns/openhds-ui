@@ -3,30 +3,26 @@ describe('LocationController', function() {
     var $controller;
     var controller;
 
-    var BackendServiceMock;
     var AppStateMock;
     var $locationMock;
+    var $httpBackend;
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function($q, $rootScope, _$controller_) {
+    beforeEach(inject(function($q, $rootScope, _$controller_, _$httpBackend_) {
+        $httpBackend = _$httpBackend_;
         $controller = _$controller_;
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post']);
         AppStateMock = {
-            user: {isSupervisor: true, userId: 123},
-            loadData: function() {}
+            user: {isSupervisor: true, userId: 123}
         };
-
-        spyOn(AppStateMock, 'loadData');
 
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
         controller = $controller('LocationController',
-            {   BackendService: BackendServiceMock,
-                AppState: AppStateMock,
+            {   AppState: AppStateMock,
                 $location: $locationMock
             });
     }));
@@ -37,26 +33,30 @@ describe('LocationController', function() {
         });
 
         it('loads project codes and location hierarchies', function() {
+            $httpBackend.expectGET('/api/projectcode/locationType').respond("codes");
             controller.loadData();
-            expect(AppStateMock.loadData).toHaveBeenCalled();
+            $httpBackend.flush();
+
+            expect(controller.codes).toBe("codes");
         });
 
         it('submits location then redirects to social group page', function() {
-            var expectedResponse = {data: "location-uuid"};
+            $httpBackend.expectPOST("/api/location", {name: "test",
+                                                      extId: "test",
+                                                      type: "foo",
+                                                      collectionDateTime: new Date(),
+                                                      collectedByUuid: 123
+                                                     }
+                                   ).respond("123-456");
+
             controller.name = "test";
             controller.extId = "test";
             controller.type = "foo";
-            
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.create(true);
-            }, q, rootScope);
-            expect(AppStateMock.location).toEqual("location-uuid");
-            expect($locationMock.url).toHaveBeenCalledWith("/socialGroup/new");
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/location",
-                {
-                    location: {name: "test", extId: "test", type: "foo", collectionDateTime: controller.date},
-                    collectedByUuid: 123
-                });
+            controller.create(true);
+            $httpBackend.flush();
+
+            expect(AppStateMock.location).toEqual("123-456");
+            expect($locationMock.url).toHaveBeenCalledWith('/socialGroup/new');
         });
     });
 });

@@ -36,7 +36,7 @@ describe('RelationshipController', function () {
     }));
 
     describe('RelationshipController', function () {
-
+/*
         it('submits relationship between head of household and first individual', function () {
             var expectedResponse = {};
             controller.relationshipType = 'a';
@@ -89,5 +89,6 @@ describe('RelationshipController', function () {
             expect(controller.individuals).toEqual([]);
             expect($locationMock.url).toHaveBeenCalledWith("/fieldworkerHome");
         });
+*/
     });
 });

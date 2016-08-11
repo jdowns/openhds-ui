@@ -8,6 +8,8 @@
                  [metosin/compojure-api "1.1.1"]]
   :ring {:handler ohds.handler/app}
   :uberjar-name "server.jar"
+  :node-dependencies [[karma "0.12.28"]
+                      [karma-chrome-launcher "0.1.7"]]
   :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [clj-http-fake "1.0.2"]
                                   [ring/ring-mock "0.3.0"]]

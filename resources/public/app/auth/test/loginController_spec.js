@@ -30,7 +30,7 @@ describe('LoginController', function() {
     }));
 
     describe('LoginController', function() {
-        
+/*
         it('invalid form will not submit', function() {
             controller.login(false);
             expect(controller.loginPending).toEqual(false);
@@ -89,7 +89,6 @@ describe('LoginController', function() {
             expect($locationMock.url.calls.count()).toEqual(0);
             expect(BackendServiceMock.post).toHaveBeenCalledWith("/login", {username: "invalidSupervisor", password: "invalidPassword", isSupervisor: true});
         });
-
+*/
     });
 });
-

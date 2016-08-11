@@ -28,11 +28,13 @@ function LocationController(AppState, $location, $http) {
         $http.get('/api/projectcode/locationType')
             .then(
                 function(response) {
-                    console.log("got data: "+ JSON.stringify(response.data));
+                    console.log("got data: "
+                                + JSON.stringify(response.data));
                     vm.codes = response.data;
                 },
                 function (response) {
-
+                    console.log("failed to get locationTypes: "
+                                + JSON.stringify(response));
                 });
     }
 
@@ -41,7 +43,7 @@ function LocationController(AppState, $location, $http) {
             create();
         }
         else {
-            console.log("invalid form...");
+            console.log("invalid form");
         }
     }
 
@@ -59,12 +61,16 @@ function LocationController(AppState, $location, $http) {
         $http.post("/api/location", body)
             .then(
                 function (response) {
+                    console.log("Got location response" +
+                                response.data);
                     AppState.location = response.data;
                     $location.url("/socialGroup/new");
                 },
                 function (response) {
-                    console.log("Something went wrong! " + response.status +
-                                " Submitted: " + JSON.stringify(body));
+                    console.log("Something went wrong! " +
+                                response.status +
+                                " Submitted: " +
+                                JSON.stringify(body));
                 }
         );
     }

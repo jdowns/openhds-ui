@@ -12,6 +12,7 @@
   "devDependencies": {
       "bower": "1.4.1",
       "phantomjs-prebuilt": "2.1.11",
+      "karma-phantomjs-launcher": "1.0.1",
       "http-server": "^0.6.1",
       "jasmine-core": "^2.3.4",
       "karma": "~0.12",

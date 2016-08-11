@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Front end for OpenHDS",
-  "repository": "https://github.com/jdowns/angular-seed",
+  "repository": "https://github.com/jdowns/openhds-ui",
   "license": "MIT",
   "engines": {
     "node": "0.12.4",

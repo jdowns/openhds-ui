@@ -44,10 +44,10 @@ function SocialGroupController(AppState, $location, $http) {
             function(response) {
                 AppState.socialGroup = response.data;
                 $location.url('/individual/new');
-                console.log("yay! " + JSON.stringify(response));
+                console.log("Login successful ");
             },
             function(response) {
-                console.log("oops " + response.status);
+                console.log("Error logging in. " + response.status);
             }
         );
     }

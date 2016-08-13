@@ -2,32 +2,28 @@
 describe('VisitController', function () {
     var $controller;
     var controller;
-
-    var BackendServiceMock;
     var AppStateMock;
     var $locationMock;
+    var $httpBackend;
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function ($q, $rootScope, _$controller_) {
+    beforeEach(inject(function ($q, $rootScope, _$controller_, _$httpBackend_) {
+        $httpBackend = _$httpBackend_;
         $controller = _$controller_;
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post', 'get']);
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
             loadData: function () {
             }
         };
 
-        spyOn(AppStateMock, 'loadData');
-
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
         controller = $controller('VisitController',
             {
-                BackendService: BackendServiceMock,
                 AppState: AppStateMock,
                 $location: $locationMock
             });
@@ -35,26 +31,26 @@ describe('VisitController', function () {
 
     it('submits new visit and gets individuals for update', function () {
         var expectedResponse = {data: "location-uuid"};
+        $httpBackend.expectPOST('/api/visit',
+                                {
+                                    extId:"test",
+                                    location: "testloc",
+                                    visitDate:"2016-06-20",
+                                    collectionDateTime: controller.date,
+                                    collectedByUuid:123
+                                }).respond("123");
+
+        $httpBackend.expectGET('/api/individual?location=testloc').respond('oh hai');
+
         controller.name = "test";
         controller.location = "testloc";
         controller.visitDate = "2016-06-20";
         controller.extId = "test";
         controller.type = "foo";
 
-        withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function () {
-            withMockPromiseResolved(BackendServiceMock.get, {}, function () {
-                controller.create(true);
-            }, q, rootScope);
-        }, q, rootScope);
+        controller.create(true);
+        $httpBackend.flush();
         expect($locationMock.url).toHaveBeenCalledWith("/visit");
-        expect(BackendServiceMock.post).toHaveBeenCalledWith("/visit",
-            {
-                visit: {
-                    extId: "test",
-                    location: "testloc",
-                    visitDate: "2016-06-20",
-                    collectionDateTime: controller.date
-                },
-                collectedByUuid: 123});
+
     });
 });

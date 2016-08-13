@@ -47,10 +47,8 @@ function RelationshipController(AppState,
             collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };
-        console.log("in create..." + vm.individuals);
         $http.post("/api/relationship", body).then(
             function (response) {
-                console.log("in response...: " + vm.individuals);
                 if(vm.individuals.length == 0) {
                     $location.url('/fieldworkerHome');
                 } else {

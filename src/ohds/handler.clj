@@ -12,6 +12,7 @@
             [ohds.membership-service :as membership]
             [ohds.relationship-service :as relationship]
             [ohds.residency-service :as residency]
+            [ohds.visit-service :as visit]
             [ohds.census-service :as census]))
 
 (s/defschema LoginAttempt
@@ -99,7 +100,12 @@
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
-
+(s/defschema VisitRequest
+  {:extId s/Str
+   :location s/Str
+   :visitDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
 
 (defn ok-or-error
   "Returns ok if body is not nil, otherwise error"
@@ -202,7 +208,13 @@
             :summary "Create new relationship"
             :return (s/maybe s/Str)
             :body [relationship-request RelationshipRequest]
-            (ok-or-400 (relationship/create-relationship relationship-request)))))))
+            (ok-or-400 (relationship/create-relationship relationship-request))))
+      (context "/visit" []
+        (POST "/" []
+          :summary "Create new visit"
+          :return (s/maybe s/Str)
+          :body [visit-request VisitRequest]
+          (ok-or-400 (visit/create-visit visit-request)))))))
 
 (def app
   (routes

@@ -10,10 +10,12 @@ describe('LoginController', function() {
     var BackendServiceMock;
     var AppStateMock;
     var $locationMock;
+    var $httpBackend;
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function($q, $rootScope, _$controller_) {
+    beforeEach(inject(function($q, $rootScope, _$controller_, _$httpBackend_) {
+        $httpBackend = _$httpBackend_;
         $controller = _$controller_;
         q = $q;
         rootScope = $rootScope;
@@ -30,7 +32,7 @@ describe('LoginController', function() {
     }));
 
     describe('LoginController', function() {
-/*
+
         it('invalid form will not submit', function() {
             controller.login(false);
             expect(controller.loginPending).toEqual(false);
@@ -38,57 +40,54 @@ describe('LoginController', function() {
 
         it('valid fieldworker credentials authorizes user and updates location to fieldworker home', function() {
 
-            var expectedResponse = {
-                data: 123,
-                config: {data: {isSupervisor: false}}
-            };
+            $httpBackend.expectPUT("/api/fieldworker", {username:"validFieldworker",
+                                                        password:"validPassword",
+                                                        isSupervisor:false
+                                                       }).respond("123-uuid");
+
             controller.username = "validFieldworker";
             controller.password = "validPassword";
             controller.isSupervisor = false;
-            //noinspection JSUnresolvedFunction
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.login(true);
-            }, q, rootScope);
-            expect(AppStateMock.user).toEqual({isSupervisor: false, userId: 123});
+            controller.login(true);
+            $httpBackend.flush();
+
+            expect(AppStateMock.user).toEqual({isSupervisor: false, userId: "123-uuid"});
             expect($locationMock.url).toHaveBeenCalledWith("/fieldworkerHome");
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/login", {username: controller.username, password: controller.password, isSupervisor: controller.isSupervisor});
         });
 
         it('valid supervisor credentials authorizes user and updates location to supervisor home', function() {
 
-            var expectedResponse = {
-                data: 123,
-                config: {data: {isSupervisor: true}}
-            };
+            $httpBackend.expectPUT("/api/user", {username:"validSupervisor",
+                                                 password:"validPassword",
+                                                 isSupervisor:true
+                                                }).respond("123-uuid");
+
             controller.username = "validSupervisor";
             controller.password = "validPassword";
             controller.isSupervisor = true;
-            //noinspection JSUnresolvedFunction
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.login(true);
-            }, q, rootScope);
-            expect(AppStateMock.user).toEqual({isSupervisor: true, userId: 123});
+            controller.login(true);
+            $httpBackend.flush();
+
+            expect(AppStateMock.user).toEqual({isSupervisor: true, userId: "123-uuid"});
             expect($locationMock.url).toHaveBeenCalledWith("/supervisorHome");
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/login", {username: controller.username, password: controller.password, isSupervisor: controller.isSupervisor});
         });
 
         it('invalid credentials does not authorize', function() {
+            $httpBackend.expectPUT("/api/user",
+                                   {username:"invalidSupervisor",
+                                    password:"invalidPassword",
+                                    isSupervisor:true}).respond(401, '');
 
-            var expectedResponse = {
-                data: 123,
-                config: {data: {isSupervisor: true}}
-            };
             controller.username = "invalidSupervisor";
             controller.password = "invalidPassword";
             controller.isSupervisor = true;
-            //noinspection JSUnresolvedFunction
-            withMockPromiseRejected(BackendServiceMock.post, expectedResponse, function() {
-                controller.login(true);
-            }, q, rootScope);
+
+            controller.login(true);
+            $httpBackend.flush();
+
             expect(AppStateMock.user).toEqual({});
             expect($locationMock.url.calls.count()).toEqual(0);
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/login", {username: "invalidSupervisor", password: "invalidPassword", isSupervisor: true});
         });
-*/
+
     });
 });

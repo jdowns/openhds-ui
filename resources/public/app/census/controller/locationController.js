@@ -23,6 +23,7 @@ function LocationController(AppState, $location, $http) {
     vm.collectedByUuid = AppState.user.userId;
     vm.create = validateCreate;
     vm.loadData = loadData;
+    vm.date = new Date().toISOString();
 
     function loadData() {
         $http.get('/api/projectcode/locationType')
@@ -48,8 +49,6 @@ function LocationController(AppState, $location, $http) {
     }
 
     function create() {
-        console.log("creating...");
-        vm.date = new Date().toISOString(); // for testing
         var body = {
             name: vm.name,
             extId: vm.extId,

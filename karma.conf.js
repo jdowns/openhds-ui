@@ -23,14 +23,7 @@ module.exports = function(config){
 
       frameworks: ['jasmine'],
 
-      customLaunchers: {
-          Chrome_travis_ci: {
-              base: 'Chrome',
-              flags: ['--no-sandbox']
-          }
-      },
-
-          browsers : ['Chrome', 'Chrome_travis_ci'],
+          browsers : ['Chrome'],
 
     plugins : [
         'karma-chrome-launcher',

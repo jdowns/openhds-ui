@@ -44,7 +44,7 @@ describe('LocationController', function() {
             $httpBackend.expectPOST("/api/location", {name: "test",
                                                       extId: "test",
                                                       type: "foo",
-                                                      collectionDateTime: new Date(),
+                                                      collectionDateTime: controller.date,
                                                       collectedByUuid: 123
                                                      }
                                    ).respond("123-456");

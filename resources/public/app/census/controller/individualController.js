@@ -14,8 +14,8 @@ function IndividualController(BackendService, AppState, $location, $http) {
     vm.create = validateCreate;
     vm.loadData = loadData;
     vm.location = AppState.location;
+    vm.date = new Date().toISOString();
 
-    console.log(vm.location);
 
     function loadData() {
         $http.get('/api/projectcode/gender')
@@ -47,7 +47,6 @@ function IndividualController(BackendService, AppState, $location, $http) {
         }
     }
     function create() {
-        vm.date = new Date().toISOString();
         var body = {
             firstName: vm.firstName,
             extId: vm.extId,

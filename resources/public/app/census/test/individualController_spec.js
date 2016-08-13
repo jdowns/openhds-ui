@@ -42,32 +42,59 @@ describe('IndividualController', function() {
 
     describe('IndividualController', function() {
 
-        it('http test...', function() {
-//            $httpBackend.expectGET('/api/v2').respond('hai');
-//            controller.testIt();
-//            $httpBackend.flush();
-        });
-        /*
         it('submits single individual then redirects to relationship page', function() {
-            var expectedResponse = {data: "individual-uuid"};
+            $httpBackend.expectPOST('/api/individual',
+                                    {firstName: "test",
+                                     extId: "test",
+                                     gender: "foo",
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid: 123,
+                                     location: 1234 }).respond("individual-uuid");
+            $httpBackend.expectPOST('/api/residency',
+                                    {individual: "individual-uuid",
+                                     location: 1234,
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+            $httpBackend.expectPOST('/api/membership',
+                                    {individual: "individual-uuid",
+                                     socialGroup:2345,
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+
             controller.firstName = "test";
             controller.extId = "test";
             controller.gender = "foo";
 
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.create(true);
-            }, q, rootScope);
+            controller.create(true);
+            $httpBackend.flush();
+
             expect(AppStateMock.individual).toEqual(["individual-uuid"]);
             expect($locationMock.url).toHaveBeenCalledWith("/relationship/new");
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/individual",
-                {
-                    individual: {firstName: "test", extId: "test", gender: "foo", collectionDateTime: controller.date},
-                    collectedByUuid: 123
-                });
         });
 
         it('submits two individuals with more to come, then no redirects to relationship page', function() {
-            var expectedResponse = {data: "individual-uuid"};
+            $httpBackend.expectPOST('/api/individual',
+                                    {firstName: "test",
+                                     extId: "test",
+                                     gender: "foo",
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid: 123,
+                                     location: 1234 }).respond("individual-uuid");
+            $httpBackend.expectPOST('/api/residency',
+                                    {individual: "individual-uuid",
+                                     location: 1234,
+                                     startType: 'foo',
+                                     startDate: '2000-01-01',
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+            $httpBackend.expectPOST('/api/membership',
+                                    {individual: "individual-uuid",
+                                     socialGroup:2345,
+                                     startType: 'bar',
+                                     startDate: '2001-01-01',
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+
             controller.firstName = "test";
             controller.extId = "test";
             controller.gender = "foo";
@@ -77,39 +104,37 @@ describe('IndividualController', function() {
             controller.membershipStartType = 'bar';
             controller.membershipStartDate = '2001-01-01';
 
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.create(true);
-            }, q, rootScope);
-            withMockPromiseResolved(BackendServiceMock.post, expectedResponse, function() {
-                controller.create(true);
-            }, q, rootScope);
+            controller.create(true);
+            $httpBackend.flush();
+
+            $httpBackend.expectPOST('/api/individual',
+                                    {firstName: "test",
+                                     extId: "test",
+                                     gender: "foo",
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid: 123,
+                                     location: 1234 }).respond("individual-uuid");
+            $httpBackend.expectPOST('/api/residency',
+                                    {individual: "individual-uuid",
+                                     location: 1234,
+                                     startType: 'foo',
+                                     startDate: '2000-01-01',
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+            $httpBackend.expectPOST('/api/membership',
+                                    {individual: "individual-uuid",
+                                     socialGroup:2345,
+                                     startType: 'bar',
+                                     startDate: '2001-01-01',
+                                     collectionDateTime: controller.date,
+                                     collectedByUuid:123}).respond("1234");
+
+            controller.create(true);
+            $httpBackend.flush();
+
             expect(AppStateMock.individual).toEqual(["individual-uuid","individual-uuid"]);
             expect($locationMock.url.calls.count()).toEqual(0);
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/individual",
-                {
-                    individual: {firstName: "test", extId: "test", gender: "foo", collectionDateTime: controller.date},
-                    collectedByUuid: 123
-                });
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/residency", {
-                residency:
-                {
-                    individual: 'individual-uuid',
-                    location: AppStateMock.location,
-                    startType: 'foo',
-                    startDate: '2000-01-01',
-                    collectionDateTime: controller.date},
-                collectedByUuid: 123});
-            expect(BackendServiceMock.post).toHaveBeenCalledWith("/membership",
-                {
-                    membership:
-                    {
-                        individual: 'individual-uuid',
-                        socialGroup: AppStateMock.socialGroup,
-                        startType: 'bar',
-                        startDate: '2001-01-01',
-                        collectionDateTime: controller.date},
-                    collectedByUuid: 123});
+
         });
-*/
     });
 });

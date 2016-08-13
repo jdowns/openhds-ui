@@ -82,7 +82,7 @@ describe('IndividualController', function() {
                         membershipStartDate: '2001-01-01'
                        };
 
-            Object.assign(controller, form);
+            for (var attrname in form) { controller[attrname] = form[attrname]; }
 
             var individual =
                     {firstName: "test",

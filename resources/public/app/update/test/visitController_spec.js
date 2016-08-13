@@ -40,7 +40,8 @@ describe('VisitController', function () {
                                     collectedByUuid:123
                                 }).respond("123");
 
-        $httpBackend.expectGET('/api/individual?location=testloc').respond('oh hai');
+        $httpBackend.expectGET('/api/individual?location=testloc')
+            .respond('some individuals...');
 
         controller.name = "test";
         controller.location = "testloc";

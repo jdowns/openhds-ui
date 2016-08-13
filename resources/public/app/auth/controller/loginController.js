@@ -1,8 +1,8 @@
 angular.module('openHDS.view')
     .controller('LoginController',
-        ['BackendService', 'AppState', '$location', '$http', LoginController]);
+        ['AppState', '$location', '$http', LoginController]);
 
-function LoginController(BackendService, AppState, $location, $http) {
+function LoginController(AppState, $location, $http) {
     var vm = this;
     vm.isSupervisor = false;
     vm.loginPending = false;

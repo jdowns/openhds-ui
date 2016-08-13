@@ -1,8 +1,8 @@
 angular.module('openHDS.view')
     .controller('SocialGroupController',
-                ['BackendService', 'AppState', '$location', '$http', SocialGroupController]);
+                ['AppState', '$location', '$http', SocialGroupController]);
 
-function SocialGroupController(BackendService, AppState, $location, $http) {
+function SocialGroupController(AppState, $location, $http) {
     var vm = this;
     if (!AppState.user) {
         $location.url('/');
@@ -13,6 +13,7 @@ function SocialGroupController(BackendService, AppState, $location, $http) {
     vm.codes = AppState.groupTypeCodes;
     vm.create = validateCreate;
     vm.loadData = loadData;
+    vm.date = new Date().toISOString();
 
     function loadData() {
         $http.get('/api/projectcode/socialGroupType')
@@ -32,7 +33,7 @@ function SocialGroupController(BackendService, AppState, $location, $http) {
     }
 
     function create() {
-        vm.date = new Date().toISOString();
+
         var body = {
             groupName: vm.groupName,
             extId: vm.extId,

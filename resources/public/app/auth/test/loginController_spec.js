@@ -7,7 +7,6 @@ describe('LoginController', function() {
     var $controller;
     var controller;
 
-    var BackendServiceMock;
     var AppStateMock;
     var $locationMock;
     var $httpBackend;
@@ -20,12 +19,11 @@ describe('LoginController', function() {
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['post']);
         AppStateMock = {};
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
         controller = $controller('LoginController',
-            {   BackendService: BackendServiceMock,
+            {
                 AppState: AppStateMock,
                 $location: $locationMock
             });

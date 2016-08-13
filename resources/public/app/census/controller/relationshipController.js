@@ -1,9 +1,9 @@
 angular.module('openHDS.view')
     .controller('RelationshipController',
-                ['BackendService', 'AppState', '$location', '$http',
+                ['AppState', '$location', '$http',
                  RelationshipController]);
 
-function RelationshipController(BackendService, AppState,
+function RelationshipController(AppState,
                                 $location, $http) {
     var vm = this;
     if (!AppState.user) {
@@ -17,6 +17,7 @@ function RelationshipController(BackendService, AppState,
     vm.individualB = vm.individuals.pop();
     vm.create = validateCreate;
     vm.loadData = loadData;
+    vm.date = new Date().toISOString();
 
     function validateCreate(formValid) {
         if (formValid) {
@@ -28,7 +29,7 @@ function RelationshipController(BackendService, AppState,
         $http.get('/api/projectcode/relationshipType')
             .then(
                 function(response) {
-                    vm.codes = response.data
+                    vm.codes = response.data;
                 },
                 function(response) {
                     console.log("failed to get relationship codes"
@@ -37,7 +38,7 @@ function RelationshipController(BackendService, AppState,
     }
 
     function create() {
-        vm.date = new Date().toISOString();
+
         var body = {
             individualA: vm.headOfHousehold,
             individualB: vm.individualB,
@@ -46,17 +47,18 @@ function RelationshipController(BackendService, AppState,
             collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };
+        console.log("in create..." + vm.individuals);
         $http.post("/api/relationship", body).then(
             function (response) {
+                console.log("in response...: " + vm.individuals);
                 if(vm.individuals.length == 0) {
                     $location.url('/fieldworkerHome');
                 } else {
                     vm.individualB = vm.individuals.pop();
                 }
-                console.log("yay! relationship " + JSON.stringify(response));
             },
             function (response) {
-                console.log("oops " + response.status);
+                console.log("Failed to submit relationship " + response.status);
             }
         );
     }

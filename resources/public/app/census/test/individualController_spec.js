@@ -3,7 +3,6 @@ describe('IndividualController', function() {
     var $controller;
     var controller;
 
-    var BackendServiceMock;
     var AppStateMock;
     var $locationMock;
 
@@ -20,7 +19,6 @@ describe('IndividualController', function() {
         q = $q;
         rootScope = $rootScope;
 
-        BackendServiceMock = jasmine.createSpyObj('BackendService', ['get', 'post']);
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
             location: 1234,
@@ -34,7 +32,7 @@ describe('IndividualController', function() {
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
         controller = $controller('IndividualController',
-            {   BackendService: BackendServiceMock,
+            {
                 AppState: AppStateMock,
                 $location: $locationMock
             });
@@ -73,61 +71,59 @@ describe('IndividualController', function() {
         });
 
         it('submits two individuals with more to come, then no redirects to relationship page', function() {
-            $httpBackend.expectPOST('/api/individual',
-                                    {firstName: "test",
-                                     extId: "test",
-                                     gender: "foo",
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid: 123,
-                                     location: 1234 }).respond("individual-uuid");
-            $httpBackend.expectPOST('/api/residency',
-                                    {individual: "individual-uuid",
-                                     location: 1234,
-                                     startType: 'foo',
-                                     startDate: '2000-01-01',
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid:123}).respond("1234");
-            $httpBackend.expectPOST('/api/membership',
-                                    {individual: "individual-uuid",
-                                     socialGroup:2345,
-                                     startType: 'bar',
-                                     startDate: '2001-01-01',
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid:123}).respond("1234");
 
-            controller.firstName = "test";
-            controller.extId = "test";
-            controller.gender = "foo";
-            controller.areMoreIndividuals = true;
-            controller.residencyStartDate = '2000-01-01';
-            controller.residencyStartType = 'foo';
-            controller.membershipStartType = 'bar';
-            controller.membershipStartDate = '2001-01-01';
+            const form = {firstName: 'test',
+                        extId: 'test',
+                        gender: 'foo',
+                        areMoreIndividuals: true,
+                        residencyStartDate: '2000-01-01',
+                        residencyStartType: 'foo',
+                        membershipStartType: 'bar',
+                        membershipStartDate: '2001-01-01'
+                       };
+
+            Object.assign(controller, form);
+
+            const individual =
+                    {firstName: "test",
+                     extId: "test",
+                     gender: "foo",
+                     collectionDateTime: controller.date,
+                     collectedByUuid: 123,
+                     location: 1234};
+
+            const residency =
+                    {individual: "individual-uuid",
+                     location: 1234,
+                     startType: 'foo',
+                     startDate: '2000-01-01',
+                     collectionDateTime: controller.date,
+                     collectedByUuid:123};
+
+            const membership =
+                    {individual: "individual-uuid",
+                     socialGroup:2345,
+                     startType: 'bar',
+                     startDate: '2001-01-01',
+                     collectionDateTime: controller.date,
+                     collectedByUuid:123};
+
+            $httpBackend.expectPOST('/api/individual', individual)
+                .respond("individual-uuid");
+            $httpBackend.expectPOST('/api/residency', residency)
+                .respond("1234");
+            $httpBackend.expectPOST('/api/membership', membership)
+                .respond("1234");
 
             controller.create(true);
             $httpBackend.flush();
 
-            $httpBackend.expectPOST('/api/individual',
-                                    {firstName: "test",
-                                     extId: "test",
-                                     gender: "foo",
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid: 123,
-                                     location: 1234 }).respond("individual-uuid");
-            $httpBackend.expectPOST('/api/residency',
-                                    {individual: "individual-uuid",
-                                     location: 1234,
-                                     startType: 'foo',
-                                     startDate: '2000-01-01',
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid:123}).respond("1234");
-            $httpBackend.expectPOST('/api/membership',
-                                    {individual: "individual-uuid",
-                                     socialGroup:2345,
-                                     startType: 'bar',
-                                     startDate: '2001-01-01',
-                                     collectionDateTime: controller.date,
-                                     collectedByUuid:123}).respond("1234");
+            $httpBackend.expectPOST('/api/individual', individual)
+                .respond("individual-uuid");
+            $httpBackend.expectPOST('/api/residency', residency)
+                .respond("1234");
+            $httpBackend.expectPOST('/api/membership', membership)
+                .respond("1234");
 
             controller.create(true);
             $httpBackend.flush();

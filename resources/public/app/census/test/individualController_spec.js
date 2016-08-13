@@ -72,7 +72,7 @@ describe('IndividualController', function() {
 
         it('submits two individuals with more to come, then no redirects to relationship page', function() {
 
-            const form = {firstName: 'test',
+            var form = {firstName: 'test',
                         extId: 'test',
                         gender: 'foo',
                         areMoreIndividuals: true,
@@ -84,7 +84,7 @@ describe('IndividualController', function() {
 
             Object.assign(controller, form);
 
-            const individual =
+            var individual =
                     {firstName: "test",
                      extId: "test",
                      gender: "foo",
@@ -92,7 +92,7 @@ describe('IndividualController', function() {
                      collectedByUuid: 123,
                      location: 1234};
 
-            const residency =
+            var residency =
                     {individual: "individual-uuid",
                      location: 1234,
                      startType: 'foo',
@@ -100,7 +100,7 @@ describe('IndividualController', function() {
                      collectionDateTime: controller.date,
                      collectedByUuid:123};
 
-            const membership =
+            var membership =
                     {individual: "individual-uuid",
                      socialGroup:2345,
                      startType: 'bar',

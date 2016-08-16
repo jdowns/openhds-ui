@@ -51,6 +51,7 @@ describe('VisitController', function () {
 
         controller.create(true);
         $httpBackend.flush();
+        expect(AppStateMock.currentVisit).toEqual("123");
         expect($locationMock.url).toHaveBeenCalledWith("/visit");
 
     });

@@ -1,8 +1,11 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate
+      ng-init="model.loadData()">
     <fieldset>
         <legend>Create Visit</legend>
         <textbox label="External ID" id="extId" ng-model="model.extId"></textbox>
-        <textbox label="Location" id="location" ng-model="model.location.uuid"></textbox>
+        <selectbox ng-model="model.location" id="location" name="location" label="Location">
+          <option ng-repeat="loc in model.locations" value="{{loc.uuid}}">{{loc.extId}}</option>
+        </selectbox>
         <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"></datebox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>

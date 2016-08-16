@@ -1,6 +1,6 @@
 (ns ohds.individual-service
   (:require [clj-http.client :as client]
-            [ohds.service :refer [parse-body gen-url post-header auth-header]]))
+            [ohds.service :refer [parse-body gen-url post-header auth-header get-one]]))
 
 
 (defn post-individual
@@ -24,3 +24,9 @@
   (-> request
       create-individual'
       :uuid))
+
+
+(defn get-individual
+  "Get individual with uuid"
+  [uuid]
+  (get-one "/individuals" uuid))

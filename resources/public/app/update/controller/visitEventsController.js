@@ -1,8 +1,8 @@
 angular.module('openHDS.view')
     .controller('VisitEventsController',
-        ['BackendService', 'AppState', '$location', VisitEventsController]);
+                ['AppState', '$location', '$http', VisitEventsController]);
 
-function VisitEventsController(BackendService, AppState, $location) {
+function VisitEventsController(AppState, $location, $http) {
     var vm = this;
     if (!AppState.user) {
         $location.url('/');

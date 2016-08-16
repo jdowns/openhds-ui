@@ -107,6 +107,14 @@
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
+(s/defschema Location
+  {:extId s/Str
+   :uuid s/Str})
+
+(s/defschema Individual
+  {:extId s/Str
+   :uuid s/Str})
+
 (defn ok-or-error
   "Returns ok if body is not nil, otherwise error"
   [body error]
@@ -180,14 +188,26 @@
           :summary "Create new location"
           :return (s/maybe s/Str)
           :body [location-request LocationRequest]
-          (ok-or-400 (location/create-location location-request))))
+          (ok-or-400 (location/create-location location-request)))
+        (GET "/" []
+          :summary "Get all locations"
+          :return [Location]
+          (ok (location/all-locations))))
 
       (context "/individual" []
         (POST "/" []
           :summary "Create new individual, residency, membership"
           :return (s/maybe s/Str)
           :body [individual-request IndividualRequest]
-          (ok-or-400 (individual/create-individual individual-request))))
+          (ok-or-400 (individual/create-individual individual-request)))
+        (GET "/:location-id" []
+          :summary "Get all individuals at location"
+          :path-params [location-id :- s/Str]
+          :return [Individual]
+          (ok
+           (map
+            #(select-keys % [:extId :uuid])
+            (residency/get-individuals-at-location location-id)))))
 
       (context "/membership" []
         (POST "/" []
@@ -209,6 +229,7 @@
             :return (s/maybe s/Str)
             :body [relationship-request RelationshipRequest]
             (ok-or-400 (relationship/create-relationship relationship-request))))
+
       (context "/visit" []
         (POST "/" []
           :summary "Create new visit"

@@ -115,7 +115,7 @@ function selectbox() {
                   '</select>' +
                   '</div>' +
                   '</div>'
-    }
+    };
 }
 
 function submitbutton() {

@@ -1,7 +1,43 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate
+      ng-init="model.loadData()">
     <fieldset>
-        <legend>Visit Location</legend>
-        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+      <legend>Visit Location</legend>
+      <constbox label="Current Individual" id="currentIndividualId" ng-model="model.currentIndividual.extId"></constbox>
+      <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+      <constbox label="Location ID" id="locationId" ng-model="model.currentLocation"></constbox>
+      <constbox label="Visit ID" id="visitId" ng-model="model.currentVisit"></constbox>
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="outMigration"></label>
+          <div class="col-md-4">
+            <button id="outMigration"
+                    ng-click="model.outMigration()"
+                    class="btn btn-success form-control">Out Migration</button>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <button id="pregnancyObservation"
+                    ng-click="model.pregnancyObservation()"
+                    class="btn btn-success form-control">Pregnancy Observation</button>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <button id="pregnancyOutcome"
+                    ng-click="model.pregnancyOutcome()"
+                    class="btn btn-success form-control">Pregnancy Outcome</button>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <button id="death"
+                    ng-click="model.death()"
+                    class="btn btn-success form-control">Death</button>
+          </div>
+      </div>
+      <submitbutton></submitbutton>
     </fieldset>
 </form>

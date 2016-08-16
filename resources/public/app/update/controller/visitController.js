@@ -43,15 +43,12 @@ function VisitController(AppState, $location, $http) {
             function(response) {
                 console.log("Visit created. " + JSON.stringify(response));
                 $location.url('/visit');
-                AppState.currentVisit = response.data;
-                $http.get("/api/individual?location=" + vm.location).then(
-                    function(response) {
+                AppState.currentVisit = {visitId: response.data,
+                                         locationId: vm.location
+                                        };
+                AppState.currentVisit.individualsPromise =
+                    $http.get("/api/individual/" + vm.location);
 
-                    },
-                    function(response) {
-
-                    }
-                );
 
             },
             function(response) {

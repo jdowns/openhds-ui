@@ -1,14 +1,14 @@
 angular.module('openHDS.view')
     .controller('OutMigrationController',
-        ['BackendService', 'AppState', '$location', OutMigrationController]);
+                ['AppState', '$location', '$http', OutMigrationController]);
 
-function OutMigrationController(BackendService, AppState, $location) {
+function OutMigrationController(AppState, $location, $http) {
     var vm = this;
     if (!AppState.user) {
         $location.url('/');
         return vm;
     }
-    
+
     vm.collectedByUuid = AppState.user.userId;
     vm.create = validateCreate;
 
@@ -31,7 +31,7 @@ function OutMigrationController(BackendService, AppState, $location) {
             },
             collectedByUuid: vm.collectedByUuid
         };
-        BackendService.post("/outMigration", body).then(
+        $http.post("/api/outMigration", body).then(
             function(response) {
                 console.log("yay! OutMigrationController " + JSON.stringify(response));
             },

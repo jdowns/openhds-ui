@@ -130,5 +130,5 @@ function submitbutton() {
             '<input type="submit" class="btn btn-success form-control" id="createButton" />' +
             '</div>' +
             '</div>'
-        }
+    };
 }

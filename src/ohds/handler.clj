@@ -13,7 +13,8 @@
             [ohds.relationship-service :as relationship]
             [ohds.residency-service :as residency]
             [ohds.visit-service :as visit]
-            [ohds.census-service :as census]))
+            [ohds.census-service :as census]
+            [ohds.update-service :as updates]))
 
 (s/defschema LoginAttempt
   {:username s/Str

@@ -32,7 +32,14 @@
     :extId "test location"
     :type "RURAL"
     :collectionDateTime "2016-08-01T00:56:55.920Z"
-    :collectedByUuid "fbf0953f-6f32-4fef-a111-43cf63059100"})
+    :collectedByUuid "298471b5-9b4b-408c-9975-a94b98b562fe"})
+
+  (model->request
+   {:name "test location"
+    :extId "test location"
+    :type "RURAL"
+    :collectionDateTime "2016-08-01T00:56:55.920Z"
+    :collectedByUuid "298471b5-9b4b-408c-9975-a94b98b562fe"})
 
   (all-locations)
 

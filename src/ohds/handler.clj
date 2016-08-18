@@ -4,7 +4,6 @@
             [compojure.route :as route]
             [schema.core :as s]
             [ohds.user-service :as user]
-            [ohds.fieldworker-service :as fieldworker]
             [ohds.projectcode-service :as codes]
             [ohds.location-service :as location]
             [ohds.socialgroup-service :as socialgroup]
@@ -162,13 +161,13 @@
           :summary "Log in fieldworker"
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
-          (ok-or-403 (fieldworker/find-fieldworker login-attempt)))
+          (ok-or-403 (user/find-fieldworker login-attempt)))
 
         (POST "/" []
           :summary "Create new fieldworker"
           :return (s/maybe s/Str)
           :body [fieldworker-request FieldWorkerRequest]
-          (ok-or-400 (fieldworker/create-fieldworker fieldworker-request))))
+          (ok-or-400 (user/create-fieldworker fieldworker-request))))
 
       (context "/census" []
         (POST "/" []

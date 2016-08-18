@@ -77,11 +77,25 @@
               :collectionDateTime collectionDateTime}
    :collectedByUuid collectedByUuid})
 
+(defn socialgroup->rest
+  "Transform frontend socialgroup model to rest model"
+  [{:keys [groupName extId groupType collectionDateTime collectedByUuid]}]
+  {:socialGroup {:groupName groupName
+                 :extId extId
+                 :groupType groupType
+                 :collectionDateTime collectionDateTime}
+   :collectedByUuid collectedByUuid})
+
 (defn create-location
   "Create a new location and return it's id"
   [request]
   (->> (location->rest request)
        (create-entity "/locations")))
+
+(defn create-socialgroup
+  [socialgroup]
+  (-> (socialgroup->rest socialgroup)
+      (create-entity "/socialGroups")))
 
 (defn all-locations
   "Get all locations"

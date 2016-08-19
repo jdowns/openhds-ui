@@ -3,16 +3,9 @@
             [ring.util.http-response :refer :all]
             [compojure.route :as route]
             [schema.core :as s]
-            [ohds.user-service :as user]
+            [ohds.initial-census :as census]
             [ohds.projectcode-service :as codes]
-            [ohds.location-service :as location]
-            [ohds.socialgroup-service :as socialgroup]
-            [ohds.individual-service :as individual]
-            [ohds.membership-service :as membership]
-            [ohds.relationship-service :as relationship]
-            [ohds.residency-service :as residency]
             [ohds.visit-service :as visit]
-            [ohds.census-service :as census]
             [ohds.update-service :as updates]))
 
 (s/defschema LoginAttempt
@@ -32,27 +25,6 @@
    :codeGroup s/Str
    :codeValue s/Str
    :description s/Str})
-
-(s/defschema NewCensusRequest
-  {:collectionDateTime s/Str ; todo: make this time
-   :colelctedByUuid s/Str ; todo: make this uuid
-   :location {:name s/Str ; todo: add locHiera and coords
-              :extId s/Str
-              :type s/Str}
-   :socialGroup {:groupName s/Str
-                 :extId s/Str
-                 :groupType s/Str}
-   :individuals [{:firstName s/Str ; todo: add optional data
-                  :extId s/Str
-                  :gender s/Str
-                  :membershipDate s/Str
-                  :membershipStartType s/Str
-                  :residencyDate s/Str
-                  :residencyStartType s/Str}]
-   :relationships [{:individualA s/Int ; index in :individuals
-                    :individualB s/Int ; index in :individuals
-                    :relationshipType s/Str
-                    :startDate s/Str}]})
 
 (s/defschema LocationRequest
   {:name s/Str
@@ -147,7 +119,7 @@
           :summary "Log in user"
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
-          (ok-or-403 (user/find-user login-attempt))))
+          (ok-or-403 (census/find-user login-attempt))))
 
       (context "/projectcode" []
         (GET "/:group" []
@@ -161,45 +133,41 @@
           :summary "Log in fieldworker"
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
-          (ok-or-403 (user/find-fieldworker login-attempt)))
+          (ok-or-403 (census/find-fieldworker login-attempt)))
 
         (POST "/" []
           :summary "Create new fieldworker"
           :return (s/maybe s/Str)
           :body [fieldworker-request FieldWorkerRequest]
-          (ok-or-400 (user/create-fieldworker fieldworker-request))))
-
-      (context "/census" []
-        (POST "/" []
-          :summary "New Census location"
-          :return (s/maybe [s/Str])
-          :body [request NewCensusRequest]
-          (ok-or-400 (census/create request))))
+          (ok-or-400 (census/create-fieldworker fieldworker-request))))
 
       (context "/socialgroup" []
         (POST "/" []
           :summary "Create new social group"
           :return (s/maybe s/Str)
-          :body [socialgroup-request SocialGroupRequest]
-          (ok-or-400 (socialgroup/create-socialgroup socialgroup-request))))
+          :body [request SocialGroupRequest]
+          (ok-or-400 (census/create
+                      (census/map->SocialGroup request)))))
 
       (context "/location" []
         (POST "/" []
           :summary "Create new location"
           :return (s/maybe s/Str)
-          :body [location-request LocationRequest]
-          (ok-or-400 (location/create-location location-request)))
+          :body [request LocationRequest]
+          (ok-or-400 (census/create
+                      (census/map->Location request))))
         (GET "/" []
           :summary "Get all locations"
           :return [Location]
-          (ok (location/all-locations))))
+          (ok (census/all-locations))))
 
       (context "/individual" []
         (POST "/" []
           :summary "Create new individual, residency, membership"
           :return (s/maybe s/Str)
-          :body [individual-request IndividualRequest]
-          (ok-or-400 (individual/create-individual individual-request)))
+          :body [request IndividualRequest]
+          (ok-or-400 (census/create
+                      (census/map->Individual request))))
         (GET "/:location-id" []
           :summary "Get all individuals at location"
           :path-params [location-id :- s/Str]
@@ -207,28 +175,31 @@
           (ok
            (map
             #(select-keys % [:extId :uuid])
-            (residency/get-individuals-at-location location-id)))))
+            (census/get-individuals-at-location location-id)))))
 
       (context "/membership" []
         (POST "/" []
           :summary "Create new membersip"
           :return (s/maybe s/Str)
-          :body [membership-request MembershipRequest]
-          (ok-or-400 (membership/create-membership membership-request))))
+          :body [request MembershipRequest]
+          (ok-or-400 (census/create
+                      (census/map->Membership request)))))
 
       (context "/residency" []
         (POST "/" []
           :summary "Create new residency"
           :return (s/maybe s/Str)
-          :body [residency-request ResidencyRequest]
-          (ok-or-400 (residency/create-residency residency-request))))
+          :body [request ResidencyRequest]
+          (ok-or-400 (census/create
+                      (census/map->Residency request)))))
 
       (context "/relationship" []
           (POST "/" []
             :summary "Create new relationship"
             :return (s/maybe s/Str)
-            :body [relationship-request RelationshipRequest]
-            (ok-or-400 (relationship/create-relationship relationship-request))))
+            :body [request RelationshipRequest]
+            (ok-or-400 (census/create
+                        (census/map->Relationship request)))))
 
       (context "/visit" []
         (POST "/" []

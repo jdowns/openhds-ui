@@ -6,7 +6,7 @@
 
 (def urls {:location "/locations"
            :individual "/individuals"
-           :socialgroup "/socialGroups"
+           :socialGroup "/socialGroups"
            :residency "/residencies"
            :membership "/memberships"
            :relationship "/relationships"
@@ -107,34 +107,37 @@
 (defrecord SocialGroup []
   Entity->Rest
   (create [this]
-    (post-entity :socialgroup this))
+    (post-entity :socialGroup this))
   (fetch [this]
-    (fetch-entity :socialgroup this)))
+    (fetch-entity :socialGroup this)))
 
 (defrecord Residency []
   Entity->Rest
   (create [this]
-    (->> (nest-uuid :individual this)
-         (nest-uuid :location this)
-         (post-entity :residency this)))
+    (->> this
+         (nest-uuid :individual)
+         (nest-uuid :location)
+         (post-entity :residency)))
   (fetch [this]
     (fetch-entity :residency this)))
 
 (defrecord Membership []
   Entity->Rest
   (create [this]
-    (->> (nest-uuid :individual this)
-         (nest-uuid :socialGroup this)
-         (post-entity :membership this)))
+    (->> this
+         (nest-uuid :individual)
+         (nest-uuid :socialGroup)
+         (post-entity :membership)))
   (fetch [this]
     (fetch-entity :membership this)))
 
 (defrecord Relationship []
   Entity->Rest
   (create [this]
-    (->> (nest-uuid :individualA this)
-         (nest-uuid :individualB this)
-         (post-entity :relationship this)))
+    (->> this
+         (nest-uuid :individualA)
+         (nest-uuid :individualB)
+         (post-entity :relationship)))
   (fetch [this]
     (fetch-entity :relationship this)))
 
@@ -147,28 +150,54 @@
   (get-entity (bulk-url locations-url) :locations))
 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Manual Tests ;;;;
 (comment
-
-  (create (map->Location {:name "test location"
-                          :extId "test location"
-                          :type "RURAL"
-                          :collectionDateTime "2016-08-01T00:56:55.920Z"
-                          :collectedByUuid "UNKNOWN_STATUS"}))
-
-
-
   (find-user {:username "user"
               :password "password"})
 
   (find-fieldworker {:username "fieldworker"
                      :password "password"})
 
-  (create-location
-   {:name "test location"
-    :extId "test location"
-    :type "RURAL"
-    :collectionDateTime "2016-08-01T00:56:55.920Z"
-    :collectedByUuid "UNKNOWN_STATUS"})
-  )
+  (let [loc (create (map->Location {:name "test location"
+                                    :extId "test location"
+                                    :type "RURAL"
+                                    :collectionDateTime "2016-08-01T00:56:55.920Z"
+                                    :collectedByUuid "UNKNOWN_STATUS"}))
+
+        grp (create (map->SocialGroup {:groupName "test group"
+                                       :extId "test group"
+                                       :groupType "COHORT"
+                                       :collectionDateTime "2016-08-01T00:00:00.000Z"
+                                       :collectedByUuid "UNKNOWN_STATUS"}))
+
+        ind (create (map->Individual {:firstName "tester"
+                                      :extId "tester"
+                                      :gender "FEMALE"
+                                      :collectionDateTime "2016-08-01T00:00:00.000Z"
+                                      :collectedByUuid "UNKNOWN_STATUS"}))]
+
+    [(create (map->Residency {:individual ind
+                              :location loc
+                              :startType "BIRTH_MIGRATION"
+                              :startDate "2015-01-01T00:00:00.000Z"
+                              :collectionDateTime "2016-08-01T00:00:00.000Z"
+                              :collectedByUuid "UNKNOWN_STATUS"}))
+
+     (create (map->Membership {:socialGroup grp
+                               :individual ind
+                               :startType "BIRTH_MIGRATION"
+                               :startDate "2015-01-01T00:00:00.000Z"
+                               :collectionDateTime "2016-08-01T00:00:00.000Z"
+                               :collectedByUuid "UNKNOWN_STATUS"
+                               }))
+     (create (map->Relationship {:individualA ind
+                                 :individualB ind
+                                 :relationshipType "SELF"
+                                 :startDate "2015-01-01T00:00:00.000Z"
+                                 :collectionDateTime "2016-08-01T00:00:00.000Z"
+                                 :collectedByUuid "UNKNOWN_STATUS"
+                                 }))]
+    )
+)

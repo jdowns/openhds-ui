@@ -4,8 +4,14 @@
            [crypto.password.bcrypt :as password]
            [ohds.service :refer :all]))
 
-(def users-url "/users")
-(def fieldworkers-url "/fieldWorkers")
+(def urls {:location "/locations"
+           :individual "/individuals"
+           :socialgroup "/socialGroups"
+           :residency "/residencies"
+           :membership "/memberships"
+           :relationship "/relationships"
+           :user "/users"
+           :fieldworker "/fieldWorkers"})
 
 (defn bulk-url
   [url]
@@ -17,14 +23,10 @@
     (merge entity {:username username})))
 
 (defn all-users []
-  (http-get (bulk-url users-url)))
+  (http-get (bulk-url (:user urls))))
 
 (defn all-fieldworkers []
-  (http-get (bulk-url fieldworkers-url)))
-
-(defn post-fieldworker
-  [entity]
-  (http-post fieldworkers-url entity))
+  (http-get (bulk-url (:fieldworker urls))))
 
 (defn validate
   [expected-username expected-password
@@ -50,7 +52,7 @@
   (find-user' login-attempt
               (map fieldworker->user (parse-body (all-fieldworkers)))))
 
-(defn create-fieldworker'
+(defn create-fieldworker
   "Create new fieldworker"
   [{:keys [password fieldWorkerId firstName lastName]}]
   (let [request
@@ -60,54 +62,103 @@
                                      :firstName firstName
                                      :lastName lastName}
                        :password password}))]
-    (-> (post-fieldworker request)
-        (parse-body))))
+    (create-entity fieldworkers-url request)))
 
-(defn create-fieldworker
-  "create new fieldworker, return id"
-  [fieldworker]
-  (:uuid (create-fieldworker' fieldworker)))
 
-(defn location->rest
-  "Transform frontend location model to rest model"
-  [{:keys [name extId type collectionDateTime collectedByUuid]}]
-  {:location {:name name
-              :extId extId
-              :type type
-              :collectionDateTime collectionDateTime}
-   :collectedByUuid collectedByUuid})
+;;;;;;;;;;;;;;;;;;;;;
+;;; Transformers ;;;;
+;;;;;;;;;;;;;;;;;;;;;
 
-(defn socialgroup->rest
-  "Transform frontend socialgroup model to rest model"
-  [{:keys [groupName extId groupType collectionDateTime collectedByUuid]}]
-  {:socialGroup {:groupName groupName
-                 :extId extId
-                 :groupType groupType
-                 :collectionDateTime collectionDateTime}
-   :collectedByUuid collectedByUuid})
+(defprotocol Entity->Rest
+  (create [this])
+  (fetch [this]))
 
-(defn create-location
-  "Create a new location and return it's id"
-  [request]
-  (->> (location->rest request)
-       (create-entity "/locations")))
+(defn shape-entity
+  [keyname entity]
+  {keyname (dissoc entity :collectedByUuid)
+   :collectedByUuid (:collectedByUuid entity)})
 
-(defn create-socialgroup
-  [socialgroup]
-  (-> (socialgroup->rest socialgroup)
-      (create-entity "/socialGroups")))
+(defn nest-uuid
+  [k entity]
+  (assoc entity k {:uuid (k entity)}))
+
+(defn post-entity
+  [k entity]
+  (create-entity (k urls) (shape-entity k entity)))
+
+(defn fetch-entity
+  [k entity]
+  (get-one (k urls) (:uuid entity)))
+
+(defrecord Location []
+  Entity->Rest
+  (create [this]
+    (post-entity :location this))
+  (fetch [this]
+    (fetch-entity :location this)))
+
+(defrecord Individual []
+  Entity->Rest
+  (create [this]
+    (post-entity :individual this))
+  (fetch [this]
+    (fetch-entity :individual this)))
+
+(defrecord SocialGroup []
+  Entity->Rest
+  (create [this]
+    (post-entity :socialgroup this))
+  (fetch [this]
+    (fetch-entity :socialgroup this)))
+
+(defrecord Residency []
+  Entity->Rest
+  (create [this]
+    (->> (nest-uuid :individual this)
+         (nest-uuid :location this)
+         (post-entity :residency this)))
+  (fetch [this]
+    (fetch-entity :residency this)))
+
+(defrecord Membership []
+  Entity->Rest
+  (create [this]
+    (->> (nest-uuid :individual this)
+         (nest-uuid :socialGroup this)
+         (post-entity :membership this)))
+  (fetch [this]
+    (fetch-entity :membership this)))
+
+(defrecord Relationship []
+  Entity->Rest
+  (create [this]
+    (->> (nest-uuid :individualA this)
+         (nest-uuid :individualB this)
+         (post-entity :relationship this)))
+  (fetch [this]
+    (fetch-entity :relationship this)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (defn all-locations
   "Get all locations"
   []
-  (get-entity "/locations.bulk" :locations))
+  (get-entity (bulk-url locations-url) :locations))
 
-(defn location
-  "Get location at uuid"
-  [uuid]
-  (get-one "/locations" uuid))
 
+;;;;;;;;;;;;;;;;;;;;;;
+;;;; Manual Tests ;;;;
 (comment
+
+  (create (map->Location {:name "test location"
+                          :extId "test location"
+                          :type "RURAL"
+                          :collectionDateTime "2016-08-01T00:56:55.920Z"
+                          :collectedByUuid "UNKNOWN_STATUS"}))
+
+
+
   (find-user {:username "user"
               :password "password"})
 

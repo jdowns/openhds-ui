@@ -46,7 +46,6 @@
 
 (defn create-entity
   [url body]
-  (println "in create entity" url body)
   (-> url
       (http-post body)
       parse-body

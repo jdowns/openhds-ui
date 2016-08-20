@@ -1,9 +1,12 @@
 <form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
     <fieldset>
-        <legend>Create Pregnancy Result</legend>
+      <legend>Create Pregnancy Result</legend>
+      <selectbox label="Result Type" id="resultType" ng-model="model.type">
+        <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
+      </selectbox>
         <textbox label="Type" id="type" ng-model="model.type"></textbox>
         <textbox label="Pregnancy Outcome" id="pregnancyOutcome" ng-model="model.pregnancyOutcome.uuid"></textbox>
-        <textbox label="Child" id="child" ng-model="model.child.uuid"></textbox>
+        <textbox label="Child" id="child" ng-model="model.child"></textbox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>
         <label>TODO: add child as new individual</label>

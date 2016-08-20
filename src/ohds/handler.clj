@@ -8,6 +8,7 @@
             [ohds.visit-service :as visit]
             [ohds.update-service :as updates]))
 
+;; TODO use abstract-map extension to pull out common fields
 (s/defschema LoginAttempt
   {:username s/Str
    :password s/Str
@@ -76,6 +77,56 @@
   {:extId s/Str
    :location s/Str
    :visitDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema DeathRequest
+  {:visit s/Str
+   :individual s/Str
+   :deathPlace s/Str
+   :deathCause s/Str
+   :deathDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema InMigrationRequest
+  {:individual s/Str
+   :residency s/Str
+   :origin s/Str
+   :migrationType s/Str
+   :migrationDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema OutMigrationRequest
+  {:individual s/Str
+   :residency s/Str
+   :destination s/Str
+   :reason s/Str
+   :migrationDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema PregnancyObservationRequest
+  {:mother s/Str
+   :visit s/Str
+   :pregnancyDate s/Str
+   :expectedDeliveryDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema PregnancyOutcomeRequest
+  {:mother s/Str
+   :father s/Str
+   :visit s/Str
+   :outcomeDate s/Str
+   :collectionDateTime s/Str
+   :collectedByUuid s/Str})
+
+(s/defschema PregnancyResultRequest
+  {:type s/Str
+   :pregnancyOutcome s/Str
+   :child s/Str ;;; TOOD: is this optional?
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
@@ -200,6 +251,54 @@
             :body [request RelationshipRequest]
             (ok-or-400 (census/create
                         (census/map->Relationship request)))))
+
+      (context "/death" []
+        (POST "/" []
+          :summary "Create new death event"
+          :return (s/maybe s/Str)
+          :body [request DeathRequest]
+          (ok-or-400 (census/create
+                      (census/map->Death request)))))
+
+      (context "/inMigration" []
+        (POST "/" []
+          :summary "Create new in migration event"
+          :return (s/maybe s/Str)
+          :body [request InMigrationRequest]
+          (ok-or-400 (census/create
+                      (census/map->InMigration request)))))
+
+      (context "/outMigration" []
+        (POST "/" []
+          :summary "Create new out migration event"
+          :return (s/maybe s/Str)
+          :body [request OutMigrationRequest]
+          (ok-or-400 (census/create
+                      (census/map->OutMigration request)))))
+
+      (context "/pregnancyObservation" []
+        (POST "/" []
+          :summary "Create new pregnancy observation event"
+          :return (s/maybe s/Str)
+          :body [request PregnancyObservationRequest]
+          (ok-or-400 (census/create
+                      (census/map->PregnancyObservation request)))))
+
+      (context "/pregnancyOutcome" []
+        (POST "/" []
+          :summary "Create new pregnancy outcome event"
+          :return (s/maybe s/Str)
+          :body [request PregnancyOutcomeRequest]
+          (ok-or-400 (census/create
+                      (census/map->PregnancyOutcome request)))))
+
+      (context "/pregnancyResult" []
+        (POST "/" []
+          :summary "Create new pregnancy result event"
+          :return (s/maybe s/Str)
+          :body [request PregnancyResultRequest]
+          (ok-or-400 (census/create
+                      (census/map->PregnancyResult request)))))
 
       (context "/visit" []
         (POST "/" []

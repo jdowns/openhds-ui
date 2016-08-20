@@ -105,6 +105,36 @@ function routeConfig($routeProvider) {
             controller: 'ProjectCodeController',
             controllerAs: 'model'
         })
+        .when('/update/inMigration', {
+            templateUrl: '',
+            controller: '',
+            constrollerAs: 'model'
+        })
+        .when('/update/outMigration', {
+            templateUrl: '',
+            controller: '',
+            constrollerAs: 'model'
+        })
+        .when('/update/death', {
+            templateUrl: 'update/view/create-death.html',
+            controller: 'DeathController',
+            constrollerAs: 'model'
+        })
+        .when('/update/pregnancyObservation', {
+            templateUrl: '',
+            controller: '',
+            constrollerAs: 'model'
+        })
+        .when('/update/pregnancyOutcome', {
+            templateUrl: '',
+            controller: '',
+            constrollerAs: 'model'
+        })
+        .when('/update/pregnancyResult', {
+            templateUrl: '',
+            controller: '',
+            constrollerAs: 'model'
+        })
         .when('/fieldworkerHome', {
             templateUrl: 'core/fieldworkerHome.html'
         })

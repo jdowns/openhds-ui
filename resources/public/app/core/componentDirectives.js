@@ -19,7 +19,7 @@ function textbox() {
         template: '<div class="form-group">' +
                   '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
                   '<div class="col-md-4">' +
-                  '<input required type="text" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+                  '<input required type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
                   '</div>' +
                   '</div>'
     }
@@ -73,7 +73,7 @@ function passwordbox() {
         template: '<div class="form-group">' +
         '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
         '<div class="col-md-4">' +
-        '<input required type="password" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+        '<input required type="password" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
         '</div>'
     }

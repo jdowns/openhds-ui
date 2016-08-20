@@ -11,7 +11,13 @@
            :membership "/memberships"
            :relationship "/relationships"
            :user "/users"
-           :fieldworker "/fieldWorkers"})
+           :fieldworker "/fieldWorkers"
+           :death "/deaths"
+           :inMigration "/inMigrations"
+           :outMigration "/outMigrations"
+           :pregnancyObservation "/pregnancyObservations"
+           :pregnancyOutcome "/pregnancyOutcomes"
+           :pregnancyResult "/pregnancyResults"})
 
 (defn bulk-url
   [url]
@@ -141,13 +147,76 @@
   (fetch [this]
     (fetch-entity :relationship this)))
 
+(defrecord Death []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :individual)
+         (nest-uuid :visit)
+         (post-entity :death)))
+  (fetch [this]
+    (fetch-entity :death)))
+
+(defrecord InMigration []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :visit)
+         (nest-uuid :individual)
+         (nest-uuid :residency)
+         (post-entity :inMigration)))
+  (fetch [this]
+    (fetch-entity :inMigration)))
+
+(defrecord OutMigration []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :visit)
+         (nest-uuid :individual)
+         (nest-uuid :residency)
+         (post-entity :outMigration)))
+  (fetch [this]
+    (fetch-entity :outMigration)))
+
+(defrecord PregnancyObservation []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :mother)
+         (nest-uuid :visit)
+         (post-entity :pregnancyObservation)))
+  (fetch [this]
+    (fetch-entity :pregnancyObservation)))
+
+(defrecord PregnancyOutcome []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :mother)
+         (nest-uuid :father)
+         (nest-uuid :visit)
+         (post-entity :pregnancyOutcome)))
+  (fetch [this]
+    (fetch-entity :pregnancyObservation)))
+
+(defrecord PregnancyResult []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (nest-uuid :child)
+         (nest-uuid :pregnancyOutcome)
+         (post-entity :pregnancyResult)))
+  (fetch [this]
+    (fetch-entity :pregnancyResult)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (defn all-locations
   "Get all locations"
   []
-  (get-entity (bulk-url (:location urls)) :locations))
+  (->> (get-all  (bulk-url (:location urls)))
+       (map #(select-keys % [:uuid :extId]))))
 
 (defn get-residencies
   [hierarchy-id]
@@ -174,6 +243,10 @@
 
   (find-fieldworker {:username "fieldworker"
                      :password "password"})
+
+  (all-locations)
+  (bulk-url (:location urls))
+
 
   (let [loc (create (map->Location {:name "test location"
                                     :extId "test location"
@@ -215,4 +288,60 @@
                                  :collectedByUuid "UNKNOWN_STATUS"
                                  }))]
     )
+
+  (create (map->Death {:individual "UNKNOWN_STATUS"
+                       :deathPlace "UNKNOWN_STATUS"
+                       :deathCause "death"
+                       :deathDate "2015-08-01T00:00:00.000Z"
+                       :collectionDateTime "2016-08-01T00:00:00.000Z"
+                       :collectedByUuid "UNKNOWN_STATUS"}))
+
+  (create (map->InMigration
+           {:individual "UNKNOWN_STATUS"
+            :residency "UNKNOWN_STATUS"
+            :origin "UNKNOWN STATUS"
+            :visit "UNKNOWN_STATUS"
+            :migrationType "INTERNAL_MIGRATION"
+            :migrationDate "2015-08-01T00:00:00.000Z"
+            :collectionDateTime "2016-08-01T00:00:00.000Z"
+            :collectedByUuid "UNKNOWN_STATUS"}))
+
+  (create (map->OutMigration
+           {:individual "UNKNOWN_STATUS"
+            :residency "UNKNOWN_STATUS"
+            :destination "UNKNOWN STATUS"
+            :visit "UNKNOWN_STATUS"
+            :reason "GTFO"
+            :migrationDate "2015-08-01T00:00:00.000Z"
+            :collectionDateTime "2016-08-01T00:00:00.000Z"
+            :collectedByUuid "UNKNOWN_STATUS"}))
+
+  (create (map->PregnancyObservation
+           {:mother "UNKNOWN_STATUS"
+            :visit "UNKNOWN_STATUS"
+            :pregnancyDate "2016-12-01T00:00:00.000Z"
+            :expectedDeliveryDate "2017-08-01T00:00:00.000Z"
+            :collectionDateTime "2017-04-01T00:00:00.000Z"
+            :collectedByUuid "UNKNOWN_STATUS"}))
+
+  (create (map->PregnancyOutcome
+           {:mother "UNKNOWN_STATUS"
+            :father "UNKNOWN_STATUS"
+            :visit "UNKNOWN_STATUS"
+            :outcomeDate "2016-11-01T00:00:00.000Z"
+            :collectionDateTime "2017-04-01T00:00:00.000Z"
+            :collectedByUuid "UNKNOWN_STATUS"}))
+
+  (let [ind
+        (create (map->Individual {:firstName "tester"
+                                  :extId "tester"
+                                  :gender "FEMALE"
+                                  :collectionDateTime "2016-08-01T00:00:00.000Z"
+                                  :collectedByUuid "UNKNOWN_STATUS"}))]
+    (create (map->PregnancyResult
+             {:type "LIVE_BIRTH"
+              :pregnancyOutcome "UNKNOWN_STATUS"
+              :child ind
+              :collectionDateTime "2017-04-01T00:00:00.000Z"
+              :collectedByUuid "UNKNOWN_STATUS"})))
 )

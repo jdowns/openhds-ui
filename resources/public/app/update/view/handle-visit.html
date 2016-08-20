@@ -6,37 +6,29 @@
       <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
       <constbox label="Location ID" id="locationId" ng-model="model.currentLocation"></constbox>
       <constbox label="Visit ID" id="visitId" ng-model="model.currentVisit"></constbox>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="outMigration"></label>
-          <div class="col-md-4">
-            <button id="outMigration"
-                    ng-click="model.outMigration()"
-                    class="btn btn-success form-control">Out Migration</button>
-          </div>
+
+      <div class="formcontrol">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-click="model.outMigration()"
+                 ng-model="model.outMigrationEvent"> Out Migration
+        </label>
       </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label"></label>
-          <div class="col-md-4">
-            <button id="pregnancyObservation"
-                    ng-click="model.pregnancyObservation()"
-                    class="btn btn-success form-control">Pregnancy Observation</button>
-          </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Death
+        </label>
       </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label"></label>
-          <div class="col-md-4">
-            <button id="pregnancyOutcome"
-                    ng-click="model.pregnancyOutcome()"
-                    class="btn btn-success form-control">Pregnancy Outcome</button>
-          </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Pregnancy Observation
+        </label>
       </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label"></label>
-          <div class="col-md-4">
-            <button id="death"
-                    ng-click="model.death()"
-                    class="btn btn-success form-control">Death</button>
-          </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Pregnancy Outcome
+        </label>
+      </div>
       </div>
       <submitbutton></submitbutton>
     </fieldset>

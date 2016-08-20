@@ -1,16 +1,18 @@
 angular.module('openHDS.view')
     .controller('DeathController',
-        ['BackendService', 'AppState', '$location', DeathController]);
+                ['AppState', '$location', '$http', DeathController]);
 
-function DeathController(BackendService, AppState, $location) {
+function DeathController(AppState, $location, $http) {
     var vm = this;
-    if (!AppState.user) {
-        $location.url('/');
-        return vm;
-    }
-    
+
+    //AppState.user; //this will be the login check
+
+
     vm.collectedByUuid = AppState.user.userId;
+    vm.individual = AppState.
     vm.create = validateCreate;
+    vm.date = new Date();
+    vm.loadData = loadData;
 
     function validateCreate(formValid) {
         if (formValid) {
@@ -18,24 +20,46 @@ function DeathController(BackendService, AppState, $location) {
         }
     }
 
+    function loadData() {
+
+    }
+
     function create() {
         var body = {
-            death: {
-                visit: vm.visit,
-                individual: vm.individual,
-                deathPlace: vm.deathPlace,
-                deathCause: vm.deathCause,
-                deathDate: vm.deathDate,
-                collectionDateTime: new Date()
-            },
+            visit: vm.visit,
+            individual: vm.individual,
+            deathPlace: vm.deathPlace,
+            deathCause: vm.deathCause,
+            deathDate: vm.deathDate,
+            collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };
-        BackendService.post("/death", body).then(
+        $http.post("/api/death", body).then(
             function (response) {
-                console.log("yay! deathController " + JSON.stringify(response));
+                console.log("Successfully created death event: " +
+                            JSON.stringify(response.data));
+                var nextUpdate = AppState.currentUpdates.pop();
+                if (nextUpdate === "death") {
+                    $location.url('/update/death');
+                }
+                if (nextUpdate === "outMigration") {
+                    $location.url('/update/outMigration');
+                }
+                else if (nextUpdate === "pregnancyObservation") {
+                    $location.url('/update/pregnancyObservation');
+                }
+                else if (nextUpdate === "pregnancyOutcome") {
+                    $location.url('/update/pregnancyOutcome');
+                }
+                else if (nextUpdate === "pregnancyResult") {
+                    $location.url('/update/pregnancyResult');
+                }
+                else {
+                    $location.url('/visit');
+                }
             },
             function (response) {
-                console.log("oops " + response.status);
+                console.log("Failed to create death event " + response.status);
             }
         );
     }

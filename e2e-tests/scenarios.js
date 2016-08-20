@@ -1,21 +1,47 @@
-/* Ignoring these tests because of basic auth :/ */
+'use strict';
 
-//'use strict';
-//
-//describe('OpenHDS workflows ', function() {
-//
-//    beforeEach(function() {
-//        browser.get('/app');
-//    });
-//
-//    it('Allows a user to login as a fieldworker', function() {
-//        var beginCensusPage = validBeginCensusPage();
-//        beginCensusPage.setFieldWorkerId("fieldworker");
-//        beginCensusPage.setPassword("password");
-//        beginCensusPage.setBackend("http://localhost:8080");
-//        beginCensusPage.login();
-//        expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
-//    });
+function getElement(id) {
+    return element(by.id(id));
+}
+
+function LoginPage() {
+    this.username = getElement("username_input");
+    this.password = getElement("password_input");
+    this.submit = getElement("createButton");
+
+    this.validate = function() {
+        return this;
+    };
+
+    this.setUsername = function(username) {
+        console.log("setting username");
+        this.username.sendKeys(username);
+    };
+    this.setPassword = function(password) {
+        console.log("setting password");
+        this.password.sendKeys(password);
+    };
+    this.login = function() {
+        console.log("submitting");
+        this.submit.click();
+    };
+}
+
+describe('OpenHDS workflows ', function() {
+
+    beforeEach(function() {
+        browser.get('/app/index.html');
+    });
+
+    it('Allows a user to login as a fieldworker', function() {
+        var loginPage = new LoginPage();
+        loginPage.setUsername("fieldworker");
+        loginPage.setPassword("password");
+        loginPage.login();
+        browser.driver.sleep(2000);
+        expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
+    });
+});
 //
 //    it('Displays an error message for invalid credentials', function() {
 //        var beginCensusPage = validBeginCensusPage();

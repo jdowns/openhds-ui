@@ -20,9 +20,12 @@ function VisitEventsController(AppState, $location, $http, $log) {
     vm.death = death;
 
     AppState.currentVisit.individualsPromise.then(
-        function(response) {
+        function(response) { // TODO: This might have a bug and not terminate
             vm.individuals = response.data;
             vm.currentIndividual = vm.individuals.pop();
+            console.log("got current individuals");
+            AppState.currentVisit.individuals = vm.individuals;
+            AppState.currentVisit.currentIndividual = vm.currentIndividual;
         },
         function(response) {
             console.log("Failed to get individuals: " + response.status);
@@ -31,17 +34,19 @@ function VisitEventsController(AppState, $location, $http, $log) {
     );
 
     function loadData() {
-        $http.get("/api/individual/").then
-        (function() {
-
+        console.log("loading data for visit events controller");
+        $http.get("/api/individual/" + vm.currentLocation).then
+        (function(response) {
+            vm.individuals = response.data;
         },
-         function() {
-
+         function(response) {
+             console.log("unable to get individuals at " + vm.currentLocation
+                         + ". Response was " + response.status);
          });
     }
 
     function outMigration() {
-        console.log("clicked out migration...");
+        console.log("clicked out migration..." + vm.outMigration);
     }
 
     function pregnancyObservation() {

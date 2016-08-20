@@ -1,16 +1,18 @@
 angular.module('openHDS.view')
     .controller('InMigrationController',
-        ['BackendService', 'AppState', '$location', InMigrationController]);
+                ['AppState', '$location', '$http', InMigrationController]);
 
-function InMigrationController(BackendService, AppState, $location) {
+function InMigrationController(AppState, $location, $http) {
     var vm = this;
-    if (!AppState.user) {
-        $location.url('/');
-        return vm;
-    }
-    
+
+    //AppState.user; //this will be the login check
+
+
     vm.collectedByUuid = AppState.user.userId;
+    vm.individual = AppState.
     vm.create = validateCreate;
+    vm.date = new Date();
+    vm.loadData = loadData;
 
     function validateCreate(formValid) {
         if (formValid) {
@@ -18,26 +20,49 @@ function InMigrationController(BackendService, AppState, $location) {
         }
     }
 
+    function loadData() {
+
+    }
+
     function create() {
         var body = {
-            inMigration: {
-                origin: vm.origin,
-                reason: vm.reason,
-                migrationType: vm.migrationType,
-                migrationDate: vm.migrationDate,
-                visit: vm.visit,
-                individual: vm.individual,
-                residency: vm.residency,
-                collectionDateTime: new Date().toISOString()
-            },
+            origin: vm.origin,
+            reason: vm.reason,
+            migrationType: vm.migrationType,
+            migrationDate: vm.migrationDate,
+            visit: vm.visit,
+            individual: vm.individual,
+            residency: vm.residency,
+            collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };
-        BackendService.post("/inMigration", body).then(
+
+        $http.post("/api/inMigration", body).then(
             function (response) {
-                console.log("yay! InMigrationController " + JSON.stringify(response));
+                console.log("Successfully created in migration event: " +
+                            JSON.stringify(response.data));
+                var nextUpdate = AppState.currentUpdates.pop();
+                if (nextUpdate === "death") {
+                    $location.url('/update/death');
+                }
+                if (nextUpdate === "outMigration") {
+                    $location.url('/update/outMigration');
+                }
+                else if (nextUpdate === "pregnancyObservation") {
+                    $location.url('/update/pregnancyObservation');
+                }
+                else if (nextUpdate === "pregnancyOutcome") {
+                    $location.url('/update/pregnancyOutcome');
+                }
+                else if (nextUpdate === "pregnancyResult") {
+                    $location.url('/update/pregnancyResult');
+                }
+                else {
+                    $location.url('/visit');
+                }
             },
             function (response) {
-                console.log("oops " + response.status);
+                console.log("Failed to create in migration event " + response.status);
             }
         );
     }

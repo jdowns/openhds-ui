@@ -64,6 +64,10 @@
          key
          (map #(select-keys % entity-keys)))))
 
+(defn get-all
+  [url]
+  (parse-body (http-get url)))
+
 (defn get-one
   [url uuid]
   (let [path (str url "/" uuid ".json")]

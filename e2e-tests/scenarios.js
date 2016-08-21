@@ -4,6 +4,10 @@ function getElement(id) {
     return element(by.id(id));
 }
 
+function selectOption(optionName) {
+    element(by.cssContainingText('option', optionName)).click();
+}
+
 function LoginPage() {
     this.username = getElement("username_input");
     this.password = getElement("password_input");
@@ -14,17 +18,93 @@ function LoginPage() {
     };
 
     this.setUsername = function(username) {
-        console.log("setting username");
         this.username.sendKeys(username);
     };
     this.setPassword = function(password) {
-        console.log("setting password");
         this.password.sendKeys(password);
     };
-    this.login = function() {
-        console.log("submitting");
-        this.submit.click();
+    this.login = this.submit.click;
+}
+
+function FieldWorkerHomePage() {
+    this.create_button = getElement("create_location");
+    this.update_button = getElement("update_location");
+
+    this.newCensus = function() {
+        this.create_button.click();
     };
+
+    this.updateVisit = this.update_button.click;
+}
+
+function CreateLocationPage() {
+    this.locationName = getElement("locationName_input");
+    this.externalId = getElement("extId_input");
+    this.locationType = getElement("locationType_select");
+    this.submit = getElement("createButton");
+
+    this.setLocationName = function(name) {
+        this.locationName.sendKeys(name);
+    };
+    this.setExternalId = function(extId) {
+        this.externalId.sendKeys(extId);
+    };
+    this.setLocationType = selectOption;
+
+    this.createLocation = this.submit.click;
+}
+
+function CreateSocialGroupPage() {
+    this.groupName = getElement("groupName_input");
+    this.externalId = getElement("extId_input");
+    this.groupType = getElement("groupType_select");
+    this.submit = getElement("createButton");
+
+    this.setGroupName = function(name) {
+        this.groupName.sendKeys(name);
+    };
+    this.setExternalId = function(extId) {
+        this.externalId.sendKeys(extId);
+    };
+    this.setGroupType = selectOption;
+
+    this.createGroup = this.submit.click;
+}
+
+function CreateIndividualsPage() {
+    this.firstName = getElement("firstName_input");
+    this.externalId = getElement("extId_input");
+    this.gender = getElement("gender_select");
+    this.membbershipStartType = getElement("membershipStartType_select");
+    this.membershipStartDate = getElement("membershipStartDate_input");
+    this.residencyStartType = getElement("residencyStartType_select");
+    this.residencyStartDate = getElement("residencyStartDate_input");
+    this.submit = getElement("createButton");
+    this.more = getElement("moreIndividuals_check");
+
+    this.setFirstName = function(name) {
+        this.firstName.clear();
+        this.firstName.sendKeys(name);
+    };
+    this.setExternalId = function(extId) {
+        this.externalId.clear();
+        this.externalId.sendKeys(extId);
+    };
+    this.setGender = selectOption;
+    this.setMembershipStartType = selectOption;
+    this.setResidencyStartType = selectOption;
+    this.setMembershipStartDate = function(date) {
+        this.membershipStartDate.clear();
+        this.membershipStartDate.sendKeys(date);
+    };
+    this.setResidencyStartDate = function(date) {
+        this.residencyStartDate.clear();
+        this.residencyStartDate.sendKeys(date);
+    };
+    this.clickMoreIndividuals = function() {
+        this.more.click();
+    };
+    this.createIndividual = this.submit.click;
 }
 
 describe('OpenHDS workflows ', function() {
@@ -33,187 +113,57 @@ describe('OpenHDS workflows ', function() {
         browser.get('/app/index.html');
     });
 
-    it('Allows a user to login as a fieldworker', function() {
+    it('Allows a fieldworker to create a baseline census', function() {
         var loginPage = new LoginPage();
         loginPage.setUsername("fieldworker");
         loginPage.setPassword("password");
         loginPage.login();
         browser.driver.sleep(2000);
         expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
+
+        var homePage = new FieldWorkerHomePage();
+        homePage.newCensus();
+        browser.driver.sleep(2000);
+        expect(browser.getLocationAbsUrl()).toEqual('/location/new');
+
+        var locationPage = new CreateLocationPage();
+        locationPage.setLocationName("Test Location");
+        locationPage.setExternalId("Test Location");
+        locationPage.setLocationType("rural");
+        locationPage.createLocation();
+        expect(browser.getLocationAbsUrl()).toEqual('/socialGroup/new');
+
+        var socialGroupPage = new CreateSocialGroupPage();
+        socialGroupPage.setGroupName("Test Group");
+        socialGroupPage.setExternalId("Test Group");
+        socialGroupPage.setGroupType("cohort");
+        socialGroupPage.createGroup();
+        expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
+
+        var individualPage = new CreateIndividualsPage();
+        individualPage.setFirstName("Head of Household");
+        individualPage.setExternalId("Head of Household");
+        individualPage.setGender("female");
+        individualPage.setMembershipStartType("head");
+        individualPage.setMembershipStartDate("1980-01-01");
+        individualPage.setResidencyStartType("birthMigration");
+        individualPage.setResidencyStartDate("1980-01-01");
+        individualPage.clickMoreIndividuals();
+        individualPage.createIndividual();
+        browser.driver.sleep(5000);
+        expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
+
+        var individualPage = new CreateIndividualsPage();
+        individualPage.setFirstName("Spouse of Head");
+        individualPage.setExternalId("Spouse of Head");
+        individualPage.setGender("male");
+        individualPage.setMembershipStartType("spouseOfHead");
+        individualPage.setMembershipStartDate("2000-01-01");
+        individualPage.setResidencyStartType("internalMigration");
+        individualPage.setResidencyStartDate("2000-01-01");
+        individualPage.clickMoreIndividuals();
+        individualPage.createIndividual();
+        browser.driver.sleep(5000);
+        expect(browser.getLocationAbsUrl()).toEqual('/relationship/new');
     });
 });
-//
-//    it('Displays an error message for invalid credentials', function() {
-//        var beginCensusPage = validBeginCensusPage();
-//        beginCensusPage.setFieldWorkerId('not-a-real-fieldworker');
-//        beginCensusPage.setPassword('not a real password');
-//        beginCensusPage.setBackend("http://localhost:8080");
-//        beginCensusPage.login();
-//        expect(beginCensusPage.hasErrors()).toBe(true);
-//    });
-//
-//    it('Allows a user to create a new location with an individual', function () {
-//        var dashboardPage = new DashboardPage();
-//        dashboardPage.validate();
-//        dashboardPage.setFieldWorkerId('field-worker');
-//        expect(dashboardPage.fieldWorker.getAttribute('value')).toBe('field-worker');
-//
-//        var newLocationPage = dashboardPage.createNewLocation();
-//
-//        newLocationPage.validate();
-//        newLocationPage.fill('UnitTestLand', 'Urban', '0.0', '0.0', '0.0', '0.0');
-//        var individualPage = newLocationPage.submit();
-//
-//
-//        individualPage.validate();
-//        individualPage.fill("john", "a.", "smith", "9/1/1980", "suzie a. smith", "john b. smith");
-//        expect(individualPage.fieldWorkerId.getAttribute('value')).toBe("field-worker");
-//        dashboardPage = individualPage.submit();
-//
-//        dashboardPage.validate();
-//    });
-//
-//});
-//
-//function BeginCensusPage() {
-//    this.fieldWorkerId = getElement("fieldWorkerId");
-//    this.password = getElement("password");
-//    this.backend = getElement("backend");
-//    this.loginButton = getElement("new-location");
-//
-//    this.validate = function() {
-//        return this;
-//    };
-//
-//    this.hasErrors = function() {
-//        return getElement("errors").isDisplayed();
-//    };
-//
-//    this.setFieldWorkerId = function(fwid) {
-//        this.fieldWorkerId.sendKeys(fwid);
-//    };
-//    this.setPassword = function(password) {
-//        this.password.sendKeys(password);
-//    };
-//    this.login = function() {
-//        this.loginButton.click();
-//        return new NewLocationPage();
-//    };
-//
-//    this.setBackend = function(backend) {
-//        this.backend.sendKeys(backend);
-//    };
-//}
-//
-//function validBeginCensusPage() {
-//    return new BeginCensusPage().validate();
-//}
-//
-//function expectNotNull(element) {
-//    expect(element).not.toBeNull();
-//}
-//
-//function getElement(id) {
-//    return element(by.id(id));
-//}
-//
-//function NewLocationPage() {
-//    this.locationName = getElement('locationName');
-//    this.locationType = getElement('locationType');
-//    this.latitude = getElement('latitude');
-//    this.longitude = getElement('longitude');
-//    this.altitude = getElement('altitude');
-//    this.accuracy = getElement('accuracy');
-//    this.fieldWorker = getElement('fieldWorkerId');
-//    this.createButton = getElement('createButton');
-//    this.cancelButton = getElement('cancelButton');
-//
-//    this.validate = function() {
-//        expect(browser.getLocationAbsUrl()).toEqual('/location/new')
-//        expectNotNull(this.locationName);
-//        expectNotNull(this.locationType);
-//        expectNotNull(this.latitude);
-//        expectNotNull(this.longitude);
-//        expectNotNull(this.altitude);
-//        expectNotNull(this.accuracy);
-//        expectNotNull(this.fieldWorker);
-//        expectNotNull(this.createButton);
-//        expectNotNull(this.cancelButton);
-//    };
-//
-//    this.fill = function(locationName, locationType,
-//                         latitude, longitude, altitude, accuracy) {
-//        this.locationName.sendKeys(locationName);
-//        element(by.cssContainingText('option', locationType)).click();
-//        this.latitude.sendKeys(latitude);
-//        this.longitude.sendKeys(longitude);
-//        this.altitude.sendKeys(altitude);
-//        this.accuracy.sendKeys(accuracy);
-//    };
-//
-//    this.submit = function() {
-//        this.createButton.click();
-//        return new NewIndividualPage();
-//    }
-//}
-//
-//function NewIndividualPage() {
-//    this.firstName = getElement('firstName');
-//    this.middleName = getElement('middleName');
-//    this.lastName = getElement('lastName');
-//    this.dateOfBirth = getElement('dateOfBirth');
-//    this.mother = getElement('mother');
-//    this.father = getElement('father');
-//    this.relationships = getElement('relationships');
-//    this.fieldWorkerId = getElement('fieldWorkerId');
-//    this.submitForm = getElement('submit');
-//
-//    this.validate = function() {
-//        expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
-//        expectNotNull(this.firstName);
-//        expectNotNull(this.middleName);
-//        expectNotNull(this.lastName);
-//        expectNotNull(this.dateOfBirth);
-//        expectNotNull(this.mother);
-//        expectNotNull(this.father);
-//        expectNotNull(this.relationships);
-//        expectNotNull(this.fieldWorkerId);
-//    };
-//
-//    this.fill = function(firstName, middleName, lastName, dateOfBirth, mother, father, relationships) {
-//        this.firstName = firstName;
-//        this.middleName = middleName;
-//        this.lastName = lastName;
-//        this.dateOfBirth = dateOfBirth;
-//        this.mother = mother;
-//        this.father = father;
-//        this.relationships = relationships;
-//    };
-//
-//    this.submit = function() {
-//        this.submitForm.click();
-//        return new DashboardPage();
-//    }
-//}
-//
-//function DashboardPage() {
-//    this.fieldWorker = getElement('fieldWorkerId');
-//    this.newLocationButton = getElement('new-location');
-//
-//    this.validate = function() {
-//        expect(browser.getLocationAbsUrl()).toEqual('/home');
-//        expect(this.newLocationButton).toBeDefined();
-//    };
-//
-//    this.createNewLocation = function() {
-//        this.newLocationButton.click();
-//        return new NewLocationPage();
-//    };
-//
-//    this.setFieldWorkerId = function(fieldWorkerName) {
-//        this.fieldWorker.clear();
-//        this.fieldWorker.sendKeys(fieldWorkerName);
-//    }
-//}
-//
-//

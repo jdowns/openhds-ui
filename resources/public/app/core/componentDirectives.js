@@ -22,7 +22,7 @@ function textbox() {
                   '<input required type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
                   '</div>' +
                   '</div>'
-    }
+    };
 }
 
 function constbox() {
@@ -40,7 +40,7 @@ function constbox() {
         '<input ng-readonly="true" type="text" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
         '</div>'
-    }
+    };
 }
 
 function checkbox() {
@@ -55,10 +55,10 @@ function checkbox() {
         template: '<div class="form-group">' +
         '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
         '<div class="col-md-4">' +
-        '<input type="checkbox" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+        '<input type="checkbox" id="{{id}}_check" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
         '</div>'
-    }
+    };
 }
 
 function passwordbox() {
@@ -76,7 +76,7 @@ function passwordbox() {
         '<input required type="password" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
         '</div>'
-    }
+    };
 }
 
 function datebox() {
@@ -91,10 +91,10 @@ function datebox() {
         template: '<div class="form-group">' +
         '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
         '<div class="col-md-4">' +
-        '<input required type="date" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+        '<input required type="date" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
         '</div>'
-    }
+    };
 }
 
 function selectbox() {
@@ -110,7 +110,7 @@ function selectbox() {
         template: '<div class="form-group">' +
                   '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
                   '<div class="col-md-4">' +
-                  '<select required ng-transclude id="{{id}}" ng-model=modelKey ng-required="true" class="form-control">' +
+                  '<select required ng-transclude id="{{id}}_select" ng-model=modelKey ng-required="true" class="form-control">' +
 
                   '</select>' +
                   '</div>' +

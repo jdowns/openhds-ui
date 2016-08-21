@@ -6,6 +6,32 @@
         <selectbox label="Location Type" id="locationType" ng-model="model.type">
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
         </selectbox>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Hierarchy Root</label>
+            <div class="col-md-4">
+              <select ng-model="model.selectedRootHierarchy"
+                      ng-change="model.updateRootHierarchy()"
+                      class="form-control">
+                <option ng-repeat="h in model.root"
+                        value="{{h.uuid}}">{{h.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        <div ng-repeat="hierarchy in model.hierarchies">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Hierarchy Level {{$index}}</label>
+            <div class="col-md-4">
+              <select ng-model="model.locationHierarchies[$index]"
+                      ng-change="model.updateHierarchy($index)"
+                      class="form-control">
+                <option ng-repeat="hiera in hierarchy"
+                        value="{{hiera.uuid}}">{{hiera.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>
     </fieldset>

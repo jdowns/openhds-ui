@@ -2,13 +2,14 @@
 
 angular.module('openHDS.core').factory('AppState', AppState);
 
-AppState.$inject = ['$http'];
+AppState.$inject = ['$http', '$location'];
 
-function AppState($http) {
+function AppState($http, $location) {
     console.log("Init app state");
     var vm = this;
     vm.loadData = loadData;
     vm.loadLocationType = loadLocationType;
+    vm.handleNextUpdate = handleNextUpdate;
 
     function loadLocationType(callback) {
         $http.get("/api/projectcode/locationType")
@@ -21,6 +22,25 @@ function AppState($http) {
                     console.log("Unable to fetch project codes! " + JSON.stringify(response));
                 }
             );
+    }
+
+    function handleNextUpdate() {
+        var nextUpdate = vm.currentVisit.activeIndividual.pop();
+        if (!nextUpdate) {
+            $location.url('/visit');
+        }
+        if (nextUpdate === 'outMigration') {
+            $location.url('/visit/outMigration');
+        } else if (nextUpdate === 'death') {
+            $location.url('/visit/death');
+        } else if (nextUpdate === 'pregnancyObservation') {
+            $location.url('/visit/pregnancyObservation');
+        } else if (nextUpdate === '/pregnancyOutcome') {
+            $location.url('/visit/pregnancyOutcome');
+        } else {
+            console.log('invalid event: ' + nextUpdate);
+            handleNextUpdate();
+        }
     }
 
     function loadData() {

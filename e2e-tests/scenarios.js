@@ -90,7 +90,7 @@ function CreateIndividualsPage() {
         this.externalId.clear();
         this.externalId.sendKeys(extId);
     };
-    this.setGender = selectOption;
+    this.setGender = selectOption; // TODO: make this particular to the one select...
     this.setMembershipStartType = selectOption;
     this.setResidencyStartType = selectOption;
     this.setMembershipStartDate = function(date) {
@@ -105,6 +105,26 @@ function CreateIndividualsPage() {
         this.more.click();
     };
     this.createIndividual = this.submit.click;
+}
+
+function CreateRelationshipPage() {
+    this.individualB = getElement("individualB_input");
+    this.relationshipType = getElement("relationshipType_select");
+    this.startDate = getElement("startDate_input");
+    this.submit = getElement("createButton");
+
+    this.setIndividualB = function(individualId) {
+        //TODO: this should be a select
+        this.individualB.clear();
+        this.individualB.sendKeys(individualId);
+    };
+
+    this.selectRelationshipType = selectOption;
+    this.setStartDate = function(date) {
+        this.startDate.clear();
+        this.startDate.sendKeys(date);
+    };
+    this.createRelationship = this.submit.click;
 }
 
 describe('OpenHDS workflows ', function() {
@@ -153,7 +173,7 @@ describe('OpenHDS workflows ', function() {
         browser.driver.sleep(5000);
         expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
 
-        var individualPage = new CreateIndividualsPage();
+        individualPage = new CreateIndividualsPage();
         individualPage.setFirstName("Spouse of Head");
         individualPage.setExternalId("Spouse of Head");
         individualPage.setGender("male");
@@ -165,5 +185,13 @@ describe('OpenHDS workflows ', function() {
         individualPage.createIndividual();
         browser.driver.sleep(5000);
         expect(browser.getLocationAbsUrl()).toEqual('/relationship/new');
+
+        var relationshipPage = new CreateRelationshipPage();
+        relationshipPage.setIndividualB('some_uuid');
+        relationshipPage.setRelationshipType('spouse');
+        relationshipPage.setStartDate('2000-01-01');
+        relationshipPage.createRelationship();
+        browser.driver.sleep(2000);
+        expect(browser.getLocationAbsUrl()).toEqual('fieldworkerHome');
     });
 });

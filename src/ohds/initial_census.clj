@@ -17,7 +17,12 @@
            :outMigration "/outMigrations"
            :pregnancyObservation "/pregnancyObservations"
            :pregnancyOutcome "/pregnancyOutcomes"
-           :pregnancyResult "/pregnancyResults"})
+           :pregnancyResult "/pregnancyResults"
+           :locationHierarchy "/locationHierarchies"
+           :locationHierarchyLevel "/locationHierarchyLevels"
+           })
+
+
 
 (defn bulk-url
   [url]
@@ -33,6 +38,19 @@
 
 (defn all-fieldworkers []
   (http-get (bulk-url (:fieldworker urls))))
+
+(defn all-hierarchies []
+  (->>  (bulk-url (:locationHierarchy urls))
+        (http-get)
+        (parse-body)
+        (group-by #(get-in % [:parent :uuid]))))
+
+(defn all-hierarchy-levels []
+  (->> (bulk-url (:locationHierarchyLevel urls))
+       (http-get)
+       (parse-body)
+       (filter #(not= "UNKNOWN_STATUS" (:name %)))
+       (map #(select-keys % [:uuid :name :keyIdentifier]))))
 
 (defn validate
   [expected-username expected-password
@@ -80,26 +98,54 @@
   (fetch [this]))
 
 (defn shape-entity
-  [keyname entity]
-  {keyname (dissoc entity :collectedByUuid)
-   :collectedByUuid (:collectedByUuid entity)})
+  [keyname entity & parent]
+  (let [reshaped {keyname (dissoc entity :collectedByUuid :locationHierarchyUuid)
+                  :collectedByUuid (:collectedByUuid entity)}]
+    (if parent
+      (assoc reshaped :locationHierarchyUuid (:locationHierarchyUuid entity))
+      reshaped)))
 
 (defn nest-uuid
   [k entity]
   (assoc entity k {:uuid (k entity)}))
 
 (defn post-entity
-  [k entity]
-  (create-entity (k urls) (shape-entity k entity)))
+  [k entity & parent]
+  (println "post " k "," entity "," parent)
+  (if parent
+    (let [e  (shape-entity k entity parent)]
+      (println "submitting " e)
+      (create-entity (k urls) e))
+    (let [e  (shape-entity k entity)]
+      (println "submitting " e)
+      (create-entity (k urls) e))))
 
 (defn fetch-entity
   [k entity]
   (get-one (k urls) (:uuid entity)))
 
+(defrecord LocationHierarchy []
+  Entity->Rest
+  (create [this]
+    (let [parent (:locationHierarchyUuid this)]
+      (->> this
+           (nest-uuid :level)
+           (post-entity :locationHierarchy))))
+  (fetch [this]
+    (fetch-entity :locationHierarchy this)))
+
+(defrecord LocationHierarchyLevel []
+  Entity->Rest
+  (create [this]
+    (->> this
+         (post-entity :locationHierarchyLevel)))
+  (fetch [this]
+    (fetch-entity :locationHierarchyLevel this)))
+
 (defrecord Location []
   Entity->Rest
   (create [this]
-    (post-entity :location this))
+    (post-entity :location this (:locationHierarchyUuid this)))
   (fetch [this]
     (fetch-entity :location this)))
 
@@ -248,9 +294,10 @@
   (bulk-url (:location urls))
 
 
-  (let [loc (create (map->Location {:name "test location"
-                                    :extId "test location"
+  (let [loc (create (map->Location {:name "test location 123"
+                                    :extId "test location 123"
                                     :type "RURAL"
+                                    :locationHierarchyUuid "4bb8e526-d7cf-46e3-937c-ea6fe66b676b"
                                     :collectionDateTime "2016-08-01T00:56:55.920Z"
                                     :collectedByUuid "UNKNOWN_STATUS"}))
 
@@ -344,4 +391,14 @@
               :child ind
               :collectionDateTime "2017-04-01T00:00:00.000Z"
               :collectedByUuid "UNKNOWN_STATUS"})))
+
+  (create (map->LocationHierarchy {:level "UNKNOWN_STATUS"
+                                   :parent "UNKNOWN_STATUS"
+                                   :name "Foo Location Hierarchy"
+                                   :extId "Foo Location Hierarchy"
+                                   :collectedByUuid "UNKNOWN_STATUS"
+                                   :collectionDateTime "2010-01-10T00:00:00.000Z"}))
+
+  (create (map->LocationHierarchyLevel {:name "Foo Level"
+                                        :keyIdentifier 3}))
 )

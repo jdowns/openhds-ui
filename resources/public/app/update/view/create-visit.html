@@ -7,6 +7,12 @@
           <option ng-repeat="loc in model.locations" value="{{loc.uuid}}">{{loc.extId}}</option>
         </selectbox>
         <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"></datebox>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"
+                   ng-model="model.inMigrations"> In Migrations
+          </label>
+        </div>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>
     </fieldset>

@@ -2,58 +2,67 @@ angular.module('openHDS.view')
     .controller('VisitController',
                 ['AppState', '$location', '$http', VisitController]);
 
+function VisitModel(vm) {
+    return {
+        extId: vm.extId,
+        location: vm.location,
+        visitDate: vm.visitDate,
+        collectionDateTime: vm.date,
+        collectedByUuid: vm.collectedByUuid
+    };
+}
+
 function VisitController(AppState, $location, $http) {
+    var locationUrl = "/api/location";
+    var individualUrl = "/api/individual";
+    var visitUrl = "/api/visit";
+    var nextPage = "/visit";
+    var loginPage = "/";
+
     var vm = this;
     if (!AppState.user) {
-        $location.url('/');
-        return vm;
+        $location.url(loginPage);
     }
 
     vm.collectedByUuid = AppState.user.userId;
     vm.create = validateCreate;
     vm.date = new Date().toISOString();
     vm.loadData = loadData;
+    vm.inMigrations = false;
+    return vm;
 
+    /* Private */
     function loadData() {
-        $http.get("/api/location").then
-        (
-            function(response){
-                console.log("Got locations. " + JSON.stringify(response.data));
-                vm.locations = response.data;
-            },
-            function(response){
-                console.log("Unable to get locations. " + response.status);
-            });
+        $http.get(locationUrl).then(locationsResponse);
     }
+
+    function locationsResponse(response) {
+        vm.locations = response.data;
+    }
+
+    function individualResponse(response) {
+        AppState.currentVisit.individuals = response.data;
+        $location.url(nextPage);
+    }
+
+    function visitResponse(response) {
+        AppState.currentVisit = {
+            inMigrations: vm.inMigrations,
+            visitId: response.data,
+            locationId: vm.location
+        };
+
+        $http.get(individualUrl + "/" + vm.location).then(individualResponse);
+    }
+
     function validateCreate(formValid) {
         if (formValid) {
             create();
         }
     }
+
     function create() {
-
-        var body = {
-            extId: vm.extId,
-            location: vm.location,
-            visitDate: vm.visitDate,
-            collectionDateTime: vm.date,
-            collectedByUuid: vm.collectedByUuid};
-        console.log("creating visit " + JSON.stringify(body));
-        $http.post("/api/visit", body).then(
-            function(response) {
-                console.log("Visit created. " + JSON.stringify(response));
-                $location.url('/visit');
-                AppState.currentVisit = {visitId: response.data,
-                                         locationId: vm.location
-                                        };
-                AppState.currentVisit.individualsPromise =
-                    $http.get("/api/individual/" + vm.location);
-
-
-            },
-            function(response) {
-                console.log("Error creating visit. " + response.status);
-            }
-        );
+        var body = new VisitModel(vm);
+        $http.post(visitUrl, body).then(visitResponse);
     }
 }

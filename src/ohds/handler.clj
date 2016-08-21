@@ -31,6 +31,7 @@
   {:name s/Str
    :extId s/Str
    :type s/Str
+   :locationHierarchyUuid s/Str
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
@@ -130,6 +131,18 @@
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
+(s/defschema LocationHierarchyRequest
+  {:level s/Str
+   :parent s/Str
+   :name s/Str
+   :extId s/Str
+   :collectedByUuid s/Str
+   :collectionDateTime s/Str})
+
+(s/defschema LocationHierarchyLevelRequest
+  {:keyIdentifier s/Int
+   :name s/Str})
+
 (s/defschema Location
   {:extId s/Str
    :uuid s/Str})
@@ -137,6 +150,11 @@
 (s/defschema Individual
   {:extId s/Str
    :uuid s/Str})
+
+(s/defschema LocationHierarchyLevel
+  {:uuid s/Str
+   :name s/Str
+   (s/optional-key :keyIdentifier) s/Int})
 
 (defn ok-or-error
   "Returns ok if body is not nil, otherwise error"
@@ -171,6 +189,29 @@
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
           (ok-or-403 (census/find-user login-attempt))))
+
+      (context "/locationHierarchy" []
+        (POST "/" []
+          :summary "Create new location hierarchy"
+          :return (s/maybe s/Str)
+          :body [request LocationHierarchyRequest]
+          (ok-or-400 (census/create
+                      (census/map->LocationHierarchy request))))
+        (GET "/" []
+          :summary "Get all location hierarchies grouped by parent"
+          (ok (census/all-hierarchies))))
+
+      (context "/locationHierarchyLevel" []
+        (POST "/" []
+          :summary "Create new location hierarchy level"
+          :return (s/maybe s/Str)
+          :body [request LocationHierarchyLevelRequest]
+          (ok-or-400 (census/create
+                      (census/map->LocationHierarchyLevel request))))
+        (GET "/" []
+          :summary "Get all location hierarchy levels"
+          :return [LocationHierarchyLevel]
+          (ok (census/all-hierarchy-levels))))
 
       (context "/projectcode" []
         (GET "/:group" []

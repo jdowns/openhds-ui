@@ -8,7 +8,7 @@ function PregnancyOutcomeController(AppState, $location, $http) {
     //AppState.user; //this will be the login check
 
     vm.collectedByUuid = AppState.user.userId;
-    vm.individual = AppState.
+    vm.individual = AppState.currentVisit.activeIndividual.uuid;
     vm.create = validateCreate;
     vm.date = new Date();
     vm.loadData = loadData;

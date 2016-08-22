@@ -25,6 +25,10 @@ function VisitEventsController(AppState, $location, $http, $log) {
         vm.currentLocation = AppState.currentVisit.locationId;
         vm.currentIndividual = AppState.currentVisit.individuals.shift();
 
+        if (!vm.currentIndividual) {
+            $location.url('/visit/new');
+        }
+
         AppState.currentVisit.activeIndividual = {
             uuid: vm.currentIndividual,
             updates: []

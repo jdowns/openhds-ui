@@ -42,35 +42,27 @@ function LocationController(AppState, $location, $http) {
     };
 
     function loadData() {
-        $http.get('/api/locationHierarchyLevel')
-            .then(function(response) {
-                console.log("Got hierarchy level: " + JSON.stringify(response.data));
-                vm.hierachyLevels = response.data;
-            }, function(response) {
-                console.log("Failed to get location hierarchy levels");
-            });
+        $http.get('/api/locationHierarchyLevel').then(handleHierarchyLevels);
+        $http.get('/api/locationHierarchy').then(handleLocationHierarchy);
+        $http.get('/api/projectcode/locationType').then(handleLocationTypes);
+    }
 
-        $http.get('/api/locationHierarchy')
-            .then(
-                function(response) {
-                    vm.locationHierarchies = response.data;
-                    vm.root = vm.locationHierarchies[""];
-                },
-                function(response) {
-                    console.log("failed to get hierarchies: " + JSON.stringify(response));
-                });
+    function handleHierarchyLevels(response) {
+        vm.hierarchyLevels = response.data;
+    }
 
-        $http.get('/api/projectcode/locationType')
-            .then(
-                function(response) {
-                    console.log("got location types: "
-                                + JSON.stringify(response.data));
-                    vm.codes = response.data;
-                },
-                function (response) {
-                    console.log("failed to get locationTypes: "
-                                + JSON.stringify(response));
-                });
+    function handleLocationHierarchy(response) {
+        vm.locationHierarchies = response.data;
+        vm.root = vm.locationHierarchies[""];
+    }
+
+    function handleLocationTypes(response) {
+        vm.codes = response.data;
+    }
+
+    function handleLocationSubmit(response) {
+        AppState.location = response.data;
+        $location.url("/socialGroup/new");
     }
 
     function validateCreate(formValid) {
@@ -91,24 +83,6 @@ function LocationController(AppState, $location, $http) {
             collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };
-        console.log("submitting");
-        console.log(body);
-        console.log(vm.locationHierarchies);
-
-        $http.post("/api/location", body)
-            .then(
-                function (response) {
-                    console.log("Got location response" +
-                                response.data);
-                    AppState.location = response.data;
-                    $location.url("/socialGroup/new");
-                },
-                function (response) {
-                    console.log("Something went wrong! " +
-                                response.status +
-                                " Submitted: " +
-                                JSON.stringify(body));
-                }
-        );
+        $http.post("/api/location", body).then(handleLocationSubmit);
     }
 }

@@ -1,8 +1,8 @@
 angular.module('openHDS.view')
     .controller('FieldWorkerController',
-        ['BackendService', 'AppState', '$location', FieldWorkerController]);
+        ['$http', 'AppState', '$location', FieldWorkerController]);
 
-function FieldWorkerController(BackendService, AppState, $location) {
+function FieldWorkerController($http, AppState, $location) {
     //TODO: Implement This!
     var vm = this;
     if (!AppState.user) {
@@ -19,7 +19,6 @@ function FieldWorkerController(BackendService, AppState, $location) {
     }
 
     function create() {
-        console.log("creating fieldworker...");
         var body = {
             fieldWorkerId: vm.fieldWorkerId,
             firstName: vm.firstName,
@@ -27,13 +26,10 @@ function FieldWorkerController(BackendService, AppState, $location) {
             password: vm.password
         };
 
-        console.log(body);
-        BackendService.post("/api/fieldworker", body).then(
+        $http.post("/api/fieldworker", body).then(
             function (response) {
-                console.log("yay! fieldworker " + JSON.stringify(response));
             },
             function (response) {
-                console.log("oops " + response.status);
             }
         );
     }

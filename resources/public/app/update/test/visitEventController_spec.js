@@ -1,6 +1,6 @@
 "use strict";
 
-describe('VisitEventController', function() {
+describe('VisitEventsController', function() {
     var $controller;
     var controller;
     var AppStateMock;
@@ -9,9 +9,9 @@ describe('VisitEventController', function() {
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function ($rootScope, _$controller_, $httpBackend_) {
+    beforeEach(inject(function (_$controller_, _$httpBackend_) {
         $httpBackend = _$httpBackend_;
-        $controller = $_controller_;
+        $controller = _$controller_;
         AppStateMock = {
             user: {isSupervisor: false, userId: 123},
             loadData: function(){}
@@ -19,7 +19,7 @@ describe('VisitEventController', function() {
 
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
-        controller = $controller('VisitEventController', {
+        controller = $controller('VisitEventsController', {
             AppState: AppStateMock,
             $location: $locationMock
         });

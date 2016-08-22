@@ -14,10 +14,8 @@ describe('IndividualController', function() {
         $httpBackend = _$httpBackend_;
     }));
 
-    beforeEach(inject(function($q, $rootScope, _$controller_) {
+    beforeEach(inject(function(_$controller_) {
         $controller = _$controller_;
-        q = $q;
-        rootScope = $rootScope;
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},

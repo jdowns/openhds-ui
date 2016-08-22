@@ -1,7 +1,6 @@
 'use strict';
 console.log("Starting application");
 
-
 angular.module('openHDS.core', ['ngRoute'])
     .config(['$httpProvider', corsConfig])
     .config(['$routeProvider', routeConfig]);
@@ -59,32 +58,32 @@ function routeConfig($routeProvider) {
             controller: 'VisitEventsController',
             controllerAs: 'model'
         })
-        .when('/inMigration/new', {
+        .when('/visit/inMigration', {
             templateUrl: 'update/view/create-inMigration.html',
             controller: 'InMigrationController',
             controllerAs: 'model'
         })
-        .when('/outMigration/new', {
+        .when('/visit/outMigration', {
             templateUrl: 'update/view/create-outMigration.html',
             controller: 'OutMigrationController',
             controllerAs: 'model'
         })
-        .when('/death/new', {
+        .when('/visit/death', {
             templateUrl: 'update/view/create-death.html',
             controller: 'DeathController',
             controllerAs: 'model'
         })
-        .when('/pregnancyObservation/new', {
+        .when('/visit/pregnancyObservation', {
             templateUrl: 'update/view/create-pregnancyObservation.html',
             controller: 'PregnancyObservationController',
             controllerAs: 'model'
         })
-        .when('/pregnancyResult/new', {
+        .when('/visit/pregnancyResult', {
             templateUrl: 'update/view/create-pregnancyResult.html',
             controller: 'PregnancyResultController',
             controllerAs: 'model'
         })
-        .when('/pregnancyOutcome/new', {
+        .when('/visit/pregnancyOutcome', {
             templateUrl: 'update/view/create-pregnancyOutcome.html',
             controller: 'PregnancyOutcomeController',
             controllerAs: 'model'
@@ -104,36 +103,6 @@ function routeConfig($routeProvider) {
             templateUrl: 'study/view/create-projectCode.html',
             controller: 'ProjectCodeController',
             controllerAs: 'model'
-        })
-        .when('/update/inMigration', {
-            templateUrl: '',
-            controller: '',
-            constrollerAs: 'model'
-        })
-        .when('/update/outMigration', {
-            templateUrl: '',
-            controller: '',
-            constrollerAs: 'model'
-        })
-        .when('/update/death', {
-            templateUrl: 'update/view/create-death.html',
-            controller: 'DeathController',
-            constrollerAs: 'model'
-        })
-        .when('/update/pregnancyObservation', {
-            templateUrl: '',
-            controller: '',
-            constrollerAs: 'model'
-        })
-        .when('/update/pregnancyOutcome', {
-            templateUrl: '',
-            controller: '',
-            constrollerAs: 'model'
-        })
-        .when('/update/pregnancyResult', {
-            templateUrl: '',
-            controller: '',
-            constrollerAs: 'model'
         })
         .when('/fieldworkerHome', {
             templateUrl: 'core/fieldworkerHome.html'

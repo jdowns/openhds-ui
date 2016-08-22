@@ -1,8 +1,8 @@
 angular.module('openHDS.view')
     .controller('ProjectCodeController',
-        ['BackendService', ProjectCodeController]);
+        ['$http', ProjectCodeController]);
 
-function ProjectCodeController(BackendService) {
+function ProjectCodeController($http) {
     var vm = this;
     vm.create = validateCreate;
 
@@ -21,7 +21,7 @@ function ProjectCodeController(BackendService) {
                 description: vm.description
             }
         };
-        BackendService.post("/projectCode", body).then(
+        $http.post("/projectCode", body).then(
             function(response) {
                 console.log("yay! projectCode " + JSON.stringify(response));
             },

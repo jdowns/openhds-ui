@@ -9,11 +9,9 @@ describe('RelationshipController', function () {
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function ($q, $rootScope, _$controller_, _$httpBackend_) {
+    beforeEach(inject(function (_$controller_, _$httpBackend_) {
         $httpBackend = _$httpBackend_;
         $controller = _$controller_;
-        q = $q;
-        rootScope = $rootScope;
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},

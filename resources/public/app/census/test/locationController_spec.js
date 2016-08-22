@@ -9,11 +9,9 @@ describe('LocationController', function() {
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function($q, $rootScope, _$controller_, _$httpBackend_) {
+    beforeEach(inject(function(_$controller_, _$httpBackend_) {
         $httpBackend = _$httpBackend_;
         $controller = _$controller_;
-        q = $q;
-        rootScope = $rootScope;
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123}
@@ -33,17 +31,22 @@ describe('LocationController', function() {
         });
 
         it('loads project codes and location hierarchies', function() {
+            $httpBackend.expectGET('/api/locationHierarchyLevel').respond("levels");
+            $httpBackend.expectGET('/api/locationHierarchy').respond("hierarchies");
             $httpBackend.expectGET('/api/projectcode/locationType').respond("codes");
             controller.loadData();
             $httpBackend.flush();
 
-            expect(controller.codes).toBe("codes");
+            expect(controller.codes).toEqual("codes");
+            expect(controller.locationHierarchies).toEqual("hierarchies");
+            expect(controller.hierarchyLevels).toEqual("levels");
         });
 
         it('submits location then redirects to social group page', function() {
             $httpBackend.expectPOST("/api/location", {name: "test",
                                                       extId: "test",
                                                       type: "foo",
+                                                      locationHierarchyUuid: "uuid-2",
                                                       collectionDateTime: controller.date,
                                                       collectedByUuid: 123
                                                      }
@@ -52,6 +55,7 @@ describe('LocationController', function() {
             controller.name = "test";
             controller.extId = "test";
             controller.type = "foo";
+            controller.locationPath = ["uuid-1", "uuid-2"];
             controller.create(true);
             $httpBackend.flush();
 

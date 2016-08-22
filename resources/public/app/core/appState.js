@@ -4,30 +4,20 @@ angular.module('openHDS.core').factory('AppState', AppState);
 
 AppState.$inject = ['$http', '$location'];
 
+/* This is a service to hold the global application state between controllers */
 function AppState($http, $location) {
     console.log("Init app state");
-    var vm = this;
-    vm.loadData = loadData;
-    vm.loadLocationType = loadLocationType;
-    vm.handleNextUpdate = handleNextUpdate;
 
-    function loadLocationType(callback) {
-        $http.get("/api/projectcode/locationType")
-            .then(
-                function (response) {
-                    vm.locationCodes = response.data;
-                    callback(response.data);
-                },
-                function (response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-    }
+    var appState = this;
 
-    function handleNextUpdate() {
-        var nextUpdate = vm.currentVisit.activeIndividual.pop();
-        if (!nextUpdate) {
+    appState.handleNextUpdate = function() {
+        console.log(appState.currentVisit);
+        var nextUpdate = appState.currentVisit.activeIndividual.updates.pop();
+
+        console.log(nextUpdate);
+        if (nextUpdate == undefined || nextUpdate == null) {
             $location.url('/visit');
+            return;
         }
         if (nextUpdate === 'outMigration') {
             $location.url('/visit/outMigration');
@@ -39,82 +29,17 @@ function AppState($http, $location) {
             $location.url('/visit/pregnancyOutcome');
         } else {
             console.log('invalid event: ' + nextUpdate);
-            handleNextUpdate();
+            appState.handleNextUpdate();
         }
-    }
+    };
 
-    function loadData() {
+    appState.validateUser = function() {
+        if (!appState.user) {
+            $location.url('/');
+            return false;
+        }
+        return true;
+    };
 
-        $http.get("/api/locationHierarchy")
-            .then(
-                function (response) {
-                    vm.hierarchies = response.data;
-                },
-                function (response) {
-                    console.log("Unable to fetch location hierarchies! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/socialGroupType")
-            .then(
-                function (response) {
-                    console.log(JSON.stringify(response));
-                    vm.groupTypeCodes = response.data;
-                },
-                function (response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/gender")
-            .then(
-                function(response) {
-                    console.log(JSON.stringify(response));
-                    vm.genderCodes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/membershipType")
-            .then(
-                function(response) {
-                    console.log(JSON.stringify(response));
-                    vm.membershipCodes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/migrationType")
-            .then(
-                function(response) {
-                    console.log(JSON.stringify(response));
-                    vm.residencyCodes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/membershipType")
-            .then(
-                function(response) {
-                    console.log(JSON.stringify(response));
-                    vm.membershipCodes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-        $http.get("/api/projectCode/relationshipType")
-            .then(
-                function(response) {
-                    console.log(JSON.stringify(response));
-                    vm.relationshipTypeCodes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to fetch project codes! " + JSON.stringify(response));
-                }
-            );
-    }
-
-    return vm;
+    return appState;
 }

@@ -8,11 +8,9 @@ describe('VisitController', function () {
 
     beforeEach(module('openHDS.view'));
 
-    beforeEach(inject(function ($q, $rootScope, _$controller_, _$httpBackend_) {
+    beforeEach(inject(function (_$controller_, _$httpBackend_) {
         $httpBackend = _$httpBackend_;
         $controller = _$controller_;
-        q = $q;
-        rootScope = $rootScope;
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
@@ -40,7 +38,7 @@ describe('VisitController', function () {
                                     collectedByUuid:123
                                 }).respond("123");
 
-        $httpBackend.expectGET('/api/individual?location=testloc')
+        $httpBackend.expectGET('/api/individual/testloc')
             .respond('some individuals...');
 
         controller.name = "test";
@@ -51,7 +49,7 @@ describe('VisitController', function () {
 
         controller.create(true);
         $httpBackend.flush();
-        expect(AppStateMock.currentVisit).toEqual("123");
+        expect(AppStateMock.currentVisit.visitId).toEqual("123");
         expect($locationMock.url).toHaveBeenCalledWith("/visit");
 
     });

@@ -5,9 +5,13 @@ angular.module('openHDS.view')
 function OutMigrationController(AppState, $location, $http) {
     var vm = this;
 
-    //AppState.user; //this will be the login check
+    if (!AppState.validateUser()) {
+        return vm;
+    }
+
     vm.collectedByUuid = AppState.user.userId;
-    vm.individual = AppState.currentVisit.activeIndividual.uuid;
+    vm.individual = AppState.currentVisit.activeIndividual.uuid.uuid;
+    vm.visit = AppState.currentVisit.visitId;
     vm.create = validateCreate;
     vm.date = new Date();
     vm.loadData = loadData;
@@ -25,11 +29,11 @@ function OutMigrationController(AppState, $location, $http) {
     function create() {
         var body = {
             visit: vm.visit,
-            origin: vm.origin,
+            destination: vm.destination,
             reason: vm.reason,
             migrationDate: vm.migrationDate,
             individual: vm.individual,
-            residency: vm.residency,
+            //residency: vm.residency,
             collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid
         };

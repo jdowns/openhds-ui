@@ -199,4 +199,8 @@ describe('OpenHDS workflows ', function() {
         browser.driver.sleep(2000);
         expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
     });
+
+    it('allows a fieldworker to update a location', function() {
+
+    });
 });

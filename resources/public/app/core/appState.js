@@ -25,7 +25,7 @@ function AppState($http, $location) {
             $location.url('/visit/death');
         } else if (nextUpdate === 'pregnancyObservation') {
             $location.url('/visit/pregnancyObservation');
-        } else if (nextUpdate === '/pregnancyOutcome') {
+        } else if (nextUpdate === 'pregnancyOutcome') {
             $location.url('/visit/pregnancyOutcome');
         } else {
             console.log('invalid event: ' + nextUpdate);

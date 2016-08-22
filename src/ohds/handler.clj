@@ -101,7 +101,7 @@
 
 (s/defschema OutMigrationRequest
   {:individual s/Str
-   :residency s/Str
+   :visit s/Str
    :destination s/Str
    :reason s/Str
    :migrationDate s/Str

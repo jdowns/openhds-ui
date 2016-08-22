@@ -152,6 +152,9 @@ describe('OpenHDS workflows ', function() {
         locationPage.setExternalId("Test Location");
         locationPage.setLocationType("rural");
         selectOption('hierarchy-root');
+        selectOption('hierarchy-0');
+        selectOption('hierarchy-0-1');
+        selectOption('hierarchy-0-1-1');
         locationPage.createLocation();
         expect(browser.getLocationAbsUrl()).toEqual('/socialGroup/new');
 

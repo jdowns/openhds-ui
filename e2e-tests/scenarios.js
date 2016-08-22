@@ -146,10 +146,12 @@ describe('OpenHDS workflows ', function() {
         browser.driver.sleep(2000);
         expect(browser.getLocationAbsUrl()).toEqual('/location/new');
 
+        browser.driver.sleep(2000);
         var locationPage = new CreateLocationPage();
         locationPage.setLocationName("Test Location");
         locationPage.setExternalId("Test Location");
         locationPage.setLocationType("rural");
+        selectOption('hierarchy-root');
         locationPage.createLocation();
         expect(browser.getLocationAbsUrl()).toEqual('/socialGroup/new');
 
@@ -188,10 +190,10 @@ describe('OpenHDS workflows ', function() {
 
         var relationshipPage = new CreateRelationshipPage();
         relationshipPage.setIndividualB('some_uuid');
-        relationshipPage.setRelationshipType('spouse');
+        relationshipPage.selectRelationshipType('spouse');
         relationshipPage.setStartDate('2000-01-01');
         relationshipPage.createRelationship();
         browser.driver.sleep(2000);
-        expect(browser.getLocationAbsUrl()).toEqual('fieldworkerHome');
+        expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
     });
 });

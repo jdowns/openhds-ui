@@ -5,10 +5,13 @@ angular.module('openHDS.view')
 function PregnancyResultController(AppState, $location, $http) {
     var vm = this;
 
-    //AppState.user; //this will be the login check
+    if (!AppState.validateUser()) {
+        return vm;
+    }
 
     vm.collectedByUuid = AppState.user.userId;
     vm.individual = AppState.currentVisit.activeIndividual.uuid;
+    vm.pregnancyOutcome = AppState.currentVisit.pregnancyOutcome;
     vm.create = validateCreate;
     vm.date = new Date();
     vm.loadData = loadData;
@@ -19,18 +22,18 @@ function PregnancyResultController(AppState, $location, $http) {
         }
     }
 
+    function handleCodes(response) {
+        vm.codes = response.data;
+    }
+
+    function handleGenderCodes(response) {
+        vm.genderCodes = response.data;
+    }
+
+
     function loadData() {
-        $http.get('/api/projectcode/pregnancyResultType')
-            .then(
-                function(response) {
-                    console.log("got pregnancy result types: "
-                                + JSON.stringify(response.data));
-                    vm.codes = response.data;
-                },
-                function(response){
-                    console.log("failed to get pregnancy result types: "
-                                + JSON.stringify(response));
-                });
+        $http.get('/api/projectcode/pregnancyResultType').then(handleCodes);
+        $http.get('/api/projectcode/gender').then(handleGenderCodes);
     }
 
     function create() {
@@ -43,33 +46,6 @@ function PregnancyResultController(AppState, $location, $http) {
             collectedByUuid: vm.collectedByUuid
         };
 
-        $http.post("/api/pregnancyResult", body).then(
-            function (response) {
-                console.log("Successfully created pregnancy result event: " +
-                            JSON.stringify(response.data));
-                var nextUpdate = AppState.currentUpdates.pop();
-                if (nextUpdate === "death") {
-                    $location.url('/update/death');
-                }
-                if (nextUpdate === "outMigration") {
-                    $location.url('/update/outMigration');
-                }
-                else if (nextUpdate === "pregnancyObservation") {
-                    $location.url('/update/pregnancyObservation');
-                }
-                else if (nextUpdate === "pregnancyOutcome") {
-                    $location.url('/update/pregnancyOutcome');
-                }
-                else if (nextUpdate === "pregnancyResult") {
-                    $location.url('/update/pregnancyResult');
-                }
-                else {
-                    $location.url('/visit');
-                }
-            },
-            function (response) {
-                console.log("Failed to create death event " + response.status);
-            }
-        );
+        $http.post("/api/pregnancyResult", body).then(AppState.handleNextUpdate);
     }
 }

@@ -1,14 +1,21 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate
+      ng-init="model.loadData()">
     <fieldset>
       <legend>Create Pregnancy Result</legend>
       <selectbox label="Result Type" id="resultType" ng-model="model.type">
         <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
       </selectbox>
-        <textbox label="Type" id="type" ng-model="model.type"></textbox>
-        <textbox label="Pregnancy Outcome" id="pregnancyOutcome" ng-model="model.pregnancyOutcome.uuid"></textbox>
-        <textbox label="Child" id="child" ng-model="model.child"></textbox>
-        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+      <constbox label="Pregnancy Outcome" id="pregnancyOutcome" ng-model="model.pregnancyOutcome.uuid"></constbox>
+      {{model.type}}
+      <div ng-if="model.type === 'LIVE_BIRTH'">
+        <textbox label="Child First Name" id="childFirstName" ng-model="model.child.firstName"></textbox>
+        <textbox label="Child ExternalId" id="childExtId" ng-model="model.child.extId"></textbox>
+        <selectbox ng-model="model.child.gender" id="gender" name="gender" label="Child Gender">
+            <option ng-repeat="code in model.genderCodes" value="{{code.codeValue}}">{{code.codeName}}</option>
+        </selectbox>
+
+      </div>
+      <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
         <submitbutton></submitbutton>
-        <label>TODO: add child as new individual</label>
     </fieldset>
 </form>

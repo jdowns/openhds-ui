@@ -124,12 +124,17 @@
    :collectionDateTime s/Str
    :collectedByUuid s/Str})
 
+(s/defschema ChildRequest
+  {:firstName s/Str
+   :extId s/Str
+   :gender s/Str})
+
 (s/defschema PregnancyResultRequest
   {:type s/Str
    :pregnancyOutcome s/Str
-   :child s/Str ;;; TOOD: is this optional?
    :collectionDateTime s/Str
-   :collectedByUuid s/Str})
+   :collectedByUuid s/Str
+   (s/optional-key :child) ChildRequest})
 
 (s/defschema LocationHierarchyRequest
   {:level s/Str
@@ -338,8 +343,22 @@
           :summary "Create new pregnancy result event"
           :return (s/maybe s/Str)
           :body [request PregnancyResultRequest]
-          (ok-or-400 (census/create
-                      (census/map->PregnancyResult request)))))
+          (if (:child request)
+            (let [child (merge (:child request)
+                               (select-keys request [:collectionDateTime
+                                                     :collectedByUuid]))
+                  child-id  (census/create
+                             (census/map->Individual child))
+                  child-request (assoc request :child child-id)]
+              (println "***" child)
+              (println "***" child-id)
+              (println "***" child-request)
+              (if child-id
+                (ok-or-400 (census/create
+                            (census/map->PregnancyResult child-request)))
+                (bad-request)))
+            (ok-or-400 (census/create
+                        (census/map->PregnancyResult request))))))
 
       (context "/visit" []
         (POST "/" []

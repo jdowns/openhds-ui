@@ -1,7 +1,19 @@
 module.exports = function(config){
   config.set({
 
-    basePath : './',
+      basePath : './',
+
+      plugins : [
+          'karma-coverage',
+          'karma-chrome-launcher',
+          'karma-firefox-launcher',
+          'karma-phantomjs-launcher',
+          'karma-jasmine'
+      ],
+
+      preprocessors: {
+          'resources/public/app/!(bower_components|npm_modules)/**/!(test)/*.js': 'coverage'
+    },
 
     files : [
         'resources/public/app/bower_components/angular/angular.js',
@@ -25,18 +37,12 @@ module.exports = function(config){
 
       browsers : ['PhantomJS'],
 
-      plugins : [
-          'karma-chrome-launcher',
-          'karma-firefox-launcher',
-          'karma-phantomjs-launcher',
-          'karma-jasmine',
-          'karma-junit-reporter'
-      ],
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
+      reporters: ['coverage'],
+      junitReporter : {
+          outputFile: 'test_out/unit.xml',
+          suite: 'unit'
+      }
 
   });
 };

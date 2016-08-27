@@ -4,9 +4,7 @@
             [compojure.route :as route]
             [schema.core :as s]
             [ohds.initial-census :as census]
-            [ohds.projectcode-service :as codes]
-            [ohds.visit-service :as visit]
-            [ohds.update-service :as updates]))
+            [ohds.projectcode-service :as codes]))
 
 ;; TODO use abstract-map extension to pull out common fields
 (s/defschema LoginAttempt
@@ -365,7 +363,8 @@
           :summary "Create new visit"
           :return (s/maybe s/Str)
           :body [visit-request VisitRequest]
-          (ok-or-400 (visit/create-visit visit-request)))))))
+          (ok-or-400 (census/create
+                      (census/map->Visit visit-request))))))))
 
 (def app
   (routes

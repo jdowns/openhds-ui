@@ -16,7 +16,8 @@ describe('SocialGroupController', function() {
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
             groupTypeCodes: ["foo"],
-            loadData: function() {}
+            loadData: function() {},
+            validateUser: function() {}
         };
 
         spyOn(AppStateMock, 'loadData');
@@ -33,7 +34,11 @@ describe('SocialGroupController', function() {
     describe('SocialGroupController', function() {
 
         it('initializes', function() {
-            expect(controller).toEqual(jasmine.anything());
+            $httpBackend.expectGET('/api/projectcode/socialGroupType').respond(
+                ["a", "b"]);
+            controller.loadData();
+            $httpBackend.flush();
+            expect(controller.codes).toEqual(["a", "b"]);
         });
 
         it('submits location then redirects to social group page', function() {

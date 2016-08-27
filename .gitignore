@@ -16,3 +16,4 @@ npm-debug.log*
 gradlew.bat
 build
 target/*
+coverage/*

@@ -5,6 +5,9 @@
         <textbox label="Last Name" id="lastName" name="lastName" ng-model="model.lastName"></textbox>
         <textbox label="Field Worker ID" id="fieldWorkerId" name="fieldWorkerId" ng-model="model.fieldWorkerId"></textbox>
         <passwordbox label="Password" id="password" name="password" ng-model="model.password"></passwordbox>
-        <submitbutton></submitbutton>
+
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
     </fieldset>
 </form>

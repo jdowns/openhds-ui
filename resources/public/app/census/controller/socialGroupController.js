@@ -4,51 +4,32 @@ angular.module('openHDS.view')
 
 function SocialGroupController(AppState, $location, $http) {
     var vm = this;
-    if (!AppState.user) {
-        $location.url('/');
-        return vm;
-    }
+    AppState.validateUser();
 
     vm.collectedByUuid = AppState.user.userId;
     vm.codes = AppState.groupTypeCodes;
-    vm.create = validateCreate;
-    vm.loadData = loadData;
     vm.date = new Date().toISOString();
 
-    function loadData() {
-        $http.get('/api/projectcode/socialGroupType')
-            .then(
-                function(response) {
-                    vm.codes = response.data;
-                },
-                function(response) {
-                    console.log("Unable to get social group types \n" + response);
-                });
+    function handleCodes(response) {
+        vm.codes = response.data;
     }
 
-    function validateCreate(formValid) {
-        if (formValid) {
-            create();
-        }
+    function handleSocialGroupResponse(response) {
+        AppState.socialGroup = response.data;
+        $location.url('/individual/new');
     }
 
-    function create() {
+    vm.loadData = function() {
+        $http.get('/api/projectcode/socialGroupType').then(handleCodes);
+    };
 
+    vm.create = function() {
         var body = {
             groupName: vm.groupName,
             extId: vm.extId,
             groupType: vm.groupType,
             collectionDateTime: vm.date,
             collectedByUuid: vm.collectedByUuid};
-        $http.post("/api/socialgroup", body).then(
-            function(response) {
-                AppState.socialGroup = response.data;
-                $location.url('/individual/new');
-                console.log("Login successful ");
-            },
-            function(response) {
-                console.log("Error logging in. " + response.status);
-            }
-        );
-    }
+        $http.post("/api/socialgroup", body).then(handleSocialGroupResponse);
+    };
 }

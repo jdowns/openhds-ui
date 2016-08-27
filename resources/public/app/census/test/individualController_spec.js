@@ -19,6 +19,7 @@ describe('IndividualController', function() {
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
+            validateUser: function() {},
             location: 1234,
             socialGroup: 2345,
             genderCodes: ["foo"],
@@ -37,6 +38,24 @@ describe('IndividualController', function() {
     }));
 
     describe('IndividualController', function() {
+
+        it('initializes correctly', function() {
+            expect(controller.collectedByUuid).toBe(123);
+            expect(controller.areMoreIndividuals).toBe(false);
+            expect(controller.location).toBe(1234);
+
+            $httpBackend.expectGET('/api/projectcode/gender').respond(["male", "female"]);
+            $httpBackend.expectGET('/api/projectcode/membershipType').respond(["born", "married"]);
+            $httpBackend.expectGET('/api/projectcode/migrationType').respond(["born", "moved"]);
+
+            controller.loadData();
+            $httpBackend.flush();
+
+            expect(controller.codes).toEqual(["male", "female"]);
+            expect(controller.membershipCodes).toEqual(['born', 'married']);
+            expect(controller.residencyCodes).toEqual(['born', 'moved']);
+
+        });
 
         it('submits single individual then redirects to relationship page', function() {
             $httpBackend.expectPOST('/api/individual',

@@ -15,6 +15,7 @@ describe('RelationshipController', function () {
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
+            validateUser: function() {},
             individual: ['A', 'B', 'C'],
             relationshipTypeCodes: ['a', 'b', 'c']
         };
@@ -22,14 +23,23 @@ describe('RelationshipController', function () {
 
         $locationMock = jasmine.createSpyObj('$location', ['url']);
 
-        controller = $controller('RelationshipController',
-            {
-                AppState: AppStateMock,
-                $location: $locationMock
-            });
+        controller = $controller('RelationshipController', {
+            AppState: AppStateMock,
+            $location: $locationMock
+        });
     }));
 
     describe('RelationshipController', function () {
+
+        it('initializes correctly', function() {
+            $httpBackend.expectGET('/api/projectcode/relationshipType').respond(
+                ["a", "b"]
+            );
+
+            controller.loadData();
+            $httpBackend.flush();
+            expect(controller.codes).toEqual(["a", "b"]);
+        });
 
         it('submits relationship between head of household and first individual', function () {
             $httpBackend.expectPOST("/api/relationship",

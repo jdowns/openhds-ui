@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate ng-init="model.loadData()">
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate ng-init="model.loadData()">
     <fieldset>
         <legend>Create Social Group</legend>
         <textbox label="Group Name" id="groupName" ng-model="model.groupName"></textbox>
@@ -7,6 +7,8 @@
             <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
         </selectbox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
     </fieldset>
 </form>

@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate ng-init="model.loadData()">
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate ng-init="model.loadData()">
     <fieldset>
         <legend>Create Location</legend>
         <textbox label="Location Name" id="locationName" ng-model="model.name"></textbox>
@@ -18,12 +18,12 @@
               </select>
             </div>
           </div>
-        <div ng-repeat="hierarchy in model.hierarchies">
+        <div ng-repeat="hierarchy in model.hierarchiesByLevel">
           <div class="form-group">
             <label class="col-md-4 control-label">Hierarchy Level {{$index}}</label>
             <div class="col-md-4">
-              <select ng-model="model.locationHierarchies[$index]"
-                      ng-change="model.updateHierarchy($index)"
+              <select ng-model="model.locationPath[$index+1]"
+                      ng-change="model.updateHierarchy($index+1)"
                       class="form-control">
                 <option ng-repeat="hiera in hierarchy"
                         value="{{hiera.uuid}}">{{hiera.name}}
@@ -33,6 +33,9 @@
           </div>
         </div>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
+
     </fieldset>
 </form>

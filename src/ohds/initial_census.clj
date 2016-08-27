@@ -20,9 +20,8 @@
            :pregnancyResult "/pregnancyResults"
            :locationHierarchy "/locationHierarchies"
            :locationHierarchyLevel "/locationHierarchyLevels"
+           :visit "/visits"
            })
-
-
 
 (defn bulk-url
   [url]
@@ -255,6 +254,13 @@
          (post-entity :pregnancyResult)))
   (fetch [this]
     (fetch-entity :pregnancyResult)))
+
+(defrecord Visit []
+  Entity->Rest
+  (create [this]
+    (post-entity :visit))
+  (fetch [this]
+    (fetch-entity :visit)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 

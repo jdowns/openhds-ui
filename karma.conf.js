@@ -5,6 +5,7 @@ module.exports = function(config){
 
       plugins : [
           'karma-coverage',
+          'karma-junit',
           'karma-chrome-launcher',
           'karma-firefox-launcher',
           'karma-phantomjs-launcher',
@@ -38,7 +39,7 @@ module.exports = function(config){
       browsers : ['PhantomJS'],
 
 
-      reporters: ['coverage'],
+      reporters: ['coverage', 'progress', 'junit'],
       junitReporter : {
           outputFile: 'test_out/unit.xml',
           suite: 'unit'

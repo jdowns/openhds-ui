@@ -23,6 +23,7 @@
 
 (comment
   (project-codes)
+  (code-groups)
   (codes :locationType)
   (codes :socialGroupType)
   (codes "socialGroupType")

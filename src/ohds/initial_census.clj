@@ -110,13 +110,10 @@
 
 (defn post-entity
   [k entity & parent]
-  (println "post " k "," entity "," parent)
   (if parent
     (let [e  (shape-entity k entity parent)]
-      (println "submitting " e)
       (create-entity (k urls) e))
     (let [e  (shape-entity k entity)]
-      (println "submitting " e)
       (create-entity (k urls) e))))
 
 (defn fetch-entity
@@ -407,4 +404,7 @@
 
   (create (map->LocationHierarchyLevel {:name "Foo Level"
                                         :keyIdentifier 3}))
+
+  (get (all-hierarchies) nil)
+
 )

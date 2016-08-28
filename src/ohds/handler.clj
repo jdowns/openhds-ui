@@ -4,160 +4,9 @@
             [compojure.route :as route]
             [schema.core :as s]
             [ohds.initial-census :as census]
-            [ohds.projectcode-service :as codes]))
+            [ohds.projectcode-service :as codes]
+            [ohds.model :refer :all]))
 
-;; TODO use abstract-map extension to pull out common fields
-(s/defschema LoginAttempt
-  {:username s/Str
-   :password s/Str
-   s/Any s/Any})
-
-(s/defschema FieldWorkerRequest
-  {:fieldWorkerId s/Str
-   :password s/Str
-   :firstName (s/maybe s/Str)
-   :lastName (s/maybe s/Str)})
-
-(s/defschema ProjectCode
-  {:uuid s/Str
-   :codeName s/Str
-   :codeGroup s/Str
-   :codeValue s/Str
-   :description s/Str})
-
-(s/defschema LocationRequest
-  {:name s/Str
-   :extId s/Str
-   :type s/Str
-   :locationHierarchyUuid s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema SocialGroupRequest
-  {:groupName s/Str
-   :extId s/Str
-   :groupType s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema IndividualRequest
-  {:firstName s/Str
-   :extId s/Str
-   :gender s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str
-   :location s/Str})
-
-(s/defschema ResidencyRequest
-  {:individual s/Str
-   :location s/Str
-   :startType s/Str
-   :startDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema MembershipRequest
-  {:individual s/Str
-   :socialGroup s/Str
-   :startType s/Str
-   :startDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema RelationshipRequest
-  {:individualA s/Str
-   :individualB s/Str
-   :relationshipType s/Str
-   :startDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema VisitRequest
-  {:extId s/Str
-   :location s/Str
-   :visitDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema DeathRequest
-  {:visit s/Str
-   :individual s/Str
-   :deathPlace s/Str
-   :deathCause s/Str
-   :deathDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema InMigrationRequest
-  {:individual s/Str
-   :residency s/Str
-   :origin s/Str
-   :migrationType s/Str
-   :migrationDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema OutMigrationRequest
-  {:individual s/Str
-   :visit s/Str
-   :destination s/Str
-   :reason s/Str
-   :migrationDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema PregnancyObservationRequest
-  {:mother s/Str
-   :visit s/Str
-   :pregnancyDate s/Str
-   :expectedDeliveryDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema PregnancyOutcomeRequest
-  {:mother s/Str
-   :father s/Str
-   :visit s/Str
-   :outcomeDate s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str})
-
-(s/defschema ChildRequest
-  {:firstName s/Str
-   :extId s/Str
-   :gender s/Str})
-
-(s/defschema PregnancyResultRequest
-  {:type s/Str
-   :pregnancyOutcome s/Str
-   :collectionDateTime s/Str
-   :collectedByUuid s/Str
-   (s/optional-key :child) ChildRequest})
-
-(s/defschema LocationHierarchyRequest
-  {:level s/Str
-   :parent s/Str
-   :name s/Str
-   :extId s/Str
-   :collectedByUuid s/Str
-   :collectionDateTime s/Str})
-
-(s/defschema LocationHierarchyLevelRequest
-  {:keyIdentifier s/Int
-   :name s/Str})
-
-(s/defschema Location
-  {:extId s/Str
-   :uuid s/Str})
-
-(s/defschema Individual
-  {:extId s/Str
-   :uuid s/Str})
-
-(s/defschema LocationHierarchyLevel
-  {:uuid s/Str
-   :name s/Str
-   (s/optional-key :keyIdentifier) s/Int})
 
 (defn ok-or-error
   "Returns ok if body is not nil, otherwise error"
@@ -166,7 +15,7 @@
     (ok body)
     (error)))
 
-(defn ok-or-403
+(defn ok-or-401
   [body]
   (ok-or-error body unauthorized))
 
@@ -191,15 +40,16 @@
           :summary "Log in user"
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
-          (ok-or-403 (census/find-user login-attempt))))
+          (ok-or-401 (census/find-user login-attempt))))
 
       (context "/locationHierarchy" []
         (POST "/" []
           :summary "Create new location hierarchy"
           :return (s/maybe s/Str)
           :body [request LocationHierarchyRequest]
-          (ok-or-400 (census/create
-                      (census/map->LocationHierarchy request))))
+          (do
+            (ok-or-400 (census/create
+                        (census/map->LocationHierarchy request)))))
         (GET "/" []
           :summary "Get all location hierarchies grouped by parent"
           (ok (census/all-hierarchies))))
@@ -228,7 +78,7 @@
           :summary "Log in fieldworker"
           :return (s/maybe s/Str)
           :body [login-attempt LoginAttempt]
-          (ok-or-403 (census/find-fieldworker login-attempt)))
+          (ok-or-401 (census/find-fieldworker login-attempt)))
 
         (POST "/" []
           :summary "Create new fieldworker"
@@ -348,9 +198,6 @@
                   child-id  (census/create
                              (census/map->Individual child))
                   child-request (assoc request :child child-id)]
-              (println "***" child)
-              (println "***" child-id)
-              (println "***" child-request)
               (if child-id
                 (ok-or-400 (census/create
                             (census/map->PregnancyResult child-request)))
@@ -370,3 +217,12 @@
   (routes
    my-app
    (route/resources "/")))
+
+
+(comment
+
+  (get-in app [:childs 0 :childs 0 :childs 1 :childs 0 :childs 0 :info :summary])
+  (first (:childs app))
+  (second (:childs app))
+
+  )

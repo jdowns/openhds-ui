@@ -1,57 +1,54 @@
 (ns ohds.handler-test
   (:require [clojure.test :refer :all]
             [clj-http.fake :refer [with-fake-routes]]
+            [schema-generators.generators :as g]
             [ring.mock.request :as mock]
             [cheshire.core :refer :all]
-            [ohds.handler :refer :all]))
+            [ohds.handler :refer :all]
+            [ohds.model :refer :all]
+            [ohds.fake-routes :refer :all]
+            [clojure.spec :as spec]))
 
-(def passwordHash
-  "$2a$04$DZnJbV03m2DcHu5GoAg6/OqVZu.wIjo5VwvjBEXVoxVy1eM.0sdc6")
-
-(def fake-routes
-  {"http://localhost:8080/users/bulk.json"
-   (fn [request]
-     {:status 200 :headers {}
-      :body (generate-string
-             [{:uuid "12345"
-               :username "user"
-               :passwordHash passwordHash}])})
-   "http://localhost:8080/projectCodes/bulk.json"
-   (fn [request]
-     {:status 200 :headers {}
-      :body (generate-string
-             [{:uuid "123"
-                :codeGroup "testGroup"
-                :codeName "testCode"
-                :codeValue "test"
-                :description "a test"}
-              {:uuid "456"
-               :codeName "differentCode"
-               :codeGroup "differentGroup"
-               :codeValue "other"
-               :description "a code"}])})
-   "http://localhost:8080/fieldWorkers/bulk.json"
-   (fn [request]
-     {:status 200 :headers {}
-      :body (generate-string
-             [{:uuid "12345"
-               :fieldWorkerId "user"
-               :passwordHash passwordHash}])})})
 
 (defn parse [result]
   (-> result :body slurp
       parse-string))
 
+(deftest handler-helper-tests ;;;TODO: creates should be 201
+  (testing "ok-or-400 returns ok if body is truthy"
+    (is (= {:status 200 :body {} :headers {}}
+           (ok-or-400 {}))))
+  (testing "ok-or-400 returns 400 if body if falsy"
+    (is (= {:status 400 :body nil :headers {}}
+           (ok-or-400 nil))))
+  (testing "ok-or-401 returns ok if body is truthy"
+    (is (= {:status 200 :body {} :headers {}}
+           (ok-or-401 {})))
+    (is (= {:status 401 :body nil :headers {}}
+           (ok-or-401 nil)))))
+
+
 (deftest route-tests
   (testing "PUT /api/user"
-    (with-fake-routes fake-routes
-      (let [result
-            (app (-> (mock/request :put "/api/user")
-                     (mock/body  (generate-string
-                                  {:username "user"
-                                   :password "password"}))
-                     (mock/content-type "application/json")))]
-        (is (= "12345" (parse result))))))
+    (testing "valid login"
+      (with-fake-routes fake-routes
+        (let [result
+              (app (-> (mock/request :put "/api/user")
+                       (mock/body  (generate-string
+                                    {:username "user"
+                                     :password "password"}))
+                       (mock/content-type "application/json")))]
+          (is (= "12345" (parse result))))))
+    (testing "invalid login"
+      (with-fake-routes fake-routes
+        (let [result
+              (app (-> (mock/request :put "/api/user")
+                       (mock/body  (generate-string
+                                    {:username "user"
+                                     :password "badpassword"}))
+                       (mock/content-type "application/json")))]
+          (is (= {:status 401, :headers {}, :body nil}
+                 result))))))
 
   (testing "GET /api/projectcode/:group"
     (with-fake-routes fake-routes
@@ -75,7 +72,117 @@
                                    :password "password"}))
                      (mock/content-type "application/json")))]
         (is (= "12345" (parse result))))))
-  #_(testing "POST /api/fieldworker"
+  (testing "POST /api/locationHierarchy"
     (with-fake-routes fake-routes
       (let [result
-            ]))))
+            (app (-> (mock/request :post "/api/locationHierarchy")
+                     (mock/body (generate-string
+                                 (g/generate LocationHierarchyRequest)))
+                     (mock/content-type "application/json")))]
+        (is (spec/valid? :ohds.model/entity-response result)))))
+  (testing "POST /api/locationHierarchyLevel"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/locationHierarchyLevel")
+                     (mock/body (generate-string
+                                 (g/generate LocationHierarchyLevelRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/socialgroup"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/socialgroup")
+                     (mock/body (generate-string
+                                 (g/generate SocialGroupRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/location"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/location")
+                     (mock/body (generate-string
+                                 (g/generate LocationRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/individual"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/individual")
+                     (mock/body (generate-string
+                                 (g/generate IndividualRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/membership"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/membership")
+                     (mock/body (generate-string
+                                 (g/generate MembershipRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/residency"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/residency")
+                     (mock/body (generate-string
+                                 (g/generate ResidencyRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/death"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/death")
+                     (mock/body (generate-string
+                                 (g/generate DeathRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/inMigration"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/inMigration")
+                     (mock/body (generate-string
+                                 (g/generate InMigrationRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/outMigration"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/outMigration")
+                     (mock/body (generate-string
+                                 (g/generate OutMigrationRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/pregnancyObservation"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/pregnancyObservation")
+                     (mock/body (generate-string
+                                 (g/generate PregnancyObservationRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/pregnancyOutcome"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/pregnancyOutcome")
+                     (mock/body (generate-string
+                                 (g/generate PregnancyOutcomeRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  (testing "POST /api/pregnancyOutcome"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/pregnancyOutcome")
+                     (mock/body (generate-string
+                                 (g/generate PregnancyOutcomeRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+  #_(testing "POST /api/visit"
+    (with-fake-routes fake-routes
+      (let [result
+            (app (-> (mock/request :post "/api/visit")
+                     (mock/body (generate-string
+                                 (g/generate VisitRequest)))
+                     (mock/content-type "application/json")))]
+        (is (= "1234" (parse result))))))
+
+)

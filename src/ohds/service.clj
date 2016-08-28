@@ -51,19 +51,6 @@
       parse-body
       :uuid))
 
-(defn get-entity
-  "Get entities at url identified by key.
-   optional keys to further describe entity"
-  [url key & keys]
-  (let [entity-keys (into []
-                          (concat [:uuid :extId] keys))]
-    (->> url
-         http-get
-         parse-body
-         :_embedded
-         key
-         (map #(select-keys % entity-keys)))))
-
 (defn get-all
   [url]
   (parse-body (http-get url)))
@@ -83,7 +70,6 @@
       :content))
 
 (comment
-  (get-entity "/locations.bulk" :locations)
   (get-one "/locations" "770615e2-745d-42c5-b793-1f4d0b5feba2")
 
   (every?

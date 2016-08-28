@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate
       ng-init="model.loadData()">
     <fieldset>
       <legend>Create Pregnancy Result</legend>
@@ -16,6 +16,8 @@
 
       </div>
       <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+      <div ng-if="form.$valid">
         <submitbutton></submitbutton>
+      </div>
     </fieldset>
 </form>

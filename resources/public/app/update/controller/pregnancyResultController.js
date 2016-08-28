@@ -5,22 +5,12 @@ angular.module('openHDS.view')
 function PregnancyResultController(AppState, $location, $http) {
     var vm = this;
 
-    if (!AppState.validateUser()) {
-        return vm;
-    }
+    AppState.validateUser();
 
     vm.collectedByUuid = AppState.user.userId;
     vm.individual = AppState.currentVisit.activeIndividual.uuid;
     vm.pregnancyOutcome = AppState.currentVisit.pregnancyOutcome;
-    vm.create = validateCreate;
     vm.date = new Date();
-    vm.loadData = loadData;
-
-    function validateCreate(formValid) {
-        if (formValid) {
-            create();
-        }
-    }
 
     function handleCodes(response) {
         vm.codes = response.data;
@@ -30,13 +20,12 @@ function PregnancyResultController(AppState, $location, $http) {
         vm.genderCodes = response.data;
     }
 
-
-    function loadData() {
+    vm.loadData = function() {
         $http.get('/api/projectcode/pregnancyResultType').then(handleCodes);
         $http.get('/api/projectcode/gender').then(handleGenderCodes);
-    }
+    };
 
-    function create() {
+    vm.create = function() {
         var body = {
             visit: vm.visit,
             type: vm.type,
@@ -47,5 +36,5 @@ function PregnancyResultController(AppState, $location, $http) {
         };
 
         $http.post("/api/pregnancyResult", body).then(AppState.handleNextUpdate);
-    }
+    };
 }

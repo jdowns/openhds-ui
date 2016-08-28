@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate>
     <fieldset>
         <legend>Create Out Migration</legend>
         <textbox label="Reason" id="reason" ng-model="model.reason"></textbox>
@@ -9,6 +9,8 @@
         <constbox label="Individual" id="individual" ng-model="model.individual"></constbox>
         <!--textbox label="Residency" id="residency" ng-model="model.residency"></constbox-->
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
     </fieldset>
 </form>

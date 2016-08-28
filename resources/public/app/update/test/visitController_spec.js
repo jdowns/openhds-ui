@@ -14,6 +14,7 @@ describe('VisitController', function () {
 
         AppStateMock = {
             user: {isSupervisor: true, userId: 123},
+            validateUser: function() {},
             loadData: function () {
             }
         };
@@ -26,6 +27,13 @@ describe('VisitController', function () {
                 $location: $locationMock
             });
     }));
+
+    it('initializes', function() {
+        $httpBackend.expectGET('/api/location').respond(["location1", "location2"]);
+        controller.loadData();
+        $httpBackend.flush();
+        expect(controller.locations).toEqual(["location1", "location2"]);
+    });
 
     it('submits new visit and gets individuals for update', function () {
         var expectedResponse = {data: "location-uuid"};
@@ -47,7 +55,7 @@ describe('VisitController', function () {
         controller.extId = "test";
         controller.type = "foo";
 
-        controller.create(true);
+        controller.create();
         $httpBackend.flush();
         expect(AppStateMock.currentVisit.visitId).toEqual("123");
         expect($locationMock.url).toHaveBeenCalledWith("/visit");

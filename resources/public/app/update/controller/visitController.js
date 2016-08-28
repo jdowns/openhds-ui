@@ -13,6 +13,8 @@ function VisitModel(vm) {
 }
 
 function VisitController(AppState, $location, $http) {
+    AppState.validateUser();
+
     var locationUrl = "/api/location";
     var individualUrl = "/api/individual";
     var visitUrl = "/api/visit";
@@ -20,21 +22,15 @@ function VisitController(AppState, $location, $http) {
     var loginPage = "/";
 
     var vm = this;
-    if (!AppState.user) {
-        $location.url(loginPage);
-    }
 
     vm.collectedByUuid = AppState.user.userId;
-    vm.create = validateCreate;
     vm.date = new Date().toISOString();
-    vm.loadData = loadData;
     vm.inMigrations = false;
-    return vm;
 
     /* Private */
-    function loadData() {
+    vm.loadData = function() {
         $http.get(locationUrl).then(locationsResponse);
-    }
+    };
 
     function locationsResponse(response) {
         vm.locations = response.data;
@@ -55,14 +51,10 @@ function VisitController(AppState, $location, $http) {
         $http.get(individualUrl + "/" + vm.location).then(individualResponse);
     }
 
-    function validateCreate(formValid) {
-        if (formValid) {
-            create();
-        }
-    }
-
-    function create() {
+    vm.create = function() {
         var body = new VisitModel(vm);
         $http.post(visitUrl, body).then(visitResponse);
-    }
+    };
+
+    return vm;
 }

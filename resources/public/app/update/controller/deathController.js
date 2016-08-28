@@ -5,28 +5,14 @@ angular.module('openHDS.view')
 function DeathController(AppState, $location, $http) {
     var vm = this;
 
-    if (!AppState.validateUser()) {
-        return vm;
-    }
+    AppState.validateUser();
 
     vm.collectedByUuid = AppState.user.userId;
     vm.individual = AppState.currentVisit.activeIndividual.uuid.uuid;
     vm.visit = AppState.currentVisit.visitId;
-    vm.create = validateCreate;
     vm.date = new Date();
-    vm.loadData = loadData;
 
-    function validateCreate(formValid) {
-        if (formValid) {
-            create();
-        }
-    }
-
-    function loadData() {
-
-    }
-
-    function create() {
+    vm.create = function() {
         console.log("currentVisit");
         console.log(AppState.currentVisit);
 
@@ -40,5 +26,5 @@ function DeathController(AppState, $location, $http) {
             collectedByUuid: vm.collectedByUuid
         };
         $http.post("/api/death", body).then(AppState.handleNextUpdate);
-    }
+    };
 }

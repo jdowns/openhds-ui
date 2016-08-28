@@ -5,13 +5,9 @@ angular.module('openHDS.view')
 
 function VisitEventsController(AppState, $location, $http, $log) {
     var vm = this;
-    if (!AppState.user) {
-        $location.url('/');
-        return vm;
-    }
 
-    vm.loadData = loadData;
-    vm.create = create;
+    AppState.validateUser();
+
     vm.updateEvents = {
         death: false,
         outMigration: false,
@@ -19,7 +15,7 @@ function VisitEventsController(AppState, $location, $http, $log) {
         pregnancyOutcome: false
     };
 
-    function loadData() {
+    vm.loadData = function() {
         vm.collectedByUuid = AppState.user.userId;
         vm.currentVisit = AppState.currentVisit.visitId;
         vm.currentLocation = AppState.currentVisit.locationId;
@@ -33,9 +29,9 @@ function VisitEventsController(AppState, $location, $http, $log) {
             uuid: vm.currentIndividual,
             updates: []
         };
-    }
+    };
 
-    function create() {
+    vm.create = function() {
         if (vm.updateEvents.outMigration) {
             AppState.currentVisit.activeIndividual.updates.push('outMigration');
         }
@@ -50,10 +46,8 @@ function VisitEventsController(AppState, $location, $http, $log) {
         }
 
         AppState.handleNextUpdate();
-    }
+    };
 
-    //fetch individuals at this location
-    //add event for each individual
-    //when done with individual, return to this page
-    //show recorded events for each individual
+    return vm;
+
 }

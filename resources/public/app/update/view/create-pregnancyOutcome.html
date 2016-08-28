@@ -1,4 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate>
     <fieldset>
         <legend>Create Pregnancy Outcome</legend>
         <textbox label="Mother" id="mother" ng-model="model.mother"></textbox>
@@ -6,6 +6,8 @@
         <datebox label="Outcome Date" id="outcomeDate" ng-model="model.outcomeDate"></datebox>
         <constbox label="Visit" id="visit" ng-model="model.visit"></constbox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
     </fieldset>
 </form>

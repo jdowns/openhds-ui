@@ -1,5 +1,4 @@
-<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate
-      ng-init="model.loadData()">
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate>
     <fieldset>
         <legend>Create Death</legend>
         <constbox label="Visit" id="visit" ng-model="model.visit"></constbox>
@@ -8,6 +7,8 @@
         <textbox label="Death Cause" id="deathCause" ng-model="model.deathCause"></textbox>
         <datebox label="Death Date" id="deathDate" ng-model="model.deathDate"></datebox>
         <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
-        <submitbutton></submitbutton>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
     </fieldset>
 </form>

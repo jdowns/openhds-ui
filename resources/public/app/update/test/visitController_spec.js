@@ -35,6 +35,16 @@ describe('VisitController', function () {
         expect(controller.locations).toEqual(["location1", "location2"]);
     });
 
+    it('navigates to inMigration page if inMigrations is set', function() {
+        controller.inMigrations = true;
+        controller.location = '123';
+        $httpBackend.expectPOST('/api/visit').respond('visit-id');
+        $httpBackend.expectGET('/api/individual/123').respond('individual-id');
+        controller.create();
+        $httpBackend.flush();
+        expect($locationMock.url).toHaveBeenCalledWith('/visit/inMigration');
+    });
+
     it('submits new visit and gets individuals for update', function () {
         var expectedResponse = {data: "location-uuid"};
         $httpBackend.expectPOST('/api/visit',

@@ -20,8 +20,7 @@
            :pregnancyResult "/pregnancyResults"
            :locationHierarchy "/locationHierarchies"
            :locationHierarchyLevel "/locationHierarchyLevels"
-           :visit "/visits"
-           })
+           :visit "/visits"})
 
 (defn bulk-url
   [url]
@@ -255,7 +254,9 @@
 (defrecord Visit []
   Entity->Rest
   (create [this]
-    (post-entity :visit))
+    (->> this
+         (nest-uuid :location)
+         (post-entity :visit )))
   (fetch [this]
     (fetch-entity :visit)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -32,13 +32,21 @@ function VisitController(AppState, $location, $http) {
         $http.get(locationUrl).then(locationsResponse);
     };
 
+    function navigateToNextPage() {
+        if (vm.inMigrations) {
+            nextPage = "/visit/inMigration";
+        }
+
+        $location.url(nextPage);
+    }
+
     function locationsResponse(response) {
         vm.locations = response.data;
     }
 
     function individualResponse(response) {
         AppState.currentVisit.individuals = response.data;
-        $location.url(nextPage);
+        navigateToNextPage();
     }
 
     function visitResponse(response) {

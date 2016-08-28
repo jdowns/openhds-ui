@@ -30,12 +30,31 @@ describe('InMigrationController', function () {
         spyOn(AppStateMock, 'handleNextUpdate');
     }));
 
-    it('submits new out migration and continues to next udpate',
+    it('initializes', function() {
+        $httpBackend.expectGET('/api/projectcode/gender').respond(["a", "b"]);
+        controller.loadData();
+        $httpBackend.flush();
+        expect(controller.codes).toEqual(["a", "b"]);
+    });
+
+    it('submits new in migration and continues to next udpate',
        function () {
+           $httpBackend.expectPOST('/api/individual').respond('individual-id');
            $httpBackend.expectPOST('/api/inMigration').respond("inmigration-id");
+           controller.areMoreIndividuals = false;
            controller.create();
            $httpBackend.flush();
 
-           expect(AppStateMock.handleNextUpdate).toHaveBeenCalled();
-    });
+           expect($locationMock.url).toHaveBeenCalledWith("/visit");
+       });
+    it('submits new in migration and presents form again',
+       function () {
+           $httpBackend.expectPOST('/api/individual').respond('individual-id');
+           $httpBackend.expectPOST('/api/inMigration').respond("inmigration-id");
+           controller.areMoreIndividuals = true;
+           controller.create();
+           $httpBackend.flush();
+
+           expect($locationMock.url).toHaveBeenCalledWith("/visit/inMigration");
+       });
 });

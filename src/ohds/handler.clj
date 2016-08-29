@@ -3,25 +3,11 @@
             [ring.util.http-response :refer :all]
             [compojure.route :as route]
             [schema.core :as s]
+            [ohds.handler-util :refer [ok-or-400 ok-or-401]]
             [ohds.initial-census :as census]
             [ohds.projectcode-service :as codes]
-            [ohds.model :refer :all]))
-
-
-(defn ok-or-error
-  "Returns ok if body is not nil, otherwise error"
-  [body error]
-  (if (some? body)
-    (ok body)
-    (error)))
-
-(defn ok-or-401
-  [body]
-  (ok-or-error body unauthorized))
-
-(defn ok-or-400
-  [body]
-  (ok-or-error body bad-request))
+            [ohds.model :refer :all]
+            [ohds.user-handler :refer [user-api]]))
 
 (def my-app
   (api
@@ -35,12 +21,8 @@
     (context "/api" []
       :tags ["api"]
 
-      (context "/user" []
-        (PUT "/" []
-          :summary "Log in user"
-          :return (s/maybe s/Str)
-          :body [login-attempt LoginAttempt]
-          (ok-or-401 (census/find-user login-attempt))))
+
+      user-api
 
       (context "/locationHierarchy" []
         (POST "/" []
@@ -73,18 +55,7 @@
           :path-params [group :- s/Str]
           (ok (codes/codes group))))
 
-      (context "/fieldworker" []
-        (PUT "/" []
-          :summary "Log in fieldworker"
-          :return (s/maybe s/Str)
-          :body [login-attempt LoginAttempt]
-          (ok-or-401 (census/find-fieldworker login-attempt)))
 
-        (POST "/" []
-          :summary "Create new fieldworker"
-          :return (s/maybe s/Str)
-          :body [fieldworker-request FieldWorkerRequest]
-          (ok-or-400 (census/create-fieldworker fieldworker-request))))
 
       (context "/socialgroup" []
         (POST "/" []

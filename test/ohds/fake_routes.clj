@@ -16,6 +16,7 @@
                     [{:uuid "12345"
                       :username "user"
                       :passwordHash passwordHash}])}))
+
    "http://localhost:8080/projectCodes/bulk.json"
    (fn [request]
      {:status 200 :headers {}
@@ -108,6 +109,10 @@
    (fn [request]
      {:status 200 :headers {}
       :body (slurp "dev-resources/test/LocationHierarchies.bulk.json")})
+   "http://localhost:8080/fieldWorkers"
+   (fn [request]
+     {:status 200 :headers {}
+      :body (generate-string {:uuid "new-fw-id"})})
    "http://localhost:8080/fieldWorkers/bulk.json"
    (fn [request]
      {:status 200 :headers {}

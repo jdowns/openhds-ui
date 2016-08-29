@@ -6,46 +6,52 @@
 
   <div class="col-md-4" id="leftColumn">
 
-  <div id="entities">
-    <h2>Entities</h2>
-    <p>
-      <button ng-click="model.show('locations');">
-        Locations
-      </button>
-    </p>
-    <p>
-      <button ng-click="model.show('socialgroups');">
-        Social Groups
-      </button>
-    </p>
-    <p>Individuals</p>
-    <p>Relationships</p>
-    <h2>Events</h2>
-    <p>Visits</p>
-    <p>In Migrations</p>
-    <p>Out Migrations</p>
-    <p>Deaths</p>
-    <p>Pregnancy Observations</p>
-    <p>Pregnancy Outcomes</p>
-    <p>Pregnancy Results</p>
+    <div id="entities">
+
+      <h2>Entities</h2>
+
+      <p>
+        <button ng-click="model.show('locations');">
+          Locations
+        </button>
+      </p>
+      <p>
+        <button ng-click="model.show('socialgroups');">
+          Social Groups
+        </button>
+      </p>
+      <p>Individuals</p>
+      <p>Relationships</p>
+
+      <h2>Events</h2>
+
+      <p>Visits</p>
+      <p>In Migrations</p>
+      <p>Out Migrations</p>
+      <p>Deaths</p>
+      <p>Pregnancy Observations</p>
+      <p>Pregnancy Outcomes</p>
+      <p>Pregnancy Results</p>
+
   </div>
 
-</div>
+  </div>
 
   <div class='col-md-4'>
-<div ng-show="model.visible === 'locations'">
-  Location!
-</div>
+    <div ng-show="model.visible === 'locations'">
+      Location!
+    </div>
 
-<div ng-show="model.visible === 'socialgroups'">
-  Social Groups!
-</div>
+    <div ng-show="model.visible === 'socialgroups'">
+      Social Groups!
+    </div>
 
-<form>
-  <label for="search">Search {{model.visible}}: </label>
-  <div>
-    <input type="text" id="search"></input>
+    <form>
+      <div>
+        <input type="text" id="search"></input>
+        <button id="doSearch">Search {{model.visible}}</button>
+      </div>
+
+    </form>
   </div>
-</form>
-</div>
 </form>

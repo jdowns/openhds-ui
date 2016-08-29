@@ -10,7 +10,6 @@
             [ohds.fake-routes :refer :all]
             [clojure.spec :as spec]))
 
-
 (deftest route-tests
   (testing "GET /api/projectcode/:group"
     (with-fake-routes fake-routes

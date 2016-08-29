@@ -120,6 +120,11 @@ function routeConfig($routeProvider) {
             controller: 'FieldWorkerController',
             controllerAs: 'model'
         })
+        .when('/audit', {
+            templateUrl: 'audit/view/entity-audit.html',
+            controller: 'EntityAuditController',
+            controllerAs: 'model'
+        })
         .otherwise({redirectTo: '/'});
 }
 

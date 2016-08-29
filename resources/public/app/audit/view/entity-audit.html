@@ -32,6 +32,7 @@
 
 </div>
 
+  <div class='col-md-4'>
 <div ng-show="model.visible === 'locations'">
   Location!
 </div>
@@ -39,10 +40,12 @@
 <div ng-show="model.visible === 'socialgroups'">
   Social Groups!
 </div>
-<div class="col-md-4">
 
-  {{model.visible}}
-  {{model.visible === 'locations'}}
-  {{model.visible === 'socialgroups'}}
+<form>
+  <label for="search">Search {{model.visible}}: </label>
+  <div>
+    <input type="text" id="search"></input>
+  </div>
+</form>
 </div>
 </form>

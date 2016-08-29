@@ -1,9 +1,23 @@
-<div class="col-md-4" id="leftColumn">
+<form name="form"
+      class="form-horizontal"
+      ng-submit="model.create()"
+      ng-init="model.loadData()"
+      novalidate>
+
+  <div class="col-md-4" id="leftColumn">
 
   <div id="entities">
     <h2>Entities</h2>
-    <p>Locations</p>
-    <p>Social Groups</p>
+    <p>
+      <button ng-click="model.show('locations');">
+        Locations
+      </button>
+    </p>
+    <p>
+      <button ng-click="model.show('socialgroups');">
+        Social Groups
+      </button>
+    </p>
     <p>Individuals</p>
     <p>Relationships</p>
     <h2>Events</h2>
@@ -17,8 +31,18 @@
   </div>
 
 </div>
-<div class="col-md-4">
-  <form name="form" class="form-horizontal" ng-submit="model.create()" novalidate
-      ng-init="model.loadData()">
-  </form>
+
+<div ng-show="model.visible === 'locations'">
+  Location!
 </div>
+
+<div ng-show="model.visible === 'socialgroups'">
+  Social Groups!
+</div>
+<div class="col-md-4">
+
+  {{model.visible}}
+  {{model.visible === 'locations'}}
+  {{model.visible === 'socialgroups'}}
+</div>
+</form>

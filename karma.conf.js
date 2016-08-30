@@ -22,13 +22,16 @@ module.exports = function(config){
         'resources/public/app/bower_components/angular-mocks/angular-mocks.js',
         'test/framework.js',
         'resources/public/app/app.js',
+
         'resources/public/app/census/controller/*.js',
         'resources/public/app/auth/controller/*.js',
         'resources/public/app/update/controller/*.js',
+        'resources/public/app/audit/controller/*.js',
+
         'resources/public/app/census/test/*.js',
         'resources/public/app/auth/test/*.js',
-        'resources/public/app/auth/test/*.js',
         'resources/public/app/update/test/*.js',
+        'resources/public/app/audit/test/*.js',
         'test/*.js'
     ],
 

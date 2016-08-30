@@ -1,9 +1,5 @@
-<form name="form"
-      class="form-horizontal"
-      ng-submit="model.create()"
-      ng-init="model.loadData()"
-      novalidate>
-
+<div class='container'
+     ng-init="model.loadData()">
   <div class="col-md-4" id="leftColumn">
 
     <div id="entities">
@@ -20,38 +16,215 @@
           Social Groups
         </button>
       </p>
-      <p>Individuals</p>
-      <p>Relationships</p>
+      <p>
+        <button ng-click="model.show('individuals');">
+          Individuals
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('relationships');">
+          Relationships
+        </button>
+      </p>
 
       <h2>Events</h2>
 
-      <p>Visits</p>
-      <p>In Migrations</p>
-      <p>Out Migrations</p>
-      <p>Deaths</p>
-      <p>Pregnancy Observations</p>
-      <p>Pregnancy Outcomes</p>
-      <p>Pregnancy Results</p>
+      <p>
+        <button ng-click="model.show('visits');">
+          Visits
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('inmigrations');">
+          In Migrations
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('outmigrations');">
+          Out Migrations
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('deaths');">
+          Deaths
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('pregnancyobservations');">
+          Pregnancy Observations
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('pregnancyoutcomes');">
+          Pregnancy Outcomes
+        </button>
+      </p>
+
+      <p>
+        <button ng-click="model.show('pregnancyresults');">
+          Pregnancy Results
+        </button>
+      </p>
 
   </div>
 
   </div>
 
   <div class='col-md-4'>
-    <div ng-show="model.visible === 'locations'">
-      Location!
-    </div>
-
-    <div ng-show="model.visible === 'socialgroups'">
-      Social Groups!
-    </div>
-
     <form>
       <div>
         <input type="text" id="search"></input>
         <button id="doSearch">Search {{model.visible}}</button>
       </div>
-
     </form>
+
+    <div ng-show="model.visible === 'individuals'">
+      <form name="form" class="form-horizontal"
+            ng-submit="model.create()"
+            novalidate>
+        <div class='container'>
+          <div class='col-md-2'>
+            <div><label>Uuid: </label> </div> <!--const-->
+            <div><label>Insert By: </label> </div> <!--const-->
+            <div><label>Insert Date: </label> </div> <!--const-->
+            <div><label>Last Modified By: </label> </div> <!--const-->
+            <div><label>Last Modified Date: </label> </div> <!--const-->
+            <div><label>Collected By: </label></div> <!--const-->
+            <div><label>Collection Date Time: </label> </div> <!--const-->
+            <div><label>External ID: </label> </div>
+            <div><label>First Name: </label> </div>
+            <div><label>Last Name: </label> </div>
+            <div><label>Gender: </label> </div>
+        </div>
+        <div class='col-md-2'>
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <button> Save </button> </div>
+        </div>
+        </div>
+      </form>
+    </div>
+
+    <div ng-show="model.visible === 'socialgroups'">
+      <form name="form" class="form-horizontal"
+            ng-submit="model.create()"
+            novalidate>
+        <div class='container'>
+          <div class='col-md-2'>
+            <div><label>Uuid: </label> </div> <!--const-->
+            <div><label>Insert By: </label> </div> <!--const-->
+            <div><label>Insert Date: </label> </div> <!--const-->
+            <div><label>Last Modified By: </label> </div> <!--const-->
+            <div><label>Last Modified Date: </label> </div> <!--const-->
+            <div><label>Collected By: </label></div> <!--const-->
+            <div><label>Collection Date Time: </label> </div> <!--const-->
+            <div><label>External ID: </label> </div>
+            <div><label>Group Name: </label> </div>
+            <div><label>Group Type: </label> </div>
+          </div>
+          <div class='col-md-2'>
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <button> Save </button> </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div ng-show="model.visible === 'locations">
+      <form name="form" class="form-horizontal"
+            ng-submit="model.create()"
+            novalidate>
+        <div class='container'>
+          <div class='col-md-2'>
+            <div><label>Uuid: </label> </div> <!--const-->
+            <div><label>Insert By: </label> </div> <!--const-->
+            <div><label>Insert Date: </label> </div> <!--const-->
+            <div><label>Last Modified By: </label> </div> <!--const-->
+            <div><label>Last Modified Date: </label> </div> <!--const-->
+            <div><label>Collected By: </label></div> <!--const-->
+            <div><label>Collection Date Time: </label> </div> <!--const-->
+            <div><label>External ID: </label> </div>
+            <div><label>Name: </label> </div>
+            <div><label>Type: </label> </div>
+            <div><label>Description: </label> </div>
+          </div>
+          <div class='col-md-2'>
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <button> Save </button> </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div ng-show="model.visible === 'relationships">
+      <form name="form" class="form-horizontal"
+            ng-submit="model.create()"
+            novalidate>
+        <div class='container'>
+          <div class='col-md-2'>
+            <div><label>Uuid: </label> </div> <!--const-->
+            <div><label>Insert By: </label> </div> <!--const-->
+            <div><label>Insert Date: </label> </div> <!--const-->
+            <div><label>Last Modified By: </label> </div> <!--const-->
+            <div><label>Last Modified Date: </label> </div> <!--const-->
+            <div><label>Collected By: </label></div> <!--const-->
+            <div><label>Collection Date Time: </label> </div> <!--const-->
+            <div><label>Individual A: </label> </div>
+            <div><label>Individual B: </label> </div>
+            <div><label>Relationship Type: </label> </div>
+            <div><label>Start Date: </label> </div>
+        </div>
+        <div class='col-md-2'>
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div> <!--const-->
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <input type="text" /></div>
+            <div> <button> Save </button> </div>
+        </div>
+        </div>
+      </form>
+    </div>
+
   </div>
-</form>
+</div>

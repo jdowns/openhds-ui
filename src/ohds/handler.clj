@@ -21,7 +21,6 @@
     (context "/api" []
       :tags ["api"]
 
-
       user-api
 
       (context "/locationHierarchy" []
@@ -75,7 +74,15 @@
         (GET "/" []
           :summary "Get all locations"
           :return [Location]
-          (ok (census/all-locations))))
+          (ok (census/all-locations)))
+
+        (GET "/:uuid" []
+          :summary "Get location identified by uuid"
+          :path-params [uuid :- s/Str]
+                                        ;return Location
+          (ok (census/fetch
+               (census/map->Location {:uuid uuid})))
+          ))
 
       (context "/individual" []
         (POST "/" []
@@ -196,4 +203,7 @@
   (first (:childs app))
   (second (:childs app))
 
+  (census/fetch
+   (census/map->Location
+    {:uuid "cb9b7353-fdb4-4c94-99a5-67c9c0eb8709"}))
   )

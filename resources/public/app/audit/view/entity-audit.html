@@ -7,7 +7,7 @@
       <h2>Entities</h2>
 
       <p>
-        <button ng-click="model.show('locations');">
+        <button ng-click="model.show('location');">
           Locations
         </button>
       </p>
@@ -79,8 +79,10 @@
   <div class='col-md-4'>
     <form>
       <div>
-        <input type="text" id="search"></input>
-        <button id="doSearch">Search {{model.visible}}</button>
+        <input type="text" id="search" ng-model="model.searchval"></input>
+        <button id="doSearch"
+                ng-click="model.search(model.searchval)">
+          Search {{model.visible}}</button>
       </div>
     </form>
 
@@ -92,7 +94,7 @@
          ng-include="'audit/view/socialGroupPartial.html'">
     </div>
 
-    <div ng-show="model.visible === 'locations'"
+    <div ng-show="model.visible === 'location'"
          ng-include="'audit/view/locationPartial.html'">
     </div>
 

@@ -7,14 +7,17 @@ function EntityAuditController(AppState, $location, $http) {
 
     vm.show = function(id) {
         vm.visible = id;
+        console.log(vm.visible);
     };
 
     function handleSearchResult(result) {
+        console.log("result");
+        console.log(result.data);
         vm.entity = result.data;
     }
 
     vm.search = function(uuid) {
-        $http.get('/api/search/' + vm.visible + '/' + uuid)
+        $http.get('/api/' + vm.visible + '/' + uuid)
             .then(handleSearchResult);
     };
 

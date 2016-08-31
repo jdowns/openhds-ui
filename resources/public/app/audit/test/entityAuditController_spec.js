@@ -35,7 +35,7 @@ describe('EntityAuditController', function() {
                 visibleForm = 'an-entity',
                 entity = 'entity';
 
-            $httpBackend.expectGET("/api/search/" + visibleForm + '/' +  uuid)
+            $httpBackend.expectGET("/api/" + visibleForm + '/' +  uuid)
                 .respond(entity);
 
             controller.show(visibleForm);

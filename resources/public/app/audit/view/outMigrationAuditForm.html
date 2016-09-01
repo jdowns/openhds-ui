@@ -1,4 +1,4 @@
-<h2>Relationship</h2>
+<h2>Out Migration</h2>
 <form name="form" class="form-horizontal"
       ng-submit="model.create()"
       novalidate>
@@ -11,10 +11,12 @@
       <div><label>Last Modified Date: </label> </div> <!--const-->
       <div><label>Collected By: </label></div> <!--const-->
       <div><label>Collection Date Time: </label> </div> <!--const-->
-      <div><label>Individual A: </label> </div>
-      <div><label>Individual B: </label> </div>
-      <div><label>Relationship Type: </label> </div>
-      <div><label>Start Date: </label> </div>
+      <div><label>Individual: </label> </div>
+      <div><label>Residency: </label> </div>
+      <div><label>Destination: </label> </div>
+      <div><label>Reason: </label> </div>
+      <div><label>Visit: </label> </div>
+      <div><label>Migration Date: </label> </div>
     </div>
     <div class='col-md-2'>
       <div> <input type="text" ng-model='model.entity.uuid' disabled/></div> <!--const-->
@@ -24,10 +26,12 @@
       <div> <input type="text" ng-model='model.entity.lastModifiedDate' disabled/></div> <!--const-->
       <div> <input type="text" ng-model='model.entity.collectedBy.uuid' disabled/></div> <!--const-->
       <div> <input type="text" ng-model='model.entity.collectionDateTime' disabled/></div> <!--const-->
-      <div> <input type="text" ng-model='model.entity.individualA.uuid/></div>
-      <div> <input type="text" ng-model='model.entity.individualB.uuid'/></div>
-      <div> <input type="text" ng-model='model.entity.relationshipType'/></div>
-      <div> <input type="text" ng-model='model.entity.startDate'/></div>
+      <div> <input type="text" ng-model='model.entity.individual.uuid/></div>
+      <div> <input type="text" ng-model='model.entity.residency.uuid/></div>
+      <div> <input type="text" ng-model='model.entity.destination/></div>
+      <div> <input type="text" ng-model='model.entity.reason/></div>
+      <div> <input type="text" ng-model='model.entity.visit.uuid/></div>
+      <div> <input type="text" ng-model='model.entity.migrationDate/></div>
       <div> <button> Save </button> </div>
     </div>
   </div>

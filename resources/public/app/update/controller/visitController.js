@@ -16,7 +16,7 @@ function VisitController(AppState, $location, $http) {
     AppState.validateUser();
 
     var locationUrl = "/api/location";
-    var individualUrl = "/api/individual";
+    var individualUrl = "/api/individual/byLocation";
     var visitUrl = "/api/visit";
     var nextPage = "/visit";
     var loginPage = "/";

@@ -39,7 +39,7 @@ describe('VisitController', function () {
         controller.inMigrations = true;
         controller.location = '123';
         $httpBackend.expectPOST('/api/visit').respond('visit-id');
-        $httpBackend.expectGET('/api/individual/123').respond('individual-id');
+        $httpBackend.expectGET('/api/individual/byLocation/123').respond('individual-id');
         controller.create();
         $httpBackend.flush();
         expect($locationMock.url).toHaveBeenCalledWith('/visit/inMigration');
@@ -56,7 +56,7 @@ describe('VisitController', function () {
                                     collectedByUuid:123
                                 }).respond("123");
 
-        $httpBackend.expectGET('/api/individual/testloc')
+        $httpBackend.expectGET('/api/individual/byLocation/testloc')
             .respond('some individuals...');
 
         controller.name = "test";

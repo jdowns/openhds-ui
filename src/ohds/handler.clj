@@ -55,14 +55,18 @@
           (ok (codes/codes group))))
 
 
-
       (context "/socialgroup" []
         (POST "/" []
           :summary "Create new social group"
           :return (s/maybe s/Str)
           :body [request SocialGroupRequest]
           (ok-or-400 (census/create
-                      (census/map->SocialGroup request)))))
+                      (census/map->SocialGroup request))))
+        (GET "/:uuid" []
+          :summary "Get social group by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->SocialGroup {:uuid uuid})))))
 
       (context "/location" []
         (POST "/" []
@@ -91,7 +95,12 @@
           :body [request IndividualRequest]
           (ok-or-400 (census/create
                       (census/map->Individual request))))
-        (GET "/:location-id" []
+        (GET "/:uuid" []
+          :summary "Get individual by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->Individual {:uuid uuid}))))
+        (GET "/byLocation/:location-id" []
           :summary "Get all individuals at location"
           :path-params [location-id :- s/Str]
           :return [Individual]
@@ -106,7 +115,12 @@
           :return (s/maybe s/Str)
           :body [request MembershipRequest]
           (ok-or-400 (census/create
-                      (census/map->Membership request)))))
+                      (census/map->Membership request))))
+        (GET "/:uuid" []
+          :summary "Get membership by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->Membership {:uuid uuid})))))
 
       (context "/residency" []
         (POST "/" []
@@ -114,7 +128,12 @@
           :return (s/maybe s/Str)
           :body [request ResidencyRequest]
           (ok-or-400 (census/create
-                      (census/map->Residency request)))))
+                      (census/map->Residency request))))
+        (GET "/:uuid" []
+          :summary "Get residency by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->Residency {:uuid uuid})))))
 
       (context "/relationship" []
           (POST "/" []
@@ -122,7 +141,12 @@
             :return (s/maybe s/Str)
             :body [request RelationshipRequest]
             (ok-or-400 (census/create
-                        (census/map->Relationship request)))))
+                        (census/map->Relationship request))))
+          (GET "/:uuid" []
+            :summary "Get relationship by id"
+            :path-params [uuid :- s/Str]
+            (ok (census/fetch
+                 (census/map->Relationship {:uuid uuid})))))
 
       (context "/death" []
         (POST "/" []
@@ -130,7 +154,12 @@
           :return (s/maybe s/Str)
           :body [request DeathRequest]
           (ok-or-400 (census/create
-                      (census/map->Death request)))))
+                      (census/map->Death request))))
+        (GET "/:uuid" []
+          :summary "Get death by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->Death {:uuid uuid})))))
 
       (context "/inMigration" []
         (POST "/" []
@@ -138,7 +167,12 @@
           :return (s/maybe s/Str)
           :body [request InMigrationRequest]
           (ok-or-400 (census/create
-                      (census/map->InMigration request)))))
+                      (census/map->InMigration request))))
+        (GET "/:uuid" []
+          :summary "Get inMigration by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->InMigration {:uuid uuid})))))
 
       (context "/outMigration" []
         (POST "/" []
@@ -146,7 +180,12 @@
           :return (s/maybe s/Str)
           :body [request OutMigrationRequest]
           (ok-or-400 (census/create
-                      (census/map->OutMigration request)))))
+                      (census/map->OutMigration request))))
+        (GET "/:uuid" []
+          :summary "Get outMigration by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->OutMigration {:uuid uuid})))))
 
       (context "/pregnancyObservation" []
         (POST "/" []
@@ -154,7 +193,12 @@
           :return (s/maybe s/Str)
           :body [request PregnancyObservationRequest]
           (ok-or-400 (census/create
-                      (census/map->PregnancyObservation request)))))
+                      (census/map->PregnancyObservation request))))
+        (GET "/:uuid" []
+          :summary "Get pregnancy observation by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->PregnancyObservation {:uuid uuid})))))
 
       (context "/pregnancyOutcome" []
         (POST "/" []
@@ -162,7 +206,12 @@
           :return (s/maybe s/Str)
           :body [request PregnancyOutcomeRequest]
           (ok-or-400 (census/create
-                      (census/map->PregnancyOutcome request)))))
+                      (census/map->PregnancyOutcome request))))
+        (GET "/:uuid" []
+          :summary "Get pregnancy outcome by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->PregnancyOutcome {:uuid uuid})))))
 
       (context "/pregnancyResult" []
         (POST "/" []
@@ -181,7 +230,12 @@
                             (census/map->PregnancyResult child-request)))
                 (bad-request)))
             (ok-or-400 (census/create
-                        (census/map->PregnancyResult request))))))
+                        (census/map->PregnancyResult request)))))
+        (GET "/:uuid" []
+          :summary "Get pregnancy result by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->PregnancyResult {:uuid uuid})))))
 
       (context "/visit" []
         (POST "/" []
@@ -189,7 +243,12 @@
           :return (s/maybe s/Str)
           :body [visit-request VisitRequest]
           (ok-or-400 (census/create
-                      (census/map->Visit visit-request))))))))
+                      (census/map->Visit visit-request))))
+        (GET "/:uuid" []
+          :summary "Get visit by id"
+          :path-params [uuid :- s/Str]
+          (ok (census/fetch
+               (census/map->Visit {:uuid uuid}))))))))
 
 (def app
   (routes

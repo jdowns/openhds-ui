@@ -196,7 +196,7 @@
          (nest-uuid :visit)
          (post-entity :death)))
   (fetch [this]
-    (fetch-entity :death)))
+    (fetch-entity :death this)))
 
 (defrecord InMigration []
   Entity->Rest
@@ -207,7 +207,7 @@
          (nest-uuid :residency)
          (post-entity :inMigration)))
   (fetch [this]
-    (fetch-entity :inMigration)))
+    (fetch-entity :inMigration this)))
 
 (defrecord OutMigration []
   Entity->Rest
@@ -218,7 +218,7 @@
          (nest-uuid :residency)
          (post-entity :outMigration)))
   (fetch [this]
-    (fetch-entity :outMigration)))
+    (fetch-entity :outMigration this)))
 
 (defrecord PregnancyObservation []
   Entity->Rest
@@ -228,7 +228,7 @@
          (nest-uuid :visit)
          (post-entity :pregnancyObservation)))
   (fetch [this]
-    (fetch-entity :pregnancyObservation)))
+    (fetch-entity :pregnancyObservation this)))
 
 (defrecord PregnancyOutcome []
   Entity->Rest
@@ -239,7 +239,7 @@
          (nest-uuid :visit)
          (post-entity :pregnancyOutcome)))
   (fetch [this]
-    (fetch-entity :pregnancyObservation)))
+    (fetch-entity :pregnancyObservation this)))
 
 (defrecord PregnancyResult []
   Entity->Rest
@@ -249,7 +249,7 @@
          (nest-uuid :pregnancyOutcome)
          (post-entity :pregnancyResult)))
   (fetch [this]
-    (fetch-entity :pregnancyResult)))
+    (fetch-entity :pregnancyResult this)))
 
 (defrecord Visit []
   Entity->Rest

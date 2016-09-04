@@ -22,6 +22,7 @@ describe('EntityAuditController', function() {
     }));
 
     describe('EntityAuditController', function() {
+
         it('initializes correctly', function() {
 
             var visibleForm = 'an-entity';
@@ -29,6 +30,7 @@ describe('EntityAuditController', function() {
 
             expect(controller.visible).toEqual(visibleForm);
         });
+
         it('searches visible entity', function() {
 
             var uuid = 'a-uuid',
@@ -44,5 +46,19 @@ describe('EntityAuditController', function() {
 
             expect(controller.entity).toEqual(entity);
         });
+
+        it('submits visible entity', function() {
+            controller.entity = {uuid: "an-entity"};
+            controller.visible = "entity";
+
+            $httpBackend.expectPOST("/api/entity/an-entity", controller.entity)
+                .respond("an-entity");
+
+            controller.submit();
+            $httpBackend.flush();
+            expect(controller.lastSubmittedEntity).toEqual({uuid: "an-entity",
+                                                            type: "entity"});
+        });
+
     });
 });

@@ -7,6 +7,7 @@
             [ohds.initial-census :as census]
             [ohds.projectcode-service :as codes]
             [ohds.model :refer :all]
+            [ohds.service :as svc]
             [ohds.user-handler :refer [user-api]]))
 
 (def my-app
@@ -20,6 +21,18 @@
 
     (context "/api" []
       :tags ["api"]
+
+      (context "/byHierarchy" []
+        (GET "/:entity/:hierarchy-id" []
+          :summary "Get all entities at hierarchy-id"
+          :path-params [entity :- s/Str
+                        hierarchy-id :- s/Str]
+          :return [Entity]
+          (ok
+           (map
+            #(select-keys % [:extId :uuid])
+            (svc/get-some (census/urls (keyword entity))
+                          hierarchy-id)))))
 
       user-api
 
@@ -75,6 +88,7 @@
           :body [request LocationRequest]
           (ok-or-400 (census/create
                       (census/map->Location request))))
+
         (GET "/" []
           :summary "Get all locations"
           :return [Location]
@@ -83,10 +97,15 @@
         (GET "/:uuid" []
           :summary "Get location identified by uuid"
           :path-params [uuid :- s/Str]
-                                        ;return Location
           (ok (census/fetch
-               (census/map->Location {:uuid uuid})))
-          ))
+               (census/map->Location {:uuid uuid}))))
+
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :return (s/maybe s/Str)
+          :body [request s/Any]
+          (ok-or-400 (census/create
+                      (census/map->Location request)))))
 
       (context "/individual" []
         (POST "/" []
@@ -95,11 +114,20 @@
           :body [request IndividualRequest]
           (ok-or-400 (census/create
                       (census/map->Individual request))))
+
         (GET "/:uuid" []
           :summary "Get individual by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
                (census/map->Individual {:uuid uuid}))))
+
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->Individual request))))
+
         (GET "/byLocation/:location-id" []
           :summary "Get all individuals at location"
           :path-params [location-id :- s/Str]
@@ -120,7 +148,13 @@
           :summary "Get membership by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->Membership {:uuid uuid})))))
+               (census/map->Membership {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->Membership request)))))
 
       (context "/residency" []
         (POST "/" []
@@ -133,7 +167,13 @@
           :summary "Get residency by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->Residency {:uuid uuid})))))
+               (census/map->Residency {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->Residency request)))))
 
       (context "/relationship" []
           (POST "/" []
@@ -146,7 +186,13 @@
             :summary "Get relationship by id"
             :path-params [uuid :- s/Str]
             (ok (census/fetch
-                 (census/map->Relationship {:uuid uuid})))))
+                 (census/map->Relationship {:uuid uuid}))))
+          (POST "/:uuid" []
+            :summary "Update entity for <uuid>"
+            :body [request s/Any]
+            :return (s/maybe s/Str)
+            (ok-or-400 (census/create
+                        (census/map->Relationship request)))))
 
       (context "/death" []
         (POST "/" []
@@ -159,7 +205,13 @@
           :summary "Get death by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->Death {:uuid uuid})))))
+               (census/map->Death {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->Death request)))))
 
       (context "/inMigration" []
         (POST "/" []
@@ -172,7 +224,13 @@
           :summary "Get inMigration by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->InMigration {:uuid uuid})))))
+               (census/map->InMigration {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->InMigration request)))))
 
       (context "/outMigration" []
         (POST "/" []
@@ -185,7 +243,13 @@
           :summary "Get outMigration by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->OutMigration {:uuid uuid})))))
+               (census/map->OutMigration {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->OutMigration request)))))
 
       (context "/pregnancyObservation" []
         (POST "/" []
@@ -198,7 +262,13 @@
           :summary "Get pregnancy observation by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->PregnancyObservation {:uuid uuid})))))
+               (census/map->PregnancyObservation {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->PregnancyObservation request)))))
 
       (context "/pregnancyOutcome" []
         (POST "/" []
@@ -211,7 +281,13 @@
           :summary "Get pregnancy outcome by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->PregnancyOutcome {:uuid uuid})))))
+               (census/map->PregnancyOutcome {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->PregnancyOutcome request)))))
 
       (context "/pregnancyResult" []
         (POST "/" []
@@ -235,7 +311,13 @@
           :summary "Get pregnancy result by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->PregnancyResult {:uuid uuid})))))
+               (census/map->PregnancyResult {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->PregnancyResult request)))))
 
       (context "/visit" []
         (POST "/" []
@@ -248,7 +330,13 @@
           :summary "Get visit by id"
           :path-params [uuid :- s/Str]
           (ok (census/fetch
-               (census/map->Visit {:uuid uuid}))))))))
+               (census/map->Visit {:uuid uuid}))))
+        (POST "/:uuid" []
+          :summary "Update entity for <uuid>"
+          :body [request s/Any]
+          :return (s/maybe s/Str)
+          (ok-or-400 (census/create
+                      (census/map->Visit request))))))))
 
 (def app
   (routes
@@ -265,4 +353,9 @@
   (census/fetch
    (census/map->Location
     {:uuid "cb9b7353-fdb4-4c94-99a5-67c9c0eb8709"}))
+
+  (let [entity (census/fetch
+                (census/map->Location {:uuid "018f4c97-ecf3-4370-a97d-f0b0a3c7b0a3"}))]
+    (census/create
+     (census/map->Location (assoc entity :type "URBAN"))))
   )

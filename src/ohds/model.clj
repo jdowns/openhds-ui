@@ -161,6 +161,10 @@
   {:extId s/Str
    :uuid s/Str})
 
+(s/defschema Entity
+  {:uuid s/Str
+   (s/optional-key :extId) s/Str})
+
 (s/defschema LocationHierarchyLevel
   {:uuid s/Str
    :name s/Str

@@ -1,4 +1,4 @@
-<div class='container'
+<div class="container"
      ng-init="model.loadData()">
   <div class="col-md-4" id="leftColumn">
 
@@ -12,18 +12,18 @@
         </button>
       </p>
       <p>
-        <button ng-click="model.show('socialgroups');">
+        <button ng-click="model.show('socialGroup');">
           Social Groups
         </button>
       </p>
       <p>
-        <button ng-click="model.show('individuals');">
+        <button ng-click="model.show('individual');">
           Individuals
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('relationships');">
+        <button ng-click="model.show('relationship');">
           Relationships
         </button>
       </p>
@@ -31,37 +31,37 @@
       <h2>Events</h2>
 
       <p>
-        <button ng-click="model.show('visits');">
+        <button ng-click="model.show('visit');">
           Visits
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('inmigrations');">
+        <button ng-click="model.show('inMigration');">
           In Migrations
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('outmigrations');">
+        <button ng-click="model.show('outMigration');">
           Out Migrations
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('deaths');">
+        <button ng-click="model.show('death');">
           Deaths
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('pregnancyobservations');">
+        <button ng-click="model.show('pregnancyObservation');">
           Pregnancy Observations
         </button>
       </p>
 
       <p>
-        <button ng-click="model.show('pregnancyoutcomes');">
+        <button ng-click="model.show('pregnancyOutcome');">
           Pregnancy Outcomes
         </button>
       </p>
@@ -75,22 +75,58 @@
     </div>
 
   </div>
-
-  <div class='col-md-4'>
+  <div class='col-md-8'>
     <form>
-      <div>
-        <input type="text" id="search" ng-model="model.searchval"></input>
-        <button id="doSearch"
-                ng-click="model.search(model.searchval)">
-          Search {{model.visible}}</button>
+      <div class="form-group">
+        <label class="col-md-4 control-label">Hierarchy Root</label>
+        <div class="col-md-4">
+          <select ng-model="model.selectedRootHierarchy"
+                  ng-change="model.updateRootHierarchy()"
+                  class="form-control">
+            <option ng-repeat="h in model.root"
+                    value="{{h.uuid}}">{{h.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <br /> <br />
+      <div class="form-group">
+        <div ng-repeat="hierarchy in model.hierarchiesByLevel">
+          <br />
+          <div class="form-group">
+            <label class="col-md-4 control-label">Hierarchy Level {{$index}}</label>
+            <div class="col-md-4">
+              <select ng-model="model.locationPath[$index+1]"
+                      ng-change="model.updateHierarchy($index+1)"
+                      class="form-control">
+                <option ng-repeat="hiera in hierarchy"
+                        value="{{hiera.uuid}}">{{hiera.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br /> <br />
+      <div class="form-group">
+        <label class="col-md-4 control-label">{{model.visible}}</label>
+        <div class="col-md-4">
+          <select ng-model="model.currentLocation"
+                  ng-change="model.search(model.currentLocation)"
+                  class="form-control">
+            <option ng-repeat="location in model.locations"
+                    value="{{location.uuid}}">{{location.extId}}
+            </option>
+          </select>
+        </div>
       </div>
     </form>
 
-    <div ng-show="model.visible === 'individuals'"
+    <div ng-show="model.visible === 'individual'"
          ng-include="'audit/view/individualPartial.html'">
     </div>
 
-    <div ng-show="model.visible === 'socialgroups'"
+    <div ng-show="model.visible === 'socialGroup'"
          ng-include="'audit/view/socialGroupPartial.html'">
     </div>
 
@@ -98,33 +134,33 @@
          ng-include="'audit/view/locationPartial.html'">
     </div>
 
-    <div ng-show="model.visible === 'relationships'"
+    <div ng-show="model.visible === 'relationship'"
          ng-include="'audit/view/relationshipPartial.html'">
     </div>
 
     <!-- Updates -->
 
-    <div ng-show="model.visible === 'visits'"
+    <div ng-show="model.visible === 'visit'"
          ng-include="'audit/view/visitAuditForm.html'">
     </div>
 
-    <div ng-show="model.visible === 'inmigrations'"
+    <div ng-show="model.visible === 'inMigration'"
          ng-include="'audit/view/inMigrationAuditForm.html'">
     </div>
 
-    <div ng-show="model.visible === 'outmigrations'"
+    <div ng-show="model.visible === 'outMigration'"
          ng-include="'audit/view/outMigrationAuditForm.html'">
     </div>
 
-    <div ng-show="model.visible === 'deaths'"
+    <div ng-show="model.visible === 'death'"
          ng-include="'audit/view/deathAuditForm.html'">
     </div>
 
-    <div ng-show="model.visible === 'pregnancyobservations'"
+    <div ng-show="model.visible === 'pregnancyObservation'"
          ng-include="'audit/view/pregnancyObservationAuditForm.html'">
     </div>
 
-    <div ng-show="model.visible === 'pregnancyoutcomes'"
+    <div ng-show="model.visible === 'pregnancyOutcome'"
          ng-include="'audit/view/pregnancyOutcomeAuditForm.html'">
     </div>
 

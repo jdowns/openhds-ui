@@ -285,9 +285,12 @@
      (map #(fetch (map->Individual {:uuid %})))
      doall)))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Manual Tests ;;;;
 (comment
+  (get-locations-at-hierarchy "5d19cb44-2b75-4182-9451-09f6ae90c994")
+
   (find-user {:username "user"
               :password "password"})
 

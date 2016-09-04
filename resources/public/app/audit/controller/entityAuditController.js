@@ -7,19 +7,64 @@ function EntityAuditController(AppState, $location, $http) {
 
     vm.show = function(id) {
         vm.visible = id;
-        console.log(vm.visible);
+        if (vm.currentHierarchy) {
+            $http.get('/api/byHierarchy/' + id + "/" + vm.currentHierarchy)
+                .then(handleGetLocations);
+        }
     };
 
+    vm.updateRootHierarchy = function() {
+        var selected = vm.selectedRootHierarchy;
+        vm.hierarchiesByLevel = [vm.locationHierarchies[selected]];
+        vm.locationPath = [selected];
+    };
+
+    vm.updateHierarchy = function(hierarchyLevel) {
+        var selectedUuid = vm.locationPath[hierarchyLevel];
+        var nextHierarchies = vm.locationHierarchies[selectedUuid];
+
+        if (nextHierarchies === undefined) {
+            vm.currentHierarchy = selectedUuid;
+            $http.get('/api/byHierarchy/' + vm.visible + '/' +
+                      selectedUuid).then(handleGetLocations);
+
+            return;
+        }
+        vm.hierarchiesByLevel.push(nextHierarchies);
+    };
+
+    function handleGetLocations(response) {
+        vm.locations = response.data;
+    }
+
     function handleSearchResult(result) {
-        console.log("result");
-        console.log(result.data);
         vm.entity = result.data;
     }
+
+    function handleSubmitResult(result) {
+        vm.lastSubmittedEntity = {uuid: result.data,
+                                  type: vm.visible}
+    }
+
+    function handleLocationHierarchy(response) {
+        vm.locationHierarchies = response.data;
+        vm.root = vm.locationHierarchies[""];
+    }
+
+
+    vm.loadData = function() {
+        $http.get('/api/locationHierarchy').then(handleLocationHierarchy);
+    };
 
     vm.search = function(uuid) {
         $http.get('/api/' + vm.visible + '/' + uuid)
             .then(handleSearchResult);
     };
+
+    vm.submit = function() {
+        $http.post('/api/' + vm.visible + "/" + vm.entity.uuid, vm.entity)
+            .then(handleSubmitResult);
+    }
 
     return vm;
 }

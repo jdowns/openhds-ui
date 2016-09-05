@@ -1,4 +1,5 @@
 'use strict';
+
 console.log("Starting application");
 
 angular.module('openHDS.core', ['ngRoute'])

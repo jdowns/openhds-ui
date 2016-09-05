@@ -59,6 +59,7 @@
 (defn find-user'
   "Find user that matches login attempt"
   [{:keys [username password]} users]
+  (println username password)
   (->>
    users
    (filter (partial validate username password))
@@ -71,6 +72,7 @@
 
 (defn find-fieldworker
   [login-attempt]
+  (println login-attempt)
   (find-user' login-attempt
               (map fieldworker->user (parse-body (all-fieldworkers)))))
 

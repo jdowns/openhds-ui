@@ -2,14 +2,16 @@ angular.module('openHDS.view')
     .controller('EntityAuditController',
                 ['AppState', '$location', '$http', EntityAuditController]);
 
+
 function EntityAuditController(AppState, $location, $http) {
+
     var vm = this;
+    return vm;
 
     vm.show = function(id) {
         vm.visible = id;
         if (vm.currentHierarchy) {
-            $http.get('/api/byHierarchy/' + id + "/" + vm.currentHierarchy)
-                .then(handleGetLocations);
+            getEntitiesByHierarchy(vm.currentHierarchy);
         }
     };
 
@@ -25,25 +27,29 @@ function EntityAuditController(AppState, $location, $http) {
 
         if (nextHierarchies === undefined) {
             vm.currentHierarchy = selectedUuid;
-            $http.get('/api/byHierarchy/' + vm.visible + '/' +
-                      selectedUuid).then(handleGetLocations);
+            getEntitiesByHierarchy(selectedUuid);
 
             return;
         }
         vm.hierarchiesByLevel.push(nextHierarchies);
     };
 
-    function handleGetLocations(response) {
-        vm.locations = response.data;
+    function getEntitiesByHierarchy(uuid) {
+        $http.get('/api/byHierarchy/' + vm.visible + '/' + uuid)
+            .then(responseHandler('locations'));
     }
 
-    function handleSearchResult(result) {
-        vm.entity = result.data;
+    function responseHandler(targetField) {
+        return function(response) {
+            vm[targetField] = response.data;
+        };
     }
 
     function handleSubmitResult(result) {
-        vm.lastSubmittedEntity = {uuid: result.data,
-                                  type: vm.visible}
+        vm.lastSubmittedEntity = {
+            uuid: result.data,
+            type: vm.visible
+        };
     }
 
     function handleLocationHierarchy(response) {
@@ -51,14 +57,13 @@ function EntityAuditController(AppState, $location, $http) {
         vm.root = vm.locationHierarchies[""];
     }
 
-
     vm.loadData = function() {
         $http.get('/api/locationHierarchy').then(handleLocationHierarchy);
     };
 
     vm.search = function(uuid) {
         $http.get('/api/' + vm.visible + '/' + uuid)
-            .then(handleSearchResult);
+            .then(responseHandler('entity'));
     };
 
     vm.submit = function() {

@@ -1,76 +1,25 @@
-<div class="container"
-     ng-init="model.loadData()">
-  <div class="col-md-4" id="leftColumn">
+<div ng-init="model.loadData()">
+  <div class="col-md-2" id="navColumn" style="background-color: black; color: white;">
+    <h1> Open HDS </h1>
 
     <div id="entities">
 
       <h2>Entities</h2>
 
-      <p>
-        <button ng-click="model.show('location');">
-          Locations
-        </button>
-      </p>
-      <p>
-        <button ng-click="model.show('socialGroup');">
-          Social Groups
-        </button>
-      </p>
-      <p>
-        <button ng-click="model.show('individual');">
-          Individuals
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('relationship');">
-          Relationships
-        </button>
-      </p>
+      <div> <a ng-click="model.show('location');"> Locations </a></div>
+      <div> <a ng-click="model.show('socialGroup');"> Groups </a></div>
+      <div> <a ng-click="model.show('individual');"> Individuals </a> </div>
+      <div> <a ng-click="model.show('relationship');"> Relationships </a> </div>
 
       <h2>Events</h2>
 
-      <p>
-        <button ng-click="model.show('visit');">
-          Visits
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('inMigration');">
-          In Migrations
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('outMigration');">
-          Out Migrations
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('death');">
-          Deaths
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('pregnancyObservation');">
-          Pregnancy Observations
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('pregnancyOutcome');">
-          Pregnancy Outcomes
-        </button>
-      </p>
-
-      <p>
-        <button ng-click="model.show('pregnancyResult');">
-          Pregnancy Results
-        </button>
-      </p>
+      <div> <a ng-click="model.show('visit');"> Visits </a> </div>
+      <div> <a ng-click="model.show('inMigration');"> In Migrations </a> </div>
+      <div> <a ng-click="model.show('outMigration');"> Out Migrations </a> </div>
+      <div> <a ng-click="model.show('death');"> Deaths </a> </div>
+      <div> <a ng-click="model.show('pregnancyObservation');"> Pregnancy Observations </a> </div>
+      <div> <a ng-click="model.show('pregnancyOutcome');"> Pregnancy Outcomes </a> </div>
+      <div> <a ng-click="model.show('pregnancyResult');"> Pregnancy Results </a> </div>
 
     </div>
 
@@ -123,49 +72,49 @@
     </form>
 
     <div ng-show="model.visible === 'individual'"
-         ng-include="'audit/view/individualPartial.html'">
+         ng-include="'audit/partials/individualPartial.html'">
     </div>
 
     <div ng-show="model.visible === 'socialGroup'"
-         ng-include="'audit/view/socialGroupPartial.html'">
+         ng-include="'audit/partials/socialGroupPartial.html'">
     </div>
 
     <div ng-show="model.visible === 'location'"
-         ng-include="'audit/view/locationPartial.html'">
+         ng-include="'audit/partials/locationPartial.html'">
     </div>
 
     <div ng-show="model.visible === 'relationship'"
-         ng-include="'audit/view/relationshipPartial.html'">
+         ng-include="'audit/partials/relationshipPartial.html'">
     </div>
 
     <!-- Updates -->
 
     <div ng-show="model.visible === 'visit'"
-         ng-include="'audit/view/visitAuditForm.html'">
+         ng-include="'audit/partials/visitAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'inMigration'"
-         ng-include="'audit/view/inMigrationAuditForm.html'">
+         ng-include="'audit/partials/inMigrationAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'outMigration'"
-         ng-include="'audit/view/outMigrationAuditForm.html'">
+         ng-include="'audit/partials/outMigrationAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'death'"
-         ng-include="'audit/view/deathAuditForm.html'">
+         ng-include="'audit/partials/deathAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'pregnancyObservation'"
-         ng-include="'audit/view/pregnancyObservationAuditForm.html'">
+         ng-include="'audit/partials/pregnancyObservationAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'pregnancyOutcome'"
-         ng-include="'audit/view/pregnancyOutcomeAuditForm.html'">
+         ng-include="'audit/partials/pregnancyOutcomeAuditForm.html'">
     </div>
 
     <div ng-show="model.visible === 'pregnancyResult'"
-         ng-include="'audit/view/pregnancyResultAuditForm.html'">
+         ng-include="'audit/partials/pregnancyResultAuditForm.html'">
     </div>
   </div>
 </div>

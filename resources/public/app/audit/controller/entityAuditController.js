@@ -6,7 +6,6 @@ angular.module('openHDS.view')
 function EntityAuditController(AppState, $location, $http) {
 
     var vm = this;
-    return vm;
 
     vm.show = function(id) {
         vm.visible = id;
@@ -69,7 +68,7 @@ function EntityAuditController(AppState, $location, $http) {
     vm.submit = function() {
         $http.post('/api/' + vm.visible + "/" + vm.entity.uuid, vm.entity)
             .then(handleSubmitResult);
-    }
+    };
 
     return vm;
 }

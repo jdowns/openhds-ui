@@ -11,6 +11,11 @@ var CreateIndividualsPage =
         require('./createIndividualPage.js').CreateIndividualsPage;
 var CreateRelationshipPage =
         require('./createRelationshipPage.js').CreateRelationshipPage;
+var CreateVisitPage =
+        require('./createVisitPage.js').CreateVisitPage;
+var IndividualUpdatePage =
+        require('./individualUpdatePage.js').IndividualUpdatePage;
+
 
 var fw = require('./framework.js');
 var getElement = fw.getElement;
@@ -24,72 +29,103 @@ describe('OpenHDS workflows ', function() {
 
     it('Allows a fieldworker to create a baseline census', function() {
         var loginPage = new LoginPage();
-        loginPage.setUsername("fieldworker");
-        loginPage.setPassword("password");
-        loginPage.login();
-        browser.driver.sleep(5000);
+        loginPage.doLogin("fieldworker", "password");
         expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
 
         var homePage = new FieldWorkerHomePage();
         homePage.newCensus();
-        browser.driver.sleep(2000);
         expect(browser.getLocationAbsUrl()).toEqual('/location/new');
 
-        browser.driver.sleep(2000);
         var locationPage = new CreateLocationPage();
-        locationPage.setLocationName("Test Location");
-        locationPage.setExternalId("Test Location");
-        locationPage.setLocationType("rural");
-        selectOption('hierarchy-root');
-        selectOption('hierarchy-0');
-        selectOption('hierarchy-0-1');
-        selectOption('hierarchy-0-1-1');
-        locationPage.createLocation();
+        var loc = {
+            name: "Test Location",
+            extId: "Test Location",
+            type: "rural",
+            path: ["hierarchy-root",
+                   "hierarchy-0",
+                   "hierarchy-0-1",
+                   "hierarchy-0-1-1"]
+        };
+        locationPage.doCreateLocation(loc);
         expect(browser.getLocationAbsUrl()).toEqual('/socialGroup/new');
 
         var socialGroupPage = new CreateSocialGroupPage();
-        socialGroupPage.setGroupName("Test Group");
-        socialGroupPage.setExternalId("Test Group");
-        socialGroupPage.setGroupType("cohort");
-        socialGroupPage.createGroup();
+        var group = {
+            name: "Test Group",
+            extId: "Test Group",
+            type: "cohort"
+        };
+        socialGroupPage.doCreateGroup(group);
+
         expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
 
         var individualPage = new CreateIndividualsPage();
-        individualPage.setFirstName("Head of Household");
-        individualPage.setExternalId("Head of Household");
-        individualPage.setGender("female");
-        individualPage.setMembershipStartType("head");
-        individualPage.setMembershipStartDate("1980-01-01");
-        individualPage.setResidencyStartType("birthMigration");
-        individualPage.setResidencyStartDate("1980-01-01");
-        individualPage.clickMoreIndividuals();
-        individualPage.createIndividual();
-        browser.driver.sleep(5000);
+        var headOfHousehold = {
+            firstName: "Head of Household",
+            extId: "Head of Household",
+            gender: "female",
+            membershipStartType: "head",
+            membershipStartDate: "1980-01-01",
+            residencyStartType: "birthMigration",
+            residencyStartDate: "1980-01-01",
+            toggleMore: true
+        };
+        individualPage.doCreateIndividual(headOfHousehold);
+
         expect(browser.getLocationAbsUrl()).toEqual('/individual/new');
 
-        individualPage = new CreateIndividualsPage();
-        individualPage.setFirstName("Spouse of Head");
-        individualPage.setExternalId("Spouse of Head");
-        individualPage.setGender("male");
-        individualPage.setMembershipStartType("spouseOfHead");
-        individualPage.setMembershipStartDate("2000-01-01");
-        individualPage.setResidencyStartType("internalMigration");
-        individualPage.setResidencyStartDate("2000-01-01");
-        individualPage.clickMoreIndividuals();
-        individualPage.createIndividual();
-        browser.driver.sleep(5000);
+        var spouse = {
+            firstName: "Spouse of Household",
+            extId: "Spouse of Household",
+            gender: "male",
+            membershipStartType: "spouseOfHead",
+            membershipStartDate: "2000-01-01",
+            residencyStartType: "internalMigration",
+            residencyStartDate: "2000-01-01",
+            toggleMore: true
+        };
+        individualPage.doCreateIndividual(spouse);
+
         expect(browser.getLocationAbsUrl()).toEqual('/relationship/new');
 
         var relationshipPage = new CreateRelationshipPage();
-        relationshipPage.setIndividualB('some_uuid');
-        relationshipPage.selectRelationshipType('spouse');
-        relationshipPage.setStartDate('2000-01-01');
-        relationshipPage.createRelationship();
-        browser.driver.sleep(2000);
+        var relationship = {
+            individualB: "some_uuid",
+            type: "spouse",
+            startDate: "2000-01-01"
+        };
+
+        relationshipPage.doCreateRelationship(relationship);
+
         expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
     });
 
     it('allows a fieldworker to update a location', function() {
+        var loginPage = new LoginPage();
+        loginPage.doLogin("fieldworker", "password");
+        expect(browser.getLocationAbsUrl()).toEqual('/fieldworkerHome');
 
+        var homePage = new FieldWorkerHomePage();
+        homePage.updateVisit();
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/new');
+
+        //TODO: hiera filtering
+        var visitPage = new CreateVisitPage();
+        var visit = {
+            extId: "visit location-1",
+            location: "location-1",
+            visitDate: "2016-01-01",
+            toggleHasInMigrations: false
+        };
+        visitPage.doCreateVisit(visit);
+        expect(browser.getLocationAbsUrl()).toEqual('/visit');
+
+        var individualUpdatePage = new IndividualUpdatePage();
+        var updates = {
+            toggleOutMigration: true
+        };
+        individualUpdatePage.doCreateVisit(updates);
+
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/outMigration');
     });
 });

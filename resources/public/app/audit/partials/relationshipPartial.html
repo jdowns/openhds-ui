@@ -1,0 +1,34 @@
+<h2>Relationship</h2>
+<form name="form" class="form-horizontal"
+      ng-submit="model.create()"
+      novalidate>
+  <div class='container'>
+    <div class='col-md-2'>
+      <div><label>Uuid: </label> </div> <!--const-->
+      <div><label>Insert By: </label> </div> <!--const-->
+      <div><label>Insert Date: </label> </div> <!--const-->
+      <div><label>Last Modified By: </label> </div> <!--const-->
+      <div><label>Last Modified Date: </label> </div> <!--const-->
+      <div><label>Collected By: </label></div> <!--const-->
+      <div><label>Collection Date Time: </label> </div> <!--const-->
+      <div><label>Individual A: </label> </div>
+      <div><label>Individual B: </label> </div>
+      <div><label>Relationship Type: </label> </div>
+      <div><label>Start Date: </label> </div>
+    </div>
+    <div class='col-md-2'>
+      <div> <input type="text" class="form-control" ng-model="model.entity.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.insertBy.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.insertDate" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.lastModifiedBy.uuid" disabled/ ></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.lastModifiedDate" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.collectedBy.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.collectionDateTime" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.individualA.uuid" /></div>
+      <div> <input type="text" class="form-control" ng-model="model.entity.individualB.uuid" /></div>
+      <div> <input type="text" class="form-control" ng-model="model.entity.relationshipType" /></div>
+      <div> <input type="text" class="form-control" ng-model="model.entity.startDate" /></div>
+      <div> <button ng-click="model.submit()"> Save </button> </div>
+    </div>
+  </div>
+</form>

@@ -15,6 +15,8 @@ var CreateVisitPage =
         require('./createVisitPage.js').CreateVisitPage;
 var IndividualUpdatePage =
         require('./individualUpdatePage.js').IndividualUpdatePage;
+var PregnancyOutcomePage =
+        require('./pregnancyOutcomePage.js').PregnancyOutcomePage;
 
 
 var fw = require('./framework.js');
@@ -122,10 +124,24 @@ describe('OpenHDS workflows ', function() {
 
         var individualUpdatePage = new IndividualUpdatePage();
         var updates = {
-            toggleOutMigration: true
+            toggleOutMigration: true,
+            toggleDeath: true,
+            togglePregnancyOutcome: true,
+            togglePregnancyObservation: true
+
         };
         individualUpdatePage.doCreateVisit(updates);
 
-        expect(browser.getLocationAbsUrl()).toEqual('/visit/outMigration');
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/pregnancyOutcome');
+
+        var pregnancyOutcomePage = new PregnancyOutcomePage();
+        browser.sleep(6000);
+        var outcome = {
+            mother: "mom",
+            father: "dad",
+            date: "2016-01-01"
+        };
+        pregnancyOutcomePage.doCreate(outcome);
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/pregnancyResult');
     });
 });

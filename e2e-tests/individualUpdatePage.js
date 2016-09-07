@@ -1,10 +1,10 @@
 var fw = require('./framework.js');
 
 function IndividualUpdatePage() {
-    this.outMigrationCheckbox = fw.getElement('outMigration');
-    this.deathCheckbox = fw.getElement('death');
-    this.pregnancyObservationCheckbox = fw.getElement('pregnancyObservation');
-    this.pregnancyOutcomeCheckbox = fw.getElement('pregnancyOutcome');
+    this.outMigrationCheckbox = fw.getElement('outMigrationEvent');
+    this.deathCheckbox = fw.getElement('deathEvent');
+    this.pregnancyObservationCheckbox = fw.getElement('pregnancyObservationEvent');
+    this.pregnancyOutcomeCheckbox = fw.getElement('pregnancyOutcomeEvent');
     this.submit = fw.getElement("createButton");
 
     this.doCreateVisit = function(visit) {
@@ -15,10 +15,10 @@ function IndividualUpdatePage() {
             this.deathCheckbox.click();
         }
         if (visit.togglePregnancyObservation) {
-            this.pregnancyObservation.click();
+            this.pregnancyObservationCheckbox.click();
         }
         if (visit.togglePregnancyOutcome) {
-            this.pregnancyOutcome.click();
+            this.pregnancyOutcomeCheckbox.click();
         }
 
         this.submit.click();

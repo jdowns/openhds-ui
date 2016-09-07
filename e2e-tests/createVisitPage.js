@@ -15,6 +15,7 @@ function CreateVisitPage() {
         }
         this.submit.click();
     };
+
 }
 
 exports.CreateVisitPage = CreateVisitPage;

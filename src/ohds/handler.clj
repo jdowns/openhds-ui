@@ -1,6 +1,7 @@
 (ns ohds.handler
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
+            [ring.util.response :refer [redirect]]
             [compojure.route :as route]
             [schema.core :as s]
             [ohds.handler-util :refer [ok-or-400 ok-or-401]]
@@ -16,8 +17,12 @@
      {:ui "/api-docs"
       :spec "/swagger.json"
       :data {:info {:title "Ohds"
-                    :description "Compojure Api example"}
+                    :description "OpenHDS UI Controller
+                                  See /app/index.html"}
              :tags [{:name "api", :description "some apis"}]}}}
+    (GET "/" []
+      :summary "api redirect"
+      (redirect  "/api-docs/index.html"))
 
     (context "/api" []
       :tags ["api"]

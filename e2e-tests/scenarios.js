@@ -17,7 +17,14 @@ var IndividualUpdatePage =
         require('./individualUpdatePage.js').IndividualUpdatePage;
 var PregnancyOutcomePage =
         require('./pregnancyOutcomePage.js').PregnancyOutcomePage;
-
+var PregnancyResultPage =
+        require('./pregnancyResultPage.js').PregnancyResultPage;
+var PregnancyObservationPage =
+        require('./pregnancyObservationPage.js').Page;
+var DeathPage =
+        require('./deathPage.js').Page;
+var OutMigrationPage =
+        require('./outMigrationPage.js').Page;
 
 var fw = require('./framework.js');
 var getElement = fw.getElement;
@@ -135,7 +142,6 @@ describe('OpenHDS workflows ', function() {
         expect(browser.getLocationAbsUrl()).toEqual('/visit/pregnancyOutcome');
 
         var pregnancyOutcomePage = new PregnancyOutcomePage();
-        browser.sleep(6000);
         var outcome = {
             mother: "mom",
             father: "dad",
@@ -143,5 +149,46 @@ describe('OpenHDS workflows ', function() {
         };
         pregnancyOutcomePage.doCreate(outcome);
         expect(browser.getLocationAbsUrl()).toEqual('/visit/pregnancyResult');
+
+        var pregnancyResultPage = new PregnancyResultPage();
+        var result = {
+            resultType: "liveBirth",
+            childFirstName: "firstName",
+            childExtId: "firstName",
+            childGender: "male"
+        };
+        pregnancyResultPage.doCreate(result);
+
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/pregnancyObservation');
+
+        var pregnancyObservationPage = new PregnancyObservationPage();
+        var observation = {
+            pregnancyDate: '2016-02-01',
+            deliveryDate: '2016-10-01'
+        };
+
+        pregnancyObservationPage.doCreate(observation);
+
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/death');
+
+        var deathPage = new DeathPage();
+        var death = {
+            place: "place",
+            cause: "cause",
+            date: "2016-03-01"
+        };
+
+        deathPage.doCreate(death);
+
+        expect(browser.getLocationAbsUrl()).toEqual('/visit/outMigration');
+
+        var outMigrationPage = new OutMigrationPage();
+        var outMigration = {
+            reason: "moved",
+            destination: "place",
+            migrationType: "externalMigration",
+            migrationDate: "2016-02-01"
+        };
+        outMigrationPage.doCreate(outMigration);
     });
 });

@@ -1,17 +1,16 @@
 var fw = require('./framework.js');
 
-function DeathPage() {
-    this.place = fw.getElement('deathPlace_input');
-    this.cause = fw.getElement('deathCause_input');
-    this.date = fw.getElement('deathDate_input');
+exports.Page = function() {
+    var place = fw.getElement('deathPlace_input');
+    var cause = fw.getElement('deathCause_input');
+    var date = fw.getElement('deathDate_input');
+    var submit = fw.getElement("createButton");
 
     this.doCreate = function(update) {
-        this.place.sendKeys(update.place);
-        this.cause.sendKeys(update.cause);
-        this.date.sendKeys(update.date);
+        place.sendKeys(update.place);
+        cause.sendKeys(update.cause);
+        date.sendKeys(update.date);
 
-        this.submit.click();
+        submit.click();
     };
-}
-
-exports.DeathPage = DeathPage;
+};

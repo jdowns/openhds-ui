@@ -41,7 +41,6 @@
 
 (defn http-get
   [url]
-  (println "GETTING" url)
   (client/get (gen-url url)
               auth-header))
 

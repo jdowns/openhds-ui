@@ -27,6 +27,14 @@
     (context "/api" []
       :tags ["api"]
 
+      (context "/v2" []
+          (POST "/baseline" []
+            :summary "Create baseline census for a location"
+            :body [request BaselineRequest]
+            :return [s/Str]
+
+            (ok ["ok"])))
+
       (context "/byHierarchy" []
         (GET "/:entity/:hierarchy-id" []
           :summary "Get all entities at hierarchy-id"

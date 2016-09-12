@@ -13,6 +13,35 @@
    {:collectionDateTime s/Str
     :collectedByUuid s/Str}))
 
+(def Relationships
+  (s/enum "SELF" "SPOUSE" "SON_OR_DAUGHTER" "BROTHER_OR_SISTER"
+          "PARENT" "GRANDCHILD" "NOT_RELATED" "UNKNOWN"))
+
+(s/defschema BaselineRequest
+  {:collectedByUuid java.util.UUID
+   :collectionDateTime java.util.Date
+   :location {:name s/Str
+              :extId s/Str
+              :type (s/enum "RURAL" "URBAN")
+              :locationHierarchyUuid java.util.UUID
+              (s/optional-key :longitude) s/Num
+              (s/optional-key :latitude) s/Num
+              (s/optional-key :accuracy) s/Num
+              (s/optional-key :altitude) s/Num}
+   :socialGroup {:groupName s/Str
+                 :extId s/Str
+                 :groupType (s/enum "FAMILY" "COHORT")}
+   :individuals [{:firstName s/Str
+                  :extId s/Str
+                  :gender (s/enum "MALE" "FEMALE")
+                  :membershipType Relationships
+                  :membershipStartDate java.util.Date
+                  (s/optional-key :dateOfBirth) java.util.Date
+                  (s/optional-key :lastName) s/Str}]
+   :relationships [{:individualAIndex s/Int
+                    :individualBIndex s/Int
+                    :startDate java.util.Date
+                    :startType Relationships}]})
 
 (s/defschema LoginAttempt
   {:username s/Str

@@ -69,7 +69,6 @@
   (map (partial post-individual baseline) individuals))
 
 (defn post-residency
-
   [location collection-meta individual]
   (->>
    (residency-request collection-meta individual location)

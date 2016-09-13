@@ -69,6 +69,7 @@
   (map (partial post-individual baseline) individuals))
 
 (defn post-residency
+
   [location collection-meta individual]
   (->>
    (residency-request collection-meta individual location)
@@ -94,8 +95,8 @@
        (svc/create-entity "/relationships")))
 
 (defn post-relationships
-  [individuals baseline]
-  (map (partial post-relationship baseline) individuals))
+  [individual-ids baseline]
+  (map (partial post-relationship baseline) individual-ids))
 
 (defn submit
   [baseline]

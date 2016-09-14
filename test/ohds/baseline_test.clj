@@ -1,11 +1,11 @@
 (ns ohds.baseline-test
   (:require [clojure.test :refer :all]
             [clojure.spec :as s]
+            [schema-generators.generators :as g]
             [ohds.baseline :refer :all]
             [ohds.model :refer :all]))
 
-(defn datetime?
-  [d]
+(defn datetime? [d]
   (re-matches #"\d\d\d\d\-\d\d\-\d\dT\d\d:\d\d:\d\d\.\d\dZ" d))
 
 (s/def ::collectedByUuid string?)
@@ -41,3 +41,8 @@
 (s/def ::membership-request some?)
 (s/def ::residency-request some?)
 (s/def ::relationship-request some?)
+
+(comment
+  (submit
+   (g/generate BaselineRequest))
+  )

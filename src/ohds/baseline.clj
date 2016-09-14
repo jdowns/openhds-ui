@@ -85,7 +85,7 @@
    (svc/create-entity "/memberships")))
 
 (defn post-memberships
-  [individual socialgroup baseline]
+  [individuals socialgroup baseline]
   (map (partial post-membership socialgroup baseline) individuals))
 
 (defn post-relationship

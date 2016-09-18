@@ -1,12 +1,10 @@
 angular.module('openHDS.view')
     .controller('LocationController',
-                ['AppState', '$location', '$http', LocationController]);
+                ['$rootScope', '$location', '$http', LocationController]);
 
-function LocationController(AppState, $location, $http) {
+function LocationController($rootScope, $location, $http) {
     var vm = this;
-
-    AppState.validateUser();
-
+    
     vm.collectedByUuid = AppState.user.userId;
     vm.date = new Date().toISOString();
 

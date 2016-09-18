@@ -1,0 +1,13 @@
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate>
+    <fieldset>
+        <legend>Create Pregnancy Observation</legend>
+        <constbox label="Visit" id="visit" ng-model="model.visit"></constbox>
+        <constbox label="Mother" id="mother" ng-model="model.mother"></constbox>
+        <datebox label="Pregnancy Date" id="pregnancyDate" ng-model="model.pregnancyDate"></datebox>
+        <datebox label="Expected Delivery Date" id="expectedDeliveryDate" ng-model="model.expectedDeliveryDate"></datebox>
+        <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
+    </fieldset>
+</form>

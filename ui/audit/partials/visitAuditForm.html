@@ -1,0 +1,32 @@
+<h2>Visit</h2>
+<form name="form" class="form-horizontal"
+      ng-submit="model.create()"
+      novalidate>
+  <div class='container'>
+    <div class='col-md-2'>
+      <div><label>Uuid: </label> </div> <!--const-->
+      <div><label>Insert By: </label> </div> <!--const-->
+      <div><label>Insert Date: </label> </div> <!--const-->
+      <div><label>Last Modified By: </label> </div> <!--const-->
+      <div><label>Last Modified Date: </label> </div> <!--const-->
+      <div><label>Collected By: </label></div> <!--const-->
+      <div><label>Collection Date Time: </label> </div> <!--const-->
+      <div><label>External ID: </label> </div>
+      <div><label>Location: </label> </div> <!--const-->
+      <div><label>Visit Date: </label> </div> <!--const-->
+    </div>
+    <div class='col-md-2'>
+      <div> <input type="text" class="form-control" ng-model="model.entity.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.insertBy.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.insertDate" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.lastModifiedBy.uuid" disabled/ ></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.lastModifiedDate" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.collectedBy.uuid" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.collectionDateTime" disabled/></div> <!--const-->
+      <div> <input type="text" class="form-control" ng-model="model.entity.extId" /></div>
+      <div> <input type="text" class="form-control" ng-model="model.entity.location.uuid" /></div>
+      <div> <input type="text" class="form-control" ng-model="model.entity.visitDate" /></div>
+      <div> <button ng-click="model.submit()"> Save </button> </div>
+    </div>
+  </div>
+</form>

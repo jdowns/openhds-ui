@@ -1,0 +1,13 @@
+<form name="form" class="form-horizontal" ng-submit="model.create(form.$valid)" novalidate>
+    <fieldset>
+        <legend>Create Fieldworker</legend>
+        <textbox label="First Name" id="firstName" name="firstName" ng-model="model.firstName"></textbox>
+        <textbox label="Last Name" id="lastName" name="lastName" ng-model="model.lastName"></textbox>
+        <textbox label="Field Worker ID" id="fieldWorkerId" name="fieldWorkerId" ng-model="model.fieldWorkerId"></textbox>
+        <passwordbox label="Password" id="password" name="password" ng-model="model.password"></passwordbox>
+
+        <div ng-if="form.$valid">
+          <submitbutton></submitbutton>
+        </div>
+    </fieldset>
+</form>

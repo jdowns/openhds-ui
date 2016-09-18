@@ -1,0 +1,23 @@
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate
+      ng-init="model.loadData()">
+    <fieldset>
+      <legend>Create Pregnancy Result</legend>
+      <selectbox label="Result Type" id="resultType" ng-model="model.type">
+        <option ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
+      </selectbox>
+      <constbox label="Pregnancy Outcome" id="pregnancyOutcome" ng-model="model.pregnancyOutcome.uuid"></constbox>
+      {{model.type}}
+      <div ng-if="model.type === 'LIVE_BIRTH'">
+        <textbox label="Child First Name" id="childFirstName" ng-model="model.child.firstName"></textbox>
+        <textbox label="Child ExternalId" id="childExtId" ng-model="model.child.extId"></textbox>
+        <selectbox ng-model="model.child.gender" id="gender" name="gender" label="Child Gender">
+            <option ng-repeat="code in model.genderCodes" value="{{code.codeValue}}">{{code.codeName}}</option>
+        </selectbox>
+
+      </div>
+      <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+      <div ng-if="form.$valid">
+        <submitbutton></submitbutton>
+      </div>
+    </fieldset>
+</form>

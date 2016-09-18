@@ -1,0 +1,44 @@
+<form name="form" class="form-horizontal" ng-submit="model.create()" novalidate
+      ng-init="model.loadData()">
+    <fieldset>
+      <legend>Visit Location</legend>
+      <constbox label="Current Individual" id="currentIndividualId" ng-model="model.currentIndividual.extId"></constbox>
+      <constbox label="Field Worker ID" id="fieldWorkerId" ng-model="model.collectedByUuid"></constbox>
+      <constbox label="Location ID" id="locationId" ng-model="model.currentLocation"></constbox>
+      <constbox label="Visit ID" id="visitId" ng-model="model.currentVisit"></constbox>
+
+      <div class="formcontrol">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+                 id="outMigrationEvent"
+                 ng-model="model.updateEvents.outMigration"> Out Migration
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+                 id="deathEvent"
+                 ng-model="model.updateEvents.death"> Death
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+                 id="pregnancyObservationEvent"
+                 ng-model="model.updateEvents.pregnancyObservation"> Pregnancy Observation
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"
+                 id="pregnancyOutcomeEvent"
+                 ng-model="model.updateEvents.pregnancyOutcome"> Pregnancy Outcome
+        </label>
+      </div>
+      </div>
+      <div ng-if="form.$valid">
+        <submitbutton></submitbutton>
+      </div>
+    </fieldset>
+</form>

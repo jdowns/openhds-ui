@@ -1,6 +1,9 @@
-FROM java:8
+FROM node:wheezy
 MAINTAINER munk <munk@protonmail.com>
 ADD . /service
-COPY target/server.jar /service/server.jar
+COPY server.js /service/server.js
+COPY openhds /service/openhds
 WORKDIR /service
-CMD ["java", "-jar", "server.jar"]
+CMD ["npm install"]
+CMD ["openhds/build.sh"]
+CMD ["npm" "start"]

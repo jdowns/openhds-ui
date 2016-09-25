@@ -6,6 +6,7 @@ module.exports = function(config){
       plugins : [
           'karma-coverage',
           'karma-junit',
+          'karma-babel-preprocessor',
           'karma-chrome-launcher',
           'karma-firefox-launcher',
           'karma-phantomjs-launcher',
@@ -13,26 +14,27 @@ module.exports = function(config){
       ],
 
       preprocessors: {
-          'resources/public/app/!(bower_components|npm_modules)/**/!(test)/*.js': 'coverage'
+          'ui/!(bower_components|npm_modules)/**/!(test)/*.js': 'babel',
+          'ui/!(bower_components|npm_modules)/**/!(test)/*.js': 'coverage'
     },
 
     files : [
-        'resources/public/app/bower_components/angular/angular.js',
-        'resources/public/app/bower_components/angular-route/angular-route.js',
-        'resources/public/app/bower_components/angular-mocks/angular-mocks.js',
-        'test/framework.js',
-        'resources/public/app/app.js',
+        'ui/bower_components/angular/angular.js',
+        'ui/bower_components/angular-route/angular-route.js',
+        'ui/bower_components/angular-mocks/angular-mocks.js',
+        'ui/test/framework.js',
+        'ui/app.js',
 
-        'resources/public/app/census/controller/*.js',
-        'resources/public/app/auth/controller/*.js',
-        'resources/public/app/update/controller/*.js',
-        'resources/public/app/audit/controller/*.js',
+        'ui/census/controller/*.js',
+        'ui/auth/controller/*.js',
+        'ui/update/controller/*.js',
+        'ui/audit/controller/*.js',
 
-        'resources/public/app/census/test/*.js',
-        'resources/public/app/auth/test/*.js',
-        'resources/public/app/update/test/*.js',
-        'resources/public/app/audit/test/*.js',
-        'test/*.js'
+        'ui/census/test/*.js',
+        'ui/auth/test/*.js',
+        'ui/update/test/*.js',
+        'ui/audit/test/*.js',
+        'ui/test/*.js'
     ],
 
       autoWatch : true,

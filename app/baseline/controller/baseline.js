@@ -1,12 +1,17 @@
 angular.module('openhds')
     .controller('BaselineController',
-                ['$rootScope', '$location', '$http', BaselineController]);
+                ['$rootScope', '$location', '$http', BaselineController])
+    .factory('BaselineRegistrationService', BaselineRegistrationService);
 
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
         $('id').tab('show');
     });
+}
+
+function BaselineRegistrationService() {
+
 }
 
 function RequestFactory(fieldworker, time) {

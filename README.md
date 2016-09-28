@@ -5,10 +5,13 @@ Data entry interface for the OpenHDS System.
 ## Usage
 
 ### Run the application locally
-
 npm install
 
-npm run
+cd app && npm install
+
+cd ..
+
+npm start
 
 ## License
 

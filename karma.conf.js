@@ -10,9 +10,9 @@ module.exports = function(config) {
         ],
 
         files: [
-            'app/node_modules/angular/angular.js',
-            'app/node_modules/angular-route/angular-route.js',
-            'app/node_modules/angular-mocks/angular-mocks.js',
+            'node_modules/angular/angular.js',
+            'node_modules/angular-route/angular-route.js',
+            'node_modules/angular-mocks/angular-mocks.js',
             'app/index.js',
             'app/auth/controller/*.js',
             'app/auth/test/*.js'

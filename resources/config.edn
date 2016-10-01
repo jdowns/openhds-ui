@@ -1,3 +1,0 @@
-{:openhds-rest "http://ohdsrest:8080"
- :api-user "user"
- :api-password "password"}

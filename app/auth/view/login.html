@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>Open HDS</h1>
+  <form name="form"
+        id="loginForm"
+        class="form-horizontal"
+        ng-submit="model.login(form.$valid)"
+        ng-init="model.load()"
+        novalidate>
+
+    <fieldset>
+      <legend>Login</legend>
+      <textbox label="Username" id="username" ng-model="model.username"></textbox>
+      <passwordbox label="Password" id="password" ng-model="model.password"></passwordbox>
+      <submitbutton></submitbutton>
+    </fieldset>
+  </form>
+</div>

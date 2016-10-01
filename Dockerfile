@@ -1,8 +1,8 @@
-FROM java:8
+FROM node:wheezy
 MAINTAINER munk <munk@protonmail.com>
 ADD . /service
-CMD mkdir /service/resources
-COPY target/server.jar /service/server.jar
-COPY resources/config.edn /service/resources/config.edn
-WORKDIR /service
-CMD ["java", "-jar", "server.jar"]
+COPY server.js /service/server.js
+COPY app /service
+ORKDIR /service
+CMD node server.js
+

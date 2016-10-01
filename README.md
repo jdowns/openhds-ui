@@ -1,24 +1,19 @@
-# ohds
+# OpenHDS UI
 
-FIXME
+Data entry interface for the OpenHDS System.
 
 ## Usage
 
 ### Run the application locally
+npm install
 
-`lein ring server`
+cd app && npm install
 
-### Packaging and running as standalone jar
+cd ..
 
-```
-lein do clean, ring uberjar
-java -jar target/server.jar
-```
-
-### Packaging as war
-
-`lein ring uberwar`
+npm start
 
 ## License
 
-Copyright ©  FIXME
+MIT License
+Copyright © 2016 John Downs

@@ -1,0 +1,64 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+html, body, .app-div, .container
+{
+    height:100%;
+}
+.container
+{
+    display:table;
+    width: 100%;
+    margin-top: -50px;
+    padding-top: 50px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+header
+{
+    height: 50px;
+    background: #552700;
+    margin-left: 14.5px;
+    margin-right: 14.5px;
+}
+
+h1 {
+    margin-top: 0px;
+}
+
+a, h1
+{
+    color: #FFD1AA;
+}
+
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+
+.col-md-2.no-float, .col-md-10.no-float {
+    float: none;
+}
+
+.col-md-2
+{
+    display: table-cell;
+    background: #804515;
+    width: 25%;
+}
+
+.col-md-10
+{
+    display: table-cell;
+    background: #FFD1AA;
+    width: 75%;
+}
+
+.nav-tabs {
+    background: #804515;
+    color: #D49A6A;
+}

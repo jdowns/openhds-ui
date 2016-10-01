@@ -13,9 +13,9 @@ module.exports = function(config) {
             'node_modules/angular/angular.js',
             'node_modules/angular-route/angular-route.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'app/index.js',
-            'app/auth/controller/*.js',
-            'app/auth/test/*.js'
+            'index.js',
+            'auth/controller/*.js',
+            'auth/test/*.js'
         ],
 
         frameworks: ['jasmine'],

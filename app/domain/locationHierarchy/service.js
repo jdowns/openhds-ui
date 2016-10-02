@@ -72,12 +72,9 @@ function LocationHierarchyService($rootScope, $http) {
                     function(hierarchyJson) {
                         var hierarchy = new LocationHierarchy(hierarchyJson);
 
-                        console.log(levels);
-                        console.log(levels.find)
-                        console.log(typeof levels)
-                        hierarchy.level = levels.find(function(level) {
+                        hierarchy.level = levels.filter(function(level) {
                             return hierarchyJson.level.uuid === level.uuid;
-                        }).keyIdentifier || 0;
+                        })[0].keyIdentifier || 0;
 
                         return hierarchy;
                     });

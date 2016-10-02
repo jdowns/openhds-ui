@@ -13,18 +13,6 @@ function initTab(id) {
 
 function RequestFactory(fieldworker, time) {
     return {
-        locationRequest: function(model) {
-            return {
-                collectedByUuid: fieldworker,
-                locationHierarchyUuid: model.currentHierarchy.uuid,
-                location: {
-                    name: model.location.name,
-                    extId: model.location.extId,
-                    type: model.location.type,
-                    collectionDateTime: time
-                }
-            };
-        },
         socialGroupRequest: function(model) {
             return {
                 collectedByUuid: fieldworker,
@@ -87,23 +75,6 @@ function RequestFactory(fieldworker, time) {
     };
 }
 
-function generateRequests(model) {
-    var collectedByUuid = model.currentFieldWorker.uuid,
-        collectionDateTime = model.collectionDateTime,
-        factory = new RequestFactory(collectedByUuid, collectionDateTime);
-
-    return {
-        locationRequest: {
-            collectedByUuid: collectedByUuid,
-            location: {
-
-            }
-        },
-        socialGroupRequest: {},
-        individualRequests: [],
-        relationshipRequests: []
-    };
-}
 
 function submitBaseline($http, serverUrl, headers,
                         fieldWorkerUuid, collectionDate,
@@ -167,11 +138,11 @@ function BaselineController($rootScope, $location, $http,
     };
 
     vm.init = function() {
-        initTab('#baselineTab');
-        initTab('#locationTab');
-        initTab('#groupTab');
-        initTab('#individualsTab');
-        initTab('#relationshipsTab');
+        var tabIds = ['#baselineTab', '#locationTab',
+                      '#groupTab', '#individualsTab',
+                      '#relationshipsTab'];
+
+        tabIds.map(initTab);
 
         var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
 
@@ -232,7 +203,7 @@ function BaselineController($rootScope, $location, $http,
         // submit memberships
         // submit residencies
         // submit relationships
-    }
+    };
 
     return vm;
 }

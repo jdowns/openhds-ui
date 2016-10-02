@@ -73,6 +73,8 @@ function LocationHierarchyService($rootScope, $http) {
                         var hierarchy = new LocationHierarchy(hierarchyJson);
 
                         console.log(levels);
+                        console.log(levels.find)
+                        console.log(typeof levels)
                         hierarchy.level = levels.find(function(level) {
                             return hierarchyJson.level.uuid === level.uuid;
                         }).keyIdentifier || 0;

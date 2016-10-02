@@ -1,4 +1,12 @@
 module.exports = function(config) {
+
+    function getBrowser() {
+        if (process.env.TRAVIS) {
+            return ['Chrome_travis_ci'];
+        }
+        return ['Chrome'];
+    }
+
     config.set({
         basePath : './',
 
@@ -21,9 +29,16 @@ module.exports = function(config) {
         ],
 
         frameworks: ['jasmine'],
-        browsers: ['Chrome'],
+        browsers: getBrowser(),
         autoWatch: true,
         reporters: ['progress', 'junit'],
+
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        },
 
         junitReporter: {
             outputDir: '',

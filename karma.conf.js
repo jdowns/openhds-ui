@@ -15,11 +15,13 @@ module.exports = function(config) {
             'node_modules/angular-mocks/angular-mocks.js',
             'app/index.js',
             'app/auth/controller/*.js',
-            'app/auth/test/*.js'
+            'app/auth/test/*.js',
+            'app/domain/**/*.js',
+            'test/*.js'
         ],
 
         frameworks: ['jasmine'],
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
         autoWatch: true,
         reporters: ['progress', 'junit'],
 

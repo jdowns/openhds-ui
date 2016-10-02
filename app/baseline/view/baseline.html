@@ -34,7 +34,7 @@
         <label for="currentHierarchy">Current Location Hierarchy: </label>
         <div>
           <input type="text" class="form-control" id="currentHierarchy"
-                 ng-model="model.currentHierarchy.id" disabled></input>
+                 ng-model="model.currentHierarchy.extId" disabled></input>
         </div>
 
         <div class="btn btn-default form-control" id="fieldworker-select"
@@ -247,31 +247,4 @@
   </div>
 </div>
 
-
-<!-- hierarchy modal -->
-<div class="modal fade" id="hierarchyModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Location Hierarchy Select</h4>
-      </div>
-      <div class="modal-body">
-        <div ng-if="level.name !== 'UNKNOWN_STATUS'"
-             ng-repeat="level in model.allHierarchyLevels">
-          <select ng-model="model.selectedHierarchy[level.keyIdentifier - 1]">
-            <option ng-if="level.keyIdentifier === hierarchy.level"
-                    ng-repeat="hierarchy in model.allHierarchies"
-                    value="{{hierarchy.uuid}}">{{hierarchy.name}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"
-                ng-click="model.saveLocationHierarchy()">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>

@@ -1,17 +1,13 @@
 angular.module('openhds')
     .controller('BaselineController',
-                ['$rootScope', '$location', '$http', BaselineController])
-    .factory('BaselineRegistrationService', BaselineRegistrationService);
+                ['$rootScope', '$location', '$http', 'LocationHierarchyService',
+                 BaselineController]);
 
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
         $('id').tab('show');
     });
-}
-
-function BaselineRegistrationService() {
-
 }
 
 function RequestFactory(fieldworker, time) {
@@ -134,7 +130,7 @@ function submitBaseline($http, serverUrl, headers,
 // currentHierarchyUuid
 // collectionDateTime
 
-function BaselineController($rootScope, $location, $http) {
+function BaselineController($rootScope, $location, $http, LocationHierarchyService) {
     var vm = this;
     var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
@@ -148,11 +144,26 @@ function BaselineController($rootScope, $location, $http) {
     };
 
     vm.saveLocationHierarchy = function() {
-        var result = vm.allHierarchies.filter(
-            function(h) {
-                return h.uuid = vm.currentHierarchyUuid;
-            });
-        vm.currentHierarchy = result[0];
+        var parentIndex = vm.selectedHierarchy.length - 2;
+        var lastIndex = vm.selectedHierarchy.length - 1;
+
+        var parent = vm.selectedHierarchy[parentIndex];
+        var last = vm.selectedHierarchy[lastIndex];
+        var children = vm.locationHierarchies[parent];
+        console.log(parent)
+        console.log(vm.locationHierarchies)
+        vm.currentHierarchy = children.find(function(child) {
+            return child.uuid === last;
+        });
+    };
+
+    vm.availableHierarchies = function() {
+        var result = [];
+
+        vm.selectedHierarchy.forEach(function(h) {
+            result.push(vm.locationHierarchies[h]);
+        });
+        return result;
     };
 
     vm.init = function() {
@@ -162,17 +173,10 @@ function BaselineController($rootScope, $location, $http) {
         initTab('#individualsTab');
         initTab('#relationshipsTab');
 
-        var fieldworkersUrl = $rootScope.restApiUrl +
-                "/fieldWorkers/bulk.json";
+        var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
 
-        var locationHierarchyLevelsUrl = $rootScope.restApiUrl +
-                "/locationHierarchyLevels/bulk.json";
+        var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
-        var locationHierarchiesUrl = $rootScope.restApiUrl +
-                "/locationHierarchies/bulk.json";
-
-        var codesUrl = $rootScope.restApiUrl +
-                "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
             .then(function(response) {
@@ -189,31 +193,14 @@ function BaselineController($rootScope, $location, $http) {
                 });
             });
 
-        $http.get(locationHierarchyLevelsUrl, {headers: headers})
-            .then(function(response) {
-                vm.allHierarchyLevels = response.data.map(function(l) {
-                    return {
-                        uuid: l.uuid,
-                        name: l.name,
-                        keyIdentifier: l.keyIdentifier
-                    };
-                });
-                $http.get(locationHierarchiesUrl, {headers: headers})
-                    .then(function(response) {
-                        vm.allHierarchies = response.data.map(function(h) {
-                            //todo: filter these for select box
-                            return {uuid: h.uuid,
-                                    extId: h.extId,
-                                    name: h.name,
-                                    parent: h.parent ? h.parent.uuid : null,
-                                    level: vm.allHierarchyLevels.find(function(level) {
-                                        return h.level.uuid === level.uuid;
-                                    }).keyIdentifier
-                                   };
-                        });
-                    });
-            });
+        LocationHierarchyService.locationHierarchies(function(hierarchyTree) {
+            vm.locationHierarchies = hierarchyTree;
+        });
+        LocationHierarchyService.getLevels().then(function(response) {
+            vm.allHierarchyLevels = response.data;
+        });
     };
+
 
     function individualsSuccess(result) {
         var memberhipsUrl = $rootScope.restApiUrl + "/memberships",
@@ -228,8 +215,6 @@ function BaselineController($rootScope, $location, $http) {
 
     function locationSuccess(result) {
         var socialGroupsUrl = $rootScope.restApiUrl + "/socialGroups";
-        console.log('success');
-        console.log(result.data);
     }
 
     vm.submitVisit = function() {
@@ -244,12 +229,8 @@ function BaselineController($rootScope, $location, $http) {
                 "type": vm.location.type // TODO: lat, long, alt and accuracy
             }
         };
-        console.log(locationsBody);
-        console.log(headers);
         $http.post(locationsUrl, locationsBody, {headers: headers}).then(locationSuccess, function(result) {
             //todo: set error message here
-            console.log('error');
-            console.log(result);
         });
 
         // submit group

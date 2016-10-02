@@ -1,6 +1,7 @@
 angular.module('openhds')
     .controller('BaselineController',
-                ['$rootScope', '$location', '$http', 'LocationHierarchyService',
+                ['$rootScope', '$location', '$http',
+                 'LocationHierarchyService', 'FieldWorkerService',
                  BaselineController]);
 
 function initTab(id) {
@@ -130,7 +131,8 @@ function submitBaseline($http, serverUrl, headers,
 // currentHierarchyUuid
 // collectionDateTime
 
-function BaselineController($rootScope, $location, $http, LocationHierarchyService) {
+function BaselineController($rootScope, $location, $http,
+                            LocationHierarchyService, FieldWorkerService) {
     var vm = this;
     var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
@@ -150,8 +152,6 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
         var parent = vm.selectedHierarchy[parentIndex];
         var last = vm.selectedHierarchy[lastIndex];
         var children = vm.locationHierarchies[parent];
-        console.log(parent)
-        console.log(vm.locationHierarchies)
         vm.currentHierarchy = children.find(function(child) {
             return child.uuid === last;
         });
@@ -183,15 +183,9 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
                 vm.codes = response.data;
             });
 
-        $http.get(fieldworkersUrl, {headers: headers})
-            .then(function(response) {
-                vm.allFieldWorkers = response.data.map(function(fw) {
-                    return {uuid: fw.uuid,
-                            id: fw.fieldWorkerId,
-                            firstName: fw.firstName,
-                            lastName: fw.lastName};
-                });
-            });
+        FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
+            vm.allFieldWorkers = fieldworkers;
+        });
 
         LocationHierarchyService.locationHierarchies(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;

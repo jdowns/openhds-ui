@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('openhds')
-    .service('IndividualService',
-             ['$rootScope', '$http', IndividualService]);
+    .service('SocialGroupService',
+             ['$rootScope', '$http', SocialGroupService]);
 
-function IndividualService($rootScope, $http) {
+function SocialGroupService($rootScope, $http) {
     var service = this;
     var headers = {
         headers: {
@@ -14,19 +14,18 @@ function IndividualService($rootScope, $http) {
 
     function Request(model) {
         return {
-            collectedByUuid: model.currentFieldworker,
-            locationHierarchyUuid: model.currentHierarchy.uuid,
-            location: {
-                name: model.location.name,
-                extId: model.location.extId,
-                type: model.location.type,
+            collectedByUuid: model.fieldworker.uuid,
+            socialGroup: {
+                groupName: model.socialGroup.groupName,
+                extId: model.socialGroup.extId,
+                groupType: model.socialGroup.groupType,
                 collectionDateTime: model.collectionDateTime
             }
         };
     }
 
     service.submitOne = function(model) {
-        var url = $rootScope.restApiUrl + "/individuals";
+        var url = $rootScope.restApiUrl + "/socialGroups";
         var request = Request(model);
         $http.post(url, request, headers);
     };

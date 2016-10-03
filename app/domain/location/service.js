@@ -12,25 +12,24 @@ function LocationService($rootScope, $http) {
         }
     };
 
-    function LocationRequest(model, fieldworker, time) {
+    function Request(model) {
         return {
-            collectedByUuid: fieldworker,
+            collectedByUuid: model.currentFieldworker.uuid,
             locationHierarchyUuid: model.currentHierarchy.uuid,
             location: {
                 name: model.location.name,
                 extId: model.location.extId,
                 type: model.location.type,
-                collectionDateTime: time
+                collectionDateTime: model.collectionDateTime
             }
         };
     }
 
-    service.submitLocation = function(location, fieldworker, time, callback) {
+    service.submit = function(model, callback) {
         var url = $rootScope.restApiUrl + "/locations";
-        var request = LocationRequest(location, fieldworker, time);
+        var request = Request(model);
         $http.post(url, request, headers).then(function(response) {
-            var locationResponse = response.data;
-            callback(locationResponse);
+            callback(response.data);
         });
     };
 

@@ -2,6 +2,7 @@ angular.module('openhds')
     .controller('BaselineController',
                 ['$rootScope', '$location', '$http',
                  'LocationHierarchyService', 'FieldWorkerService',
+                 'LocationService',
                  BaselineController]);
 
 function initTab(id) {
@@ -11,99 +12,9 @@ function initTab(id) {
     });
 }
 
-function RequestFactory(fieldworker, time) {
-    return {
-        socialGroupRequest: function(model) {
-            return {
-                collectedByUuid: fieldworker,
-                socialGroup: {
-                    groupName: model.socialGroup.groupName,
-                    extId: model.socialGroup.extId,
-                    groupType: model.socialGroup.groupType,
-                    collectionDateTime: time
-                }
-            };
-        },
-        individualRequest: function(model, index) {
-            return {
-                collectedByUuid: fieldworker,
-                individual: {
-                    firstName: vm.individuals[index].firstName,
-                    lastName: vm.individuals[index].lastName,
-                    extId: vm.individuals[index].extId,
-                    gender: vm.individuals[index].gender,
-                    collectionDateTime: time
-                }
-            };
-        },
-        relationshipRequest: function(model, index) {
-            return {
-                collectedByUuid: fieldworker,
-                relationship: {
-                    individualA: vm.relationships[index].individualA,
-                    individualB: vm.relationships[index].individualB,
-                    relationshipType: vm.relationships[index].relationshipType,
-                    startDate: vm.relationships[index].startDate,
-                    collectionDateTime: time
-                }
-            };
-        },
-        membershipRequest: function(model, index) {
-            return {
-                collectedByUuid: fieldworker,
-                membership: {
-                    individual: model.memberships[index].individual,
-                    socialGroup: model.memberships[index].location,
-                    startType: model.memberships[index].startType,
-                    startDate: model.memberships[index].startDate,
-                    collectionDateTime: time
-                }
-            };
-        },
-        residencyRequest: function(model, index) {
-            return {
-                collectedByUuid: fieldworker,
-                residency: {
-                    individual: model.residencies[index].individual,
-                    location: model.residencies[index].location,
-                    startType: model.residencies[index].startType,
-                    startDate: model.residencies[index].startDate,
-                    collectionDateTime: time
-                }
-            };
-        }
-    };
-}
-
-
-function submitBaseline($http, serverUrl, headers,
-                        fieldWorkerUuid, collectionDate,
-                        locationRequest, socialGroupRequest,
-                        individualRequests, relationshipRequests) {
-    var locationUuid = "UNKNOWN",
-        socialGroupUuid = "UNKNOWN",
-        individualUuids = [];
-
-    var requestHeader = {headers: headers};
-
-    var locationPromise = $http.post(serverUrl, locationRequest, requestHeader);
-    var socialGroupPromise = $http.post(serverUrl, socialGroupRequest, requestHeader);
-    var individualPromises = individualRequests.map(function(individual) {
-        var response = $http.post(serverUrl, individual, requestHeader);
-    });
-    var membershipPromises;
-    var residencyPromises;
-    var relationshipPromises;
-}
-
-
-
-// currentFieldWorkerUuid
-// currentHierarchyUuid
-// collectionDateTime
-
 function BaselineController($rootScope, $location, $http,
-                            LocationHierarchyService, FieldWorkerService) {
+                            LocationHierarchyService, FieldWorkerService,
+                            LocationService) {
     var vm = this;
     var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
@@ -183,26 +94,7 @@ function BaselineController($rootScope, $location, $http,
     }
 
     vm.submitVisit = function() {
-        var locationsUrl = $rootScope.restApiUrl + "/locations";
-        var locationsBody = {
-            "collectedByUuid": vm.currentFieldWorker.uuid,
-            "locationHierarchyUuid": vm.selectedHierarchy[vm.selectedHierarchy.length - 1],
-            "location": {
-                "collectionDateTime": vm.collectionDateTime,
-                "extId": vm.location.extId,
-                "name": vm.location.name,
-                "type": vm.location.type // TODO: lat, long, alt and accuracy
-            }
-        };
-        $http.post(locationsUrl, locationsBody, {headers: headers}).then(locationSuccess, function(result) {
-            //todo: set error message here
-        });
-
-        // submit group
-        // submit individuals
-        // submit memberships
-        // submit residencies
-        // submit relationships
+        LocationService.submit(vm, locationSuccess);
     };
 
     return vm;

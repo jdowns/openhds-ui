@@ -17,3 +17,4 @@ gradlew.bat
 build
 target/*
 coverage/*
+testresults.html

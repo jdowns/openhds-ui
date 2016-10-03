@@ -1,6 +1,7 @@
 angular.module('openhds')
     .controller('BaselineController',
-                ['$rootScope', '$location', '$http', 'LocationHierarchyService',
+                ['$rootScope', '$location', '$http',
+                 'LocationHierarchyService', 'FieldWorkerService',
                  BaselineController]);
 
 function initTab(id) {
@@ -12,18 +13,6 @@ function initTab(id) {
 
 function RequestFactory(fieldworker, time) {
     return {
-        locationRequest: function(model) {
-            return {
-                collectedByUuid: fieldworker,
-                locationHierarchyUuid: model.currentHierarchy.uuid,
-                location: {
-                    name: model.location.name,
-                    extId: model.location.extId,
-                    type: model.location.type,
-                    collectionDateTime: time
-                }
-            };
-        },
         socialGroupRequest: function(model) {
             return {
                 collectedByUuid: fieldworker,
@@ -86,23 +75,6 @@ function RequestFactory(fieldworker, time) {
     };
 }
 
-function generateRequests(model) {
-    var collectedByUuid = model.currentFieldWorker.uuid,
-        collectionDateTime = model.collectionDateTime,
-        factory = new RequestFactory(collectedByUuid, collectionDateTime);
-
-    return {
-        locationRequest: {
-            collectedByUuid: collectedByUuid,
-            location: {
-
-            }
-        },
-        socialGroupRequest: {},
-        individualRequests: [],
-        relationshipRequests: []
-    };
-}
 
 function submitBaseline($http, serverUrl, headers,
                         fieldWorkerUuid, collectionDate,
@@ -130,7 +102,8 @@ function submitBaseline($http, serverUrl, headers,
 // currentHierarchyUuid
 // collectionDateTime
 
-function BaselineController($rootScope, $location, $http, LocationHierarchyService) {
+function BaselineController($rootScope, $location, $http,
+                            LocationHierarchyService, FieldWorkerService) {
     var vm = this;
     var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
@@ -150,8 +123,6 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
         var parent = vm.selectedHierarchy[parentIndex];
         var last = vm.selectedHierarchy[lastIndex];
         var children = vm.locationHierarchies[parent];
-        console.log(parent)
-        console.log(vm.locationHierarchies)
         vm.currentHierarchy = children.find(function(child) {
             return child.uuid === last;
         });
@@ -167,11 +138,11 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
     };
 
     vm.init = function() {
-        initTab('#baselineTab');
-        initTab('#locationTab');
-        initTab('#groupTab');
-        initTab('#individualsTab');
-        initTab('#relationshipsTab');
+        var tabIds = ['#baselineTab', '#locationTab',
+                      '#groupTab', '#individualsTab',
+                      '#relationshipsTab'];
+
+        tabIds.map(initTab);
 
         var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
 
@@ -183,15 +154,9 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
                 vm.codes = response.data;
             });
 
-        $http.get(fieldworkersUrl, {headers: headers})
-            .then(function(response) {
-                vm.allFieldWorkers = response.data.map(function(fw) {
-                    return {uuid: fw.uuid,
-                            id: fw.fieldWorkerId,
-                            firstName: fw.firstName,
-                            lastName: fw.lastName};
-                });
-            });
+        FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
+            vm.allFieldWorkers = fieldworkers;
+        });
 
         LocationHierarchyService.locationHierarchies(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
@@ -238,7 +203,7 @@ function BaselineController($rootScope, $location, $http, LocationHierarchyServi
         // submit memberships
         // submit residencies
         // submit relationships
-    }
+    };
 
     return vm;
 }

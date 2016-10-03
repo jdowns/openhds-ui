@@ -99,20 +99,8 @@
               </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="location">
-              <fieldset>
-                <legend>Create New Location</legend>
-                  <textbox label="Location Name" id="locationName" ng-model="model.location.name"></textbox>
-                  <br /><br /> <!-- todo css padding -->
-                  <textbox label="External ID" id="extId" ng-model="model.location.extId"></textbox>
-                  <br /><br />
-                  <selectbox label="Location Type" id="locationType" ng-model="model.location.type">
-                    <option ng-if="code.codeGroup === 'locationType'"
-                            ng-repeat="code in model.codes" value="{{code.codeValue}}">
-                      {{code.codeName}}
-                    </option>
-                  </selectbox>
-              </fieldset>
-
+              <ng-include src="'domain/location/partial/locationBaselineForm.html'">
+              </ng-include>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="group">
               <fieldset>
@@ -134,117 +122,50 @@
               </fieldset>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="individuals">
-              <div class="col-md-9">
-                <fieldset>
-                  <legend>Create New Individuals</legend>
-                  <textbox label="First Name" id="firstName" name="firstName"
-                           ng-model="model.firstName"></textbox>
-                  <br /><br />
-                  <textbox label="External ID" id="extId" name="extId"
-                           ng-model="model.extId"></textbox>
-                  <br /><br />
-                  <selectbox ng-model="model.gender" id="gender" name="gender"
-                             label="Gender*">
-                    <option ng-if="code.codeGroup === 'gender'"
-                            ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">{{code.codeName}}
-                    </option>
-                  </selectbox>
-                  <br /><br />
-                  <datebox label="Date Of Birth" id="dateOfBirth"
-                           ng-model="model.individual.dateOfBirth"></datebox>
-                  <br /><br />
-                  <selectbox label="Group Membership Start Type"
-                             id="membershipStartType"
-                             ng-model="model.individual.membershipStartType">
-                    <option ng-if="code.codeGroup === 'membershipType'"
-                            ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">{{code.codeName}}
-                    </option>
-                  </selectbox>
-                  <br /><br />
-                  <datebox label="Group Membership Start Date"
-                           id="membershipStartDate"
-                           ng-model="model.membershipStartDate"></datebox>
-                  <br /><br />
-                  <selectbox ng-model="model.residencyStartType"
-                             id="residencyStartType" label="Residency Start Type">
-                    <option ng-if="code.codeGroup === 'membershipType'"
-                            ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">{{code.codeName}}
-                    </option>
-                  </selectbox>
-                  <br /><br />
-                  <datebox label="Residency Start Date" id="residencyStartDate"
-                           ng-model="model.residencyStartDate"></datebox>
-                  <br /><br />
-                  <button class="btn" id="moreIndividuals">More Individuals</button>
-                </fieldset>
-              </div>
-              <div class="col-md-3">
-                <input type="text"></input>
-              </div>
+              <ng-include src="'domain/individual/partial/individualBaselineForm.html'">
+              </ng-include>
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="relationships">
-              <div class="col-md-9">
-                <fieldset>
-                  <legend>Create New Relationships</legend>
-                  <textbox label="Individual A" id="individualA"
-                           ng-model="model.headOfHousehold"></textbox>
-                  <br /><br />
-                  <textbox label="Individual B" id="individualB"
-                           ng-model="model.individualB"></textbox>
-                  <br /><br />
-                  <selectbox ng-model="model.relationshipType"
-                             id="relationshipType" label="Relationship Type">
-                    <option ng-if="code.codeGroup === 'relationshipType'"
-                            ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">
-                      {{code.codeName}}
-                    </option>
-                  </selectbox>
-                  <br /><br />
-                  <datebox label="Start Date" id="startDate"
-                           ng-model="model.startDate"></datebox>
-                  <br /><br />
-                  <button class="btn" id="moreRelationships">
-                    More Relationships
-                  </button>
-                </fieldset>
-              </div>
-              <div class="col-md-3">
-                <input type="text"></input>
-              </div>
+            <div class="col-md-3">
+              <!-- Created individuals go here -->
+              <input type="text"></input>
             </div>
           </div>
+          <div role="tabpanel" class="tab-pane fade" id="relationships">
+            <div class="col-md-9">
+              <fieldset>
+                <legend>Create New Relationships</legend>
+                <textbox label="Individual A" id="individualA"
+                         ng-model="model.headOfHousehold"></textbox>
+                <br /><br />
+                <textbox label="Individual B" id="individualB"
+                         ng-model="model.individualB"></textbox>
+                <br /><br />
+                <selectbox ng-model="model.relationshipType"
+                           id="relationshipType" label="Relationship Type">
+                  <option ng-if="code.codeGroup === 'relationshipType'"
+                          ng-repeat="code in model.codes"
+                          value="{{code.codeValue}}">
+                    {{code.codeName}}
+                  </option>
+                </selectbox>
+                <br /><br />
+                <datebox label="Start Date" id="startDate"
+                         ng-model="model.startDate"></datebox>
+                <br /><br />
+                <button class="btn" id="moreRelationships">
+                  More Relationships
+                </button>
+              </fieldset>
+            </div>
+            <div class="col-md-3">
+              <input type="text"></input>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </div>
 
-<!-- fieldworker modal -->
-<div class="modal fade" id="fieldworkerModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Fieldworker Select</h4>
-      </div>
-      <div class="modal-body">
-        <select id="fieldWorkerSelect" ng-model="model.currentFieldWorkerUuid">
-          <option ng-repeat="fw in model.allFieldWorkers"
-                  value="{{fw.uuid}}" title="fw.id">
-            {{fw.firstName}} {{fw.lastName}}
-          </option>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal"
-                ng-click="model.saveFieldWorker()">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
 
 <ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>

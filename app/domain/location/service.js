@@ -6,11 +6,7 @@ angular.module('openhds')
 
 function LocationService($rootScope, $http) {
     var service = this;
-    var headers = {
-        headers: {
-            authorization: "Basic " + $rootScope.credentials
-        }
-    };
+    var headers;
 
     function Request(model) {
         return {
@@ -26,6 +22,11 @@ function LocationService($rootScope, $http) {
     }
 
     service.submit = function(model, callback) {
+        headers = {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
         var url = $rootScope.restApiUrl + "/locations";
         var request = Request(model);
         $http.post(url, request, headers).then(function(response) {

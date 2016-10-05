@@ -12,27 +12,43 @@ function IndividualService($rootScope, $http) {
         }
     };
 
-    function Request(model) {
+    function Request(fieldWorker, collectionDate, model) {
         return {
-            collectedByUuid: model.currentFieldworker,
-            locationHierarchyUuid: model.currentHierarchy.uuid,
-            location: {
-                name: model.location.name,
-                extId: model.location.extId,
-                type: model.location.type,
-                collectionDateTime: model.collectionDateTime
+            collectedByUuid: fieldWorker.uuid,
+            individual: {
+                firstName: model.firstName,
+                lastName: model.lastName,
+                dateOfBirth: model.dateOfBirth,
+                extId: model.extId,
+                gender: model.gender,
+                collectionDateTime: collectionDate
             }
         };
     }
 
-    service.submitOne = function(model) {
+    service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/individuals";
-        var request = Request(model);
-        $http.post(url, request, headers);
+        var request = Request(fieldWorker, collectionDate, model);
+        return $http.post(url, request, headers);
     };
 
     service.submit = function(model, callback) {
-        Promise.all(model.socialGroups.map(service.submitOne))
+        headers = {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+
+        var fieldWorker = model.currentFieldworker;
+        var collectionDate = model.collectionDateTime;
+
+        function submitModel() {
+            return function(model) {
+                service.submitOne(fieldWorker, collectionDate, model);
+            };
+        }
+
+        Promise.all(model.individuals.map(submitModel()))
             .then(function(response) {
                 callback(response);
             });

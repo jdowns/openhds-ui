@@ -6,32 +6,42 @@ angular.module('openhds')
 
 function SocialGroupService($rootScope, $http) {
     var service = this;
-    var headers = {
-        headers: {
-            authorization: "Basic " + $rootScope.credentials
-        }
-    };
-
-    function Request(model) {
+    var headers;
+    function Request(fieldWorker, collectionDate, model) {
         return {
-            collectedByUuid: model.fieldworker.uuid,
+            collectedByUuid: fieldWorker.uuid,
             socialGroup: {
-                groupName: model.socialGroup.groupName,
-                extId: model.socialGroup.extId,
-                groupType: model.socialGroup.groupType,
-                collectionDateTime: model.collectionDateTime
+                groupName: model.groupName,
+                extId: model.extId,
+                groupType: model.groupType,
+                collectionDateTime: collectionDate
             }
         };
     }
 
-    service.submitOne = function(model) {
+    service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/socialGroups";
-        var request = Request(model);
-        $http.post(url, request, headers);
+        var request = Request(fieldWorker, collectionDate, model);
+        return $http.post(url, request, headers);
     };
 
     service.submit = function(model, callback) {
-        Promise.all(model.socialGroups.map(service.submitOne))
+        headers = {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+
+        var fieldWorker = model.currentFieldworker;
+        var collectionDate = model.collectionDateTime;
+
+        function submitModel() {
+            return function(model) {
+                service.submitOne(fieldWorker, collectionDate, model);
+            };
+        }
+
+        Promise.all(model.socialGroups.map(submitModel()))
             .then(function(response) {
                 callback(response);
             });

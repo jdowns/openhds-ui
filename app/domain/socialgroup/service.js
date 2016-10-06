@@ -22,7 +22,8 @@ function SocialGroupService($rootScope, $http) {
     service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/socialGroups";
         var request = Request(fieldWorker, collectionDate, model);
-        return $http.post(url, request, headers);
+        var response = $http.post(url, request, headers);
+        return response;
     };
 
     service.submit = function(model, callback) {
@@ -37,14 +38,11 @@ function SocialGroupService($rootScope, $http) {
 
         function submitModel() {
             return function(model) {
-                service.submitOne(fieldWorker, collectionDate, model);
+                return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
 
-        Promise.all(model.socialGroups.map(submitModel()))
-            .then(function(response) {
-                callback(response);
-            });
+        return Promise.all(model.socialGroups.map(submitModel()));
     };
 
     return service;

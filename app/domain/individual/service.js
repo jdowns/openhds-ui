@@ -44,14 +44,11 @@ function IndividualService($rootScope, $http) {
 
         function submitModel() {
             return function(model) {
-                service.submitOne(fieldWorker, collectionDate, model);
+                return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
 
-        Promise.all(model.individuals.map(submitModel()))
-            .then(function(response) {
-                callback(response);
-            });
+        return Promise.all(model.individuals.map(submitModel()));
     };
 
     return service;

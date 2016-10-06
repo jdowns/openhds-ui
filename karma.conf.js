@@ -14,7 +14,9 @@ module.exports = function(config) {
             'karma-phantomjs-launcher',
             'karma-chrome-launcher',
             'karma-junit-reporter',
-            'karma-jasmine'
+            'karma-coverage',
+            'karma-jasmine',
+            'karma-threshold-reporter'
         ],
 
         files: [
@@ -31,13 +33,23 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
         browsers: getBrowser(),
         autoWatch: true,
-        reporters: ['progress', 'junit'],
+        reporters: ['progress', 'junit', 'coverage', 'threshold'],
 
         customLaunchers: {
             Chrome_travis_ci: {
                 base: 'Chrome',
                 flags: ['--no-sandbox']
             }
+        },
+
+        preprocessors: {
+            'app/**/*.js': ['coverage']
+        },
+
+        // optionally, configure the reporter
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
         },
 
         junitReporter: {
@@ -48,6 +60,13 @@ module.exports = function(config) {
             nameFormatter: undefined,
             classNameFormatter: undefined,
             properties: {}
+        },
+
+        thresholdReporter: {
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100
         }
     });
 };

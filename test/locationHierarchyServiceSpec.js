@@ -204,4 +204,25 @@ describe('LocationHierarchyService Test', function() {
         $httpBackend.flush();
 
     });
+
+    it('should get a single hierarchy', function() {
+        $httpBackend.expectGET('http://example.com/locationHierarchies/a-uuid')
+            .respond(200, {uuid: 'hierarchy-id'});
+
+        service.getHierarchy('a-uuid').then(function(response) {
+            expect(response.data).toEqual({uuid: 'hierarchy-id'});
+        });
+
+        $httpBackend.flush();
+    });
+
+    it('locationHierarchies should be memoized', function() {
+        service.hierarchies = hierarchyMap;
+
+        service.locationHierarchies(function(hierarchies) {
+            expect(hierarchyMap).toEqual(hierarchies);
+        });
+
+    });
+
 });

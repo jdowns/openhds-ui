@@ -69,8 +69,9 @@ describe('SocialGroupService Test', function() {
                 }]
         };
 
-        service.submit(model, function(response) {
-            expect(response).toEqual(['response one', 'response two']);
+        service.submit(model).then(function(response) {
+            //TODO: this is not executing correctly. it should fail
+            expect(response).toEqual(['response one', 'response 2']);
         });
 
         $httpBackend.flush();

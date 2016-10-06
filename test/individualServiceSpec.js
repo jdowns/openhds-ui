@@ -77,7 +77,7 @@ describe('IndividualService Test', function() {
                 }]
         };
 
-        service.submit(model).then(function(response) {
+        var result = service.submit(model).then(function(response) {
             //TODO: this is not executing correctly. It should fail
             expect(response).toEqual(['response one', 'response 2']);
         });

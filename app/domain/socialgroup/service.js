@@ -41,8 +41,9 @@ function SocialGroupService($rootScope, $http) {
                 return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
-
-        return Promise.all(model.socialGroups.map(submitModel()));
+        var result = model.socialGroups.map(submitModel());
+        return result;
+        //return Promise.all(result);
     };
 
     return service;

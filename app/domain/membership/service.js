@@ -12,30 +12,42 @@ function MembershipService($rootScope, $http) {
         }
     };
 
-    function Request(model) {
+    function Request(fieldWorker, collectionDate, model) {
         return {
-            collectedByUuid: model.currentFieldWorker,
-            relationship: {
-                individualA: model.relationships[index].individualA,
-                individualB: model.relationships[index].individualB,
-                relationshipType: model.relationships[index].relationshipType,
-                startDate: model.relationships[index].startDate,
-                collectionDateTime: model.collectionDateTime
+            collectedByUuid: fieldWorker.uuid,
+            membership: {
+                individual: model.individual,
+                socialGroup: model.socialGroup,
+                startType: model.startType,
+                startDate: model.startDate,
+                collectionDateTime: collectionDate
             }
         };
     }
 
-    service.submitOne = function(model) {
+    service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/memberships";
-        var request = Request(model);
-        $http.post(url, request, headers);
+        var request = Request(fieldWorker, collectionDate, model);
+        return $http.post(url, request, headers);
     };
 
     service.submit = function(model, callback) {
-        Promise.all(model.membership.map(service.submitOne))
-            .then(function(response) {
-                callback(response);
-            });
+        headers = {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+        var fieldWorker = model.currentFieldworker;
+        var collectionDate = model.collectionDateTime;
+
+        function submitModel() {
+            return function(model) {
+                return service.submitOne(fieldWorker, collectionDate, model);
+            };
+        }
+
+        var result = model.memberships.map(submitModel());
+        return result;
     };
 
     return service;

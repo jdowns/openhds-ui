@@ -12,30 +12,42 @@ function RelationshipService($rootScope, $http) {
         }
     };
 
-    function Request(model) {
+    function Request(fieldWorker, collectionDate, model) {
         return {
-            collectedByUuid: model.currentFieldWorker,
+            collectedByUuid: fieldWorker.uuid,
             relationship: {
-                individualA: model.relationships[index].individualA,
-                individualB: model.relationships[index].individualB,
-                relationshipType: model.relationships[index].relationshipType,
-                startDate: model.relationships[index].startDate,
-                collectionDateTime: model.collectionDateTime
+                individualA: model.individualA,
+                individualB: model.individualB,
+                relationshipType: model.relationshipType,
+                startDate: model.startDate,
+                collectionDateTime: collectionDate
             }
         };
     }
 
-    service.submitOne = function(model) {
+    service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/relationships";
-        var request = Request(model);
+        var request = Request(fieldWorker, collectionDate, model);
         $http.post(url, request, headers);
     };
 
     service.submit = function(model, callback) {
-        Promise.all(model.relationships.map(service.submitOne))
-            .then(function(response) {
-                callback(response);
-            });
+        headers = {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+        var fieldWorker = model.currentFieldworker;
+        var collectionDate = model.collectionDateTime;
+
+        function submitModel() {
+            return function(model) {
+                return service.submitOne(fieldWorker, collectionDate, model);
+            };
+        }
+
+        var result = model.relationships.map(submitModel());
+        return result;
     };
 
     return service;

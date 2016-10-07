@@ -1,0 +1,24 @@
+<fieldset>
+  <legend>Create New Relationships</legend>
+  <textbox label="Individual A" id="individualA"
+           ng-model="model.headOfHousehold"></textbox>
+  <br /><br />
+  <textbox label="Individual B" id="individualB"
+           ng-model="model.individualB"></textbox>
+  <br /><br />
+  <selectbox ng-model="model.relationshipType"
+             id="relationshipType" label="Relationship Type">
+    <option ng-if="code.codeGroup === 'relationshipType'"
+            ng-repeat="code in model.codes"
+            value="{{code.codeValue}}">
+      {{code.codeName}}
+    </option>
+  </selectbox>
+  <br /><br />
+  <datebox label="Start Date" id="startDate"
+           ng-model="model.startDate"></datebox>
+  <br /><br />
+  <button class="btn" id="moreRelationships">
+    More Relationships
+  </button>
+</fieldset>

@@ -1,0 +1,17 @@
+<fieldset>
+  <legend>Create New Social Group</legend>
+  <textbox label="Group Name" id="groupName"
+           ng-model="model.socialGroup.groupName"></textbox>
+  <br /><br />
+  <textbox label="External ID" id="extId"
+           ng-model="model.socialGroup.extId"></textbox>
+  <br /><br />
+  <selectbox label="Group Type" id="groupType"
+             ng-model="model.socialGroup.groupType">
+    <option ng-if="code.codeGroup === 'socialGroupType'"
+            ng-repeat="code in model.codes"
+            value="{{code.codeValue}}">
+      {{code.codeName}}
+    </option>
+  </selectbox>
+</fieldset>

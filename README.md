@@ -16,4 +16,5 @@ npm start
 ## License
 
 MIT License
-Copyright © 2016 John Downs
+
+Copyright © 2016 John Downs, Robert Miller

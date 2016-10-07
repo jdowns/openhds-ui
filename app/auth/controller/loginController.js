@@ -10,8 +10,7 @@ function LoginController($rootScope, $location, $http) {
 
     var authenticate = function(credentials, success, failure) {
         var encoded = btoa(credentials.username + ":" + credentials.password);
-        var headers = credentials ? {authorization : "Basic " + encoded} : {};
-        console.log(headers);
+        var headers = {authorization : "Basic " + encoded};
 
         $http.get($rootScope.restApiUrl, {headers : headers}).then(function(response) {
             $rootScope.credentials = encoded;
@@ -24,7 +23,6 @@ function LoginController($rootScope, $location, $http) {
     };
 
     vm.load = function() {
-        console.log('Initializing login form');
         $http.get(configUrl).then(function(response) {
             $rootScope.restApiUrl = response.data[restUrlConfigKey];
             console.log('Using Rest API at: ' + $rootScope.restApiUrl);

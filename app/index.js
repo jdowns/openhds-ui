@@ -7,7 +7,6 @@ angular.module('openhds', ['ngRoute'])
     .config(['$routeProvider', routeConfig]);
 
 function routeConfig($routeProvider) {
-    console.log('route config');
     $routeProvider
         .when('/', {
             templateUrl: 'auth/view/login.html',

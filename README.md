@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/munk/openhds-ui.svg?branch=master)](https://travis-ci.org/munk/openhds-ui)
+
 # OpenHDS UI
 
 Data entry interface for the OpenHDS System.

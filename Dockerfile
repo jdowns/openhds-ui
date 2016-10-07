@@ -3,6 +3,6 @@ MAINTAINER munk <munk@protonmail.com>
 ADD . /service
 COPY server.js /service/server.js
 COPY app /service
-ORKDIR /service
+WORKDIR /service
 CMD node server.js
 

@@ -3,6 +3,9 @@ describe('SocialGroupService Test', function() {
     var service, $httpBackend, $rootScope;
 
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_SocialGroupService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');

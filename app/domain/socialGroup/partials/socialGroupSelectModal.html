@@ -1,0 +1,68 @@
+<!-- social group select modal -->
+<div class="modal fade" id="socialGroupSelectModal" tabindex="-1" role="dialog" style="overflow-y:scroll;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Social Group Select</h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- Search for existing social group -->
+                <table st-safe-src="model.allSocialGroups" st-table="model.displayCollection" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th st-sort="groupName">group name</th>
+                        <th>group type</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="groupName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="groupType" class="input-sm form-control" type="search"/>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.displayCollection">
+                        <td>
+                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.selectedSocialGroups.push(row)">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.groupName}}</td>
+                        <td>{{row.groupType}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div st-pagination="" st-items-by-page=10></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

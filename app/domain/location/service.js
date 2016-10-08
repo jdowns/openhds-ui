@@ -1,38 +1,69 @@
 'use strict';
 
 angular.module('openhds')
+
     .service('LocationService',
-             ['$rootScope', '$http', LocationService]);
+             ['$rootScope', '$http', '$q',
+              function($rootScope, $http, $q) {
+                  var service = this;
+                  var headers;
 
-function LocationService($rootScope, $http) {
-    var service = this;
-    var headers;
 
-    function Request(model) {
-        return {
-            collectedByUuid: model.currentFieldworker.uuid,
-            locationHierarchyUuid: model.currentHierarchy.uuid,
-            location: {
-                name: model.location.name,
-                extId: model.location.extId,
-                type: model.location.type,
-                collectionDateTime: model.collectionDateTime
-            }
-        };
-    }
 
-    service.submit = function(model, callback) {
-        headers = {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
-        };
-        var url = $rootScope.restApiUrl + "/locations";
-        var request = Request(model);
-        $http.post(url, request, headers).then(function(response) {
-            callback(response.data);
-        });
-    };
+                  function Request(model) {
+                      return {
+                          collectedByUuid: model.currentFieldworker.uuid,
+                          locationHierarchyUuid: model.currentHierarchy.uuid,
+                          location: {
+                              name: model.location.name,
+                              extId: model.location.extId,
+                              type: model.location.type,
+                              collectionDateTime: model.collectionDateTime
+                          }
+                      };
+                  }
 
-    return service;
-}
+                  function getHeaders() {
+                      return {
+                          headers: {
+                              authorization: "Basic " + $rootScope.credentials
+                          }
+                      };
+                  }
+
+                  service.getByHierarchy = function(hierarchyUuid) {
+                      var url = $rootScope.restApiUrl + "/locations.json" + '?locationHierarchyUuid=' + hierarchyUuid;
+                      var locationsPromise = $http.get(url, getHeaders());
+
+                      return $q(function(resolve, reject) {
+                          locationsPromise.then(
+                              function(response) {
+                                  var locations = response.data.content.map(
+                                      function(loc) {
+                                          return {
+                                              description: loc.description,
+                                              extId: loc.extId,
+                                              type: loc.type,
+                                              uuid: loc.uuid,
+                                              name: loc.name
+                                          };
+                                      });
+                                  resolve(locations);
+                              },
+                              function(response) {
+                                  reject(response);
+                              }
+                          );
+                      });
+                  };
+
+                  service.submit = function (model, callback) {
+                      var url = $rootScope.restApiUrl + "/locations";
+                      var request = Request(model);
+                      $http.post(url, request, getHeaders()).then(function (response) {
+                          callback(response.data);
+                      });
+                  };
+
+                  return service;
+              }]);

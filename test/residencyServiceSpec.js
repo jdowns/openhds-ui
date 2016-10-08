@@ -3,6 +3,9 @@ describe('ResidencyService Test', function() {
     var service, $httpBackend, $rootScope;
 
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_ResidencyService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');

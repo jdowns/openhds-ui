@@ -1,0 +1,70 @@
+<!-- social group select modal -->
+<div class="modal fade" id="individualCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create New Individual</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset>
+                    <textbox label="First Name" id="firstName" name="firstName"
+                             ng-model="model.firstName"></textbox>
+                    <br /><br />
+                    <textbox label="External ID" id="extId" name="extId"
+                             ng-model="model.extId"></textbox>
+                    <br /><br />
+                    <selectbox ng-model="model.gender" id="gender" name="gender"
+                               label="Gender*">
+                        <option ng-if="code.codeGroup === 'gender'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br /><br />
+                    <datebox label="Date Of Birth" id="dateOfBirth"
+                             ng-model="model.individual.dateOfBirth"></datebox>
+                    <br /><br />
+
+                    <selectbox ng-model="model.residencyStartType"
+                               id="residencyStartType" label="Residency Start Type">
+                        <option ng-if="code.codeGroup === 'membershipType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br /><br />
+                    <datebox label="Residency Start Date" id="residencyStartDate"
+                             ng-model="model.residencyStartDate"></datebox>
+                    <br /><br />
+                </fieldset>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#membershipCreateModal" data-dismiss="modal">
+                    Assign Membership
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

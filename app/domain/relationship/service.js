@@ -28,7 +28,7 @@ function RelationshipService($rootScope, $http) {
     service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/relationships";
         var request = Request(fieldWorker, collectionDate, model);
-        $http.post(url, request, headers);
+        return $http.post(url, request, headers);
     };
 
     service.submit = function(model, callback) {

@@ -6,10 +6,10 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'firefox'
+    'browserName': 'chrome'
   },
 
-  baseUrl: 'http://localhost:3000/app/index.html',
+  baseUrl: 'http://localhost:3000',
 
   framework: 'jasmine',
 

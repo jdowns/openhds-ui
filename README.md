@@ -33,7 +33,7 @@ The rest application should be available at at localhost:3000
 #### Start the server
 
 Prior to running the server, run `npm install` in the root and app directories. This will download any required dependencies.
-    
+
     $ npm start
 
 This will start server.js and serve static files from /app. Changes to the application will be available immediately on page reload.
@@ -46,6 +46,8 @@ This will start server.js and serve static files from /app. Changes to the appli
 
 ### Functional Tests
 
+    $ node_modules/.bin/webdriver-manager update
+    $ node_modules/.bin/webdriver-manager start
     $ node_modules/.bin/protractor e2e-tests/protractor.conf.js
 
 ## License

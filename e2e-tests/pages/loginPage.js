@@ -1,13 +1,9 @@
-var fw = require('./framework.js');
+var fw = require('../framework.js');
 
 function LoginPage() {
     this.username = fw.getElement("username_input");
     this.password = fw.getElement("password_input");
     this.submit = fw.getElement("createButton");
-
-    this.validate = function() {
-        return this;
-    };
 
     this.setUsername = function(username) {
         this.username.sendKeys(username);

@@ -11,33 +11,43 @@
             <div class="modal-body">
 
                 <!-- Search for existing social group -->
-                <label>External Id <input ng-model="search.extId"></label><br>
-                <label>Group Name<input ng-model="search.groupName"></label><br>
-                <label>Group Type<input ng-model="search.groupType"></label><br>
-                <button class="btn-default" ng-click="model.getSocialGroups()">Search</button>
-                <table id="searchObjResults">
+                <table st-safe-src="model.allSocialGroups" st-table="model.displayCollection" class="table table-striped">
+                    <thead>
                     <tr>
                         <th></th>
                         <th>extId</th>
-                        <th>name</th>
-                        <th>type</th>
+                        <th st-sort="groupName">group name</th>
+                        <th>group type</th>
                     </tr>
-                    <tr ng-repeat="sg in model.allSocialGroups | filter:search">
-                        <td><button ng-click="">select</button></td>
-                        <td>{{sg.extId}}</td>
-                        <td>{{sg.groupName}}</td>
-                        <td>{{sg.groupType}}</td>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="groupName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="groupType" class="input-sm form-control" type="search"/>
+                        </th>
+
                     </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.displayCollection">
+                        <td>
+                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.addToSocialGroups(row)">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.groupName}}</td>
+                        <td>{{row.groupType}}</td>
+                    </tr>
+                    </tbody>
                 </table>
 
 
-
-                <div>
-
-                </div>
-
-
-                TODO
 
 
             </div>

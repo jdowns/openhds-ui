@@ -57,7 +57,35 @@
           <div role="tabpanel" class="tab-pane fade" id="group">
             <ng-include src="'domain/socialGroup/partials/socialGroupBaselineForm.html'"> </ng-include>
             <hr>
-            <button class="btn btn-success" id="fieldworker-select" data-toggle="modal" data-target="#socialGroupSelectModal">Select Existing</button>
+            <button class="btn btn-success" id="fieldworker-select" data-toggle="modal" data-target="#socialGroupSelectModal">
+              Select Existing
+            </button>
+            <hr>
+
+            <!-- Display selected social groups -->
+            <h3>Selected Social Groups:</h3>
+            <table st-table="model.selectedSocialGroups" class="table table-striped">
+              <thead>
+              <tr>
+                <th>extId</th>
+                <th st-sort="groupName">group name</th>
+                <th>group type</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in model.selectedSocialGroups">
+                <td>{{row.extId}}</td>
+                <td>{{row.groupName}}</td>
+                <td>{{row.groupType}}</td>
+                <td>
+                  <button type="button" ng-click="model.removeSelectedSocialGroup(row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
 
           <!-- Individuals -->

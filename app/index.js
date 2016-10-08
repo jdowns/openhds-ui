@@ -3,7 +3,7 @@
 console.log('starting application');
 
 var app = angular.module('openhds',
-    ['ngRoute',
+    ['ngRoute', 'smart-table',
         'LoginModule', 'BaselineModule'])
 
 

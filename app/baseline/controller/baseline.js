@@ -17,14 +17,34 @@ angular.module('BaselineModule',
             'LocationHierarchyService',
             'FieldWorkerService',
             'LocationService',
+
             function($rootScope,
                      $http,
                      LocationHierarchyService,
                      FieldWorkerService,
-                     LocationService) {
+                     LocationService
+            )
+            {
                 var vm = this;
                 var headers = { authorization: "Basic " + $rootScope.credentials };
                 vm.selectedHierarchy = [];
+
+                vm.selectedSocialGroups = [];
+
+                vm.displayCollection = [].concat(vm.allSocialGroups);
+
+                //remove to the real data holder
+                vm.removeSelectedSocialGroup = function removeItem(row) {
+                    var index = vm.selectedSocialGroups.indexOf(row);
+                    if (index !== -1) {
+                        vm.selectedSocialGroups.splice(index, 1);
+                    }
+                }
+
+
+                vm.addToSocialGroups = function(sg){
+                    vm.selectedSocialGroups = vm.selectedSocialGroups.concat(sg);
+                }
 
 
                 vm.saveFieldWorker = function() {

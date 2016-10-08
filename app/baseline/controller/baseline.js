@@ -2,7 +2,9 @@ angular.module('openhds')
     .controller('BaselineController',
                 ['$rootScope', '$location', '$http',
                  'LocationHierarchyService', 'FieldWorkerService',
-                 'LocationService',
+                 'LocationService', 'SocialGroupService',
+                 'IndividualService', 'RelationshipService',
+                 'MembershipService', 'ResidencyService',
                  BaselineController]);
 
 function initTab(id) {
@@ -13,9 +15,30 @@ function initTab(id) {
 }
 
 function BaselineController($rootScope, $location, $http,
-                            LocationHierarchyService, FieldWorkerService,
-                            LocationService) {
+                            LocationHierarchyService,
+                            FieldWorkerService,
+                            LocationService,
+                            SocialGroupService,
+                            IndividualService,
+                            RelationshipService,
+                            MembershipService,
+                            ResidencyService) {
     var vm = this;
+    vm.services = {
+        locationHierarchy: LocationHierarchyService,
+        fieldWorker: FieldWorkerService,
+        location: LocationService,
+        socialGroup: SocialGroupService,
+        individual: IndividualService,
+        relationship: RelationshipService,
+        membership: MembershipService,
+        residency: ResidencyService
+    };
+
+    vm.dataModel = {
+
+    }
+
     var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
 
@@ -55,15 +78,9 @@ function BaselineController($rootScope, $location, $http,
 
         tabIds.map(initTab);
 
-        var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
-
-        $http.get(codesUrl, {headers: headers})
-            .then(function(response) {
-                vm.codes = response.data;
-            });
+        $http.get(codesUrl, {headers: headers}) .then(function(response) {vm.codes = response.data;});
 
         FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
@@ -77,25 +94,9 @@ function BaselineController($rootScope, $location, $http,
         });
     };
 
-
-    function individualsSuccess(result) {
-        var memberhipsUrl = $rootScope.restApiUrl + "/memberships",
-            residenciesUrl = $rootScope.restApiUrl + "/residencies",
-            relationshipsUrl = $rootScope.restApiUrl + "/relationships";
-    }
-
-    function groupSuccess(result) {
-        var individualsUrl = $rootScope.restApiUrl + "/individuals";
+    vm.saveEntity = function(entityKey) {
 
     }
-
-    function locationSuccess(result) {
-        var socialGroupsUrl = $rootScope.restApiUrl + "/socialGroups";
-    }
-
-    vm.submitVisit = function() {
-        LocationService.submit(vm, locationSuccess);
-    };
 
     return vm;
 }

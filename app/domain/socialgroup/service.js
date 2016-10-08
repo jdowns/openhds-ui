@@ -25,7 +25,7 @@ function SocialGroupService($rootScope, $http) {
         return $http.post(url, request, headers);
     };
 
-    service.submit = function(model, callback) {
+    service.submit = function(model) {
         headers = {
             headers: {
                 authorization: "Basic " + $rootScope.credentials
@@ -41,8 +41,7 @@ function SocialGroupService($rootScope, $http) {
             };
         }
         var result = model.socialGroups.map(submitModel());
-        return result;
-        //return Promise.all(result);
+        return Promise.all(result);
     };
 
     return service;

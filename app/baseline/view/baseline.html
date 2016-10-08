@@ -46,13 +46,11 @@
             </div>
           </div>
 
-
+          <!-- Location -->
           <div role="tabpanel" class="tab-pane fade" id="location">
               <ng-include src="'domain/location/partials/locationBaselineForm.html'"></ng-include>
               <hr>
-
-
-            <button class="btn btn-primary" data-toggle="tab" data-target="#group">Next</button>
+            <button class="btn btn-success">Select Existing</button>
           </div>
 
           <!-- Social Group -->
@@ -60,16 +58,16 @@
             <ng-include src="'domain/socialgroup/partials/socialGroupBaselineForm.html'"> </ng-include>
             <hr>
             <button class="btn btn-success" id="fieldworker-select" data-toggle="modal" data-target="#socialGroupSelectModal">Select Existing</button>
-
-            <button class="btn btn-primary" data-toggle="tab" data-target="#individuals">Next</button>
           </div>
 
+          <!-- Individuals -->
           <div role="tabpanel" class="tab-pane fade" id="individuals">
             <ng-include src="'domain/individual/partials/individualBaselineForm.html'"> </ng-include>
             <hr>
-            <button class="btn btn-primary" data-toggle="tab" data-target="#relationships">Next</button>
+            <button class="btn btn-success">Select Existing</button>
           </div>
 
+          <!-- Relationships -->
           <div role="tabpanel" class="tab-pane fade" id="relationships">
             <ng-include src="'domain/relationship/partials/relationshipBaselineForm.html'"> </ng-include>
             <hr>

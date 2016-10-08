@@ -17,8 +17,9 @@ angular.module('BaselineModule',
             'LocationHierarchyService',
             'FieldWorkerService',
             'LocationService',
+            BaselineController]);
 
-            function($rootScope,
+function BaselineController($rootScope,
                      $http,
                      LocationHierarchyService,
                      FieldWorkerService,
@@ -142,4 +143,4 @@ angular.module('BaselineModule',
                 };
 
                 return vm;
-            }]);
+            };

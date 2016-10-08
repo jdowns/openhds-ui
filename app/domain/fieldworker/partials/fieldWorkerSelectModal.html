@@ -10,9 +10,8 @@
       </div>
       <div class="modal-body">
         <select id="fieldWorkerSelect" ng-model="model.currentFieldWorkerUuid">
-          <option ng-repeat="fw in model.allFieldWorkers"
-                  value="{{fw.uuid}}" title="fw.id">
-            {{fw.firstName}} {{fw.lastName}}
+          <option ng-repeat="fw in model.allFieldWorkers" value="{{fw.uuid}}" title="fw.id">
+            {{fw.id}}
           </option>
         </select>
       </div>

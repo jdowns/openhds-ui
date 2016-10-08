@@ -6,7 +6,7 @@ Data entry interface for the OpenHDS System.
 
 ## Usage
 
-### Run the application locally
+### Run the application
 
 These instructions assume you have docker available and an instance of
 OpenHDS-Rest running and accessible from localhost.
@@ -28,6 +28,15 @@ OpenHDS-Rest running and accessible from localhost.
 
 The rest application should be available at at localhost:3000
 
+### Starting application for development
+
+#### Start the server
+
+Prior to running the server, run `npm install` in the root and app directories. This will download any required dependencies.
+    
+    $ npm start
+
+This will start server.js and serve static files from /app. Changes to the application will be available immediately on page reload.
 
 ## Running Tests
 

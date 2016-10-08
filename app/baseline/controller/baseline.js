@@ -43,11 +43,6 @@ function BaselineController($rootScope,
                 }
 
 
-                vm.addToSocialGroups = function(sg){
-                    vm.selectedSocialGroups = vm.selectedSocialGroups.concat(sg);
-                }
-
-
                 vm.saveFieldWorker = function() {
                     var result = vm.allFieldWorkers.filter(
                         function(fw) {

@@ -1,0 +1,50 @@
+<!-- social group select modal -->
+<div class="modal fade" id="locationCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create New Location</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset>
+
+                    <textbox label="Location Name" id="locationName" ng-model="model.location.name"></textbox>
+                    <br /><br /> <!-- todo css padding -->
+                    <textbox label="External ID" id="extId" ng-model="model.location.extId"></textbox>
+                    <br /><br />
+                    <selectbox label="Location Type" id="locationType" ng-model="model.location.type">
+                        <option ng-if="code.codeGroup === 'locationType'"
+                                ng-repeat="code in model.codes" value="{{code.codeValue}}">
+                            {{code.codeName}}
+                        </option>
+                    </selectbox>
+                </fieldset>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Create
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

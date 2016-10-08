@@ -31,26 +31,57 @@
 
         <div class="tab-content">
 
+          <!-- Begin baseline -->
           <div role="tabpanel" class="tab-pane fade in active" id="baseline">
             <div>
               <fieldset>
                 <legend>Begin Baseline</legend>
                 <datebox label="Collection Date" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
                 <br />
+
                 <ng-include src="'baseline/view/fieldworkerSelectPartial.html'"></ng-include>
                 <ng-include src="'baseline/view/locationHierarchySelectPartial.html'"></ng-include>
                 <br /> <br />
               </fieldset>
               <hr>
-              <button class="btn btn-primary" data-toggle="tab" data-target="#location">Next</button>
+              <button class="btn btn-primary" data-toggle="tab" data-target="#location" ng-disable="model.collectionDateTime">
+                Next
+              </button>
             </div>
           </div>
 
           <!-- Location -->
           <div role="tabpanel" class="tab-pane fade" id="location">
-              <ng-include src="'domain/location/partials/locationBaselineForm.html'"></ng-include>
-              <hr>
-            <button class="btn btn-success">Select Existing</button>
+            <row><h3>Location</h3></row>
+            <row>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+                <h3>Create New</h3>
+                <h2>
+                  <span class="glyphicon glyphicon-plus"></span>
+                </h2>
+              </button>
+
+              <button class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
+                <h3> Select Existing </h3>
+                <h2>
+                  <span class="glyphicon glyphicon-search"></span>
+                </h2>
+
+
+              </button>
+            </row>
+            <hr>
+            <h4>Current Location:</h4>
+            TODO
+
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#group">
+              Social Groups
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+
+
           </div>
 
           <!-- Social Group -->
@@ -67,13 +98,13 @@
               </button>
 
               <button class="btn btn-success"  data-toggle="modal" data-target="#socialGroupSelectModal">
-              <h3> Select Existing </h3>
+                <h3> Select Existing </h3>
                 <h2>
                   <span class="glyphicon glyphicon-search"></span>
                 </h2>
 
 
-            </button>
+              </button>
             </row>
             <hr>
 
@@ -103,16 +134,42 @@
             </table>
             <hr>
             <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
-              <span class="glyphicon glyphicon-ok"></span>
-              Done
+              Individuals
+              <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
           </div>
 
           <!-- Individuals -->
           <div role="tabpanel" class="tab-pane fade" id="individuals">
-            <ng-include src="'domain/individual/partials/individualBaselineForm.html'"> </ng-include>
+
+            <row><h3>Individual</h3></row>
+            <row>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#individualCreateModal">
+                <h3>Create New</h3>
+                <h2>
+                  <span class="glyphicon glyphicon-plus"></span>
+                </h2>
+              </button>
+
+              <button class="btn btn-success"  data-toggle="modal" data-target="#individualSelectModal">
+                <h3> Select Existing </h3>
+                <h2>
+                  <span class="glyphicon glyphicon-search"></span>
+                </h2>
+
+
+              </button>
+            </row>
             <hr>
-            <button class="btn btn-success">Select Existing</button>
+
+            <!-- Display selected social groups -->
+            <h3>Selected Individuals:</h3>
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
+              Relationships
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
           </div>
 
           <!-- Relationships -->
@@ -127,15 +184,18 @@
   </div>
 </div>
 
-<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'">
-</ng-include>
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
 
-<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'">
-</ng-include>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
 
 
-<ng-include src="'domain/socialGroup/partials/socialGroupSelectModal.html'">
-</ng-include>
+<ng-include src="'domain/socialGroup/partials/socialGroupSelectModal.html'"></ng-include>
+<ng-include src="'domain/socialGroup/partials/socialGroupCreateModal.html'"></ng-include>
 
-<ng-include src="'domain/socialGroup/partials/socialGroupCreateModal.html'">
-</ng-include>
+<ng-include src="'domain/location/partials/locationCreateModal.html'"></ng-include>
+<ng-include src="'domain/location/partials/locationSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualCreateModal.html'"></ng-include>
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

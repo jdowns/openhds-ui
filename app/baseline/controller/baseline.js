@@ -64,6 +64,7 @@ angular.module('BaselineModule',
                     tabIds.map(initTab);
 
                     var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
+                    var socialGroupUrl = $rootScope.restApiUrl + "/socialGroups/bulk.json";
 
                     var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
@@ -83,11 +84,26 @@ angular.module('BaselineModule',
                     LocationHierarchyService.getLevels().then(function(response) {
                         vm.allHierarchyLevels = response.data;
                     });
+
+                    // Placeholder; TODO: develop socialgroup/service.js
+                    $http.get(socialGroupUrl, {headers: headers})
+                        .then(function(response) {
+                            vm.allSocialGroups = response.data.map(function(sg) {
+                                return {
+                                    uuid: sg.uuid,
+                                    extId: sg.extId,
+                                    groupName: sg.groupName,
+                                    groupType: sg.groupType};
+                            });
+                        });
+
+
+
                 };
 
 
                 function individualsSuccess(result) {
-                    var memberhipsUrl = $rootScope.restApiUrl + "/memberships",
+                    var membershipsUrl = $rootScope.restApiUrl + "/memberships",
                         residenciesUrl = $rootScope.restApiUrl + "/residencies",
                         relationshipsUrl = $rootScope.restApiUrl + "/relationships";
                 }

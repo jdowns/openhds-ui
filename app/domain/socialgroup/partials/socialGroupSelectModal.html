@@ -1,14 +1,40 @@
 <!-- social group select modal -->
 <div class="modal fade" id="socialGroupSelectModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Fieldworker Select</h4>
+                <h4 class="modal-title" id="myModalLabel">Social Group Select</h4>
             </div>
             <div class="modal-body">
+
+                <!-- Search for existing social group -->
+                <label>External Id <input ng-model="search.extId"></label><br>
+                <label>Group Name<input ng-model="search.groupName"></label><br>
+                <label>Group Type<input ng-model="search.groupType"></label><br>
+                <button class="btn-default" ng-click="model.getSocialGroups()">Search</button>
+                <table id="searchObjResults">
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th>name</th>
+                        <th>type</th>
+                    </tr>
+                    <tr ng-repeat="sg in model.allSocialGroups | filter:search">
+                        <td><button ng-click="">select</button></td>
+                        <td>{{sg.extId}}</td>
+                        <td>{{sg.groupName}}</td>
+                        <td>{{sg.groupType}}</td>
+                    </tr>
+                </table>
+
+
+
+                <div>
+
+                </div>
 
 
                 TODO

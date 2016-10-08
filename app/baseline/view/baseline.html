@@ -55,9 +55,12 @@
             <button class="btn btn-primary" data-toggle="tab" data-target="#group">Next</button>
           </div>
 
+          <!-- Social Group -->
           <div role="tabpanel" class="tab-pane fade" id="group">
             <ng-include src="'domain/socialgroup/partials/socialGroupBaselineForm.html'"> </ng-include>
             <hr>
+            <button class="btn btn-success" id="fieldworker-select" data-toggle="modal" data-target="#socialGroupSelectModal">Select Existing</button>
+
             <button class="btn btn-primary" data-toggle="tab" data-target="#individuals">Next</button>
           </div>
 
@@ -82,4 +85,8 @@
 </ng-include>
 
 <ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'">
+</ng-include>
+
+
+<ng-include src="'domain/socialgroup/partials/socialGroupSelectModal.html'">
 </ng-include>

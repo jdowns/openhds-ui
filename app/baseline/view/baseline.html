@@ -48,7 +48,7 @@
 
 
           <div role="tabpanel" class="tab-pane fade" id="location">
-              <ng-include src="'domain/location/partial/locationBaselineForm.html'"></ng-include>
+              <ng-include src="'domain/location/partials/locationBaselineForm.html'"></ng-include>
               <hr>
 
 
@@ -56,19 +56,19 @@
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="group">
-            <ng-include src="'domain/socialgroup/partial/socialGroupBaselineForm.html'"> </ng-include>
+            <ng-include src="'domain/socialgroup/partials/socialGroupBaselineForm.html'"> </ng-include>
             <hr>
             <button class="btn btn-primary" data-toggle="tab" data-target="#individuals">Next</button>
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="individuals">
-            <ng-include src="'domain/individual/partial/individualBaselineForm.html'"> </ng-include>
+            <ng-include src="'domain/individual/partials/individualBaselineForm.html'"> </ng-include>
             <hr>
             <button class="btn btn-primary" data-toggle="tab" data-target="#relationships">Next</button>
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="relationships">
-            <ng-include src="'domain/relationship/partial/relationshipBaselineForm.html'"> </ng-include>
+            <ng-include src="'domain/relationship/partials/relationshipBaselineForm.html'"> </ng-include>
             <hr>
             <button class="btn btn-success" data-toggle="tab" data-target="#group">Finish</button>
           </div>

@@ -1,4 +1,3 @@
-
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
@@ -120,22 +119,6 @@ angular.module('BaselineModule',
 
 
                 };
-
-
-                function individualsSuccess(result) {
-                    var membershipsUrl = $rootScope.restApiUrl + "/memberships",
-                        residenciesUrl = $rootScope.restApiUrl + "/residencies",
-                        relationshipsUrl = $rootScope.restApiUrl + "/relationships";
-                }
-
-                function groupSuccess(result) {
-                    var individualsUrl = $rootScope.restApiUrl + "/individuals";
-
-                }
-
-                function locationSuccess(result) {
-                    var socialGroupsUrl = $rootScope.restApiUrl + "/socialGroups";
-                }
 
                 vm.submitVisit = function() {
                     LocationService.submit(vm, locationSuccess);

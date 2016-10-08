@@ -2,9 +2,14 @@
 
 console.log('starting application');
 
-angular.module('openhds', ['ngRoute'])
-    .config(['$httpProvider', corsConfig])
-    .config(['$routeProvider', routeConfig]);
+var app = angular.module('openhds',
+    ['ngRoute',
+        'LoginModule', 'BaselineModule'])
+
+
+
+app.config(['$httpProvider', corsConfig]);
+app.config(['$routeProvider', routeConfig]);
 
 function routeConfig($routeProvider) {
     $routeProvider

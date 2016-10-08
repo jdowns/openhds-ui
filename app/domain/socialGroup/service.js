@@ -19,6 +19,8 @@ function SocialGroupService($rootScope, $http) {
         };
     }
 
+
+
     service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/socialGroups";
         var request = Request(fieldWorker, collectionDate, model);

@@ -4,6 +4,8 @@ angular.module('openhds')
     .service('LocationService',
              ['$rootScope', '$http', LocationService]);
 
+
+
 function LocationService($rootScope, $http) {
     var service = this;
     var headers;
@@ -31,6 +33,5 @@ function LocationService($rootScope, $http) {
         var request = Request(model);
         return $http.post(url, request, headers);
     };
-
     return service;
-}
+};

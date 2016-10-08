@@ -1,43 +1,125 @@
 <header>
-  <h1>OpenHDS</h1>
+  <h1>OpenHDS {{selectedLocation}}</h1>
 </header>
 
+
+<!-- Left Column -->
 <div class="container" ng-init="model.init()">
   <div class="row">
     <div class="col-md-2 no-float">
       <ng-include src="'core/partials/navigationTabs.html'"></ng-include>
-      <hr />
-      <ng-include src="'baseline/view/fieldworkerSelectPartial.html'"></ng-include>
-      <br /> <br />
-      <ng-include src="'baseline/view/locationHierarchySelectPartial.html'"></ng-include>
-      <br /> <br />
-      <div class="btn btn-default form-control" id="submitVisit" ng-click="model.submitVisit()">
-        Submit Visit
-      </div>
+      <hr>
+      Selected (debugging)
+
+
+      <pre>Collection DateTime:{{model.collectionDateTime | json}}</pre>
+      <pre>Hierarchy: {{model.selectedHierarchy | json}}</pre>
+      <pre>Field Worker: {{model.currentFieldWorker | json}}</pre>
+
+
     </div>
+
+
+    <!-- Main content -->
     <div class="col-md-10 no-float">
       <div>
+
+
+
         <ng-include src="'baseline/view/baselineTabBarPartial.html'"></ng-include>
+
+
         <div class="tab-content">
+
           <div role="tabpanel" class="tab-pane fade in active" id="baseline">
             <div>
               <fieldset>
                 <legend>Begin Baseline</legend>
                 <datebox label="Collection Date" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
+                <br />
+                <ng-include src="'baseline/view/fieldworkerSelectPartial.html'"></ng-include>
+                <ng-include src="'baseline/view/locationHierarchySelectPartial.html'"></ng-include>
+                <br /> <br />
               </fieldset>
+              <hr>
+              <button class="btn btn-primary" data-toggle="tab" data-target="#location">Next</button>
             </div>
           </div>
+
+          <!-- Location -->
           <div role="tabpanel" class="tab-pane fade" id="location">
-            <ng-include src="'domain/location/partial/locationBaselineForm.html'"> </ng-include>
+              <ng-include src="'domain/location/partials/locationBaselineForm.html'"></ng-include>
+              <hr>
+            <button class="btn btn-success">Select Existing</button>
           </div>
+
+          <!-- Social Group -->
           <div role="tabpanel" class="tab-pane fade" id="group">
-            <ng-include src="'domain/socialgroup/partial/socialGroupBaselineForm.html'"> </ng-include>
+
+            <row><h3>Social Group</h3></row>
+            <row>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
+                <h3>Create New</h3>
+                <h2>
+                  <span class="glyphicon glyphicon-plus"></span>
+                </h2>
+              </button>
+
+              <button class="btn btn-success"  data-toggle="modal" data-target="#socialGroupSelectModal">
+              <h3> Select Existing </h3>
+                <h2>
+                  <span class="glyphicon glyphicon-search"></span>
+                </h2>
+
+
+            </button>
+            </row>
+            <hr>
+
+            <!-- Display selected social groups -->
+            <h3>Selected Social Groups:</h3>
+            <table st-table="model.selectedSocialGroups" class="table table-striped">
+              <thead>
+              <tr>
+                <th>extId</th>
+                <th st-sort="groupName">group name</th>
+                <th>group type</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in model.selectedSocialGroups">
+                <td>{{row.extId}}</td>
+                <td>{{row.groupName}}</td>
+                <td>{{row.groupType}}</td>
+                <td>
+                  <button type="button" ng-click="model.removeSelectedSocialGroup(row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
+              <span class="glyphicon glyphicon-ok"></span>
+              Done
+            </button>
           </div>
+
+          <!-- Individuals -->
           <div role="tabpanel" class="tab-pane fade" id="individuals">
-            <ng-include src="'domain/individual/partial/individualBaselineForm.html'"> </ng-include>
+            <ng-include src="'domain/individual/partials/individualBaselineForm.html'"> </ng-include>
+            <hr>
+            <button class="btn btn-success">Select Existing</button>
           </div>
+
+          <!-- Relationships -->
           <div role="tabpanel" class="tab-pane fade" id="relationships">
-            <ng-include src="'domain/relationship/partial/relationshipBaselineForm.html'"> </ng-include>
+            <ng-include src="'domain/relationship/partials/relationshipBaselineForm.html'"> </ng-include>
+            <hr>
+            <button class="btn btn-success" data-toggle="tab" data-target="#group">Finish</button>
           </div>
         </div>
       </div>
@@ -49,4 +131,11 @@
 </ng-include>
 
 <ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'">
+</ng-include>
+
+
+<ng-include src="'domain/socialGroup/partials/socialGroupSelectModal.html'">
+</ng-include>
+
+<ng-include src="'domain/socialGroup/partials/socialGroupCreateModal.html'">
 </ng-include>

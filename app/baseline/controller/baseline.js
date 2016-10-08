@@ -35,12 +35,9 @@ function BaselineController($rootScope, $location, $http,
         residency: ResidencyService
     };
 
-    vm.dataModel = {
-
-    }
-
-    var headers = {authorization: "Basic " + $rootScope.credentials};
     vm.selectedHierarchy = [];
+    vm.selectedSocialGroups = []
+    vm.displayCollection = [].concat(vm.allSocialGroups);
 
     vm.saveFieldWorker = function() {
         var result = vm.allFieldWorkers.filter(
@@ -49,6 +46,15 @@ function BaselineController($rootScope, $location, $http,
             });
         vm.currentFieldWorker = result[0];
     };
+
+    vm.removeSelectedSocialGroup = function removeItem(row) {
+        var index = vm.selectedSocialGroups.indexOf(row);
+        if (index !== -1) {
+            vm.selectedSocialGroups.splice(index, 1);
+        }
+    }
+
+    vm.addToSocialGroups = vm.selectedSocialGroups.push;
 
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
@@ -78,6 +84,8 @@ function BaselineController($rootScope, $location, $http,
 
         tabIds.map(initTab);
 
+        var socialGroupUrl = $rootScope.restApiUrl + "/socialGroups/bulk.json";
+
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers}) .then(function(response) {vm.codes = response.data;});
@@ -92,11 +100,17 @@ function BaselineController($rootScope, $location, $http,
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
         });
+         $http.get(socialGroupUrl, {headers: headers})
+            .then(function(response) {
+                vm.allSocialGroups = response.data.map(function(sg) {
+                    return {
+                        uuid: sg.uuid,
+                        extId: sg.extId,
+                        groupName: sg.groupName,
+                        groupType: sg.groupType};
+                });
+            });
     };
-
-    vm.saveEntity = function(entityKey) {
-
-    }
 
     return vm;
 }

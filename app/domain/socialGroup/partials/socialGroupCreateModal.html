@@ -1,0 +1,55 @@
+<!-- social group select modal -->
+<div class="modal fade" id="socialGroupCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create New Social Group</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset>
+                    <textbox label="Group Name" id="groupName"
+                             ng-model="model.socialGroup.groupName"></textbox>
+                    <br /><br />
+                    <textbox label="External ID" id="extId"
+                             ng-model="model.socialGroup.extId"></textbox>
+                    <br /><br />
+                    <selectbox label="Group Type" id="groupType"
+                               ng-model="model.socialGroup.groupType">
+                        <option ng-if="code.codeGroup === 'socialGroupType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">
+                            {{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br>
+
+                </fieldset>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Create
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

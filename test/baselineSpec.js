@@ -32,20 +32,14 @@ describe('BaselineController', function() {
 
     it('Remove Selected Social Group updates selectedSocialGroup', function() {
         controller.selectedSocialGroups = ["a", "b", "c"];
-        controller.removeSelectedSocialGroup("b");
+        controller.removeSelectedEntity('selectedSocialGroups', "b");
         expect(controller.selectedSocialGroups).toEqual(["a", "c"]);
     });
 
     it('Should leave selectedSocialGroups alone if group not found', function() {
         controller.selectedSocialGroups = ["a", "b", "c"];
-        controller.removeSelectedSocialGroup("d");
+        controller.removeSelectedEntity('selectedSocialGroups', "d");
         expect(controller.selectedSocialGroups).toEqual(["a", "b", "c"]);
-    });
-
-    it('Should update social groups', function() {
-        controller.selectedSocialGroups = ["a", "b", "c"];
-        controller.addToSocialGroups("d");
-        expect(controller.selectedSocialGroups).toEqual(["a", "b", "c", "d"]);
     });
 
     it('Should set selected fieldworker', function() {

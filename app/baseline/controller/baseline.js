@@ -8,7 +8,7 @@ function initTab(id) {
 
 
 angular.module('BaselineModule',
-    ['LocationModule'])
+    [])
 
 
 

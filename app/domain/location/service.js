@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('LocationModule', [])
+angular.module('openhds')
 
     .service('LocationService',
         ['$rootScope', '$http',

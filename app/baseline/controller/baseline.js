@@ -33,13 +33,24 @@ function BaselineController($rootScope,
 
                 vm.displayCollection = [].concat(vm.allSocialGroups);
 
+                vm.selectedLocation = null;
+
+                vm.selectedIndividuals = [];
+
+                vm.selectedRelationships = [];
+
+
                 //remove to the real data holder
-                vm.removeSelectedSocialGroup = function removeItem(row) {
-                    var index = vm.selectedSocialGroups.indexOf(row);
+                vm.removeSelectedEntity = function removeItem(key, row) {
+                    var index = vm[key].indexOf(row);
                     if (index !== -1) {
-                        vm.selectedSocialGroups.splice(index, 1);
+                        vm[key].splice(index, 1);
                     }
                 }
+
+
+
+
 
 
                 vm.saveFieldWorker = function() {

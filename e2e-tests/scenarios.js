@@ -32,9 +32,8 @@ describe('OpenHDS workflows ', function() {
 
     it('Allows a data entry worker to create a new location', function() {
         login();
-        browser.sleep(3000);
         expect(browser.getLocationAbsUrl()).toEqual('/baseline');
 
-    });
 
+    });
 });

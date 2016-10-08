@@ -42,6 +42,32 @@ function IndividualService($rootScope, $http) {
         var fieldWorker = model.currentFieldworker;
         var collectionDate = model.collectionDateTime;
 
+        service.getByHierarchy = function(hierarchyUuid) {
+            var url = $rootScope.restApiUrl + "/individuals.json" + '?locationHierarchyUuid=' + hierarchyUuid;
+            var individualsPromise = $http.get(url, getHeaders());
+
+            return $q(function(resolve, reject) {
+                individualsPromise.then(
+                    function(response) {
+                        var individuals = response.data.content.map(
+                            function(ind) {
+                                return {
+                                    extId: ind.extId,
+                                    firstName: ind.firstName,
+                                    lastName: ind.lastName,
+                                    dateOfBirth: ind.dateOfBirth,
+                                    gender: ind.gender
+                                };
+                            });
+                        resolve(individuals);
+                    },
+                    function(response) {
+                        reject(response);
+                    }
+                );
+            });
+        };
+
         function submitModel() {
             return function(model) {
                 return service.submitOne(fieldWorker, collectionDate, model);

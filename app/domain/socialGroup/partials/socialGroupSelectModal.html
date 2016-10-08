@@ -36,7 +36,7 @@
                     <tbody>
                     <tr ng-repeat="row in model.displayCollection">
                         <td>
-                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.addToSocialGroups(row)">
+                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.selectedSocialGroups.push(row)">
                                 select
                             </button>
                         </td>

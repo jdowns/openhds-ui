@@ -29,9 +29,7 @@ function LocationService($rootScope, $http) {
         };
         var url = $rootScope.restApiUrl + "/locations";
         var request = Request(model);
-        $http.post(url, request, headers).then(function(response) {
-            callback(response.data);
-        });
+        return $http.post(url, request, headers);
     };
 
     return service;

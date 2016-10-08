@@ -1,4 +1,4 @@
-angular.module('openhds')
+angular.module('BaselineModule', [])
     .controller('BaselineController',
                 ['$rootScope', '$location', '$http',
                  'LocationHierarchyService', 'FieldWorkerService',

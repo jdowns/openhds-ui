@@ -5,6 +5,9 @@ describe('LoginController', function() {
         $location,
         $httpBackend;
 
+    beforeEach(module('smart-table'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
 
     beforeEach(inject(function(_$controller_, _$httpBackend_,

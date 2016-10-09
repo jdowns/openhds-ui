@@ -2,9 +2,9 @@
 
 angular.module('openhds')
     .service('LocationService',
-             ['$rootScope', '$http', '$q', 'EntityService', LocationService]);
+             ['EntityService', LocationService]);
 
-function LocationService($rootScope, $http, $q, EntityService) {
+function LocationService(EntityService) {
     var service = this;
     var urlBase = '/locations'
 

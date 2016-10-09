@@ -30,6 +30,17 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+    service.getBulk = function(urlBase, responseClass) {
+        var url = $rootScope.restApiUrl + urlBase + '/bulk.json';
+        var responsePromise = $http.get(url, service.getHeaders());
+        return $q(function(resolve, reject) {
+            responsePromise.then(function(response) {
+                var entities = response.data.map(responseClass);
+                resolve(entities);
+            });
+        });
+    };
+
     service.submit = function (urlBase, requestClass, model) {
         var url = $rootScope.restApiUrl + urlBase;
         var request = requestClass(model);

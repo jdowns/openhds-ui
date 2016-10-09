@@ -74,7 +74,8 @@ describe('SocialGroupService Test', function() {
                     groupType: 'UNIT TEST'
                 }]
         };
-        var result = service.submit(model);
+        var result = service.submit(model.currentFieldworker, model.collectionDateTime,
+                                    model.socialGroups);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail

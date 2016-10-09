@@ -2,27 +2,20 @@
 
 angular.module('openhds')
     .service('SocialGroupService',
-             ['$rootScope', '$http', '$q', SocialGroupService]);
+             ['EntityService', SocialGroupService]);
 
-function SocialGroupService($rootScope, $http, $q) {
+function SocialGroupService(EntityService) {
     var service = this;
+    var urlBase = '/socialGroups';
 
-    function getHeaders() {
+    function Request(model) {
         return {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
-        };
-
-    }
-    function Request(fieldWorker, collectionDate, model) {
-        return {
-            collectedByUuid: fieldWorker.uuid,
+            collectedByUuid: model.fieldWorker.uuid,
             socialGroup: {
-                groupName: model.groupName,
-                extId: model.extId,
-                groupType: model.groupType,
-                collectionDateTime: collectionDate
+                groupName: model.entity.groupName,
+                extId: model.entity.extId,
+                groupType: model.entity.groupType,
+                collectionDateTime: model.collectionDate
             }
         };
     }
@@ -37,34 +30,25 @@ function SocialGroupService($rootScope, $http, $q) {
     }
 
     service.getAllSocialGroups = function() {
-        var url = $rootScope.restApiUrl + '/socialGroups/bulk.json';
-        return $q(function(resolve, reject) {
-            $http.get(url, getHeaders()).then(
-                function(response) {
-                    var entities = response.data.map(Response);
-                    resolve(entities);
-                });
-        });
+        return EntityService.getBulk(urlBase, Response);
     };
 
-    service.submitOne = function(fieldWorker, collectionDate, model) {
-        var url = $rootScope.restApiUrl + "/socialGroups";
-        var request = Request(fieldWorker, collectionDate, model);
-        var response = $http.post(url, request, getHeaders());
-        return response;
+    service.submitOne = function(fieldWorker, collectionDate, entity) {
+        var model = {
+            fieldWorker: fieldWorker,
+            collectionDate: collectionDate,
+            entity: entity
+        };
+        return EntityService.submit(urlBase, Request, model);
     };
 
-    service.submit = function(model, callback) {
-
-        var fieldWorker = model.currentFieldworker;
-        var collectionDate = model.collectionDateTime;
-
+    service.submit = function(fieldWorker, collectionDate, models) {
         function submitModel() {
             return function(model) {
                 return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
-        var result = model.socialGroups.map(submitModel());
+        var result = models.map(submitModel());
         return Promise.all(result);
     };
 

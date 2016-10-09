@@ -45,7 +45,6 @@ function IndividualService(EntityService) {
         return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };
 
-
     service.submit = function(fieldWorker, collectionDate, models) {
         function submitModel() {
             return function(model) {

@@ -6,7 +6,6 @@ function initTab(id) {
     });
 }
 
-
 angular.module('BaselineModule', [])
     .controller('BaselineController',
                 ['$rootScope',
@@ -82,7 +81,6 @@ function BaselineController($rootScope,
                       '#relationshipsTab'];
 
         tabIds.map(initTab);
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
@@ -90,11 +88,11 @@ function BaselineController($rootScope,
                 vm.codes = response.data;
             });
 
-        FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
+        FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
         });
 
-        LocationHierarchyService.locationHierarchies(function(hierarchyTree) {
+        LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
         });
         LocationHierarchyService.getLevels().then(function(response) {
@@ -103,8 +101,7 @@ function BaselineController($rootScope,
 
         SocialGroupService.getAllSocialGroups().then(function(groups) {
             vm.allSocialGroups = groups;
-        })
-
+        });
     };
 
     return vm;

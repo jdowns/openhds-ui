@@ -2,6 +2,9 @@ describe('FieldWorkerService Test', function() {
 
     var service, $httpBackend, $rootScope;
 
+    beforeEach(module('smart-table'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));

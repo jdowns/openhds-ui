@@ -2,82 +2,57 @@
 
 angular.module('openhds')
     .service('IndividualService',
-             ['$rootScope', '$http', '$q', IndividualService]);
+             ['EntityService', IndividualService]);
 
-function IndividualService($rootScope, $http, $q) {
+function IndividualService(EntityService) {
     var service = this;
-    var headers = {
-        headers: {
-            authorization: "Basic " + $rootScope.credentials
-        }
-    };
+    var urlBase = '/individuals';
 
-    function Request(fieldWorker, collectionDate, model) {
+    function Request(model) {
         return {
-            collectedByUuid: fieldWorker.uuid,
+            collectedByUuid: model.fieldWorker.uuid,
             individual: {
-                firstName: model.firstName,
-                lastName: model.lastName,
-                dateOfBirth: model.dateOfBirth,
-                extId: model.extId,
-                gender: model.gender,
-                collectionDateTime: collectionDate
+                firstName: model.entity.firstName,
+                lastName: model.entity.lastName,
+                dateOfBirth: model.entity.dateOfBirth,
+                extId: model.entity.extId,
+                gender: model.entity.gender,
+                collectionDateTime: model.collectionDate
             }
         };
     }
 
-    function getHeaders() {
+    function Response(entity) {
         return {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
+            extId: entity.extId,
+            firstName: entity.firstName,
+            lastName: entity.lastName,
+            dateOfBirth: entity.dateOfBirth,
+            gender: entity.gender
         };
-
     }
 
-    service.submitOne = function(fieldWorker, collectionDate, model) {
-        var url = $rootScope.restApiUrl + "/individuals";
-        var request = Request(fieldWorker, collectionDate, model);
-        return $http.post(url, request, headers);
+    service.submitOne = function(fieldWorker, collectionDate, entity) {
+        var model = {
+            fieldWorker: fieldWorker,
+            collectionDate: collectionDate,
+            entity: entity
+        };
+        return EntityService.submit(urlBase, Request, model);
     };
 
     service.getByHierarchy = function(hierarchyUuid) {
-        var url = $rootScope.restApiUrl + "/individuals.json" + '?locationHierarchyUuid=' + hierarchyUuid;
-        var individualsPromise = $http.get(url, getHeaders());
-
-        return $q(function(resolve, reject) {
-            individualsPromise.then(
-                function(response) {
-                    var individuals = response.data.content.map(
-                        function(ind) {
-                            return {
-                                extId: ind.extId,
-                                firstName: ind.firstName,
-                                lastName: ind.lastName,
-                                dateOfBirth: ind.dateOfBirth,
-                                gender: ind.gender
-                                };
-                        });
-                    resolve(individuals);
-                }
-            );
-        });
+        return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };
 
-
-    service.submit = function(model, callback) {
-
-        var fieldWorker = model.currentFieldworker;
-        var collectionDate = model.collectionDateTime;
-
-
+    service.submit = function(fieldWorker, collectionDate, models) {
         function submitModel() {
             return function(model) {
                 return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
-
-        return Promise.all(model.individuals.map(submitModel()));
+        var result = models.map(submitModel());
+        return Promise.all(result);
     };
 
     return service;

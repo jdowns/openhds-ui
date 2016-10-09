@@ -1,5 +1,4 @@
 angular.module('LoginModule', [])
-
     .controller('LoginController',
         ['$rootScope', '$location', '$http',LoginController]);
 

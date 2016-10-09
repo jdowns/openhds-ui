@@ -3,6 +3,9 @@ describe('LocationService Test', function() {
     var service, $httpBackend, $rootScope;
 
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_LocationService_, $injector){
         $httpBackend = $injector.get('$httpBackend');
@@ -53,6 +56,30 @@ describe('LocationService Test', function() {
 
         service.submit(model, function(response) {
             expect(response).toEqual('response data...');
+        });
+
+        $httpBackend.flush();
+    });
+
+    it('should get all locations at a hierarchy', function() {
+        $httpBackend.expectGET('http://example.com/locations.json?locationHierarchyUuid=123')
+            .respond({content: [{
+                description: 'description',
+                extId: 'extId',
+                type: 'type',
+                uuid: 'uuid',
+                name: 'name'
+            }]});
+        service.getByHierarchy('123').then(function(response) {
+            var locations = response;
+            expect(locations).toEqual([
+                {
+                    description: 'description',
+                    extId: 'extId',
+                    type: 'type',
+                    uuid: 'uuid',
+                    name: 'name'
+                }]);
         });
 
         $httpBackend.flush();

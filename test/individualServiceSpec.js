@@ -3,6 +3,9 @@ describe('IndividualService Test', function() {
     var service, $httpBackend, $rootScope;
 
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_IndividualService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');
@@ -31,9 +34,6 @@ describe('IndividualService Test', function() {
                     gender: 'UNIT TEST',
                     collectionDateTime: 'nowish'
                 }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
             }
         ).respond(200, 'response one');
 
@@ -49,9 +49,6 @@ describe('IndividualService Test', function() {
                     gender: 'UNIT TEST',
                     collectionDateTime: 'nowish'
                 }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
             }
         ).respond(200, 'response two');
 
@@ -80,6 +77,31 @@ describe('IndividualService Test', function() {
         var result = service.submit(model).then(function(response) {
             //TODO: this is not executing correctly. It should fail
             expect(response).toEqual(['response one', 'response 2']);
+        });
+
+        $httpBackend.flush();
+    });
+
+
+    it('should get all locations at a hierarchy', function() {
+        $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=123')
+            .respond({content: [{
+                extId: 'extId',
+                firstName: 'firstName',
+                lastName: 'lastName',
+                dateOfBirth: 'dob',
+                gender: 'gender'
+            }]});
+        service.getByHierarchy('123').then(function(response) {
+            var locations = response;
+            expect(locations).toEqual([
+                {
+                    extId: 'extId',
+                    firstName: 'firstName',
+                    lastName: 'lastName',
+                    dateOfBirth: 'dob',
+                    gender: 'gender'
+                }]);
         });
 
         $httpBackend.flush();

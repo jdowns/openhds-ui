@@ -3,6 +3,9 @@ describe('SocialGroupService Test', function() {
     var service, $httpBackend, $rootScope;
 
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_SocialGroupService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');
@@ -70,10 +73,32 @@ describe('SocialGroupService Test', function() {
         };
         var result = service.submit(model);
 
-        console.log(result[0]);
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail
             expect(response).toEqual(['response one', 'response 2']);
+        });
+
+        $httpBackend.flush();
+    });
+
+
+    it('should get all socialGroups', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups/bulk.json')
+            .respond([{
+                uuid: 'uuid',
+                extId: 'extId',
+                groupName: 'name',
+                groupType: 'type'
+            }]);
+        service.getAllSocialGroups('123').then(function(response) {
+            var groups = response;
+            expect(groups).toEqual([
+                {
+                    uuid: 'uuid',
+                    extId: 'extId',
+                    groupName: 'name',
+                    groupType: 'type'
+                }]);
         });
 
         $httpBackend.flush();

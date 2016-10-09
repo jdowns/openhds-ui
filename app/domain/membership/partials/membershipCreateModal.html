@@ -1,0 +1,51 @@
+<!-- social group select modal -->
+<div class="modal fade" id="membershipCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Assign Membership</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <br /><br />
+                <selectbox id="residencyStartType" label="Social Group">
+                    <option ng-repeat="sg in model.selectedSocialGroups"
+                            value="{{sg.extId}}">{{sg.groupName}}
+                    </option>
+                </selectbox>
+                <br /><br />
+                <selectbox label="Group Membership Start Type"
+                           id="membershipStartType"
+                           ng-model="model.individual.membershipStartType">
+                    <option ng-if="code.codeGroup === 'membershipType'"
+                            ng-repeat="code in model.codes"
+                            value="{{code.codeValue}}">{{code.codeName}}
+                    </option>
+                </selectbox>
+                <br /><br />
+                <datebox label="Group Membership Start Date"
+                         id="membershipStartDate"
+                         ng-model="model.membershipStartDate"></datebox>
+
+                <br /><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">
+                    Create
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

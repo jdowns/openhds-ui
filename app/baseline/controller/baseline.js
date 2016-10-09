@@ -1,3 +1,4 @@
+'use strict';
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
@@ -44,7 +45,7 @@ function BaselineController($rootScope,
         if (index !== -1) {
             vm[key].splice(index, 1);
         }
-    }
+    };
 
     vm.saveFieldWorker = function() {
         var result = vm.allFieldWorkers.filter(
@@ -65,6 +66,8 @@ function BaselineController($rootScope,
             return child.uuid === last;
         });
     };
+
+    console.log(vm.saveLocationHierarchy);
 
     vm.availableHierarchies = function() {
         var result = [];

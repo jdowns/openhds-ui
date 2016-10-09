@@ -67,8 +67,6 @@ function BaselineController($rootScope,
         })[0];
     };
 
-    console.log(vm.saveLocationHierarchy);
-
     vm.availableHierarchies = function() {
         var result = [];
 

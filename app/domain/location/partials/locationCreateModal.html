@@ -16,7 +16,7 @@
 
                     <textbox label="Location Name" id="locationName" ng-model="model.location.name"></textbox>
                     <br /><br /> <!-- todo css padding -->
-                    <textbox label="External ID" id="extId" ng-model="model.location.extId"></textbox>
+                    <textbox label="External ID" id="locationExtId" ng-model="model.location.extId"></textbox>
                     <br /><br />
                     <selectbox label="Location Type" id="locationType" ng-model="model.location.type">
                         <option ng-if="code.codeGroup === 'locationType'"
@@ -34,6 +34,7 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        id="createLocation"
                         ng-click="model.submitLocation(model.location)">
                     Create
                 </button>

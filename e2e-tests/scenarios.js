@@ -1,6 +1,7 @@
 'use strict';
 
 var LoginPage = require('./pages/loginPage.js').LoginPage;
+var BaselinePage = require('./pages/baselinePage.js').BaselinePage;
 /*
 var FieldWorkerHomePage = require('./fieldWorkerHomePage.js').FieldWorkerHomePage;
 var CreateSocialGroupPage = require('./createSocialGroupPage.js').CreateSocialGroupPage;
@@ -34,6 +35,29 @@ describe('OpenHDS workflows ', function() {
         login();
         expect(browser.getLocationAbsUrl()).toEqual('/baseline');
 
+        var baselinePage = new BaselinePage();
+        baselinePage.setCollectionDate('01-01-2000');
+        baselinePage.setFieldWorker();
+
+        browser.sleep(1000);
+
+        var currentFieldworker = baselinePage.getCurrentFieldworker();
+
+        expect(currentFieldworker).toEqual('fieldworker');
+
+        baselinePage.setHierarchy();
+        expect(baselinePage.getCurrentHierarchy()).toEqual('hierarchy-0-1-1');
+        browser.sleep(1000);
+        baselinePage.nextButton.click();
+        browser.sleep(1000);
+
+        baselinePage.newLocationButton.click();
+        browser.sleep(1000);
+        baselinePage.setLocationName('foo');
+        baselinePage.setLocationExtId('foo');
+        baselinePage.selectLocationType('urban');
+        baselinePage.createLocationButton.click();
+        expect(baselinePage.getCurrentLocation()).toMatch(/.*uuid.*/);
 
     });
 });

@@ -20,6 +20,13 @@ describe('BaselineController', function() {
                         callback('created a location');
                     }
                 };
+            },
+            getByHierarchy: function(huid) {
+                return {
+                    then: function(callback) {
+                        callback('got locations');
+                    }
+                };
             }
         };
 
@@ -200,5 +207,10 @@ describe('BaselineController', function() {
             controller.currentHierarchy,
             location
         );
+    });
+
+    it('Allows a location to be selected', function() {
+        controller.setLocation("foo");
+        expect(controller.selectedLocation).toEqual("foo");
     });
 });

@@ -44,7 +44,7 @@
                 <br /> <br />
               </fieldset>
               <hr>
-              <button class="btn btn-primary" data-toggle="tab" data-target="#location" ng-disable="model.collectionDateTime">
+              <button id="next" class="btn btn-primary" data-toggle="tab" data-target="#location" ng-disable="model.collectionDateTime">
                 Next
               </button>
             </div>
@@ -55,7 +55,7 @@
             <row><h3>Location</h3></row>
             <row>
 
-              <button class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+              <button id='createNewLocation' class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
                 <h3>Create New</h3>
                 <h2>
                   <span class="glyphicon glyphicon-plus"></span>
@@ -76,8 +76,9 @@
 
             <h4>Current Location:</h4>
             <!-- TODO: placeholder -->
-            {{model.selectedLocation}}
-
+            <div id="currentLocationData">
+              {{model.selectedLocation | json}}
+            </div>
 
             <hr>
             <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#group">

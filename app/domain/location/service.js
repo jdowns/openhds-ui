@@ -6,9 +6,6 @@ angular.module('openhds')
              ['$rootScope', '$http', '$q',
               function($rootScope, $http, $q) {
                   var service = this;
-                  var headers;
-
-
 
                   function Request(model) {
                       return {
@@ -49,9 +46,6 @@ angular.module('openhds')
                                           };
                                       });
                                   resolve(locations);
-                              },
-                              function(response) {
-                                  reject(response);
                               }
                           );
                       });

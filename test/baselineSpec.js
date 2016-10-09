@@ -3,7 +3,8 @@ describe('BaselineController', function() {
     var controller,
         $rootScope,
         $location,
-        $httpBackend;
+        $httpBackend,
+        mockLocationService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -12,8 +13,16 @@ describe('BaselineController', function() {
 
     beforeEach(inject(function(_$controller_, _$httpBackend_,
                                _$rootScope_, _$location_){
-        var mockLocationService = {
-            submit: function(vm, locationSuccess) {}
+        mockLocationService = {
+            foo: 123,
+            submit: function(vm, locationSuccess) {},
+            submitOne: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            }
         };
 
         var mockSocialGroupService = {
@@ -25,6 +34,7 @@ describe('BaselineController', function() {
                 };
             }
         };
+
         var mockFieldWorkerService = {
             getAllFieldWorkers: function(callback) {
                 callback('allFieldWorkers');
@@ -45,6 +55,7 @@ describe('BaselineController', function() {
         };
 
         spyOn(mockLocationService, 'submit');
+        spyOn(mockLocationService, 'submitOne').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -165,5 +176,22 @@ describe('BaselineController', function() {
         expect(controller.allSocialGroups).toEqual('allSocialGroups');
 
         delete $;
+    });
+
+    it('saves location', function() {
+        var location = {
+            name: 'name',
+            extId: 'extId',
+            type: 'UNIT TEST'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitLocation(location);
+
+        expect(mockLocationService.submitOne).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            location
+        );
     });
 });

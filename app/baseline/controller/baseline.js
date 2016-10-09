@@ -38,6 +38,8 @@ function BaselineController($rootScope,
 
     vm.selectedRelationships = [];
 
+    vm.submittedLocations = [];
+
 
     //remove to the real data holder
     vm.removeSelectedEntity = function removeItem(key, row) {
@@ -74,6 +76,16 @@ function BaselineController($rootScope,
             result.push(vm.locationHierarchies[h]);
         });
         return result;
+    };
+
+    vm.submitLocation = function(location) {
+        console.log(LocationService)
+        LocationService.submitOne(vm.currentFieldWorker,
+                                  vm.collectionDateTime,
+                                  location)
+            .then(function(response) {
+                vm.submittedLocations.push(response);
+            });
     };
 
     vm.init = function() {

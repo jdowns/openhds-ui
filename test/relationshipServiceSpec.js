@@ -79,7 +79,9 @@ describe('RelationshipService Test', function() {
                 }]
         };
 
-        var result = service.submit(model.currentFieldworker, model.collectionDateTime, model.relationships);
+        var result = service.submit(model.currentFieldworker,
+                                    model.collectionDateTime,
+                                    model.relationships);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail

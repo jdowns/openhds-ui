@@ -204,7 +204,6 @@ describe('LocationHierarchyService Test', function() {
             .respond(200, locationHierarchies);
 
         var hierarchyPromise = service.locationHierarchies();
-        console.log(hierarchyPromise)
         hierarchyPromise.then(function(hierarchies) {
             expect(hierarchyMap).toEqual(hierarchies);
         });

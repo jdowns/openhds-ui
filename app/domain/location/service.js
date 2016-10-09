@@ -2,10 +2,11 @@
 
 angular.module('openhds')
     .service('LocationService',
-             ['$rootScope', '$http', '$q', LocationService]);
+             ['$rootScope', '$http', '$q', 'EntityService', LocationService]);
 
-function LocationService($rootScope, $http, $q) {
+function LocationService($rootScope, $http, $q, EntityService) {
     var service = this;
+    var urlBase = '/locations'
 
     function Request(model) {
         return {
@@ -19,47 +20,24 @@ function LocationService($rootScope, $http, $q) {
             }
         };
     }
-    function getHeaders() {
+
+    function Response(data) {
         return {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
+            uuid: data.uuid,
+            name: data.name,
+            extId: data.extId,
+            type: data.type,
+            description: data.description
         };
     }
 
-    service.getByHierarchy = function(hierarchyUuid) {
-        var url = $rootScope.restApiUrl + "/locations.json" + '?locationHierarchyUuid=' + hierarchyUuid;
-        var locationsPromise = $http.get(url, getHeaders());
+    service.getByHierarchy = function(uuid) {
+        return EntityService.getByHierarchy(urlBase, Response, uuid);
+    }
 
-        return $q(function(resolve, reject) {
-            locationsPromise.then(
-                function(response) {
-                    var locations = response.data.content.map(
-                        function(loc) {
-                            return {
-                                description: loc.description,
-                                extId: loc.extId,
-                                type: loc.type,
-                                uuid: loc.uuid,
-                                name: loc.name
-                            };
-                        });
-                    resolve(locations);
-                },
-                function(response) {
-                    reject(response);
-                }
-            );
-        });
-    };
-
-    service.submit = function (model, callback) {
-        var url = $rootScope.restApiUrl + "/locations";
-        var request = Request(model);
-        $http.post(url, request, getHeaders()).then(function (response) {
-            callback(response.data);
-        });
-    };
+    service.submit = function(model) {
+        return EntityService.submit(urlBase, Request, model);
+    }
 
     return service;
 };

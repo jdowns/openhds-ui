@@ -18,3 +18,4 @@ build
 target/*
 coverage/*
 testresults.html
+app/config.json

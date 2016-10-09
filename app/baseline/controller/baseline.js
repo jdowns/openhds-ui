@@ -78,10 +78,10 @@ function BaselineController($rootScope,
     };
 
     vm.submitLocation = function(location) {
-        console.log(LocationService)
-        LocationService.submitOne(vm.currentFieldWorker,
-                                  vm.collectionDateTime,
-                                  location)
+        LocationService.submit(vm.currentFieldWorker,
+                               vm.collectionDateTime,
+                               vm.currentHierarchy,
+                               location)
             .then(function(response) {
                 vm.submittedLocations.push(response);
             });

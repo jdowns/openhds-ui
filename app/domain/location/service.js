@@ -10,13 +10,13 @@ function LocationService(EntityService) {
 
     function Request(model) {
         return {
-            collectedByUuid: model.currentFieldworker.uuid,
+            collectedByUuid: model.fieldWorker.uuid,
             locationHierarchyUuid: model.currentHierarchy.uuid,
             location: {
-                name: model.location.name,
-                extId: model.location.extId,
-                type: model.location.type,
-                collectionDateTime: model.collectionDateTime
+                name: model.entity.name,
+                extId: model.entity.extId,
+                type: model.entity.type,
+                collectionDateTime: model.collectionDate
             }
         };
     }
@@ -33,11 +33,17 @@ function LocationService(EntityService) {
 
     service.getByHierarchy = function(uuid) {
         return EntityService.getByHierarchy(urlBase, Response, uuid);
-    }
+    };
 
-    service.submit = function(model) {
+    service.submit = function(fieldWorker, collectionDate, hierarchy, entity) {
+        var model = {
+            fieldWorker: fieldWorker,
+            collectionDate: collectionDate,
+            currentHierarchy: hierarchy,
+            entity: entity
+        };
         return EntityService.submit(urlBase, Request, model);
-    }
+    };
 
     return service;
 };

@@ -14,9 +14,7 @@ describe('BaselineController', function() {
     beforeEach(inject(function(_$controller_, _$httpBackend_,
                                _$rootScope_, _$location_){
         mockLocationService = {
-            foo: 123,
-            submit: function(vm, locationSuccess) {},
-            submitOne: function(fw, dt, loc) {
+            submit: function(fw, dt, loc) {
                 return {
                     then: function(callback) {
                         callback('created a location');
@@ -62,8 +60,7 @@ describe('BaselineController', function() {
             }
         };
 
-        spyOn(mockLocationService, 'submit');
-        spyOn(mockLocationService, 'submitOne').and.callThrough();
+        spyOn(mockLocationService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -194,11 +191,13 @@ describe('BaselineController', function() {
         };
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = 'nowish';
+        controller.currentHierarchy = {uuid: 456};
         controller.submitLocation(location);
 
-        expect(mockLocationService.submitOne).toHaveBeenCalledWith(
+        expect(mockLocationService.submit).toHaveBeenCalledWith(
             controller.currentFieldWorker,
             controller.collectionDateTime,
+            controller.currentHierarchy,
             location
         );
     });

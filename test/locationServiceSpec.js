@@ -43,7 +43,7 @@ describe('LocationService Test', function() {
         ).respond(200, 'response data...');
 
         var model = {
-            currentFieldworker: {
+            currentFieldWorker: {
                 uuid: '123'
             },
             currentHierarchy: {
@@ -57,9 +57,13 @@ describe('LocationService Test', function() {
             }
         };
 
-        service.submit(model, function(response) {
-            expect(response).toEqual('response data...');
-        });
+        service.submit(model.currentFieldWorker,
+                       model.collectionDateTime,
+                       model.currentHierarchy,
+                       model.location)
+            .then(function(response) {
+                expect(response.data).toEqual('response data...');
+            });
 
         $httpBackend.flush();
     });

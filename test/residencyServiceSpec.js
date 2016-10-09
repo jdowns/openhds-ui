@@ -78,7 +78,6 @@ describe('ResidencyService Test', function() {
 
         var result = service.submit(model);
 
-        console.log(result[0]);
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail
             expect(response).toEqual(['response one', 'response 2']);

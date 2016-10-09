@@ -1,17 +1,28 @@
 <div>
     <fieldset>
         <legend>Begin Baseline</legend>
+
+
         <datebox label="Collection Date" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
         <br />
 
+
+
+        <hr>
         <ng-include src="'domain/fieldworker/partials/fieldworkerSelectPartial.html'"></ng-include>
+        <hr>
+
         <ng-include src="'domain/locationHierarchy/partials/locationHierarchySelectPartial.html'"></ng-include>
         <br /> <br />
+
+        <hr>
+
+        <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#location">
+            Location
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+
     </fieldset>
-    <hr>
-    <button class="btn btn-primary" data-toggle="tab" data-target="#location" ng-disable="model.collectionDateTime">
-        Next
-    </button>
 </div>
 
 

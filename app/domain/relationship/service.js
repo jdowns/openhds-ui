@@ -24,7 +24,7 @@ function RelationshipService(EntityService) {
     service.submitOne = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,
-            collectionDate, collectionDate,
+            collectionDate: collectionDate,
             entity: entity
         };
         return EntityService.submit(urlBase, Request, model);

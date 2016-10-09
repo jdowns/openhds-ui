@@ -79,7 +79,9 @@ describe('MembershipService Test', function() {
                 }]
         };
 
-        var result = service.submit(model);
+        var result = service.submit(model.currentFieldworker,
+                                    model.collectionDateTime,
+                                    model.memberships);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. It should fail

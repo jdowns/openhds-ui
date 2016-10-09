@@ -61,7 +61,7 @@ function LocationHierarchyService($rootScope, $http, $q) {
 
     service.locationHierarchies = function() {
         if (service.hierarchies) {
-            return $q.defer(function(resolve, reject) {
+            return $q(function(resolve, reject) {
                 resolve(service.hierarchies);
             });
         } else {
@@ -69,23 +69,26 @@ function LocationHierarchyService($rootScope, $http, $q) {
             var levelsPromise = service.getLevels();
             var hierarchiesPromise = service.getHierarchies();
             return $q(function(resolve, reject) {
-                Promise.all([levelsPromise, hierarchiesPromise]).then(function(results) {
-                    levels = results[0].data.map(LocationHierarchyLevel);
-                    hierarchies = results[1].data.map(
-                        function(hierarchyJson) {
-                            var hierarchy = new LocationHierarchy(hierarchyJson);
+                levelsPromise.then(function(response) {
+                    var levels = response.data.map(LocationHierarchyLevel);
+                    hierarchiesPromise.then(function(response) {
+                        var hierarchies = response.data.map(
+                            function(hierarchyJson) {
+                                var hierarchy = new LocationHierarchy(hierarchyJson);
 
-                            hierarchy.level = levels.filter(function(level) {
-                                return hierarchyJson.level.uuid === level.uuid;
-                            })[0].keyIdentifier || 0;
+                                hierarchy.level = levels.filter(function(level) {
+                                    return hierarchyJson.level.uuid === level.uuid;
+                                })[0].keyIdentifier || 0;
 
-                            return hierarchy;
-                        });
-                    var hierarchyTree = service.buildTree(hierarchies);
-                    service.hierarchies = hierarchyTree;
+                                return hierarchy;
+                            });
+                        var hierarchyTree = service.buildTree(hierarchies);
+                        service.hierarchies = hierarchyTree;
 
-                    resolve(service.hierarchies);
+                        resolve(service.hierarchies);
+                    });
                 });
+
             });
         }
     };

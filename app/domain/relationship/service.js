@@ -21,15 +21,6 @@ function RelationshipService(EntityService) {
         };
     }
 
-    function Response(entity) {
-        return {
-            individualA: entity.individualA.uuid,
-            individualB: entity.individual.uuid,
-            relationshipType: entity.relationshipType,
-            startDate: entity.startDate
-        };
-    }
-
     service.submitOne = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,

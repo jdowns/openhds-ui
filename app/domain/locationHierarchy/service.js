@@ -2,9 +2,9 @@
 
 angular.module('openhds')
     .service('LocationHierarchyService',
-             ['$rootScope', '$http', LocationHierarchyService]);
+             ['$rootScope', '$http', '$q', LocationHierarchyService]);
 
-function LocationHierarchyService($rootScope, $http) {
+function LocationHierarchyService($rootScope, $http, $q) {
     var service = this;
     var headers = {
         headers: {
@@ -59,31 +59,35 @@ function LocationHierarchyService($rootScope, $http) {
         return tree;
     };
 
-    service.locationHierarchies = function(callback) {
+    service.locationHierarchies = function() {
         if (service.hierarchies) {
-            return service.hierarchies;
-        }
-
-        service.getLevels().then(function(result) {
-            var levels = result.data.map(LocationHierarchyLevel);
-
-            service.getHierarchies().then(function(result) {
-                var hierarchies = result.data.map(
-                    function(hierarchyJson) {
-                        var hierarchy = new LocationHierarchy(hierarchyJson);
-
-                        hierarchy.level = levels.filter(function(level) {
-                            return hierarchyJson.level.uuid === level.uuid;
-                        })[0].keyIdentifier || 0;
-
-                        return hierarchy;
-                    });
-
-                var hierarchyTree = service.buildTree(hierarchies);
-                service.hierarchies = hierarchyTree;
-                callback(service.hierarchies);
+            return $q.defer(function(resolve, reject) {
+                resolve(service.hierarchies);
             });
-        });
+        } else {
+
+            var levelsPromise = service.getLevels();
+            var hierarchiesPromise = service.getHierarchies();
+            return $q(function(resolve, reject) {
+                Promise.all([levelsPromise, hierarchiesPromise]).then(function(results) {
+                    levels = results[0].data.map(LocationHierarchyLevel);
+                    hierarchies = results[1].data.map(
+                        function(hierarchyJson) {
+                            var hierarchy = new LocationHierarchy(hierarchyJson);
+
+                            hierarchy.level = levels.filter(function(level) {
+                                return hierarchyJson.level.uuid === level.uuid;
+                            })[0].keyIdentifier || 0;
+
+                            return hierarchy;
+                        });
+                    var hierarchyTree = service.buildTree(hierarchies);
+                    service.hierarchies = hierarchyTree;
+
+                    resolve(service.hierarchies);
+                });
+            });
+        }
     };
 
     return service;

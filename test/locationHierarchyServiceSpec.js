@@ -203,7 +203,9 @@ describe('LocationHierarchyService Test', function() {
         $httpBackend.expectGET('http://example.com/locationHierarchies/bulk.json')
             .respond(200, locationHierarchies);
 
-        service.locationHierarchies(function(hierarchies) {
+        var hierarchyPromise = service.locationHierarchies();
+        console.log(hierarchyPromise)
+        hierarchyPromise.then(function(hierarchies) {
             expect(hierarchyMap).toEqual(hierarchies);
         });
 

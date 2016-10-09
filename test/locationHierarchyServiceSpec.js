@@ -148,6 +148,9 @@ describe('LocationHierarchyService Test', function() {
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_LocationHierarchyService_, $injector){
         service = _LocationHierarchyService_;

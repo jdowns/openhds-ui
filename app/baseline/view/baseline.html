@@ -31,34 +31,67 @@
 
         <div class="tab-content">
 
+<!-- Begin baseline -->
           <div role="tabpanel" class="tab-pane fade in active" id="baseline">
             <div>
               <fieldset>
                 <legend>Begin Baseline</legend>
                 <datebox label="Collection Date" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
                 <br />
+
                 <ng-include src="'baseline/view/fieldworkerSelectPartial.html'"></ng-include>
                 <ng-include src="'baseline/view/locationHierarchySelectPartial.html'"></ng-include>
                 <br /> <br />
               </fieldset>
               <hr>
-              <button class="btn btn-primary" data-toggle="tab" data-target="#location">Next</button>
+              <button class="btn btn-primary" data-toggle="tab" data-target="#location" ng-disable="model.collectionDateTime">
+                Next
+              </button>
             </div>
           </div>
 
-          <!-- Location -->
+ <!-- Location -->
           <div role="tabpanel" class="tab-pane fade" id="location">
-              <ng-include src="'domain/location/partials/locationBaselineForm.html'"></ng-include>
-              <hr>
-            <button class="btn btn-success">Select Existing</button>
+            <row><h3>Location</h3></row>
+            <row>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+                <h3>Create New</h3>
+                <h2>
+                  <span class="glyphicon glyphicon-plus"></span>
+                </h2>
+              </button>
+
+              <button class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
+                <h3> Select Existing </h3>
+                <h2>
+                  <span class="glyphicon glyphicon-search"></span>
+                </h2>
+
+
+              </button>
+            </row>
+            <hr>
+
+
+            <h4>Current Location:</h4>
+            <!-- TODO: placeholder -->
+            {{model.selectedLocation}}
+
+
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#group">
+              Social Groups
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
           </div>
 
-          <!-- Social Group -->
+
+ <!-- Social Group -->
           <div role="tabpanel" class="tab-pane fade" id="group">
 
             <row><h3>Social Group</h3></row>
             <row>
-
               <button class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
                 <h3>Create New</h3>
                 <h2>
@@ -67,18 +100,16 @@
               </button>
 
               <button class="btn btn-success"  data-toggle="modal" data-target="#socialGroupSelectModal">
-              <h3> Select Existing </h3>
+                <h3> Select Existing </h3>
                 <h2>
                   <span class="glyphicon glyphicon-search"></span>
                 </h2>
-
-
-            </button>
+              </button>
             </row>
             <hr>
 
             <!-- Display selected social groups -->
-            <h3>Selected Social Groups:</h3>
+            <h4>Selected Social Groups:</h4>
             <table st-table="model.selectedSocialGroups" class="table table-striped">
               <thead>
               <tr>
@@ -93,7 +124,7 @@
                 <td>{{row.groupName}}</td>
                 <td>{{row.groupType}}</td>
                 <td>
-                  <button type="button" ng-click="model.removeSelectedSocialGroup(row)" class="btn btn-sm btn-danger">
+                  <button type="button" ng-click="model.removeSelectedEntity('selectedSocialGroups',row)" class="btn btn-sm btn-danger">
                     <i class="glyphicon glyphicon-remove-circle">
                     </i>
                   </button>
@@ -103,39 +134,138 @@
             </table>
             <hr>
             <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
-              <span class="glyphicon glyphicon-ok"></span>
-              Done
+              Individuals
+              <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
           </div>
 
-          <!-- Individuals -->
+ <!-- Individuals -->
           <div role="tabpanel" class="tab-pane fade" id="individuals">
-            <ng-include src="'domain/individual/partials/individualBaselineForm.html'"> </ng-include>
+
+            <row><h3>Individual</h3></row>
+            <row>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#individualCreateModal">
+                <h3>Create New</h3>
+                <h2>
+                  <span class="glyphicon glyphicon-plus"></span>
+                </h2>
+              </button>
+
+              <button class="btn btn-success"  data-toggle="modal" data-target="#individualSelectModal">
+                <h3> Select Existing </h3>
+                <h2>
+                  <span class="glyphicon glyphicon-search"></span>
+                </h2>
+
+
+              </button>
+            </row>
             <hr>
-            <button class="btn btn-success">Select Existing</button>
+
+            <!-- Display selected individuals -->
+            <h4>Selected Individuals:</h4>
+            <table st-table="model.selectedIndividuals" class="table table-striped">
+              <thead>
+              <tr>
+                <th>firstName</th>
+                <th>lastName</th>
+                <th>dateOfBirth</th>
+                <th>extId</th>
+                <th>gender</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in model.selectedIndividuals">
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.dateOfBirth}}</td>
+                <td>{{row.extId}}</td>
+                <td>{{row.gender}}</td>
+                <td>
+                  <button type="button" ng-click="model.removeSelectedEntity('selectedIndividual',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
+              Relationships
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
           </div>
 
-          <!-- Relationships -->
+
+
+
+
+<!-- Relationships -->
           <div role="tabpanel" class="tab-pane fade" id="relationships">
             <ng-include src="'domain/relationship/partials/relationshipBaselineForm.html'"> </ng-include>
             <hr>
-            <button class="btn btn-success" data-toggle="tab" data-target="#group">Finish</button>
+
+            <!-- Display relationships -->
+            <h4>Selected Relationships:</h4>
+            <table st-table="model.selectedRelationships" class="table table-striped">
+              <thead>
+              <tr>
+                <th>individualA</th>
+                <th>individualB</th>
+                <th>relationshipType</th>
+                <th>startDate</th>
+
+
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in model.selectedRelationships">
+                <td>{{row.individualA}}</td>
+                <td>{{row.individualB}}</td>
+                <td>{{row.relationshipType}}</td>
+                <td>{{row.startDate}}</td>
+                <td>
+                  <button type="button" ng-click="model.removeSelectedEntity('selectedRelationship',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#location">
+              Finish Location
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
           </div>
+
+
+        </div>
+
+
+
+
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'">
-</ng-include>
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
 
-<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'">
-</ng-include>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
 
 
-<ng-include src="'domain/socialGroup/partials/socialGroupSelectModal.html'">
-</ng-include>
+<ng-include src="'domain/socialGroup/partials/socialGroupSelectModal.html'"></ng-include>
+<ng-include src="'domain/socialGroup/partials/socialGroupCreateModal.html'"></ng-include>
 
-<ng-include src="'domain/socialGroup/partials/socialGroupCreateModal.html'">
-</ng-include>
+<ng-include src="'domain/location/partials/locationCreateModal.html'"></ng-include>
+<ng-include src="'domain/location/partials/locationSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualCreateModal.html'"></ng-include>
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

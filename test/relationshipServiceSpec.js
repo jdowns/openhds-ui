@@ -6,6 +6,9 @@ describe('RelationshipService Test', function() {
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_RelationshipService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');
@@ -78,7 +81,6 @@ describe('RelationshipService Test', function() {
 
         var result = service.submit(model);
 
-        console.log(result[0]);
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail
             expect(response).toEqual(['response one', 'response 2']);

@@ -6,6 +6,9 @@ describe('MembershipService Test', function() {
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_MembershipService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');

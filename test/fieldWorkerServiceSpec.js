@@ -6,6 +6,9 @@ describe('FieldWorkerService Test', function() {
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
+    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_FieldWorkerService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');

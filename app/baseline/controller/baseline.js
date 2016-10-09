@@ -1,12 +1,3 @@
-angular.module('BaselineModule', [])
-    .controller('BaselineController',
-                ['$rootScope', '$location', '$http',
-                 'LocationHierarchyService', 'FieldWorkerService',
-                 'LocationService', 'SocialGroupService',
-                 'IndividualService', 'RelationshipService',
-                 'MembershipService', 'ResidencyService',
-                 BaselineController]);
-
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
@@ -14,30 +5,44 @@ function initTab(id) {
     });
 }
 
-function BaselineController($rootScope, $location, $http,
+angular.module('BaselineModule',
+               [])
+    .controller('BaselineController',
+                [   '$rootScope','$http',
+                    'LocationHierarchyService',
+                    'FieldWorkerService',
+                    'LocationService',
+                    BaselineController]);
+
+function BaselineController($rootScope,
+                            $http,
                             LocationHierarchyService,
                             FieldWorkerService,
-                            LocationService,
-                            SocialGroupService,
-                            IndividualService,
-                            RelationshipService,
-                            MembershipService,
-                            ResidencyService) {
+                            LocationService
+                           )
+{
     var vm = this;
-    vm.services = {
-        locationHierarchy: LocationHierarchyService,
-        fieldWorker: FieldWorkerService,
-        location: LocationService,
-        socialGroup: SocialGroupService,
-        individual: IndividualService,
-        relationship: RelationshipService,
-        membership: MembershipService,
-        residency: ResidencyService
-    };
-
+    var headers = { authorization: "Basic " + $rootScope.credentials };
     vm.selectedHierarchy = [];
-    vm.selectedSocialGroups = []
+
+    vm.selectedSocialGroups = [];
+
     vm.displayCollection = [].concat(vm.allSocialGroups);
+
+    vm.selectedLocation = null;
+
+    vm.selectedIndividuals = [];
+
+    vm.selectedRelationships = [];
+
+
+    //remove to the real data holder
+    vm.removeSelectedEntity = function removeItem(key, row) {
+        var index = vm[key].indexOf(row);
+        if (index !== -1) {
+            vm[key].splice(index, 1);
+        }
+    };
 
     vm.saveFieldWorker = function() {
         var result = vm.allFieldWorkers.filter(
@@ -46,15 +51,6 @@ function BaselineController($rootScope, $location, $http,
             });
         vm.currentFieldWorker = result[0];
     };
-
-    vm.removeSelectedSocialGroup = function removeItem(row) {
-        var index = vm.selectedSocialGroups.indexOf(row);
-        if (index !== -1) {
-            vm.selectedSocialGroups.splice(index, 1);
-        }
-    }
-
-    vm.addToSocialGroups = vm.selectedSocialGroups.push;
 
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
@@ -84,11 +80,16 @@ function BaselineController($rootScope, $location, $http,
 
         tabIds.map(initTab);
 
+        var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
         var socialGroupUrl = $rootScope.restApiUrl + "/socialGroups/bulk.json";
 
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
-        $http.get(codesUrl, {headers: headers}) .then(function(response) {vm.codes = response.data;});
+
+        $http.get(codesUrl, {headers: headers})
+            .then(function(response) {
+                vm.codes = response.data;
+            });
 
         FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
@@ -100,7 +101,9 @@ function BaselineController($rootScope, $location, $http,
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
         });
-         $http.get(socialGroupUrl, {headers: headers})
+
+        // Placeholder; TODO: develop socialgroup/service.js
+        $http.get(socialGroupUrl, {headers: headers})
             .then(function(response) {
                 vm.allSocialGroups = response.data.map(function(sg) {
                     return {
@@ -110,7 +113,14 @@ function BaselineController($rootScope, $location, $http,
                         groupType: sg.groupType};
                 });
             });
+
+
+
+    };
+
+    vm.submitVisit = function() {
+        LocationService.submit(vm, locationSuccess);
     };
 
     return vm;
-}
+};

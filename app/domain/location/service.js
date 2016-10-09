@@ -2,13 +2,11 @@
 
 angular.module('openhds')
     .service('LocationService',
-             ['$rootScope', '$http', LocationService]);
+             ['$rootScope', '$http', '$q', LocationService]);
 
 
-
-function LocationService($rootScope, $http) {
+function LocationService($rootScope, $http, $q) {
     var service = this;
-    var headers;
 
     function Request(model) {
         return {
@@ -22,16 +20,47 @@ function LocationService($rootScope, $http) {
             }
         };
     }
-
-    service.submit = function(model, callback) {
-        headers = {
+    function getHeaders() {
+        return {
             headers: {
                 authorization: "Basic " + $rootScope.credentials
             }
         };
+    }
+
+    service.getByHierarchy = function(hierarchyUuid) {
+        var url = $rootScope.restApiUrl + "/locations.json" + '?locationHierarchyUuid=' + hierarchyUuid;
+        var locationsPromise = $http.get(url, getHeaders());
+
+        return $q(function(resolve, reject) {
+            locationsPromise.then(
+                function(response) {
+                    var locations = response.data.content.map(
+                        function(loc) {
+                            return {
+                                description: loc.description,
+                                extId: loc.extId,
+                                type: loc.type,
+                                uuid: loc.uuid,
+                                name: loc.name
+                            };
+                        });
+                    resolve(locations);
+                },
+                function(response) {
+                    reject(response);
+                }
+            );
+        });
+    };
+
+    service.submit = function (model, callback) {
         var url = $rootScope.restApiUrl + "/locations";
         var request = Request(model);
-        return $http.post(url, request, headers);
+        $http.post(url, request, getHeaders()).then(function (response) {
+            callback(response.data);
+        });
     };
+
     return service;
 };

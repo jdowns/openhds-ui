@@ -1,6 +1,6 @@
 angular.module('LoginModule', [])
     .controller('LoginController',
-                ['$rootScope', '$location', '$http', LoginController]);
+        ['$rootScope', '$location', '$http',LoginController]);
 
 function LoginController($rootScope, $location, $http) {
     var vm = this;
@@ -35,12 +35,12 @@ function LoginController($rootScope, $location, $http) {
             password: vm.password
         };
         authenticate(creds,
-                     function() {
-                         $location.url(homeUrl);
-                     },
-                     function() {
-                         vm.password = vm.username = null;
-                     });
+            function() {
+                $location.url(homeUrl);
+            },
+            function() {
+                vm.password = vm.username = null;
+            });
     };
 
     return vm;

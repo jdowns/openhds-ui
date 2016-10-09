@@ -62,6 +62,8 @@ function BaselineController($rootScope,
         var parent = vm.selectedHierarchy[parentIndex];
         var last = vm.selectedHierarchy[lastIndex];
         var children = vm.locationHierarchies[parent];
+        console.log('oh hai!')
+        console.log(children)
         vm.currentHierarchy = children.find(function(child) {
             return child.uuid === last;
         });

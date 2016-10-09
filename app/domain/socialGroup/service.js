@@ -2,11 +2,19 @@
 
 angular.module('openhds')
     .service('SocialGroupService',
-             ['$rootScope', '$http', SocialGroupService]);
+             ['$rootScope', '$http', '$q', SocialGroupService]);
 
-function SocialGroupService($rootScope, $http) {
+function SocialGroupService($rootScope, $http, $q) {
     var service = this;
-    var headers;
+
+    function getHeaders() {
+        return {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+
+    }
     function Request(fieldWorker, collectionDate, model) {
         return {
             collectedByUuid: fieldWorker.uuid,
@@ -19,20 +27,34 @@ function SocialGroupService($rootScope, $http) {
         };
     }
 
+    function Response(entity) {
+        return {
+            uuid: entity.uuid,
+            extId: entity.extId,
+            groupName: entity.groupName,
+            groupType: entity.groupType
+        };
+    }
 
+    service.getAllSocialGroups = function() {
+        var url = $rootScope.restApiUrl + '/socialGroups/bulk.json';
+        return $q(function(resolve, reject) {
+            $http.get(url, getHeaders()).then(
+                function(response) {
+                    var entities = response.data.map(Response);
+                    resolve(entities);
+                });
+        });
+    };
 
     service.submitOne = function(fieldWorker, collectionDate, model) {
         var url = $rootScope.restApiUrl + "/socialGroups";
         var request = Request(fieldWorker, collectionDate, model);
-        return $http.post(url, request, headers);
+        var response = $http.post(url, request, getHeaders());
+        return response;
     };
 
-    service.submit = function(model) {
-        headers = {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
-        };
+    service.submit = function(model, callback) {
 
         var fieldWorker = model.currentFieldworker;
         var collectionDate = model.collectionDateTime;

@@ -4,7 +4,6 @@ angular.module('openhds')
     .service('LocationService',
              ['$rootScope', '$http', '$q', LocationService]);
 
-
 function LocationService($rootScope, $http, $q) {
     var service = this;
 

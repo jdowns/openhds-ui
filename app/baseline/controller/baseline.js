@@ -1,3 +1,4 @@
+'use strict';
 function initTab(id) {
     $('id').click(function (e) {
         e.preventDefault();
@@ -5,21 +6,22 @@ function initTab(id) {
     });
 }
 
-angular.module('BaselineModule',
-               [])
+angular.module('BaselineModule', [])
     .controller('BaselineController',
-                [   '$rootScope','$http',
-                    'LocationHierarchyService',
-                    'FieldWorkerService',
-                    'LocationService',
-                    BaselineController]);
+                ['$rootScope',
+                 '$http',
+                 'LocationHierarchyService',
+                 'FieldWorkerService',
+                 'LocationService',
+                 'SocialGroupService',
+                 BaselineController]);
 
 function BaselineController($rootScope,
                             $http,
                             LocationHierarchyService,
                             FieldWorkerService,
-                            LocationService
-                           )
+                            LocationService,
+                            SocialGroupService)
 {
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -59,9 +61,9 @@ function BaselineController($rootScope,
         var parent = vm.selectedHierarchy[parentIndex];
         var last = vm.selectedHierarchy[lastIndex];
         var children = vm.locationHierarchies[parent];
-        vm.currentHierarchy = children.find(function(child) {
+        vm.currentHierarchy = children.filter(function(child) {
             return child.uuid === last;
-        });
+        })[0];
     };
 
     vm.availableHierarchies = function() {
@@ -79,12 +81,7 @@ function BaselineController($rootScope,
                       '#relationshipsTab'];
 
         tabIds.map(initTab);
-
-        var fieldworkersUrl = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
-        var socialGroupUrl = $rootScope.restApiUrl + "/socialGroups/bulk.json";
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
-
 
         $http.get(codesUrl, {headers: headers})
             .then(function(response) {
@@ -102,24 +99,10 @@ function BaselineController($rootScope,
             vm.allHierarchyLevels = response.data;
         });
 
-        // Placeholder; TODO: develop socialgroup/service.js
-        $http.get(socialGroupUrl, {headers: headers})
-            .then(function(response) {
-                vm.allSocialGroups = response.data.map(function(sg) {
-                    return {
-                        uuid: sg.uuid,
-                        extId: sg.extId,
-                        groupName: sg.groupName,
-                        groupType: sg.groupType};
-                });
-            });
+        SocialGroupService.getAllSocialGroups().then(function(groups) {
+            vm.allSocialGroups = groups;
+        });
 
-
-
-    };
-
-    vm.submitVisit = function() {
-        LocationService.submit(vm, locationSuccess);
     };
 
     return vm;

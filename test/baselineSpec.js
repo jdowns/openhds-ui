@@ -36,8 +36,12 @@ describe('BaselineController', function() {
         };
 
         var mockFieldWorkerService = {
-            getAllFieldWorkers: function(callback) {
-                callback('allFieldWorkers');
+            getAllFieldWorkers: function() {
+                return {
+                    then: function(callback) {
+                        callback('allFieldWorkers');
+                    }
+                };
             }
         };
 
@@ -49,8 +53,12 @@ describe('BaselineController', function() {
                     }
                 };
             },
-            locationHierarchies: function(callback) {
-                callback('allHierarchies');
+            locationHierarchies: function() {
+                return {
+                    then: function(callback) {
+                        callback('allHierarchies');
+                    }
+                };
             }
         };
 

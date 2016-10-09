@@ -1,0 +1,59 @@
+<row><h3>Individual</h3></row>
+<row>
+
+    <button class="btn btn-primary" data-toggle="modal" data-target="#individualCreateModal">
+        <h3>Create New</h3>
+        <h2>
+            <span class="glyphicon glyphicon-plus"></span>
+        </h2>
+    </button>
+
+    <button class="btn btn-success"  data-toggle="modal" data-target="#individualSelectModal">
+        <h3> Select Existing </h3>
+        <h2>
+            <span class="glyphicon glyphicon-search"></span>
+        </h2>
+
+
+    </button>
+</row>
+<hr>
+
+<!-- Display selected individuals -->
+<h4>Selected Individuals:</h4>
+<table st-table="model.selectedIndividuals" class="table table-striped">
+    <thead>
+    <tr>
+        <th>firstName</th>
+        <th>lastName</th>
+        <th>dateOfBirth</th>
+        <th>extId</th>
+        <th>gender</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in model.selectedIndividuals">
+        <td>{{row.firstName}}</td>
+        <td>{{row.lastName}}</td>
+        <td>{{row.dateOfBirth}}</td>
+        <td>{{row.extId}}</td>
+        <td>{{row.gender}}</td>
+        <td>
+            <button type="button" ng-click="model.removeSelectedEntity('selectedIndividual',row)" class="btn btn-sm btn-danger">
+                <i class="glyphicon glyphicon-remove-circle">
+                </i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr>
+<button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
+    Relationships
+    <span class="glyphicon glyphicon-arrow-right"></span>
+</button>
+
+
+<ng-include src="'domain/individual/partials/individualCreateModal.html'"></ng-include>
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+<ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

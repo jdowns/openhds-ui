@@ -1,0 +1,58 @@
+<fieldset>
+    <legend>Create New Relationships</legend>
+    <textbox label="Individual A" id="individualA"
+             ng-model="model.headOfHousehold"></textbox>
+    <br /><br />
+    <textbox label="Individual B" id="individualB"
+             ng-model="model.individualB"></textbox>
+    <br /><br />
+    <selectbox ng-model="model.relationshipType"
+               id="relationshipType" label="Relationship Type">
+        <option ng-if="code.codeGroup === 'relationshipType'"
+                ng-repeat="code in model.codes"
+                value="{{code.codeValue}}">
+            {{code.codeName}}
+        </option>
+    </selectbox>
+    <br /><br />
+    <datebox label="Start Date" id="startDate"
+             ng-model="model.startDate"></datebox>
+    <br /><br />
+
+</fieldset>
+
+<hr>
+
+<!-- Display relationships -->
+<h4>Selected Relationships:</h4>
+<table st-table="model.selectedRelationships" class="table table-striped">
+    <thead>
+    <tr>
+        <th>individualA</th>
+        <th>individualB</th>
+        <th>relationshipType</th>
+        <th>startDate</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in model.selectedRelationships">
+        <td>{{row.individualA}}</td>
+        <td>{{row.individualB}}</td>
+        <td>{{row.relationshipType}}</td>
+        <td>{{row.startDate}}</td>
+        <td>
+            <button type="button" ng-click="model.removeSelectedEntity('selectedRelationship',row)" class="btn btn-sm btn-danger">
+                <i class="glyphicon glyphicon-remove-circle">
+                </i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr>
+<button class="btn btn-primary pull-right" data-toggle="tab" data-target="#location">
+    Finish Location
+    <span class="glyphicon glyphicon-arrow-right"></span>
+</button>

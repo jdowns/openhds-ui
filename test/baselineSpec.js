@@ -76,11 +76,19 @@ describe('BaselineController', function() {
         expect(controller.selectedSocialGroups).toEqual(["a", "b", "c"]);
     });
 
+
     it('Should set selected fieldworker', function() {
         controller.allFieldWorkers = [{uuid: 1}, {uuid: 2}];
         controller.currentFieldWorkerUuid = 2;
         controller.saveFieldWorker();
         expect(controller.currentFieldWorker).toEqual({uuid: 2});
+    });
+
+
+    it('Should set selected fieldworker', function() {
+        controller.allFieldWorkers = [{uuid: 1}, {uuid: 2}];
+        controller.setFieldWorker(controller.allFieldWorkers[1]);
+        expect(controller.currentFieldWorker).toEqual({uuid:2});
     });
 
     it('initTab should register a click function', function() {

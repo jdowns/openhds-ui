@@ -40,7 +40,7 @@ function BaselineController($rootScope,
     vm.selectedRelationships = [];
 
     vm.setFieldWorker = function(fw){
-        vm.currentFieldWorker = fw.id;
+        vm.currentFieldWorker = fw;
     }
 
 

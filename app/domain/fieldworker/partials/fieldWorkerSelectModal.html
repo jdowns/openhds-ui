@@ -9,11 +9,56 @@
         <h4 class="modal-title" id="myModalLabel">Fieldworker Select</h4>
       </div>
       <div class="modal-body">
-        <select id="fieldWorkerSelect" ng-model="model.currentFieldWorkerUuid">
-          <option ng-repeat="fw in model.allFieldWorkers" value="{{fw.uuid}}" title="fw.id">
-            {{fw.id}}
-          </option>
-        </select>
+
+
+
+
+
+        <!-- Search for existing social group -->
+        <table st-safe-src="model.allFieldWorkers" st-table="model.displayFieldWorkers" class="table table-striped">
+          <thead>
+          <tr>
+            <th></th>
+            <th>id</th>
+            <th st-sort="firstName">First Name</th>
+            <th st-sort="lastName">Last Name</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>
+              <input st-search="fieldWorkerId" class="input-sm form-control" type="search"/>
+            </th>
+            <th>
+              <input st-search="firstName" class="input-sm form-control" type="search"/>
+            </th>
+            <th>
+              <input st-search="lastName" class="input-sm form-control" type="search"/>
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="row in model.displayFieldWorkers">
+            <td>
+              <button class="btn btn-success" data-dismiss="modal" ng-click="model.setFieldWorker(row)">
+                select
+              </button>
+            </td>
+            <td>{{row.fieldWorkerId}}</td>
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="4" class="text-center">
+              <div st-pagination="" st-items-by-page=10></div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal"

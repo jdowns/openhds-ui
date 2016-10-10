@@ -30,6 +30,7 @@ function BaselineController($rootScope,
     vm.selectedSocialGroups = [];
 
     vm.displayCollection = [].concat(vm.allSocialGroups);
+    vm.displayFieldworkers = [].concat(vm.allFieldWorkers);
 
     vm.locationDisplayCollection = [];
 
@@ -39,7 +40,13 @@ function BaselineController($rootScope,
 
     vm.selectedRelationships = [];
 
+
+    vm.setFieldWorker = function(fw){
+        vm.currentFieldWorker = fw;
+    }
+
     vm.submittedLocations = [];
+
 
 
     //remove to the real data holder

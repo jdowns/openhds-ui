@@ -31,6 +31,8 @@ function BaselineController($rootScope,
 
     vm.displayCollection = [].concat(vm.allSocialGroups);
 
+    vm.locationDisplayCollection = [];
+
     vm.selectedLocation = null;
 
     vm.selectedIndividuals = [];
@@ -56,6 +58,10 @@ function BaselineController($rootScope,
         vm.currentFieldWorker = result[0];
     };
 
+    vm.setLocation = function(row) {
+        vm.selectedLocation = row;
+    };
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -66,6 +72,13 @@ function BaselineController($rootScope,
         vm.currentHierarchy = children.filter(function(child) {
             return child.uuid === last;
         })[0];
+
+        LocationService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allLocations = response;
+                vm.locationDisplayCollection = [].concat(response);
+            });
     };
 
     vm.availableHierarchies = function() {
@@ -83,7 +96,9 @@ function BaselineController($rootScope,
                                vm.currentHierarchy,
                                location)
             .then(function(response) {
-                vm.submittedLocations.push(response);
+                console.log(response.data);
+                vm.submittedLocations.push(response.data);
+                vm.selectedLocation = response.data;
             });
     };
 

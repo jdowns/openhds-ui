@@ -1,11 +1,48 @@
 <!-- For debugging. TODO: Remove when unneeded -->
 <div>
 
-    <pre ng-if="model.collectionDateTime">DateTime:{{model.collectionDateTime | json}}</pre>
-    <pre ng-if="model.currentFieldWorker">Field Worker: {{model.currentFieldWorker | json}}</pre>
-    <pre ng-if="model.selectedHierarchy.length > 0">Hierarchy: {{model.selectedHierarchy | json}}</pre>
-    <pre ng-if="model.selectedLocation">Location: {{model.selectedLocation | json }}</pre>
-    <pre ng-if="model.selectedSocialGroups.length > 0">Social Groups: {{model.selectedSocialGroups | json}}</pre>
-    <pre ng-if="model.selectedIndividuals.length > 0">Individuals: {{model.selectedIndividuals | json}}</pre>
-    <pre ng-if="model.selectedRelationships.length > 0">Relationships: {{model.selectedRelationships | json}}</pre>
+    <button class="btn btn-success"  data-toggle="modal" data-target="#viewEntityModal">
+        View Current Entities
+    </button>
+
+    
+</div>
+
+
+
+
+<!-- view current entities -->
+<div class="modal fade" id="viewEntityModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selected Entities</h4>
+            </div>
+            <div class="modal-body">
+
+                <pre ng-if="model.collectionDateTime">DateTime:{{model.collectionDateTime | json}}</pre>
+                <pre ng-if="model.currentFieldWorker">Field Worker: {{model.currentFieldWorker | json}}</pre>
+                <pre ng-if="model.selectedHierarchy.length > 0">Hierarchy: {{model.selectedHierarchy | json}}</pre>
+                <pre ng-if="model.selectedLocation">Location: {{model.selectedLocation | json }}</pre>
+                <pre ng-if="model.selectedSocialGroups.length > 0">Social Groups: {{model.selectedSocialGroups | json}}</pre>
+                <pre ng-if="model.selectedIndividuals.length > 0">Individuals: {{model.selectedIndividuals | json}}</pre>
+                <pre ng-if="model.selectedRelationships.length > 0">Relationships: {{model.selectedRelationships | json}}</pre>
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">
+                    Ok
+                </button>
+
+
+            </div>
+        </div>
+    </div>
 </div>

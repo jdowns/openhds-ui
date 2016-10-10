@@ -32,6 +32,13 @@ describe('BaselineController', function() {
         };
 
         mockSocialGroupService = {
+            submit: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            },
             getAllSocialGroups: function() {
                 return {
                     then: function(callback) {
@@ -69,6 +76,7 @@ describe('BaselineController', function() {
         };
 
         spyOn(mockLocationService, 'submit').and.callThrough();
+        spyOn(mockSocialGroupService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,

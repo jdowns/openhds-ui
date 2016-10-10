@@ -144,6 +144,9 @@ describe('LocationHierarchyService Test', function() {
 
     var service, $httpBackend, $rootScope;
 
+    beforeEach(module('smart-table'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -200,7 +203,8 @@ describe('LocationHierarchyService Test', function() {
         $httpBackend.expectGET('http://example.com/locationHierarchies/bulk.json')
             .respond(200, locationHierarchies);
 
-        service.locationHierarchies(function(hierarchies) {
+        var hierarchyPromise = service.locationHierarchies();
+        hierarchyPromise.then(function(hierarchies) {
             expect(hierarchyMap).toEqual(hierarchies);
         });
 

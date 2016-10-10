@@ -3,7 +3,8 @@ describe('BaselineController', function() {
     var controller,
         $rootScope,
         $location,
-        $httpBackend;
+        $httpBackend,
+        mockLocationService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -12,8 +13,21 @@ describe('BaselineController', function() {
 
     beforeEach(inject(function(_$controller_, _$httpBackend_,
                                _$rootScope_, _$location_){
-        var mockLocationService = {
-            submit: function(vm, locationSuccess) {}
+        mockLocationService = {
+            submit: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            },
+            getByHierarchy: function(huid) {
+                return {
+                    then: function(callback) {
+                        callback('got locations');
+                    }
+                };
+            }
         };
 
         var mockSocialGroupService = {
@@ -25,9 +39,14 @@ describe('BaselineController', function() {
                 };
             }
         };
+
         var mockFieldWorkerService = {
-            getAllFieldWorkers: function(callback) {
-                callback('allFieldWorkers');
+            getAllFieldWorkers: function() {
+                return {
+                    then: function(callback) {
+                        callback('allFieldWorkers');
+                    }
+                };
             }
         };
 
@@ -39,12 +58,16 @@ describe('BaselineController', function() {
                     }
                 };
             },
-            locationHierarchies: function(callback) {
-                callback('allHierarchies');
+            locationHierarchies: function() {
+                return {
+                    then: function(callback) {
+                        callback('allHierarchies');
+                    }
+                };
             }
         };
 
-        spyOn(mockLocationService, 'submit');
+        spyOn(mockLocationService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -173,5 +196,29 @@ describe('BaselineController', function() {
         expect(controller.allSocialGroups).toEqual('allSocialGroups');
 
         delete $;
+    });
+
+    it('saves location', function() {
+        var location = {
+            name: 'name',
+            extId: 'extId',
+            type: 'UNIT TEST'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.currentHierarchy = {uuid: 456};
+        controller.submitLocation(location);
+
+        expect(mockLocationService.submit).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            controller.currentHierarchy,
+            location
+        );
+    });
+
+    it('Allows a location to be selected', function() {
+        controller.setLocation("foo");
+        expect(controller.selectedLocation).toEqual("foo");
     });
 });

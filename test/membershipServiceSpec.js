@@ -2,6 +2,9 @@ describe('MembershipService Test', function() {
 
     var service, $httpBackend, $rootScope;
 
+    beforeEach(module('smart-table'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -76,7 +79,9 @@ describe('MembershipService Test', function() {
                 }]
         };
 
-        var result = service.submit(model);
+        var result = service.submit(model.currentFieldworker,
+                                    model.collectionDateTime,
+                                    model.memberships);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. It should fail

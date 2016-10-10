@@ -2,52 +2,42 @@
 
 angular.module('openhds')
     .service('ResidencyService',
-             ['$rootScope', '$http', ResidencyService]);
+             ['EntityService', ResidencyService]);
 
-function ResidencyService($rootScope, $http) {
+function ResidencyService(EntityService) {
     var service = this;
-    var headers = {
-        headers: {
-            authorization: "Basic " + $rootScope.credentials
-        }
-    };
+    var urlBase = '/residencies';
 
-    function Request(fieldWorker, collectionDate, model) {
+    function Request(model) {
         return {
-            collectedByUuid: fieldWorker.uuid,
+            collectedByUuid: model.fieldWorker.uuid,
             residency: {
-                individual: model.individual,
-                location: model.location,
-                startType: model.startType,
-                startDate: model.startDate,
-                collectionDateTime: collectionDate
+                individual: model.entity.individual,
+                location: model.entity.location,
+                startType: model.entity.startType,
+                startDate: model.entity.startDate,
+                collectionDateTime: model.collectionDate
             }
         };
     }
 
-    service.submitOne = function(fieldWorker, collectionDate, model) {
-        var url = $rootScope.restApiUrl + "/residencies";
-        var request = Request(fieldWorker, collectionDate, model);
-        return $http.post(url, request, headers);
+    service.submitOne = function(fieldWorker, collectionDate, entity) {
+        var model = {
+            fieldWorker: fieldWorker,
+            collectionDate: collectionDate,
+            entity: entity
+        };
+        return EntityService.submit(urlBase, Request, model);
     };
 
-    service.submit = function(model, callback) {
-        headers = {
-            headers: {
-                authorization: "Basic " + $rootScope.credentials
-            }
-        };
-        var fieldWorker = model.currentFieldworker;
-        var collectionDate = model.collectionDateTime;
-
+    service.submit = function(fieldWorker, collectionDate, models) {
         function submitModel() {
             return function(model) {
                 return service.submitOne(fieldWorker, collectionDate, model);
             };
         }
-
-        var result = model.residencies.map(submitModel());
-        return result;
+        var result = models.map(submitModel());
+        return Promise.all(result);
     };
 
     return service;

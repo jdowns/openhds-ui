@@ -10,10 +10,49 @@
             </div>
             <div class="modal-body">
 
+                <!-- Search for existing location -->
+                <table st-safe-src="model.allLocations" st-table="model.locationDisplayCollection" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th st-sort="name">name</th>
+                        <th>type</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="name" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="type" class="input-sm form-control" type="search"/>
+                        </th>
 
-
-             TODO
-
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.locationDisplayCollection">
+                        <td>
+                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.setLocation(row)">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.type}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div st-pagination="" st-items-by-page=10></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
 
             </div>
             <div class="modal-footer">
@@ -26,7 +65,3 @@
         </div>
     </div>
 </div>
-
-
-
-

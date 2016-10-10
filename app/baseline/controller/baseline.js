@@ -6,7 +6,6 @@ function initTab(id) {
     });
 }
 
-
 angular.module('BaselineModule', [])
     .controller('BaselineController',
                 ['$rootScope',
@@ -33,15 +32,21 @@ function BaselineController($rootScope,
     vm.displayCollection = [].concat(vm.allSocialGroups);
     vm.displayFieldworkers = [].concat(vm.allFieldWorkers);
 
+    vm.locationDisplayCollection = [];
+
     vm.selectedLocation = null;
 
     vm.selectedIndividuals = [];
 
     vm.selectedRelationships = [];
 
+
     vm.setFieldWorker = function(fw){
         vm.currentFieldWorker = fw;
     }
+
+    vm.submittedLocations = [];
+
 
 
     //remove to the real data holder
@@ -60,6 +65,10 @@ function BaselineController($rootScope,
         vm.currentFieldWorker = result[0];
     };
 
+    vm.setLocation = function(row) {
+        vm.selectedLocation = row;
+    };
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -70,6 +79,13 @@ function BaselineController($rootScope,
         vm.currentHierarchy = children.filter(function(child) {
             return child.uuid === last;
         })[0];
+
+        LocationService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allLocations = response;
+                vm.locationDisplayCollection = [].concat(response);
+            });
     };
 
     vm.availableHierarchies = function() {
@@ -81,13 +97,24 @@ function BaselineController($rootScope,
         return result;
     };
 
+    vm.submitLocation = function(location) {
+        LocationService.submit(vm.currentFieldWorker,
+                               vm.collectionDateTime,
+                               vm.currentHierarchy,
+                               location)
+            .then(function(response) {
+                console.log(response.data);
+                vm.submittedLocations.push(response.data);
+                vm.selectedLocation = response.data;
+            });
+    };
+
     vm.init = function() {
         var tabIds = ['#baselineTab', '#locationTab',
                       '#groupTab', '#individualsTab',
                       '#relationshipsTab'];
 
         tabIds.map(initTab);
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
@@ -95,11 +122,11 @@ function BaselineController($rootScope,
                 vm.codes = response.data;
             });
 
-        FieldWorkerService.getAllFieldWorkers(function(fieldworkers) {
+        FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
         });
 
-        LocationHierarchyService.locationHierarchies(function(hierarchyTree) {
+        LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
         });
         LocationHierarchyService.getLevels().then(function(response) {
@@ -108,8 +135,7 @@ function BaselineController($rootScope,
 
         SocialGroupService.getAllSocialGroups().then(function(groups) {
             vm.allSocialGroups = groups;
-        })
-
+        });
     };
 
     return vm;

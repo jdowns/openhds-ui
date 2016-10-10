@@ -2,6 +2,9 @@ describe('SocialGroupService Test', function() {
 
     var service, $httpBackend, $rootScope;
 
+    beforeEach(module('smart-table'));
+    beforeEach(module('LoginModule'));
+    beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -71,7 +74,8 @@ describe('SocialGroupService Test', function() {
                     groupType: 'UNIT TEST'
                 }]
         };
-        var result = service.submit(model);
+        var result = service.submit(model.currentFieldworker, model.collectionDateTime,
+                                    model.socialGroups);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. it should fail

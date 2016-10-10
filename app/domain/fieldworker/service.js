@@ -2,15 +2,11 @@
 
 angular.module('openhds')
     .service('FieldWorkerService',
-             ['$rootScope', '$http', FieldWorkerService]);
+             ['EntityService', FieldWorkerService]);
 
-function FieldWorkerService($rootScope, $http) {
+function FieldWorkerService(EntityService) {
     var service = this;
-    var headers = {
-        headers: {
-            authorization: "Basic " + $rootScope.credentials
-        }
-    };
+    var baseUrl = '/fieldWorkers';
 
     function FieldWorker(json) {
         return {
@@ -22,11 +18,7 @@ function FieldWorkerService($rootScope, $http) {
     }
 
     service.getAllFieldWorkers = function(callback) {
-        var url = $rootScope.restApiUrl + "/fieldWorkers/bulk.json";
-        $http.get(url, headers).then(function(response) {
-            var fieldworkers = response.data.map(FieldWorker);
-            callback(fieldworkers);
-        });
+        return EntityService.getBulk(baseUrl, FieldWorker);
     };
 
     return service;

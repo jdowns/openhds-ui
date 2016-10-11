@@ -5,7 +5,8 @@ describe('BaselineController', function() {
         $location,
         $httpBackend,
         mockLocationService,
-        mockSocialGroupService;
+        mockSocialGroupService,
+        mockIndividualService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -48,6 +49,24 @@ describe('BaselineController', function() {
             }
         };
 
+        mockIndividualService = {
+            submit: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            },
+            getByHierarchy: function(huid) {
+                return {
+                    then: function(callback) {
+                        callback('got locations');
+                    }
+                };
+            }
+        };
+
+
         var mockFieldWorkerService = {
             getAllFieldWorkers: function() {
                 return {
@@ -82,7 +101,8 @@ describe('BaselineController', function() {
             LocationService: mockLocationService,
             SocialGroupService: mockSocialGroupService,
             FieldWorkerService: mockFieldWorkerService,
-            LocationHierarchyService: mockLocationHierarchyService
+            LocationHierarchyService: mockLocationHierarchyService,
+            IndividualService: mockIndividualService
         };
 
         $httpBackend = _$httpBackend_;
@@ -173,7 +193,7 @@ describe('BaselineController', function() {
         };
         var hierarchies = controller.availableHierarchies();
         expect(hierarchies).toEqual([[{uuid: 1}],
-                                     [{uuid:2}, {uuid:3}]]);
+            [{uuid:2}, {uuid:3}]]);
     });
 
     it('initializes', function() {
@@ -226,7 +246,7 @@ describe('BaselineController', function() {
         );
     });
 
-  //  spyOn(mockSocialGroupService, 'submit').and.callThrough();
+    //  spyOn(mockSocialGroupService, 'submit').and.callThrough();
 
     it('saves social group', function() {
         var socialGroup = {
@@ -248,5 +268,10 @@ describe('BaselineController', function() {
     it('Allows a location to be selected', function() {
         controller.setLocation("foo");
         expect(controller.selectedLocation).toEqual("foo");
+    });
+
+    it('Allows an individual to be selected', function() {
+        controller.setCurrentIndividual("foo");
+        expect(controller.currentIndividual).toEqual("foo");
     });
 });

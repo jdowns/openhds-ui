@@ -6,7 +6,7 @@ angular.module('openhds')
 
 function SocialGroupService(EntityService) {
     var service = this;
-    var urlBase = '/socialGroups';
+    var urlBase = '/socialGroups'
 
     function Request(model) {
         return {
@@ -33,7 +33,8 @@ function SocialGroupService(EntityService) {
         return EntityService.getBulk(urlBase, Response);
     };
 
-    service.submitOne = function(fieldWorker, collectionDate, entity) {
+
+    service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,
             collectionDate: collectionDate,
@@ -42,15 +43,6 @@ function SocialGroupService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
-    service.submit = function(fieldWorker, collectionDate, models) {
-        function submitModel() {
-            return function(model) {
-                return service.submitOne(fieldWorker, collectionDate, model);
-            };
-        }
-        var result = models.map(submitModel());
-        return Promise.all(result);
-    };
 
     return service;
 }

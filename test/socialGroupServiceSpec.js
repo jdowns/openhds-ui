@@ -41,46 +41,26 @@ describe('SocialGroupService Test', function() {
             }
         ).respond(200, 'response one');
 
-        $httpBackend.expectPOST(
-            'http://example.com/socialGroups',
-            {
-                collectedByUuid: '123',
-                socialGroup: {
-                    groupName: 'groupTwo',
-                    extId: 'groupTwoId',
-                    groupType: 'UNIT TEST',
-                    collectionDateTime: 'nowish'
-                }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
-            }
-        ).respond(200, 'response two');
+
 
         var model = {
-            currentFieldworker: {
+            currentFieldWorker: {
                 uuid: '123'
             },
             collectionDateTime: 'nowish',
-            socialGroups: [
-                {
+            socialGroup: {
                     groupName: 'groupOne',
                     extId: 'groupOneId',
                     groupType: 'UNIT TEST'
-                },
-                {
-                    groupName: 'groupTwo',
-                    extId: 'groupTwoId',
-                    groupType: 'UNIT TEST'
-                }]
+                }
         };
-        var result = service.submit(model.currentFieldworker, model.collectionDateTime,
-                                    model.socialGroups);
+        service.submit(model.currentFieldWorker,
+                       model.collectionDateTime,
+                       model.socialGroup)
+            .then(function(response) {
+                expect(response.data).toEqual('response one');
+            });
 
-        Promise.all(result).then(function(response) {
-            //TODO: this is not executing correctly. it should fail
-            expect(response).toEqual(['response one', 'response 2']);
-        });
 
         $httpBackend.flush();
     });

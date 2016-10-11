@@ -4,7 +4,8 @@ describe('BaselineController', function() {
         $rootScope,
         $location,
         $httpBackend,
-        mockLocationService;
+        mockLocationService,
+        mockSocialGroupService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -30,7 +31,14 @@ describe('BaselineController', function() {
             }
         };
 
-        var mockSocialGroupService = {
+        mockSocialGroupService = {
+            submit: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            },
             getAllSocialGroups: function() {
                 return {
                     then: function(callback) {
@@ -68,6 +76,7 @@ describe('BaselineController', function() {
         };
 
         spyOn(mockLocationService, 'submit').and.callThrough();
+        spyOn(mockSocialGroupService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -214,6 +223,25 @@ describe('BaselineController', function() {
             controller.collectionDateTime,
             controller.currentHierarchy,
             location
+        );
+    });
+
+  //  spyOn(mockSocialGroupService, 'submit').and.callThrough();
+
+    it('saves social group', function() {
+        var socialGroup = {
+            groupName: 'name',
+            extId: 'extId',
+            groupType: 'UNIT TEST'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitSocialGroup(socialGroup);
+
+        expect(mockSocialGroupService.submit).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            socialGroup
         );
     });
 

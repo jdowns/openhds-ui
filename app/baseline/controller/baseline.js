@@ -14,6 +14,7 @@ angular.module('BaselineModule', [])
                  'FieldWorkerService',
                  'LocationService',
                  'SocialGroupService',
+                    'IndividualService',
                  BaselineController]);
 
 function BaselineController($rootScope,
@@ -21,7 +22,8 @@ function BaselineController($rootScope,
                             LocationHierarchyService,
                             FieldWorkerService,
                             LocationService,
-                            SocialGroupService)
+                            SocialGroupService,
+                            IndividualService)
 {
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -33,6 +35,9 @@ function BaselineController($rootScope,
     vm.displayFieldworkers = [].concat(vm.allFieldWorkers);
 
     vm.locationDisplayCollection = [];
+    vm.individualDisplayCollection = [];
+
+    vm.currentIndividual = null;
 
     vm.selectedLocation = null;
 
@@ -69,6 +74,11 @@ function BaselineController($rootScope,
         vm.selectedLocation = row;
     };
 
+    vm.setCurrentIndividual = function(row) {
+        vm.currentIndividual = row;
+    };
+
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -85,6 +95,13 @@ function BaselineController($rootScope,
                 console.log(response);
                 vm.allLocations = response;
                 vm.locationDisplayCollection = [].concat(response);
+            });
+
+        IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allIndividuals = response;
+                vm.individualDisplayCollection = [].concat(response);
             });
     };
 
@@ -116,6 +133,16 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.selectedSocialGroups.push(response.data);
+            });
+    };
+
+    vm.submitIndividual = function(indiv){
+        IndividualService.submit(vm.currentFieldWorker,
+                                 vm.collectionDateTime,
+                                 indiv)
+            .then(function(response) {
+                console.log(response.data);
+                vm.currentIndividual= response.data;
             });
     };
 

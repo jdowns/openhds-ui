@@ -1,6 +1,6 @@
 <!-- individual select modal -->
 <div class="modal fade" id="individualSelectModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
@@ -10,9 +10,57 @@
             </div>
             <div class="modal-body">
 
+                <!-- Search for existing individual -->
+                <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th st-sort="firstName">first</th>
+                        <th st-sort="lastName">last</th>
+                        <th>d.o.b.</th>
+                        <th>gender</th>
 
-                TODO
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="firstName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="lastName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th></th>
+                        <th></th>
 
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.individualDisplayCollection">
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.setCurrentIndividual(row)"
+                                    data-target="#membershipCreateModal" data-dismiss="modal">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.dateOfBirth}}</td>
+                        <td>{{row.gender}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div st-pagination="" st-items-by-page=10></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
 
             </div>
             <div class="modal-footer">

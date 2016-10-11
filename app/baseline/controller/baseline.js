@@ -136,6 +136,16 @@ function BaselineController($rootScope,
             });
     };
 
+    vm.submitIndividual = function(indiv){
+        IndividualService.submit(vm.currentFieldWorker,
+                                 vm.collectionDateTime,
+                                 indiv)
+            .then(function(response) {
+                console.log(response.data);
+                vm.currentIndividual= response.data;
+            });
+    };
+
     vm.init = function() {
         var tabIds = ['#baselineTab', '#locationTab',
                       '#groupTab', '#individualsTab',

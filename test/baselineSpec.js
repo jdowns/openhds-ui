@@ -96,6 +96,7 @@ describe('BaselineController', function() {
 
         spyOn(mockLocationService, 'submit').and.callThrough();
         spyOn(mockSocialGroupService, 'submit').and.callThrough();
+        spyOn(mockIndividualService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -262,6 +263,26 @@ describe('BaselineController', function() {
             controller.currentFieldWorker,
             controller.collectionDateTime,
             socialGroup
+        );
+    });
+
+
+    it('saves individual', function() {
+        var individual = {
+            firstName: 'first',
+            lastName: 'last',
+            extId: 'extId',
+            dateOfBirth: 'nowish',
+            gender: 'male'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitIndividual(individual);
+
+        expect(mockIndividualService.submit).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            individual
         );
     });
 

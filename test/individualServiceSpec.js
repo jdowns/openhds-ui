@@ -40,47 +40,27 @@ describe('IndividualService Test', function() {
             }
         ).respond(200, 'response one');
 
-        $httpBackend.expectPOST(
-            'http://example.com/individuals',
-            {
-                collectedByUuid: '123',
-                individual: {
-                    firstName: 'firstNameTwo',
-                    lastName: 'lastNameTwo',
-                    dateOfBirth: 'dob2',
-                    extId: 'idTwo',
-                    gender: 'UNIT TEST',
-                    collectionDateTime: 'nowish'
-                }
-            }
-        ).respond(200, 'response two');
 
         var model = {
             currentFieldworker: {
                 uuid: '123'
             },
             collectionDateTime: 'nowish',
-            individuals: [
-                {
+            individual: {
                     firstName: 'firstNameOne',
                     lastName: 'lastNameOne',
                     dateOfBirth: 'dob1',
                     extId: 'idOne',
                     gender: 'UNIT TEST'
-                },
-                {
-                    firstName: 'firstNameTwo',
-                    lastName: 'lastNameTwo',
-                    dateOfBirth: 'dob2',
-                    extId: 'idTwo',
-                    gender: 'UNIT TEST'
-                }]
+                }
         };
 
-        var result = service.submit(model.currentFieldworker, model.collectionDateTime, model.individuals)
+        service.submit(model.currentFieldworker,
+                       model.collectionDateTime,
+                       model.individual)
                 .then(function(response) {
             //TODO: this is not executing correctly. It should fail
-            expect(response).toEqual(['response one', 'response 2']);
+            expect(response.data).toEqual('response one');
         });
 
         $httpBackend.flush();

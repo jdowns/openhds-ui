@@ -70,6 +70,7 @@ describe('IndividualService Test', function() {
     it('should get all locations at a hierarchy', function() {
         $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=123')
             .respond({content: [{
+                uuid: 'uuid',
                 extId: 'extId',
                 firstName: 'firstName',
                 lastName: 'lastName',
@@ -77,9 +78,10 @@ describe('IndividualService Test', function() {
                 gender: 'gender'
             }]});
         service.getByHierarchy('123').then(function(response) {
-            var locations = response;
-            expect(locations).toEqual([
+            var individuals = response;
+            expect(individuals).toEqual([
                 {
+                    uuid: 'uuid',
                     extId: 'extId',
                     firstName: 'firstName',
                     lastName: 'lastName',

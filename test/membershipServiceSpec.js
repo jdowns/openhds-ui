@@ -42,50 +42,27 @@ describe('MembershipService Test', function() {
             }
         ).respond(200, 'response one');
 
-        $httpBackend.expectPOST(
-            'http://example.com/memberships',
-            {
-                collectedByUuid: '123',
-                membership: {
-                    individual: 'indB',
-                    socialGroup: 'grp',
-                    startType: 'UNIT TEST',
-                    startDate: 'then',
-                    collectionDateTime: 'nowish'
-                }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
-            }
-        ).respond(200, 'response two');
 
         var model = {
             currentFieldworker: {
                 uuid: '123'
             },
             collectionDateTime: 'nowish',
-            memberships: [
-                {
+            membership: {
                     individual: 'indA',
                     socialGroup: 'grp',
                     startType: 'UNIT TEST',
                     startDate: 'then'
-                },
-                {
-                    individual: 'indB',
-                    socialGroup: 'grp',
-                    startType: 'UNIT TEST',
-                    startDate: 'then'
-                }]
+                }
         };
 
         var result = service.submit(model.currentFieldworker,
                                     model.collectionDateTime,
-                                    model.memberships);
+                                    model.membership);
 
         Promise.all(result).then(function(response) {
             //TODO: this is not executing correctly. It should fail
-            expect(response).toEqual(['response one', 'response 2']);
+            expect(response).toEqual('response one');
         });
 
         $httpBackend.flush();

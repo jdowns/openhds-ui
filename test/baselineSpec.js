@@ -6,7 +6,8 @@ describe('BaselineController', function() {
         $httpBackend,
         mockLocationService,
         mockSocialGroupService,
-        mockIndividualService;
+        mockIndividualService,
+        mockMembershipService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -66,6 +67,16 @@ describe('BaselineController', function() {
             }
         };
 
+        mockMembershipService = {
+            submit: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a location');
+                    }
+                };
+            },
+
+        };
 
         var mockFieldWorkerService = {
             getAllFieldWorkers: function() {
@@ -97,13 +108,15 @@ describe('BaselineController', function() {
         spyOn(mockLocationService, 'submit').and.callThrough();
         spyOn(mockSocialGroupService, 'submit').and.callThrough();
         spyOn(mockIndividualService, 'submit').and.callThrough();
+        spyOn(mockMembershipService, 'submit').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
             SocialGroupService: mockSocialGroupService,
             FieldWorkerService: mockFieldWorkerService,
             LocationHierarchyService: mockLocationHierarchyService,
-            IndividualService: mockIndividualService
+            IndividualService: mockIndividualService,
+            MembershipService: mockMembershipService
         };
 
         $httpBackend = _$httpBackend_;
@@ -283,6 +296,25 @@ describe('BaselineController', function() {
             controller.currentFieldWorker,
             controller.collectionDateTime,
             individual
+        );
+    });
+
+
+    it('saves membership', function() {
+        var membership = {
+            individual: 'indB',
+            socialGroup: 'grp',
+            startType: 'UNIT TEST',
+            startDate: 'then',
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitMembership(membership);
+
+        expect(mockMembershipService.submit).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            membership
         );
     });
 

@@ -15,6 +15,7 @@ angular.module('BaselineModule', [])
                  'LocationService',
                  'SocialGroupService',
                     'IndividualService',
+                    'MembershipService',
                  BaselineController]);
 
 function BaselineController($rootScope,
@@ -23,7 +24,8 @@ function BaselineController($rootScope,
                             FieldWorkerService,
                             LocationService,
                             SocialGroupService,
-                            IndividualService)
+                            IndividualService,
+                            MembershipService)
 {
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -48,9 +50,11 @@ function BaselineController($rootScope,
 
     vm.setFieldWorker = function(fw){
         vm.currentFieldWorker = fw;
-    }
+    };
 
     vm.submittedLocations = [];
+    vm.submittedMemberships = [];
+
 
 
 
@@ -143,6 +147,17 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.currentIndividual= response.data;
+            });
+    };
+
+    vm.submitMembership = function(mem){
+        MembershipService.submit(
+            vm.currentFieldWorker,
+            vm.collectionDateTime,
+            mem)
+            .then(function(response) {
+                console.log(response.data);
+                vm.submittedMemberships.push(response.data);
             });
     };
 

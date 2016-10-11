@@ -21,15 +21,7 @@ function MembershipService(EntityService) {
         };
     }
 
-    service.submitOne = function(fieldWorker, collectionDate, entity) {
-        var model = {
-            fieldWorker: fieldWorker,
-            collectionDate: collectionDate,
-            entity: entity
-        };
-        return EntityService.submit(urlBase, Request, model);
-    };
-
+/*
     service.submit = function(fieldWorker, collectionDate, models) {
         function submitModel() {
             return function(model) {
@@ -39,5 +31,18 @@ function MembershipService(EntityService) {
         var result = models.map(submitModel());
         return Promise.all(result);
     };
+    return service;
+
+*/
+
+    service.submit = function(fieldWorker, collectionDate, entity) {
+        var model = {
+            fieldWorker: fieldWorker,
+            collectionDate: collectionDate,
+            entity: entity
+        };
+        return EntityService.submit(urlBase, Request, model);
+    };
+
     return service;
 }

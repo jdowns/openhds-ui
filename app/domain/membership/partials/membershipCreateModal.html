@@ -11,20 +11,25 @@
             <div class="modal-body">
 
 
-
-
+                <selectbox label="Individual"
+                           id="individual"
+                           ng-model="model.membership.individual.uuid">
+                    <option value="{{model.currentIndividual.uuid}}">
+                        {{model.currentIndividual.firstName}}
+                    </option>
+                </selectbox>
                 <br /><br />
                 <selectbox label="Social Group"
                            id="socialGroup"
-                           ng-model="model.individual.membershipSocialGroup">
+                           ng-model="model.membership.socialGroup.uuid">
                     <option ng-repeat="sg in model.selectedSocialGroups"
-                            value="{{sg.extId}}">{{sg.groupName}}
+                            value="{{sg.uuid}}">{{sg.groupName}}
                     </option>
                 </selectbox>
                 <br /><br />
                 <selectbox label="Group Membership Start Type"
                            id="membershipStartType"
-                           ng-model="model.individual.membershipStartType">
+                           ng-model="model.membership.startType">
                     <option ng-if="code.codeGroup === 'membershipType'"
                             ng-repeat="code in model.codes"
                             value="{{code.codeValue}}">{{code.codeName}}
@@ -33,7 +38,7 @@
                 <br /><br />
                 <datebox label="Group Membership Start Date"
                          id="membershipStartDate"
-                         ng-model="model.membershipStartDate"></datebox>
+                         ng-model="model.membership.startDate"></datebox>
 
                 <br /><br />
             </div>
@@ -42,7 +47,7 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-success" data-dismiss="modal"
-                        ng-click="model.selectedIndividuals.push(model.currentIndividual)">
+                        ng-click="model.selectedIndividuals.push(model.currentIndividual);model.submitMembership(model.membership)">
                     Create
                 </button>
 

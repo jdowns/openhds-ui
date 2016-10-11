@@ -45,10 +45,34 @@
             </button>
         </td>
     </tr>
+
     </tbody>
 </table>
 <hr>
 
+<h4>Submitted Memberships:</h4>
+<table st-table="model.submittedMemberships" class="table table-striped">
+    <thead>
+    <tr>
+        <th>individual</th>
+        <th>socialGroup</th>
+        <th>extId</th>
+        <th>start type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in model.submittedMemberships">
+        <td>{{row.individual}}</td>
+        <td>{{row.socialGroup}}</td>
+        <td>{{row.extId}}</td>
+        <td>{{row.startType}}</td>
+
+    </tr>
+
+    </tbody>
+</table>
+<hr>
+{{model.submittedMemberships}}
 <button class="btn btn-primary pull-right" data-toggle="tab" data-target="#individuals">
     Relationships
     <span class="glyphicon glyphicon-arrow-right"></span>

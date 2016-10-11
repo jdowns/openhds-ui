@@ -14,7 +14,9 @@
 
 
                 <br /><br />
-                <selectbox id="residencyStartType" label="Social Group">
+                <selectbox label="Social Group"
+                           id="socialGroup"
+                           ng-model="model.individual.membershipSocialGroup">
                     <option ng-repeat="sg in model.selectedSocialGroups"
                             value="{{sg.extId}}">{{sg.groupName}}
                     </option>

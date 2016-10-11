@@ -24,6 +24,7 @@ function IndividualService(EntityService) {
 
     function Response(entity) {
         return {
+            uuid: entity.uuid,
             extId: entity.extId,
             firstName: entity.firstName,
             lastName: entity.lastName,

@@ -21,19 +21,6 @@ function MembershipService(EntityService) {
         };
     }
 
-/*
-    service.submit = function(fieldWorker, collectionDate, models) {
-        function submitModel() {
-            return function(model) {
-                return service.submitOne(fieldWorker, collectionDate, model);
-            };
-        }
-        var result = models.map(submitModel());
-        return Promise.all(result);
-    };
-    return service;
-
-*/
 
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {

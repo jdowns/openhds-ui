@@ -11,9 +11,9 @@ function ResidencyService(EntityService) {
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
+            individualUuid: model.entity.individual.uuid,
+            locationUuid: model.entity.location.uuid,
             residency: {
-                individual: model.entity.individual,
-                location: model.entity.location,
                 startType: model.entity.startType,
                 startDate: model.entity.startDate,
                 collectionDateTime: model.collectionDate

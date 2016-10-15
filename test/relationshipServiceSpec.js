@@ -29,9 +29,9 @@ describe('RelationshipService Test', function() {
             'http://example.com/relationships',
             {
                 collectedByUuid: '123',
+                individualAUuid: 'indA',
+                individualBUuid: 'indB',
                 relationship: {
-                    individualA: 'indA',
-                    individualB: 'indB',
                     relationshipType: 'UNIT TEST',
                     startDate: 'then',
                     collectionDateTime: 'nowish'
@@ -46,9 +46,9 @@ describe('RelationshipService Test', function() {
             'http://example.com/relationships',
             {
                 collectedByUuid: '123',
+                individualAUuid: 'indC',
+                individualBUuid: 'indD',
                 relationship: {
-                    individualA: 'indC',
-                    individualB: 'indD',
                     relationshipType: 'UNIT TEST',
                     startDate: 'then',
                     collectionDateTime: 'nowish'

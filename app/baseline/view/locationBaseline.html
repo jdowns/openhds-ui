@@ -1,4 +1,3 @@
-
 <row><h3>Location</h3></row>
 <row>
 
@@ -20,13 +19,29 @@
 <hr>
 
 <h4>Current Location:</h4>
-<!-- TODO: placeholder -->
-{{model.selectedLocation}}
 
+<table st-table="model.selectedLocation" class="table table-striped">
+    <thead>
+    <tr>
+        <th>uuid</th>
+        <th>extId</th>
+        <th>name</th>
+        <th>type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{model.selectedLocation.uuid}}</td>
+        <td>{{model.selectedLocation.extId}}</td>
+        <td>{{model.selectedLocation.name}}</td>
+        <td>{{model.selectedLocation.type}}</td>
+    </tr>
+    </tbody>
+</table>
 
 <hr>
 
-<button class="btn btn-primary pull-right" data-toggle="tab" data-target="#group">
+<button class="btn btn-primary pull-right" onClick="$('#groupTab').tab('show')">
     Social Groups
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

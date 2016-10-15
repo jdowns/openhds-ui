@@ -11,9 +11,9 @@ function RelationshipService(EntityService) {
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
+            individualAUuid: model.entity.individualA,
+            individualBUuid: model.entity.individualB,
             relationship: {
-                individualA: model.entity.individualA,
-                individualB: model.entity.individualB,
                 relationshipType: model.entity.relationshipType,
                 startDate: model.entity.startDate,
                 collectionDateTime: model.collectionDate

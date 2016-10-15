@@ -7,7 +7,8 @@ describe('BaselineController', function() {
         mockLocationService,
         mockSocialGroupService,
         mockIndividualService,
-        mockMembershipService;
+        mockMembershipService,
+        mockRelationshipService;
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
@@ -74,8 +75,17 @@ describe('BaselineController', function() {
                         callback('created a location');
                     }
                 };
-            },
+            }
+        };
 
+        mockRelationshipService = {
+            submitOne: function(fw, dt, loc) {
+                return {
+                    then: function(callback) {
+                        callback('created a relationship');
+                    }
+                };
+            }
         };
 
         var mockFieldWorkerService = {
@@ -109,6 +119,7 @@ describe('BaselineController', function() {
         spyOn(mockSocialGroupService, 'submit').and.callThrough();
         spyOn(mockIndividualService, 'submit').and.callThrough();
         spyOn(mockMembershipService, 'submit').and.callThrough();
+        spyOn(mockRelationshipService, 'submitOne').and.callThrough();
 
         var args = {
             LocationService: mockLocationService,
@@ -116,7 +127,8 @@ describe('BaselineController', function() {
             FieldWorkerService: mockFieldWorkerService,
             LocationHierarchyService: mockLocationHierarchyService,
             IndividualService: mockIndividualService,
-            MembershipService: mockMembershipService
+            MembershipService: mockMembershipService,
+            RelationshipService: mockRelationshipService
         };
 
         $httpBackend = _$httpBackend_;
@@ -305,7 +317,7 @@ describe('BaselineController', function() {
             individual: 'indB',
             socialGroup: 'grp',
             startType: 'UNIT TEST',
-            startDate: 'then',
+            startDate: 'then'
         };
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = 'nowish';
@@ -315,6 +327,24 @@ describe('BaselineController', function() {
             controller.currentFieldWorker,
             controller.collectionDateTime,
             membership
+        );
+    });
+
+    it('saves relationship', function() {
+        var relationship = {
+            individualA: 'indA',
+            individualB: 'indB',
+            startType: 'UNIT TEST',
+            startDate: 'then'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitRelationship(relationship);
+
+        expect(mockRelationshipService.submitOne).toHaveBeenCalledWith(
+            controller.currentFieldWorker,
+            controller.collectionDateTime,
+            relationship
         );
     });
 

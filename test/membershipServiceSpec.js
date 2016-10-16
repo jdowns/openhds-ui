@@ -29,9 +29,9 @@ describe('MembershipService Test', function() {
             'http://example.com/memberships',
             {
                 collectedByUuid: '123',
+                individualUuid: 'indA',
+                socialGroupUuid: 'grp',
                 membership: {
-                    individual: 'indA',
-                    socialGroup: 'grp',
                     startType: 'UNIT TEST',
                     startDate: 'then',
                     collectionDateTime: 'nowish'
@@ -49,11 +49,11 @@ describe('MembershipService Test', function() {
             },
             collectionDateTime: 'nowish',
             membership: {
-                    individual: 'indA',
-                    socialGroup: 'grp',
-                    startType: 'UNIT TEST',
-                    startDate: 'then'
-                }
+                individual: {uuid: 'indA'},
+                socialGroup: {uuid: 'grp'},
+                startType: 'UNIT TEST',
+                startDate: 'then'
+            }
         };
 
         var result = service.submit(model.currentFieldworker,

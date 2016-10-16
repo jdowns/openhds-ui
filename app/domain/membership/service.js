@@ -11,9 +11,9 @@ function MembershipService(EntityService) {
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
+            individualUuid: model.entity.individual.uuid,
+            socialGroupUuid: model.entity.socialGroup.uuid,
             membership: {
-                individual: model.entity.individual,
-                socialGroup: model.entity.socialGroup,
                 startType: model.entity.startType,
                 startDate: model.entity.startDate,
                 collectionDateTime: model.collectionDate

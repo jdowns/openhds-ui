@@ -1,8 +1,8 @@
 'use strict';
 function initTab(id) {
-    $('id').click(function (e) {
+    $(id).click(function (e) {
         e.preventDefault();
-        $('id').tab('show');
+        $(id).tab('show');
     });
 }
 
@@ -14,8 +14,9 @@ angular.module('BaselineModule', [])
                  'FieldWorkerService',
                  'LocationService',
                  'SocialGroupService',
-                    'IndividualService',
-                    'MembershipService',
+                 'IndividualService',
+                 'MembershipService',
+                 'RelationshipService',
                  BaselineController]);
 
 function BaselineController($rootScope,
@@ -25,7 +26,8 @@ function BaselineController($rootScope,
                             LocationService,
                             SocialGroupService,
                             IndividualService,
-                            MembershipService)
+                            MembershipService,
+                            RelationshipService)
 {
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -47,16 +49,13 @@ function BaselineController($rootScope,
 
     vm.selectedRelationships = [];
 
-
     vm.setFieldWorker = function(fw){
         vm.currentFieldWorker = fw;
     };
 
     vm.submittedLocations = [];
     vm.submittedMemberships = [];
-
-
-
+    vm.submittedRelationships = [];
 
     //remove to the real data holder
     vm.removeSelectedEntity = function removeItem(key, row) {
@@ -127,16 +126,18 @@ function BaselineController($rootScope,
                 console.log(response.data);
                 vm.submittedLocations.push(response.data);
                 vm.selectedLocation = response.data;
+                vm.location = {};
             });
     };
 
-    vm.submitSocialGroup = function(sg){
+    vm.submitSocialGroup = function(sg) {
         SocialGroupService.submit(vm.currentFieldWorker,
                                   vm.collectionDateTime,
                                   sg)
             .then(function(response) {
                 console.log(response.data);
                 vm.selectedSocialGroups.push(response.data);
+                vm.socialGroup = {};
             });
     };
 
@@ -146,7 +147,7 @@ function BaselineController($rootScope,
                                  indiv)
             .then(function(response) {
                 console.log(response.data);
-                vm.currentIndividual= response.data;
+                vm.currentIndividual = response.data;
             });
     };
 
@@ -158,6 +159,17 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.submittedMemberships.push(response.data);
+            });
+    };
+
+    vm.submitRelationship = function(rel) {
+        RelationshipService.submitOne(
+            vm.currentFieldWorker,
+            vm.collectionDateTime,
+            rel)
+            .then(function(response) {
+                console.log(response.data);
+                vm.submittedRelationships.push(response.data);
             });
     };
 

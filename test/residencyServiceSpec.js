@@ -29,9 +29,9 @@ describe('ResidencyService Test', function() {
             'http://example.com/residencies',
             {
                 collectedByUuid: '123',
+                individualUuid: 'indA',
+                locationUuid: 'locA',
                 residency: {
-                    individual: 'indA',
-                    location: 'locA',
                     startDate: 'then',
                     startType: 'UNIT TEST',
                     collectionDateTime: 'nowish'
@@ -46,9 +46,9 @@ describe('ResidencyService Test', function() {
             'http://example.com/residencies',
             {
                 collectedByUuid: '123',
+                individualUuid: 'indB',
+                locationUuid: 'locA',
                 residency: {
-                    individual: 'indB',
-                    location: 'locA',
                     startDate: 'then',
                     startType: 'UNIT TEST',
                     collectionDateTime: 'nowish'
@@ -66,14 +66,14 @@ describe('ResidencyService Test', function() {
             collectionDateTime: 'nowish',
             residencies: [
                 {
-                    individual: 'indA',
-                    location: 'locA',
+                    individual: {uuid: 'indA'},
+                    location: {uuid: 'locA'},
                     startType: 'UNIT TEST',
                     startDate: 'then'
                 },
                 {
-                    individual: 'indB',
-                    location: 'locA',
+                    individual: {uuid: 'indB'},
+                    location: {uuid: 'locA'},
                     startType: 'UNIT TEST',
                     startDate: 'then'
                 }]

@@ -1,15 +1,14 @@
-
 <row><h3>Location</h3></row>
 <row>
 
-    <button class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+    <button id="displayNewLocationModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
         <h3>Create New</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
     </button>
 
-    <button class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
+    <button id="displaySelectLocationModal" class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
         <h3> Select Existing </h3>
         <h2>
             <span class="glyphicon glyphicon-search"></span>
@@ -20,13 +19,29 @@
 <hr>
 
 <h4>Current Location:</h4>
-<!-- TODO: placeholder -->
-{{model.selectedLocation}}
 
+<table st-table="model.selectedLocation" class="table table-striped">
+    <thead>
+    <tr>
+        <th>uuid</th>
+        <th>extId</th>
+        <th>name</th>
+        <th>type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td id="selectedLocationId">{{model.selectedLocation.uuid}}</td>
+        <td id="selectedLocationExtId">{{model.selectedLocation.extId}}</td>
+        <td id="selectedLocationName">{{model.selectedLocation.name}}</td>
+        <td id="selectedLocationType">{{model.selectedLocation.type}}</td>
+    </tr>
+    </tbody>
+</table>
 
 <hr>
 
-<button class="btn btn-primary pull-right" data-toggle="tab" data-target="#group">
+<button id="startSocialGroups" class="btn btn-primary pull-right" onClick="$('#groupTab').tab('show')">
     Social Groups
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

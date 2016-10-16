@@ -40,11 +40,11 @@
           <tbody>
           <tr ng-repeat="row in model.displayFieldWorkers">
             <td>
-              <button class="btn btn-success" data-dismiss="modal" ng-click="model.setFieldWorker(row)">
+              <button id="{{row.id}}" class="btn btn-success" data-dismiss="modal" ng-click="model.setFieldWorker(row)">
                 select
               </button>
             </td>
-            <td>{{row.fieldWorkerId}}</td>
+            <td>{{row.id}}</td>
             <td>{{row.firstName}}</td>
             <td>{{row.lastName}}</td>
           </tr>

@@ -14,11 +14,11 @@ function BaselinePage() {
         this.collectionDateInput.sendKeys(collectionDate);
     };
 
-    this.setFieldWorker = function() {
+    this.setDefaultFieldWorker = function() {
         this.fieldWorkerModalButton.click();
         browser.sleep(1000);
-        fw.selectOption('fieldworker');
-        fw.getElement('saveFieldworker').click();
+        fw.getElement('fieldworker').click();
+        browser.sleep(1000);
     };
 
     this.getCurrentFieldworker = function() {

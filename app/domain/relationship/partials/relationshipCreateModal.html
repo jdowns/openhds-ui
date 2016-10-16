@@ -1,0 +1,52 @@
+<!-- relationship create modal -->
+<div class="modal fade" id="relationshipCreateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Create New Relationship</h4>
+      </div>
+      <div class="modal-body">
+
+        <fieldset>
+          <div>
+            <selectbox ng-model="model.relationship.individualA" id="individualA" name="individualA" label="Individual A">
+              <option ng-repeat="individual in model.selectedIndividuals" value="{{individual.uuid}}">{{individual.extId}}</option>
+            </selectbox>
+          </div>
+
+          <br /> <br />
+          <div>
+            <selectbox ng-model="model.relationship.individualB" id="individualB" name="individualB" label="Individual B">
+              <option ng-repeat="individual in model.selectedIndividuals" value="{{individual.uuid}}">{{individual.extId}}</option>
+            </selectbox>
+          </div>
+
+          <br /> <br />
+          <div>
+            <selectbox ng-model="model.relationship.relationshipType" id="startType" name="startType" label="Start Type">
+              <option ng-if="code.codeGroup === 'relationshipType'" ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
+            </selectbox>
+          </div>
+
+          <br /> <br />
+          <div>
+            <datebox label="Start Date" id="startDate" ng-model="model.relationship.startDate"></datebox>
+          </div>
+        </fieldset>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="model.submitRelationship(model.relationship)">
+          Submit
+          <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

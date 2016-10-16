@@ -2,19 +2,6 @@
 
 var LoginPage = require('./pages/loginPage.js').LoginPage;
 var BaselinePage = require('./pages/baselinePage.js').BaselinePage;
-/*
-var FieldWorkerHomePage = require('./fieldWorkerHomePage.js').FieldWorkerHomePage;
-var CreateSocialGroupPage = require('./createSocialGroupPage.js').CreateSocialGroupPage;
-var CreateLocationPage = require('./createLocationPage.js').CreateLocationPage;
-var CreateIndividualsPage = require('./createIndividualPage.js').CreateIndividualsPage;
-var CreateRelationshipPage = require('./createRelationshipPage.js').CreateRelationshipPage;
-var CreateVisitPage = require('./createVisitPage.js').CreateVisitPage;
-var IndividualUpdatePage = require('./individualUpdatePage.js').IndividualUpdatePage;
-var PregnancyOutcomePage = require('./pregnancyOutcomePage.js').PregnancyOutcomePage;
-var PregnancyResultPage = require('./pregnancyResultPage.js').PregnancyResultPage;
-var PregnancyObservationPage = require('./pregnancyObservationPage.js').Page;
-var DeathPage = require('./deathPage.js').Page;
-*/
 
 var fw = require('./framework.js');
 var getElement = fw.getElement;
@@ -31,33 +18,72 @@ describe('OpenHDS workflows ', function() {
         loginPage.doLogin("user", "password");
     }
 
-    it('Allows a data entry worker to create a new location', function() {
+    it('Displays an error message if login is unsuccessful', function() {
+        var loginPage = new LoginPage();
+        loginPage.doLogin('bad', 'credentials');
+
+        var usernameAfterLogin = loginPage.username.getAttribute('value');
+        var passwordAfterLogin = loginPage.password.getAttribute('value');
+
+        expect(usernameAfterLogin).toEqual('');
+        expect(passwordAfterLogin).toEqual('');
+    });
+
+    it('Has only one active location', function() {
         login();
-        expect(browser.getLocationAbsUrl()).toEqual('/baseline');
 
         var baselinePage = new BaselinePage();
-        baselinePage.setCollectionDate('01-01-2000');
-        baselinePage.setFieldWorker();
-
-        browser.sleep(1000);
-
-        var currentFieldworker = baselinePage.getCurrentFieldworker();
-
-        expect(currentFieldworker).toEqual('fieldworker');
-
+        baselinePage.setCollectionDate('01-13-2016');
+        baselinePage.setDefaultFieldWorker();
         baselinePage.setHierarchy();
-        expect(baselinePage.getCurrentHierarchy()).toEqual('hierarchy-0-1-1');
-        browser.sleep(1000);
-        baselinePage.nextButton.click();
-        browser.sleep(1000);
-
-        baselinePage.newLocationButton.click();
-        browser.sleep(1000);
-        baselinePage.setLocationName('foo');
-        baselinePage.setLocationExtId('foo');
-        baselinePage.selectLocationType('urban');
-        baselinePage.createLocationButton.click();
-        expect(baselinePage.getCurrentLocation()).toMatch(/.*uuid.*/);
-
+        // create a new location
+        // verify it's in the table
+        // create a new location
+        // verify it's the only one in the table
     });
+
+    it('Can create an empty location', function() {
+        // fill out baseline
+        // create location
+        // check empty box
+        // click button
+        // should be at new baseline page
+    });
+
+    it('Displays all selected social groups', function() {
+        // fill out baseline
+        // click social group
+        // create socialgroup
+        // select socialgroup
+        // verify both are displayed on the table
+        // delete both social groups
+        // verify table is empty
+    });
+
+    it('Creates a baseline census', function() {
+        // login with valid credentials
+        // "next" button is disabled
+        // fill out baseline form
+        // push button
+        // on new location page
+        // "next" button is disabled
+        // fill out location form
+        // validate it's in the table
+        // push button
+        // "next" button is disabled
+        // fill out social group form
+        // validate it's in the table
+        // push button
+        // fill out individual form
+        // validate it's in the table
+        // fill out another individual form
+        // validate form is empty first
+        // validate it's in the table
+        // push button
+        // "next" button is *enabled*
+        // fill out relationship form
+        // push button
+        // validate baseline page is visible and populated
+    });
+
 });

@@ -1,5 +1,56 @@
 var fw = require('../framework.js');
 
+function LocationModal() {
+    this.setName = function(name) {
+        var input = fw.getElement('locationName_input');
+        input.sendKeys(name);
+    };
+
+    this.setExtId = function(extId) {
+        var input = fw.getElement('locationExtId_input');
+        input.sendKeys(extId);
+    };
+
+    this.setType = function(locType) {
+        fw.selectOption(locType);
+    };
+
+    this.submit = function() {
+        var button = fw.getElement('createLocation');
+        button.click();
+        browser.driver.wait(protractor.until.elementIsNotVisible(button));
+    };
+}
+
+function LocationTab() {
+    this.openCreateModal = function() {
+        var button = fw.getElement('displayNewLocationModal');
+        button.click();
+        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createLocation')));
+    };
+
+    this.openSelectModal = function() {
+        var button = fw.getElement('displaySelectLocationModal');
+        button.click();
+        //TODO: add id to this modal to wait for
+    };
+
+    this.completeRegistration = function() {
+        var button = fw.getElement('startSocialGroups');
+        button.click();
+        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createSocialGroup')));
+        return new GroupTab();
+    };
+
+    this.selectedLocation = function() {
+        return {};
+    };
+}
+
+function GroupTab() {
+
+}
+
 function BaselinePage() {
     this.collectionDateInput = fw.getElement('collectionDate_input');
     this.fieldWorkerModalButton = fw.getElement('fieldworker-select');
@@ -10,6 +61,21 @@ function BaselinePage() {
     this.locationNameInput = fw.getElement('locationName_input');
     this.locationExtIdInput = fw.getElement('locationExtId_input');
     this.createLocationButton = fw.getElement('createLocation');
+
+    this.goToSocialGroupButton = fw.getElement('startSocialGroups');
+    this.socialGroupTab = fw.getElement('groupTab');
+    this.createSocialGroupButton = fw.getElement('createSocialGroup');
+    this.submitSocialGroupButton = fw.getElement('submitSocialGroup');
+
+    this.goToIndividualsButton = fw.getElement('startIndividuals');
+    this.goToRelationshipsButton = fw.getElement('startRelationships');
+
+    this.openLocationModal = function() {
+        var openModalButton = fw.getElement('displayNewLocationModal');
+        openModalButton.click();
+        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createLocation')));
+        return new LocationModal();
+    };
 
     this.setCollectionDate = function(collectionDate) {
         this.collectionDateInput.sendKeys(collectionDate);
@@ -62,6 +128,22 @@ function BaselinePage() {
 
     this.getCurrentLocation = function() {
         return fw.getElement('currentLocationData').getText();
+    };
+
+    this.setGroupName = function(name) {
+        var input = fw.getElement('groupName_input');
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+        input.sendKeys(name);
+    };
+
+    this.setGroupExtId = function(extId) {
+        var input = fw.getElement('socialGroupExtId_input');
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+        input.sendKeys(extId);
+    };
+
+    this.selectGroupType = function(grpType) {
+        fw.selectOption(grpType);
     };
 }
 

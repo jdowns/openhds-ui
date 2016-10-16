@@ -18,6 +18,17 @@ describe('OpenHDS workflows ', function() {
         loginPage.doLogin("user", "password");
     }
 
+    function setGlobalBaseline() {
+        var baselinePage = new BaselinePage();
+
+        baselinePage.setCollectionDate('01-13-2016');
+        baselinePage.setDefaultFieldWorker();
+        baselinePage.setHierarchy();
+        baselinePage.nextButton.click();
+        browser.driver.wait(protractor.until.elementIsVisible(baselinePage.newLocationModalButton));
+        return baselinePage;
+    }
+
     it('Displays an error message if login is unsuccessful', function() {
         var loginPage = new LoginPage();
         loginPage.doLogin('bad', 'credentials');
@@ -31,73 +42,120 @@ describe('OpenHDS workflows ', function() {
 
     it('Has only one active location', function() {
         login();
+        var baselinePage = setGlobalBaseline();
 
-        var baselinePage = new BaselinePage();
-        baselinePage.setCollectionDate('01-13-2016');
-        baselinePage.setDefaultFieldWorker();
-        baselinePage.setHierarchy();
-        baselinePage.nextButton.click();
-        browser.driver.wait(protractor.until.elementIsVisible(baselinePage.newLocationModalButton));
+        var locationModal = baselinePage.openLocationModal();
+        locationModal.setName('a test location');
+        locationModal.setExtId('locationId');
+        locationModal.setType('urban');
+        locationModal.submit();
+
+        expect(fw.getElement('selectedLocationExtId')
+               .getText()).toEqual('locationId');
+
+        browser.sleep(1000);
+
+        locationModal = baselinePage.openLocationModal();
+        locationModal.setName('a test location');
+        locationModal.setExtId('a different locationId');
+        locationModal.setType('urban');
+        locationModal.submit();
+
+        expect(fw.getElement('selectedLocationExtId')
+               .getText()).toEqual('a different locationId');
+    });
+
+    it('Displays all selected social groups', function() {
+        login();
+        var baselinePage = setGlobalBaseline();
+
+        baselinePage.socialGroupTab.click();
+        browser.sleep(2000);
+        baselinePage.createSocialGroupButton.click();
+        baselinePage.setGroupName('group name one');
+        baselinePage.setGroupExtId('groupIdOne');
+        baselinePage.selectGroupType('family');
+        baselinePage.submitSocialGroupButton.click();
+        browser.sleep(1000);
+        baselinePage.createSocialGroupButton.click();
+        baselinePage.setGroupName('group name two');
+        baselinePage.setGroupExtId('groupIdTwo');
+        baselinePage.selectGroupType('family');
+        baselinePage.submitSocialGroupButton.click();
+
+        browser.sleep(1000);
+        expect(fw.getElement('groupIdOne').getText()).toEqual('groupIdOne');
+        expect(fw.getElement('groupIdTwo').getText()).toEqual('groupIdTwo');
+    });
+
+    it('Creates a baseline census', function() {
+        login();
+        var baselinePage = setGlobalBaseline();
+
+        // Fill out location
         baselinePage.newLocationModalButton.click();
         baselinePage.setLocationName('a test location');
         baselinePage.setLocationExtId('locationId');
         baselinePage.selectLocationType('urban');
         baselinePage.createLocationButton.click();
         browser.sleep(2000);
-        expect(fw.getElement('selectedLocationExtId')
-               .getText()).toEqual('locationId');
-        baselinePage.newLocationModalButton.click();
-        baselinePage.setLocationName('a test location');
-        baselinePage.setLocationExtId('a different locationId');
-        baselinePage.selectLocationType('urban');
-        baselinePage.createLocationButton.click();
+        baselinePage.goToSocialGroupButton.click();
+
+        // Fill out social group
         browser.sleep(2000);
-        expect(fw.getElement('selectedLocationExtId')
-               .getText()).toEqual('a different locationId');
-    });
+        baselinePage.createSocialGroupButton.click();
+        baselinePage.setGroupName('group name one');
+        baselinePage.setGroupExtId('groupIdOne');
+        baselinePage.selectGroupType('family');
+        baselinePage.submitSocialGroupButton.click();
+        browser.sleep(2000);
+        baselinePage.goToIndividualsButton.click();
+        browser.sleep(2000);
+/*
+        // Fill out individuals
+        browser.sleep(2000);
+        baselinePage.createIndividualButton.click();
+        baselinePage.setIndividualFirstName('first name one');
+        baselinePage.setIndividualLastName('last name one');
+        baselinePage.setExternalId('id-1');
+        baselinePage.setGender('male');
+        baselinePage.setDob('01-01-1980');
+        baselinePage.setResidencyStartType('head');
+        baselinePage.setResidencyStartDate('01-13-2016');
+        baselinePage.startAssignMemberships();
+        baselinePage.setMembershipForIndividual('id-1');
+        baselinePage.setMembershipSocialGroup('groupIdOne');
+        baselinePage.setMembershipStartType('head');
+        baselinePage.setMembershipStartDate('01-13-2016');
+        baselinePage.submitMembership();
+        browser.sleep(2000);
+        baselinePage.createIndividualButton.click();
+        baselinePage.setIndividualFirstName('first name two');
+        baselinePage.setIndividualLastName('last name two');
+        baselinePage.setExternalId('id-2');
+        baselinePage.setGender('female');
+        baselinePage.setDob('01-01-1980');
+        baselinePage.setResidencyStartType('spouseOfHead');
+        baselinePage.setResidencyStartDate('01-13-2016');
+        baselinePage.startAssignMemberships();
+        baselinePage.setMembershipForIndividual('id-1');
+        baselinePage.setMembershipSocialGroup('groupIdOne');
+        baselinePage.setMembershipStartType('head');
+        baselinePage.setMembershipStartDate('01-13-2016');
+        baselinePage.submitMembership();
+        browser.sleep(2000);
+        baselinePage.goToRelationshipsButton.click();
+        browser.sleep(2000);
 
-    it('Can create an empty location', function() {
-        // fill out baseline
-        // create location
-        // check empty box
-        // click button
-        // should be at new baseline page
-    });
-
-    it('Displays all selected social groups', function() {
-        // fill out baseline
-        // click social group
-        // create socialgroup
-        // select socialgroup
-        // verify both are displayed on the table
-        // delete both social groups
-        // verify table is empty
-    });
-
-    it('Creates a baseline census', function() {
-        // login with valid credentials
-        // "next" button is disabled
-        // fill out baseline form
-        // push button
-        // on new location page
-        // "next" button is disabled
-        // fill out location form
-        // validate it's in the table
-        // push button
-        // "next" button is disabled
-        // fill out social group form
-        // validate it's in the table
-        // push button
-        // fill out individual form
-        // validate it's in the table
-        // fill out another individual form
-        // validate form is empty first
-        // validate it's in the table
-        // push button
-        // "next" button is *enabled*
-        // fill out relationship form
-        // push button
-        // validate baseline page is visible and populated
+        // Fill out relationships
+        baselinePage.createRelationshipButton.click();
+        baselinePage.setIndividualA('id-1');
+        baselinePage.setIndividualB('id-2');
+        baselinePage.setRelationshipStartType('spouse');
+        baselinePage.setRelationshipStartDate('01-13-2016');
+        baselinePage.submitRelationship();
+        baselinePage.completeBaseline();
+*/
     });
 
 });

@@ -1,6 +1,6 @@
 <row><h3>Social Group</h3></row>
 <row>
-    <button class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
+    <button id="createSocialGroup" class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
         <h3>Create New</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
@@ -28,7 +28,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in model.selectedSocialGroups">
-        <td>{{row.extId}}</td>
+        <td id="{{row.extId}}">{{row.extId}}</td>
         <td>{{row.groupName}}</td>
         <td>{{row.groupType}}</td>
         <td>
@@ -41,7 +41,8 @@
     </tbody>
 </table>
 <hr>
-<button class="btn btn-primary pull-right"
+<button id="startIndividuals"
+        class="btn btn-primary pull-right"
         onClick="$('#individualsTab').tab('show')">
     Individuals
     <span class="glyphicon glyphicon-arrow-right"></span>

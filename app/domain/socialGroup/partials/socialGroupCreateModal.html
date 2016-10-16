@@ -16,7 +16,7 @@
                     <textbox label="Group Name" id="groupName"
                              ng-model="model.socialGroup.groupName"></textbox>
                     <br /><br />
-                    <textbox label="External ID" id="extId"
+                    <textbox label="External ID" id="socialGroupExtId"
                              ng-model="model.socialGroup.extId"></textbox>
                     <br /><br />
                     <selectbox label="Group Type" id="groupType"
@@ -31,15 +31,13 @@
 
                 </fieldset>
 
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    id="createSocialGroup" ng-click="model.submitSocialGroup(model.socialGroup)">
+                    id="submitSocialGroup" ng-click="model.submitSocialGroup(model.socialGroup)">
                     Create
                 </button>
 

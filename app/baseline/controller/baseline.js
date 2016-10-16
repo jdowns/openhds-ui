@@ -130,13 +130,14 @@ function BaselineController($rootScope,
             });
     };
 
-    vm.submitSocialGroup = function(sg){
+    vm.submitSocialGroup = function(sg) {
         SocialGroupService.submit(vm.currentFieldWorker,
                                   vm.collectionDateTime,
                                   sg)
             .then(function(response) {
                 console.log(response.data);
                 vm.selectedSocialGroups.push(response.data);
+                vm.socialGroup = {};
             });
     };
 

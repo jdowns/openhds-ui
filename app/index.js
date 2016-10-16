@@ -23,7 +23,13 @@ function routeConfig($routeProvider) {
             templateUrl: 'baseline/view/baseline.html',
             controller: 'BaselineController',
             controllerAs: 'model'
-        });
+        })
+        .when('/update', {
+            templateUrl: 'update/view/update.html',
+            controller: 'UpdateController',
+            controllerAs: 'model'
+        })
+    ;
 }
 
 function corsConfig($httpProvider) {

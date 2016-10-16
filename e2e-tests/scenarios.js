@@ -36,10 +36,24 @@ describe('OpenHDS workflows ', function() {
         baselinePage.setCollectionDate('01-13-2016');
         baselinePage.setDefaultFieldWorker();
         baselinePage.setHierarchy();
-        // create a new location
-        // verify it's in the table
-        // create a new location
-        // verify it's the only one in the table
+        baselinePage.nextButton.click();
+        browser.driver.wait(protractor.until.elementIsVisible(baselinePage.newLocationModalButton));
+        baselinePage.newLocationModalButton.click();
+        baselinePage.setLocationName('a test location');
+        baselinePage.setLocationExtId('locationId');
+        baselinePage.selectLocationType('urban');
+        baselinePage.createLocationButton.click();
+        browser.sleep(2000);
+        expect(fw.getElement('selectedLocationExtId')
+               .getText()).toEqual('locationId');
+        baselinePage.newLocationModalButton.click();
+        baselinePage.setLocationName('a test location');
+        baselinePage.setLocationExtId('a different locationId');
+        baselinePage.selectLocationType('urban');
+        baselinePage.createLocationButton.click();
+        browser.sleep(2000);
+        expect(fw.getElement('selectedLocationExtId')
+               .getText()).toEqual('a different locationId');
     });
 
     it('Can create an empty location', function() {

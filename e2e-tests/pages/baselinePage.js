@@ -4,10 +4,11 @@ function BaselinePage() {
     this.collectionDateInput = fw.getElement('collectionDate_input');
     this.fieldWorkerModalButton = fw.getElement('fieldworker-select');
     this.hierarchyModalButton = fw.getElement('hierarchy-select');
+    this.newLocationModalButton = fw.getElement('displayNewLocationModal');
     this.nextButton = fw.getElement('next');
     this.newLocationButton = fw.getElement('createNewLocation');
     this.locationNameInput = fw.getElement('locationName_input');
-    this.extIdInput = fw.getElement('locationExtId_input');
+    this.locationExtIdInput = fw.getElement('locationExtId_input');
     this.createLocationButton = fw.getElement('createLocation');
 
     this.setCollectionDate = function(collectionDate) {
@@ -16,8 +17,9 @@ function BaselinePage() {
 
     this.setDefaultFieldWorker = function() {
         this.fieldWorkerModalButton.click();
-        browser.sleep(1000);
-        fw.getElement('fieldworker').click();
+        var fieldWorkerSelectButton = fw.getElement('fieldworker');
+        browser.driver.wait(protractor.until.elementIsVisible(fieldWorkerSelectButton));
+        fieldWorkerSelectButton.click();
         browser.sleep(1000);
     };
 
@@ -26,6 +28,7 @@ function BaselinePage() {
     };
 
     this.setHierarchy = function() {
+        browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('fieldworker')));
         this.hierarchyModalButton.click();
         browser.sleep(1000);
         fw.selectOption('hierarchy-0');
@@ -42,11 +45,15 @@ function BaselinePage() {
     };
 
     this.setLocationName = function(name) {
-        fw.getElement('locationName_input').sendKeys(name);
+        var input = fw.getElement('locationName_input');
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+        input.sendKeys(name);
     };
 
     this.setLocationExtId = function(extId) {
-        fw.getElement('locationExtId_input').sendKeys(extId);
+        var input = fw.getElement('locationExtId_input');
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+        input.sendKeys(extId);
     };
 
     this.selectLocationType = function(locType) {

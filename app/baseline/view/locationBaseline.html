@@ -1,14 +1,14 @@
 <row><h3>Location</h3></row>
 <row>
 
-    <button class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+    <button id="displayNewLocationModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
         <h3>Create New</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
     </button>
 
-    <button class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
+    <button id="displaySelectLocationModal" class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
         <h3> Select Existing </h3>
         <h2>
             <span class="glyphicon glyphicon-search"></span>
@@ -31,10 +31,10 @@
     </thead>
     <tbody>
     <tr>
-        <td>{{model.selectedLocation.uuid}}</td>
-        <td>{{model.selectedLocation.extId}}</td>
-        <td>{{model.selectedLocation.name}}</td>
-        <td>{{model.selectedLocation.type}}</td>
+        <td id="selectedLocationId">{{model.selectedLocation.uuid}}</td>
+        <td id="selectedLocationExtId">{{model.selectedLocation.extId}}</td>
+        <td id="selectedLocationName">{{model.selectedLocation.name}}</td>
+        <td id="selectedLocationType">{{model.selectedLocation.type}}</td>
     </tr>
     </tbody>
 </table>

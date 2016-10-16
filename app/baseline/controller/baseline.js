@@ -126,6 +126,7 @@ function BaselineController($rootScope,
                 console.log(response.data);
                 vm.submittedLocations.push(response.data);
                 vm.selectedLocation = response.data;
+                vm.location = {};
             });
     };
 

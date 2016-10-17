@@ -1,3 +1,59 @@
-<div>
-  Update!
+<header>
+  <h1>OpenHDS {{selectedLocation}}</h1>
+</header>
+
+<!-- Left Column -->
+<div class="container" ng-init="model.init()">
+  <div class="row">
+    <div class="col-md-2 no-float">
+      <ng-include src="'core/partials/navigationTabs.html'"></ng-include>
+      <hr>
+
+      <!-- For debugging. TODO: Remove when unneeded -->
+      <ng-include src="'core/partials/entityStatusBaseline.html'"></ng-include>
+
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-10 no-float">
+      <div>
+        <div class="tab-content">
+
+          <div>
+            <fieldset>
+              <legend>Begin Visit</legend>
+
+              <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"> </datebox>
+              <br />
+
+              <hr>
+              <ng-include src="'domain/fieldworker/partials/fieldworkerSelectPartial.html'"></ng-include>
+              <hr>
+
+              <ng-include src="'domain/locationHierarchy/partials/locationHierarchySelectPartial.html'"></ng-include>
+              <br />
+
+              <hr>
+
+              <!-- TODO: visit extId -->
+              <!-- TODO: select location -->
+
+              <hr>
+              <button id="next"
+                      class="btn btn-primary pull-right"
+                      onClick="$('#locationTab').tab('show')">
+                Begin Visit
+                <span class="glyphicon glyphicon-arrow-right"></span>
+              </button>
+
+            </fieldset>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+</div>

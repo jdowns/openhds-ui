@@ -5,22 +5,26 @@
       Baseline
     </a>
   </li>
-  <li role="presentation">
+  <li role="presentation"
+      ng-hide="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
     <a role="tab" id="locationTab" data-toggle="tab" data-target="#location">
       Location
     </a>
   </li>
-  <li role="presentation">
+  <li role="presentation"
+      ng-hide="model.selectedLocation == null">
     <a role="tab" id="groupTab" data-toggle="tab" data-target="#group">
       Group
     </a>
   </li>
-  <li role="presentation">
+  <li role="presentation"
+      ng-hide="model.selectedSocialGroups.length < 1">
     <a role="tab" id="individualsTab" data-toggle="tab" data-target="#individuals">
       Individuals
     </a>
   </li>
-  <li role="presentation">
+  <li role="presentation"
+      ng-hide="model.selectedIndividuals.length < 1">
     <a role="tab" id="relationshipsTab" data-toggle="tab" data-target="#relationships">
       Relationships
     </a>

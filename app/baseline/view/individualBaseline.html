@@ -75,7 +75,8 @@
 
 <button id="startRelationships"
         class="btn btn-primary pull-right"
-        onClick="$('#relationshipsTab').tab('show')">
+        onClick="$('#relationshipsTab').tab('show')"
+        ng-disabled="model.selectedIndividuals.length < 1">
     Relationships
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

@@ -43,7 +43,8 @@
 <hr>
 <button id="startIndividuals"
         class="btn btn-primary pull-right"
-        onClick="$('#individualsTab').tab('show')">
+        onClick="$('#individualsTab').tab('show')"
+        ng-disabled="model.selectedSocialGroups.length < 1">
     Individuals
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

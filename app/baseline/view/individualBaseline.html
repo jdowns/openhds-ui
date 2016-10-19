@@ -39,7 +39,7 @@
         <td>{{row.extId}}</td>
         <td>{{row.gender}}</td>
         <td>
-            <button type="button" ng-click="model.removeSelectedEntity('selectedIndividual',row)" class="btn btn-sm btn-danger">
+            <button type="button" ng-click="model.removeSelectedEntity('selectedIndividuals',row)" class="btn btn-sm btn-danger">
                 <i class="glyphicon glyphicon-remove-circle">
                 </i>
             </button>
@@ -75,7 +75,8 @@
 
 <button id="startRelationships"
         class="btn btn-primary pull-right"
-        onClick="$('#relationshipsTab').tab('show')">
+        onClick="$('#relationshipsTab').tab('show')"
+        ng-disabled="model.selectedIndividuals.length < 1">
     Relationships
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

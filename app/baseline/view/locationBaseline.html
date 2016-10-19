@@ -41,7 +41,10 @@
 
 <hr>
 
-<button id="startSocialGroups" class="btn btn-primary pull-right" onClick="$('#groupTab').tab('show')">
+<button id="startSocialGroups"
+        class="btn btn-primary pull-right"
+        onClick="$('#groupTab').tab('show')"
+        ng-disabled="model.selectedLocation == null">
     Social Groups
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

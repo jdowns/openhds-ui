@@ -19,13 +19,15 @@
 
         <button id="next"
                 class="btn btn-primary pull-right"
-                onClick="$('#locationTab').tab('show')">
+                onClick="$('#locationTab').tab('show')"
+                ng-disabled="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
             Location
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>
 
     </fieldset>
 </div>
+
 
 
 <ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>

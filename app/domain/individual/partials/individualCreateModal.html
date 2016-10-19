@@ -34,14 +34,7 @@
                              ng-model="model.individual.dateOfBirth"></datebox>
                     <br /><br />
 
-                    <selectbox ng-model="model.residencyStartType"
-                               id="residencyStartType" label="Residency Start Type">
-                        <option ng-if="code.codeGroup === 'membershipType'"
-                                ng-repeat="code in model.codes"
-                                value="{{code.codeValue}}">{{code.codeName}}
-                        </option>
-                    </selectbox>
-                    <br /><br />
+
                     <datebox label="Residency Start Date" id="residencyStartDate"
                              ng-model="model.residencyStartDate"></datebox>
                     <br /><br />

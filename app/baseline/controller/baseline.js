@@ -82,6 +82,9 @@ function BaselineController($rootScope,
     };
 
 
+    vm.residencyStartType = "CEN"
+
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;

@@ -1,0 +1,46 @@
+<div>
+    <fieldset>
+        <legend>New Visit</legend>
+
+        <textbox label="External ID" id="extId" ng-model="model.visit.extId"></textbox>
+        <br /><br />
+        <hr>
+
+        <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"> </datebox>
+        <br /><br />
+
+        <hr>
+        <ng-include src="'domain/fieldworker/partials/fieldworkerSelectPartial.html'"></ng-include>
+        <hr>
+
+        <ng-include src="'domain/locationHierarchy/partials/locationHierarchySelectPartial.html'"></ng-include>
+        <br />
+
+        <hr>
+
+
+        <!-- TODO: select location -->
+        <label for="currentLocation">Location: </label>
+        <div align="center">
+            <input type="text" id="currentLocation" ng-model="model.currentLocation.id" disabled />
+            <button class="btn btn-default" id="location-select" data-toggle="modal" data-target="#locationSelectModal">
+                Select Location
+            </button>
+        </div>
+        <br/>
+
+
+        <hr>
+        <button id="next"
+                class="btn btn-primary pull-right"
+                onClick="$('#locationTab').tab('show')">
+            Begin Visit
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+
+    </fieldset>
+</div>
+
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
+<ng-include src="'domain/location/partials/locationSelectModal.html'"></ng-include>

@@ -111,26 +111,47 @@ describe('OpenHDS workflows ', function() {
         baselinePage.submitSocialGroupButton.click();
         browser.sleep(2000);
         baselinePage.goToIndividualsButton.click();
-        browser.sleep(10000);
+        browser.sleep(2000);
 	fw.getElement('openCreateIndividualsModal').click();
 	browser.sleep(1000);
 
+	// fill out individual one
         baselinePage.setIndividualFirstName('first name one');
         baselinePage.setIndividualLastName('last name one');
-/*
-        // Fill out individuals
         baselinePage.setExternalId('id-1');
         baselinePage.setGender('male');
         baselinePage.setDob('01-01-1980');
-        baselinePage.setResidencyStartType('head');
         baselinePage.setResidencyStartDate('01-13-2016');
         baselinePage.startAssignMemberships();
-        baselinePage.setMembershipForIndividual('id-1');
-        baselinePage.setMembershipSocialGroup('groupIdOne');
-        baselinePage.setMembershipStartType('head');
-        baselinePage.setMembershipStartDate('01-13-2016');
-        baselinePage.submitMembership();
-        browser.sleep(2000);
+	fw.selectOption('first name one');
+	fw.selectOption('group name one');
+	fw.getElement('membershipStartType_select').element(by.cssContainingText("option", "head")).click();
+	fw.getElement('membershipStartDate_input').sendKeys('01-13-2016');
+	fw.getElement('createMembership').click();
+	browser.sleep(1000);
+	//browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('createMembership')));
+
+       //fill out individual two
+
+	fw.getElement('openCreateIndividualsModal').click();
+	browser.sleep(1000);
+        baselinePage.setIndividualFirstName('first name two');
+        baselinePage.setIndividualLastName('last name two');
+        baselinePage.setExternalId('id-2');
+        baselinePage.setGender('male');
+        baselinePage.setDob('01-01-1980');
+        baselinePage.setResidencyStartDate('01-13-2016');
+        baselinePage.startAssignMemberships();
+	fw.selectOption('first name one');
+	fw.selectOption('group name one');
+	fw.getElement('membershipStartType_select').element(by.cssContainingText("option", "spouseOfHead")).click();
+	fw.getElement('membershipStartDate_input').sendKeys('01-13-2016');
+	fw.getElement('createMembership').click();
+	browser.sleep(1000);
+	//browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('createMembership')));
+
+/*
+        // Fill out individuals
         baselinePage.createIndividualButton.click();
         baselinePage.setIndividualFirstName('first name two');
         baselinePage.setIndividualLastName('last name two');

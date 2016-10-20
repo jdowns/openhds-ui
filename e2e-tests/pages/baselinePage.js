@@ -70,6 +70,18 @@ function BaselinePage() {
     this.goToIndividualsButton = fw.getElement('startIndividuals');
     this.goToRelationshipsButton = fw.getElement('startRelationships');
 
+    this.setIndividualFirstName = function(name) {
+        var input = fw.getElement('firstName_input');
+	browser.sleep(2000);
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+	input.sendKeys(name);
+    }
+
+    this.setIndividualLastName = function(name) {
+        var input = fw.getElement('lastName_input');
+	input.sendKeys(name);
+    }
+
     this.openLocationModal = function() {
         var openModalButton = fw.getElement('displayNewLocationModal');
         openModalButton.click();

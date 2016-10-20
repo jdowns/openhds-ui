@@ -81,6 +81,7 @@ describe('OpenHDS workflows ', function() {
         baselinePage.setGroupName('group name two');
         baselinePage.setGroupExtId('groupIdTwo');
         baselinePage.selectGroupType('family');
+	browser.sleep(1000);
         baselinePage.submitSocialGroupButton.click();
 
         browser.sleep(1000);
@@ -110,13 +111,14 @@ describe('OpenHDS workflows ', function() {
         baselinePage.submitSocialGroupButton.click();
         browser.sleep(2000);
         baselinePage.goToIndividualsButton.click();
-        browser.sleep(2000);
-/*
-        // Fill out individuals
-        browser.sleep(2000);
-        baselinePage.createIndividualButton.click();
+        browser.sleep(10000);
+	fw.getElement('openCreateIndividualsModal').click();
+	browser.sleep(1000);
+
         baselinePage.setIndividualFirstName('first name one');
         baselinePage.setIndividualLastName('last name one');
+/*
+        // Fill out individuals
         baselinePage.setExternalId('id-1');
         baselinePage.setGender('male');
         baselinePage.setDob('01-01-1980');

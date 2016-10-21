@@ -11,10 +11,10 @@ function ResidencyService(EntityService) {
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
-            individualUuid: model.entity.individual.uuid,
-            locationUuid: model.entity.location.uuid,
+            individualUuid: model.individual.uuid,
+            locationUuid: model.location.uuid,
             residency: {
-                startType: model.entity.startType,
+                startType: model.startType,
                 startDate: model.entity.startDate,
                 collectionDateTime: model.collectionDate
             }
@@ -36,8 +36,11 @@ function ResidencyService(EntityService) {
     };
 
 
-    service.submit = function(fieldWorker, collectionDate, entity) {
+    service.submit = function(startType, fieldWorker,individual,location, collectionDate, entity) {
         var model = {
+            startType : startType,
+            individual : individual,
+            location : location,
             fieldWorker: fieldWorker,
             collectionDate: collectionDate,
             entity: entity

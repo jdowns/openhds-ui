@@ -85,7 +85,7 @@ function BaselineController($rootScope,
     };
 
 
-    vm.residencyStartType = "CEN"
+    vm.residencyStartType = "CEN";
 
 
     vm.saveLocationHierarchy = function() {
@@ -166,10 +166,10 @@ function BaselineController($rootScope,
 
     vm.submitResidency = function(res) {
         ResidencyService.submit(
-            res.startType = vm.residencyStartType,
-            res.location = vm.selectedLocation,
-            res.individual = vm.individual,
+            vm.residencyStartType,
             vm.currentFieldWorker,
+            vm.individual,
+            vm.selectedLocation,
             vm.collectionDateTime,
             res)
             .then(function(response) {

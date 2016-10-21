@@ -10,5 +10,9 @@ function UpdateController($rootScope) {
 
     var vm = this;
 
+    vm.selectedIndividual = null;
+    vm.submittedEvents = [];
+
+
 
 }

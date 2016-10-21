@@ -1,0 +1,115 @@
+<div>
+    <fieldSet>
+
+        <legend>Add Events</legend>
+
+
+        <selectbox label="Select Individual" id="individual" ng-model="model.event.individual">
+            <option>
+                TODO
+            </option>
+        </selectbox>
+
+
+    </fieldSet>
+
+
+
+    <br/><br/>
+</div>
+
+<div>
+    <!-- TODO: logic of disabling buttons based on individual selected -->
+
+    <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal" data-target="#inMigrationCreateModal">
+        <h4>In</h4>
+        <h4>&nbspMigration&nbsp</h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-log-in"></span>
+        </h2>
+    </button>
+
+    <button id="displayNewOutMigrationModal" class="btn btn-danger" data-toggle="modal" data-target="#outMigrationCreateModal">
+        <h4>Out</h4>
+        <h4>&nbspMigration&nbsp</h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-log-out"></span>
+        </h2>
+    </button>
+
+
+
+    <button id="displayNewPregnancyObservationModal" class="btn btn-default" data-toggle="modal" data-target="#pregnancyObservationCreateModal">
+        <h4>Pregnancy</h4>
+        <h4>Observation</h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-eye-open"></span>
+        </h2>
+
+    </button>
+    <button id="displayNewPregnancyOutcomeModal" class="btn btn-default" data-toggle="modal" data-target="#pregnancyOutcomeCreateModal">
+        <h4>&nbspPregnancy&nbsp</h4>
+        <h4>Outcome</h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-check"></span>
+
+        </h2>
+    </button>
+    <button id="displayNewDeathModal" class="btn btn-primary" data-toggle="modal" data-target="#deathCreateModal">
+        <h4> &nbsp&nbsp&nbsp Death &nbsp&nbsp&nbsp</h4>
+        <h4><br/></h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-remove-sign"></span>
+        </h2>
+
+
+    </button>
+</div>
+
+<hr>
+
+
+
+<div>
+    <!-- Display submitted events
+        TODO: wire this up correctly
+        segregate by event type? (different fields for each)
+    -->
+    <h4>Submitted Events:</h4>
+    <table st-table="model.submittedEvents" class="table table-striped">
+        <thead>
+        <tr>
+            <th>extId</th>
+            <th>event type</th>
+            <th>individual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.submittedEvents">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button type="button" ng-click="model.removeSelectedEntity('selectedSocialGroups',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<ng-include src="'domain/inMigration/partials/inMigrationCreateModal.html'"></ng-include>
+<ng-include src="'domain/outMigration/partials/outMigrationCreateModal.html'"></ng-include>
+<ng-include src="'domain/death/partials/deathCreateModal.html'"></ng-include>
+<ng-include src="'domain/pregnancyObservation/partials/pregnancyObservationCreateModal.html'"></ng-include>
+<ng-include src="'domain/pregnancyOutcome/partials/pregnancyOutcomeCreateModal.html'"></ng-include>

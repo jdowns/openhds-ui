@@ -1,0 +1,58 @@
+<!--pregnancy outcome create modal -->
+<div class="modal fade" id="pregnancyOutcomeCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Outcome</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset>
+
+                    <div>
+                        <label for="currentIndividual">Mother: </label>
+                        <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
+                    </div>
+
+                    <br/><br/>
+
+
+                    <datebox label="Outcome Date" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.pregnancyDate"> </datebox>
+                    <br /><br />
+
+                    <label for="currentIndividual">Father: </label>
+                    <div align="center">
+                        <input type="text" id="father" ng-model="model.individual" disabled />
+                        <button class="btn btn-default" id="father-select" data-toggle="modal" data-target="#selectIndividualModal">
+                            Select Father
+                        </button>
+                    </div>
+                    <br/><br/>
+
+                    // todo: logic regarding pregnancy result
+
+
+
+                </fieldset>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        id="createPregnancyOutcome"
+                        ng-click="modal.submitPregnancyOutcome(model.currentPregnancyOutcome)">
+                Create
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

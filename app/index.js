@@ -5,7 +5,7 @@ console.log('starting application');
 var app = angular.module('openhds',
     ['ngRoute', 'smart-table',
      'LoginModule', 'BaselineModule',
-     'ServiceModule']);
+     'ServiceModule', 'UpdateModule']);
 
 
 
@@ -23,7 +23,13 @@ function routeConfig($routeProvider) {
             templateUrl: 'baseline/view/baseline.html',
             controller: 'BaselineController',
             controllerAs: 'model'
-        });
+        })
+        .when('/update', {
+            templateUrl: 'update/view/update.html',
+            controller: 'UpdateController',
+            controllerAs: 'model'
+        })
+    ;
 }
 
 function corsConfig($httpProvider) {

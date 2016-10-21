@@ -70,6 +70,41 @@ function BaselinePage() {
     this.goToIndividualsButton = fw.getElement('startIndividuals');
     this.goToRelationshipsButton = fw.getElement('startRelationships');
 
+    this.setExternalId = function(id) {
+        // set individual extId
+        fw.getElement('extId_input').sendKeys(id);
+    }
+
+    this.setGender = function(gender) {
+        fw.selectOption(gender);
+    }
+
+    this.setDob = function(dob) {
+        fw.getElement('dateOfBirth_input').sendKeys(dob);
+    }
+
+    this.setIndividualFirstName = function(name) {
+        var input = fw.getElement('firstName_input');
+	browser.sleep(2000);
+        browser.driver.wait(protractor.until.elementIsVisible(input));
+	input.sendKeys(name);
+    }
+
+    this.setIndividualLastName = function(name) {
+        var input = fw.getElement('lastName_input');
+	input.sendKeys(name);
+    }
+
+    this.setResidencyStartDate = function(startDate) {
+        fw.getElement('residencyStartDate_input').sendKeys(startDate);
+    }
+
+    this.startAssignMemberships = function() {
+        var button = fw.getElement('assignMembership');
+	button.click()
+        browser.driver.wait(protractor.until.elementIsNotVisible(button));
+    }
+
     this.openLocationModal = function() {
         var openModalButton = fw.getElement('displayNewLocationModal');
         openModalButton.click();

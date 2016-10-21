@@ -1,0 +1,45 @@
+<header>
+  <h1>OpenHDS {{selectedLocation}}</h1>
+</header>
+
+<!-- Left Column -->
+<div class="container" ng-init="model.init()">
+  <div class="row">
+    <div class="col-md-2 no-float">
+      <ng-include src="'core/partials/navigationTabs.html'"></ng-include>
+      <hr>
+
+
+
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-10 no-float">
+      <div>
+        <ng-include src="'update/view/updateTabBarPartial.html'"></ng-include>
+
+        <div class="tab-content">
+
+          <!-- Update Initialization -->
+          <div role="tabpanel" class="tab-pane fade in active" id="update">
+            <ng-include src="'update/view/updateInit.html'"></ng-include>
+
+          </div>
+
+          <!-- Events -->
+          <div role="tabpanel" class="tab-pane fade" id="events">
+            <ng-include src="'update/view/events.html'"></ng-include>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+
+  </div>
+</div>

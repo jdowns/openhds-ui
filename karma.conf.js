@@ -25,6 +25,7 @@ module.exports = function(config) {
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/angular-smart-table/dist/smart-table.js',
             'app/index.js',
+            'app/update/**/*.js',
             'app/baseline/**/*.js',
             'app/auth/controller/*.js',
             'app/auth/test/*.js',

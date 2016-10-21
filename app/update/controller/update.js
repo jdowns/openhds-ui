@@ -3,12 +3,29 @@
 angular.module('UpdateModule', [])
     .controller('UpdateController',
                 ['$rootScope',
+                    '$http',
+                    'LocationHierarchyService',
+                    'FieldWorkerService',
+                    'LocationService',
+                    'SocialGroupService',
+                    'IndividualService',
+                    'MembershipService',
+                    'RelationshipService',
                     UpdateController ]);
 
 
-function UpdateController($rootScope) {
+function UpdateController($rootScope,
+                          $http,
+                          LocationHierarchyService,
+                          FieldWorkerService,
+                          LocationService,
+                          SocialGroupService,
+                          IndividualService,
+                          MembershipService,
+                          RelationshipService) {
 
     var vm = this;
+    var headers = { authorization: "Basic " + $rootScope.credentials };
 
     vm.selectedLocation = null;
     vm.selectedIndividual = null;
@@ -57,5 +74,32 @@ function UpdateController($rootScope) {
         vm.selectedLocation = null;
         vm.selectedIndividual = null;
     };
+
+
+    vm.init = function() {
+
+
+        var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
+
+        $http.get(codesUrl, {headers: headers})
+            .then(function(response) {
+                vm.codes = response.data;
+            });
+
+        FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
+            vm.allFieldWorkers = fieldworkers;
+        });
+
+        LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
+            vm.locationHierarchies = hierarchyTree;
+        });
+        LocationHierarchyService.getLevels().then(function(response) {
+            vm.allHierarchyLevels = response.data;
+        });
+
+       
+    };
+
+    return vm;
 
 }

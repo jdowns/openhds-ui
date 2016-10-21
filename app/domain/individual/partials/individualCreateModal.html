@@ -36,7 +36,7 @@
 
 
                     <datebox label="Residency Start Date" id="residencyStartDate"
-                             ng-model="model.residencyStartDate"></datebox>
+                             ng-model="model.residency.startDate"></datebox>
                     <br /><br />
                 </fieldset>
 
@@ -48,7 +48,7 @@
                 </button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#membershipCreateModal" data-dismiss="modal"
 			id="assignMembership"
-                        ng-click="model.submitIndividual(model.individual)">
+                        ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
                     Assign Membership
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>

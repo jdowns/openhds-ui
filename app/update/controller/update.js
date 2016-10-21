@@ -75,6 +75,38 @@ function UpdateController($rootScope,
         vm.selectedIndividual = null;
     };
 
+    vm.saveLocationHierarchy = function() {
+        var parentIndex = vm.selectedHierarchy.length - 2;
+        var lastIndex = vm.selectedHierarchy.length - 1;
+
+        var parent = vm.selectedHierarchy[parentIndex];
+        var last = vm.selectedHierarchy[lastIndex];
+        var children = vm.locationHierarchies[parent];
+        vm.currentHierarchy = children.filter(function(child) {
+            return child.uuid === last;
+        })[0];
+
+        LocationService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allLocations = response;
+                vm.locationDisplayCollection = [].concat(response);
+            });
+
+        IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allIndividuals = response;
+                vm.individualDisplayCollection = [].concat(response);
+            });
+        IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allIndividuals = response;
+                vm.individualDisplayCollection = [].concat(response);
+            });
+    };
+
 
     vm.init = function() {
 
@@ -97,7 +129,8 @@ function UpdateController($rootScope,
             vm.allHierarchyLevels = response.data;
         });
 
-       
+
+
     };
 
     return vm;

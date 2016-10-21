@@ -1,37 +1,36 @@
-<!--out migration create modal -->
-<div class="modal fade" id="outMigrationCreateModal" tabindex="-1" role="dialog">
+<!--pregnancy observation create modal -->
+<div class="modal fade" id="pregnancyObservationCreateModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create Out Migration</h4>
+                <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Observation</h4>
             </div>
             <div class="modal-body">
 
 
 
                 <fieldset>
+
                     <div>
-                        <label for="currentIndividual">Individual: </label>
+                        <label for="currentIndividual">Mother: </label>
                         <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
                     </div>
-                    <br>
+
+                    <br/><br/>
 
 
-                    <textbox label="Destination" id="origin" ng-model="model.currentOutMigration.destination"></textbox>
-                    <br /><br /> <!-- todo css padding -->
-                    <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
+
+                    <datebox label="Expected Delivery Date" id="deliveryDate" ng-model="model.currentPregnancyObservation.deliveryDate"> </datebox>
                     <br /><br />
-                    <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
-                        <option>
-                            TODO
-                        </option>
-                    </selectbox>
+                    <datebox label="Pregnancy Date" id="pregnancyDate" ng-model="model.currentPregnancyObservation.pregnancyDate"> </datebox>
+                    <br /><br />
+
+
+
                 </fieldset>
-
-
 
             </div>
             <div class="modal-footer">
@@ -39,7 +38,7 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        id="createOutMigration">
+                        id="createPregnancyObservation">
                     Create
                 </button>
 

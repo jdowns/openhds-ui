@@ -1,34 +1,37 @@
-<!--out migration create modal -->
-<div class="modal fade" id="outMigrationCreateModal" tabindex="-1" role="dialog">
+<!--death create modal -->
+<div class="modal fade" id="deathCreateModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create Out Migration</h4>
+                <h4 class="modal-title" id="myModalLabel">Create New Death Record</h4>
             </div>
             <div class="modal-body">
 
 
 
                 <fieldset>
+                    <br/><br/>
                     <div>
                         <label for="currentIndividual">Individual: </label>
-                        <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
+                            <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
                     </div>
-                    <br>
 
 
-                    <textbox label="Destination" id="origin" ng-model="model.currentOutMigration.destination"></textbox>
+                    <br/><br/>
+
+
+                    <textbox label="Place of death" id="deathPlace" ng-model="model.currentDeath.place" disabled></textbox>
                     <br /><br /> <!-- todo css padding -->
-                    <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
+                    <textbox label="Cause" id="deathCause" ng-model="model.currentDeath.cause"></textbox>
                     <br /><br />
-                    <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
-                        <option>
-                            TODO
-                        </option>
-                    </selectbox>
+                    <datebox label="Date of death" id="deathDate" ng-model="model.currentDeath.date"> </datebox>
+                    <br /><br />
+
+
+
                 </fieldset>
 
 
@@ -39,7 +42,7 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        id="createOutMigration">
+                        id="createInMigration">
                     Create
                 </button>
 

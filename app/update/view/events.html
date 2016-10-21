@@ -19,67 +19,63 @@
 </div>
 
 <div>
+    <!-- TODO: logic of disabling buttons based on individual selected -->
 
-        <button id="newInMigrationModal" class="btn btn-success" data-toggle="modal" data-target="#locationCreateModal">
-            <h4>In</h4>
-            <h4>&nbspMigration&nbsp</h4>
+    <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal" data-target="#inMigrationCreateModal">
+        <h4>In</h4>
+        <h4>&nbspMigration&nbsp</h4>
 
-            <h2>
-                <span class="glyphicon glyphicon-log-in"></span>
-            </h2>
+        <h2>
+            <span class="glyphicon glyphicon-log-in"></span>
+        </h2>
+    </button>
 
+    <button id="displayNewOutMigrationModal" class="btn btn-danger" data-toggle="modal" data-target="#inMigrationCreateModal">
+        <h4>Out</h4>
+        <h4>&nbspMigration&nbsp</h4>
 
-        </button>
-        <button id="displayNewLocationModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
-            <h4>Out</h4>
-            <h4>&nbspMigration&nbsp</h4>
-
-            <h2>
-                <span class="glyphicon glyphicon-log-out"></span>
-            </h2>
-        </button>
-        <button id="displayNewLocationModal" class="btn btn-danger" data-toggle="modal" data-target="#locationCreateModal">
-            <h4> &nbsp&nbsp&nbsp Death &nbsp&nbsp&nbsp</h4>
-            <h4><br/></h4>
-
-            <h2>
-                <span class="glyphicon glyphicon-remove-sign"></span>
-            </h2>
-
-
-        </button>
-
-
-        <button id="displayNewLocationModal" class="btn btn-info" data-toggle="modal" data-target="#locationCreateModal">
-            <h4>Pregnancy</h4>
-            <h4>Observation</h4>
-
-            <h2>
-                <span class="glyphicon glyphicon-eye-open"></span>
-            </h2>
-
-        </button>
-        <button id="displayNewLocationModal" class="btn btn-info" data-toggle="modal" data-target="#locationCreateModal">
-            <h4>&nbspPregnancy&nbsp</h4>
-            <h4>Outcome</h4>
-
-            <h2>
-                <span class="glyphicon glyphicon-check"></span>
-
-            </h2>
-        </button>
+        <h2>
+            <span class="glyphicon glyphicon-log-out"></span>
+        </h2>
+    </button>
 
 
 
+    <button id="displayNewPregnancyObservationModal" class="btn btn-default" data-toggle="modal" data-target="#locationCreateModal">
+        <h4>Pregnancy</h4>
+        <h4>Observation</h4>
 
+        <h2>
+            <span class="glyphicon glyphicon-eye-open"></span>
+        </h2>
+
+    </button>
+    <button id="displayNewPregnancyOutcomeModal" class="btn btn-default" data-toggle="modal" data-target="#locationCreateModal">
+        <h4>&nbspPregnancy&nbsp</h4>
+        <h4>Outcome</h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-check"></span>
+
+        </h2>
+    </button>
+    <button id="displayNewDeathModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+        <h4> &nbsp&nbsp&nbsp Death &nbsp&nbsp&nbsp</h4>
+        <h4><br/></h4>
+
+        <h2>
+            <span class="glyphicon glyphicon-remove-sign"></span>
+        </h2>
+
+
+    </button>
 </div>
 
 <hr>
 
+
+
 <div>
-
-
-
     <!-- Display submitted events
         TODO: wire this up correctly
         segregate by event type? (different fields for each)
@@ -108,5 +104,8 @@
         </tbody>
     </table>
 
-
 </div>
+
+
+
+<ng-include src="'domain/inMigration/partials/inMigrationCreateModal.html'"></ng-include>

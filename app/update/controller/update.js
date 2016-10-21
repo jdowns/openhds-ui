@@ -14,5 +14,6 @@ function UpdateController($rootScope) {
     vm.submittedEvents = [];
 
 
+    vm.currentInMigration = null;
 
 }

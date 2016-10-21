@@ -2,9 +2,13 @@
 
 angular.module('UpdateModule', [])
     .controller('UpdateController',
-                [UpdateController]);
+                ['$rootScope',
+                    UpdateController ]);
 
 
-function UpdateController() {
+function UpdateController($rootScope) {
+
+    var vm = this;
+
 
 }

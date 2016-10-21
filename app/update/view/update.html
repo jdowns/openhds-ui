@@ -9,51 +9,37 @@
       <ng-include src="'core/partials/navigationTabs.html'"></ng-include>
       <hr>
 
-      <!-- For debugging. TODO: Remove when unneeded -->
-      <ng-include src="'core/partials/entityStatusBaseline.html'"></ng-include>
+
 
     </div>
 
     <!-- Main content -->
     <div class="col-md-10 no-float">
       <div>
+        <ng-include src="'update/view/updateTabBarPartial.html'"></ng-include>
+
         <div class="tab-content">
 
-          <div>
-            <fieldset>
-              <legend>Begin Visit</legend>
+          <!-- Update Initialization -->
+          <div role="tabpanel" class="tab-pane fade in active" id="update">
+            <ng-include src="'update/view/updateInit.html'"></ng-include>
 
-              <datebox label="Visit Date" id="visitDate" ng-model="model.visitDate"> </datebox>
-              <br />
-
-              <hr>
-              <ng-include src="'domain/fieldworker/partials/fieldworkerSelectPartial.html'"></ng-include>
-              <hr>
-
-              <ng-include src="'domain/locationHierarchy/partials/locationHierarchySelectPartial.html'"></ng-include>
-              <br />
-
-              <hr>
-
-              <!-- TODO: visit extId -->
-              <!-- TODO: select location -->
-
-              <hr>
-              <button id="next"
-                      class="btn btn-primary pull-right"
-                      onClick="$('#locationTab').tab('show')">
-                Begin Visit
-                <span class="glyphicon glyphicon-arrow-right"></span>
-              </button>
-
-            </fieldset>
           </div>
 
-
+          <!-- Events -->
+          <div role="tabpanel" class="tab-pane fade" id="events">
+            <ng-include src="'update/view/events.html'"></ng-include>
+          </div>
 
         </div>
       </div>
+
+
     </div>
+
+
+
+
+
   </div>
-</div>
 </div>

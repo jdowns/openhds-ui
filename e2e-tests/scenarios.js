@@ -129,7 +129,6 @@ describe('OpenHDS workflows ', function() {
 	fw.getElement('membershipStartDate_input').sendKeys('01-13-2016');
 	fw.getElement('createMembership').click();
 	browser.sleep(1000);
-	//browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('createMembership')));
 
        //fill out individual two
 
@@ -142,43 +141,31 @@ describe('OpenHDS workflows ', function() {
         baselinePage.setDob('01-01-1980');
         baselinePage.setResidencyStartDate('01-13-2016');
         baselinePage.startAssignMemberships();
-	fw.selectOption('first name one');
+	fw.selectOption('first name two');
 	fw.selectOption('group name one');
 	fw.getElement('membershipStartType_select').element(by.cssContainingText("option", "spouseOfHead")).click();
 	fw.getElement('membershipStartDate_input').sendKeys('01-13-2016');
 	fw.getElement('createMembership').click();
 	browser.sleep(1000);
-	//browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('createMembership')));
 
-/*
-        // Fill out individuals
-        baselinePage.createIndividualButton.click();
-        baselinePage.setIndividualFirstName('first name two');
-        baselinePage.setIndividualLastName('last name two');
-        baselinePage.setExternalId('id-2');
-        baselinePage.setGender('female');
-        baselinePage.setDob('01-01-1980');
-        baselinePage.setResidencyStartType('spouseOfHead');
-        baselinePage.setResidencyStartDate('01-13-2016');
-        baselinePage.startAssignMemberships();
-        baselinePage.setMembershipForIndividual('id-1');
-        baselinePage.setMembershipSocialGroup('groupIdOne');
-        baselinePage.setMembershipStartType('head');
-        baselinePage.setMembershipStartDate('01-13-2016');
-        baselinePage.submitMembership();
-        browser.sleep(2000);
-        baselinePage.goToRelationshipsButton.click();
-        browser.sleep(2000);
+	fw.getElement('startRelationships').click();
+	browser.sleep(2000);
 
-        // Fill out relationships
-        baselinePage.createRelationshipButton.click();
-        baselinePage.setIndividualA('id-1');
-        baselinePage.setIndividualB('id-2');
-        baselinePage.setRelationshipStartType('spouse');
-        baselinePage.setRelationshipStartDate('01-13-2016');
-        baselinePage.submitRelationship();
-        baselinePage.completeBaseline();
-*/
+	fw.getElement('createRelationship').click();
+	browser.sleep(1000);
+
+
+	fw.getElement('individualA_select').element(by.cssContainingText("option", "id-1")).click();
+	fw.getElement('individualB_select').element(by.cssContainingText("option", "id-2")).click();
+	fw.getElement('startType_select').element(by.cssContainingText("option", "spouse")).click();
+	fw.getElement('startDate_input').sendKeys('01-13-2016');
+
+	fw.getElement('submitRelationship').click();
+
+	browser.sleep(1000);
+
+	fw.getElement('completeBaseline').click();
+
     });
 
 });

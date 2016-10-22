@@ -6,9 +6,6 @@ describe('IndividualService Test', function() {
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
-    beforeEach(module('LoginModule'));
-    beforeEach(module('BaselineModule'));
-    beforeEach(module('smart-table'));
 
     beforeEach(inject(function(_IndividualService_, $injector) {
         $httpBackend = $injector.get('$httpBackend');
@@ -59,7 +56,7 @@ describe('IndividualService Test', function() {
                        model.collectionDateTime,
                        model.individual)
                 .then(function(response) {
-            //TODO: this is not executing correctly. It should fail
+
             expect(response.data).toEqual('response one');
         });
 

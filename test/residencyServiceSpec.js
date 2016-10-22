@@ -75,4 +75,13 @@ describe('ResidencyService Test', function() {
         expect(result.$$state.value.data).toEqual('response one');
 
     });
+
+    it('getsByHierarchy', function() {
+        $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=1")
+            .respond(200, {content: [{uuid: 1, extId: 1, startType: "test", startDate: "later", individual: "ind", location: "loc"}]});
+        var result = service.getByHierarchy(1);
+
+        $httpBackend.flush();
+        expect(result.$$state.value).toEqual([{ uuid: 1, extId: 1, startType: 'test', startDate: 'later', individual: 'ind', location: 'loc' }]);
+    });
 });

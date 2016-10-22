@@ -360,4 +360,26 @@ describe('BaselineController', function() {
         controller.setCurrentIndividual("foo");
         expect(controller.currentIndividual).toEqual("foo");
     });
+
+    it('submits residencies', function() {
+        $rootScope.restApiUrl = 'http://example.com';
+        $httpBackend.expectPOST('http://example.com/residencies',
+                                {"collectedByUuid":123,
+                                 "individualUuid":456,
+                                 "locationUuid":789,
+                                 "residency":{
+                                     "startType":"test",
+                                     "startDate":"startDate",
+                                     "collectionDateTime":"then"
+                                 }}).respond({uuid: 1});
+        controller.residencyStartType = "test";
+        controller.currentFieldWorker = {uuid: 123};
+        controller.individual = {uuid: 456};
+        controller.selectedLocation = {uuid: 789};
+        controller.collectionDateTime = "then";
+        controller.submitResidency({startDate: "startDate"});
+        $httpBackend.flush();
+
+        expect(controller.submittedResidencies).toEqual([{uuid: 1}]);
+    });
 });

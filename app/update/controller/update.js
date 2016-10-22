@@ -12,6 +12,7 @@ angular.module('UpdateModule', [])
                  'MembershipService',
                  'RelationshipService',
                  'ResidencyService',
+                 'VisitService',
                  'DeathService',
                  UpdateController ]);
 
@@ -26,6 +27,7 @@ function UpdateController($rootScope,
                           MembershipService,
                           RelationshipService,
                           ResidencyService,
+                          VisitService,
                           DeathService) {
 
     var vm = this;
@@ -45,6 +47,14 @@ function UpdateController($rootScope,
     vm.currentPregnancyObservation = null;
     vm.currentPregnancyOutcome = null;
 
+    vm.submitVisit = function() {
+        VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
+            .then(function(response) {
+                vm.currentVisit = response.data;
+            });
+        $('#locationTab').tab('show');
+    };
+
     vm.submitInMigration = function(){
         // post logic
         // add to submitted events []
@@ -57,10 +67,9 @@ function UpdateController($rootScope,
         vm.currentOutMigration = null;
     };
 
-    vm.submitDeath = function() {
-        DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, vm.currentDeath)
+    vm.submitDeath = function(event) {
+        DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
             .then(function(response) {
-                console.log(response.data);
                 vm.submittedEvents.push(response.data);
             });
         vm.currentDeath = null;
@@ -98,21 +107,18 @@ function UpdateController($rootScope,
 
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allLocations = response;
                 vm.locationDisplayCollection = [].concat(response);
             });
 
         IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allIndividuals = response;
                 vm.individualDisplayCollection = [].concat(response);
             });
 
         ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allResidencies = response;
                 vm.residencyDisplayCollection = [].concat(response);
             });
@@ -126,10 +132,6 @@ function UpdateController($rootScope,
         vm.residencies = vm.allResidencies.filter(function(location){
             return location.uuid === row.uuid;
         });
-
-
-
-
     };
 
     vm.availableHierarchies = function() {
@@ -141,12 +143,8 @@ function UpdateController($rootScope,
         return result;
     };
 
-    vm.saveFieldWorker = function() {
-        var result = vm.allFieldWorkers.filter(
-            function(fw) {
-                return fw.uuid === vm.currentFieldWorkerUuid;
-            });
-        vm.currentFieldWorker = result[0];
+    vm.setFieldWorker = function(fw){
+        vm.currentFieldWorker = fw;
     };
 
     vm.init = function() {
@@ -169,7 +167,6 @@ function UpdateController($rootScope,
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
         });
-
 
 
     };

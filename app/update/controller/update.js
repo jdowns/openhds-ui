@@ -3,16 +3,17 @@
 angular.module('UpdateModule', [])
     .controller('UpdateController',
                 ['$rootScope',
-                    '$http',
-                    'LocationHierarchyService',
-                    'FieldWorkerService',
-                    'LocationService',
-                    'SocialGroupService',
-                    'IndividualService',
-                    'MembershipService',
-                    'RelationshipService',
-                    'ResidencyService',
-                    UpdateController ]);
+                 '$http',
+                 'LocationHierarchyService',
+                 'FieldWorkerService',
+                 'LocationService',
+                 'SocialGroupService',
+                 'IndividualService',
+                 'MembershipService',
+                 'RelationshipService',
+                 'ResidencyService',
+                 'DeathService',
+                 UpdateController ]);
 
 
 function UpdateController($rootScope,
@@ -24,7 +25,8 @@ function UpdateController($rootScope,
                           IndividualService,
                           MembershipService,
                           RelationshipService,
-                          ResidencyService) {
+                          ResidencyService,
+                          DeathService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -55,9 +57,12 @@ function UpdateController($rootScope,
         vm.currentOutMigration = null;
     };
 
-    vm.submitDeath = function(){
-        // post logic
-        // add to submitted events []
+    vm.submitDeath = function() {
+        DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, vm.currentDeath)
+            .then(function(response) {
+                console.log(response.data);
+                vm.submittedEvents.push(response.data);
+            });
         vm.currentDeath = null;
     };
 
@@ -136,6 +141,13 @@ function UpdateController($rootScope,
         return result;
     };
 
+    vm.saveFieldWorker = function() {
+        var result = vm.allFieldWorkers.filter(
+            function(fw) {
+                return fw.uuid === vm.currentFieldWorkerUuid;
+            });
+        vm.currentFieldWorker = result[0];
+    };
 
     vm.init = function() {
 

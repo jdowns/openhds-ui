@@ -36,28 +36,8 @@ describe('ResidencyService Test', function() {
                     startType: 'UNIT TEST',
                     collectionDateTime: 'nowish'
                 }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
             }
         ).respond(200, 'response one');
-
-        $httpBackend.expectPOST(
-            'http://example.com/residencies',
-            {
-                collectedByUuid: '123',
-                individualUuid: 'indB',
-                locationUuid: 'locA',
-                residency: {
-                    startDate: 'then',
-                    startType: 'UNIT TEST',
-                    collectionDateTime: 'nowish'
-                }
-            },
-            function(headers) {
-                return headers.authorization === 'Basic user:password';
-            }
-        ).respond(200, 'response two');
 
         var model = {
             currentFieldworker: {
@@ -79,15 +59,20 @@ describe('ResidencyService Test', function() {
                 }]
         };
 
-        var result = service.submit(model.currentFieldworker,
-                                    model.collectionDateTime,
-                                    model.residencies);
+        var startType = "UNIT TEST";
+        var individual = {uuid: "indA"};
+        var location = {uuid: "locA"};
 
-        Promise.all(result).then(function(response) {
-            //TODO: this is not executing correctly. it should fail
-            expect(response).toEqual(['response one', 'response 2']);
-        });
+        var result = service.submit(startType,
+                                    model.currentFieldworker,
+                                    individual,
+                                    location,
+                                    model.collectionDateTime,
+                                    model.residencies[0]);
 
         $httpBackend.flush();
+
+        expect(result.$$state.value.data).toEqual('response one');
+
     });
 });

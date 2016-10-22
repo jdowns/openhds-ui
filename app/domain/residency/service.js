@@ -38,7 +38,7 @@ function ResidencyService(EntityService) {
     };
 
 
-    service.submit = function(startType, fieldWorker,individual,location, collectionDate, entity) {
+    service.submit = function(startType, fieldWorker, individual, location, collectionDate, entity) {
         var model = {
             startType : startType,
             individual : individual,

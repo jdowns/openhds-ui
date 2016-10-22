@@ -13,25 +13,15 @@
 
 
                 <fieldset>
-                    <br/><br/>
-                    <div>
-                        <label for="currentIndividual">Individual: </label>
-                            <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
-                    </div>
-
-
-                    <br/><br/>
-
-
-                    <textbox label="Place of death" id="deathPlace" ng-model="model.currentDeath.place" disabled></textbox>
-                    <br /><br /> <!-- todo css padding -->
-                    <textbox label="Cause" id="deathCause" ng-model="model.currentDeath.cause"></textbox>
-                    <br /><br />
-                    <datebox label="Date of death" id="deathDate" ng-model="model.currentDeath.date"> </datebox>
-                    <br /><br />
-
-
-
+                  <br/><br/>
+                  <constbox label="Individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                  <br/><br/>
+                  <textbox label="Place of death" id="deathPlace" ng-model="model.currentDeath.place" disabled></textbox>
+                  <br /><br /> <!-- todo css padding -->
+                  <textbox label="Cause" id="deathCause" ng-model="model.currentDeath.cause"></textbox>
+                  <br /><br />
+                  <datebox label="Date of death" id="deathDate" ng-model="model.currentDeath.date"> </datebox>
+                  <br /><br />
                 </fieldset>
 
 
@@ -51,4 +41,3 @@
         </div>
     </div>
 </div>
-

@@ -6,7 +6,7 @@ angular.module('openhds')
 
 function LocationService(EntityService) {
     var service = this;
-    var urlBase = '/locations'
+    var urlBase = '/locations';
 
     function Request(model) {
         return {

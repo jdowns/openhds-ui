@@ -17,6 +17,7 @@ angular.module('BaselineModule', [])
                  'IndividualService',
                  'MembershipService',
                  'RelationshipService',
+                    'ResidencyService',
                  BaselineController]);
 
 function BaselineController($rootScope,
@@ -27,7 +28,8 @@ function BaselineController($rootScope,
                             SocialGroupService,
                             IndividualService,
                             MembershipService,
-                            RelationshipService)
+                            RelationshipService,
+                            ResidencyService)
 {
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -56,6 +58,7 @@ function BaselineController($rootScope,
     vm.submittedLocations = [];
     vm.submittedMemberships = [];
     vm.submittedRelationships = [];
+    vm.submittedResidencies = [];
 
     //remove to the real data holder
     vm.removeSelectedEntity = function removeItem(key, row) {
@@ -82,7 +85,7 @@ function BaselineController($rootScope,
     };
 
 
-    vm.residencyStartType = "CEN"
+    vm.residencyStartType = "CEN";
 
 
     vm.saveLocationHierarchy = function() {
@@ -108,6 +111,13 @@ function BaselineController($rootScope,
                 console.log(response);
                 vm.allIndividuals = response;
                 vm.individualDisplayCollection = [].concat(response);
+            });
+
+        ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
+            .then(function(response) {
+                console.log(response);
+                vm.allResidencies = response;
+                vm.residencyDisplayCollection = [].concat(response);
             });
     };
 
@@ -151,6 +161,20 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.currentIndividual = response.data;
+            });
+    };
+
+    vm.submitResidency = function(res) {
+        ResidencyService.submit(
+            vm.residencyStartType,
+            vm.currentFieldWorker,
+            vm.individual,
+            vm.selectedLocation,
+            vm.collectionDateTime,
+            res)
+            .then(function(response) {
+                console.log(response.data);
+                vm.submittedResidencies.push(response.data);
             });
     };
 

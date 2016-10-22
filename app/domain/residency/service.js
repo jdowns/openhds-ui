@@ -26,7 +26,9 @@ function ResidencyService(EntityService) {
             uuid: entity.uuid,
             extId: entity.extId,
             startType: entity.startType,
-            startDate: entity.startDate
+            startDate: entity.startDate,
+            individual: entity.individual,
+            location: entity.location
         };
     }
 

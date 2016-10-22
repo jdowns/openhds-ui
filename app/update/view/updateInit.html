@@ -22,7 +22,7 @@
         <!-- TODO: select location -->
         <label for="currentLocation">Location: </label>
         <div align="center">
-            <input type="text" id="currentLocation" ng-model="model.currentLocation.id" disabled />
+            <input type="text" id="currentLocation" ng-model="model.selectedLocation.name" disabled />
             <button class="btn btn-default" id="location-select" data-toggle="modal" data-target="#locationSelectModal">
                 Select Location
             </button>
@@ -39,6 +39,11 @@
         </button>
 
     </fieldset>
+</div>
+
+
+<div>
+    <pre> {{ model.residencies | json}}</pre>
 </div>
 
 <ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>

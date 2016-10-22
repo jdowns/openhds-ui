@@ -11,6 +11,7 @@ angular.module('UpdateModule', [])
                     'IndividualService',
                     'MembershipService',
                     'RelationshipService',
+                    'ResidencyService',
                     UpdateController ]);
 
 
@@ -22,10 +23,14 @@ function UpdateController($rootScope,
                           SocialGroupService,
                           IndividualService,
                           MembershipService,
-                          RelationshipService) {
+                          RelationshipService,
+                          ResidencyService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
+
+    vm.selectedHierarchy = [];
+
 
     vm.selectedLocation = null;
     vm.selectedIndividual = null;
@@ -99,12 +104,36 @@ function UpdateController($rootScope,
                 vm.allIndividuals = response;
                 vm.individualDisplayCollection = [].concat(response);
             });
-        IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+
+        ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 console.log(response);
-                vm.allIndividuals = response;
-                vm.individualDisplayCollection = [].concat(response);
+                vm.allResidencies = response;
+                vm.residencyDisplayCollection = [].concat(response);
             });
+
+
+    };
+
+    vm.setLocation = function(row) {
+        vm.selectedLocation = row;
+
+        vm.residencies = vm.allResidencies.filter(function(location){
+            return location.uuid === row.uuid;
+        });
+
+
+
+
+    };
+
+    vm.availableHierarchies = function() {
+        var result = [];
+
+        vm.selectedHierarchy.forEach(function(h) {
+            result.push(vm.locationHierarchies[h]);
+        });
+        return result;
     };
 
 

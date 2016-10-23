@@ -14,15 +14,9 @@
 
                 <fieldset>
 
-                    <div>
-                        <label for="currentIndividual">Mother: </label>
-                        <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
-                    </div>
-
                     <br/><br/>
-
-
-
+                    <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                    <br/><br/>
                     <datebox label="Expected Delivery Date" id="deliveryDate" ng-model="model.currentPregnancyObservation.deliveryDate"> </datebox>
                     <br /><br />
                     <datebox label="Pregnancy Date" id="pregnancyDate" ng-model="model.currentPregnancyObservation.pregnancyDate"> </datebox>

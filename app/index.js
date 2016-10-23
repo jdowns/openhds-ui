@@ -5,7 +5,7 @@ console.log('starting application');
 var app = angular.module('openhds',
     ['ngRoute', 'smart-table',
      'LoginModule', 'BaselineModule',
-     'ServiceModule', 'UpdateModule']);
+     'ServiceModule', 'UpdateModule', 'AuditModule']);
 
 
 
@@ -27,6 +27,11 @@ function routeConfig($routeProvider) {
         .when('/update', {
             templateUrl: 'update/view/update.html',
             controller: 'UpdateController',
+            controllerAs: 'model'
+        })
+        .when('/audit', {
+            templateUrl: 'audit/view/audit.html',
+            controller: 'AuditController',
             controllerAs: 'model'
         })
     ;

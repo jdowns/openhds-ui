@@ -16,7 +16,7 @@ function PregnancyOutcomeService(EntityService) {
             motherUuid: model.mother.uuid,
             pregnancyOutcome: {
                 outcomeDate: model.event.outcomeDate,
-                collectionDateTime: model.collectionDate
+                collectionDateTime: model.visit.visitDate
             }
         };
     }

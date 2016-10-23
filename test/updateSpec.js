@@ -23,6 +23,7 @@ describe('UpdateController', function() {
         $location = _$location_;
 	var args = {};
         controller = _$controller_('UpdateController', args);
+        $rootScope.restApiUrl = 'http://example.com';
     }));
 
     afterEach(function() {
@@ -45,8 +46,20 @@ describe('UpdateController', function() {
     });
 
     it('submitDeath sets currentDeath', function() {
-        controller.submitDeath();
-        expect(controller.currentDeath).toBeNull();
+        $httpBackend.expectPOST("http://example.com/deaths", {
+            "collectedByUuid":123,
+            "visitUuid":456,
+            "individualUuid":789,
+            "death":{"deathDate":"then"}
+        }) .respond({uuid: "xyz"});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.currentVisit = {uuid: 456};
+        controller.currentIndividual = {uuid: 789};
+        controller.submitDeath({deathDate: "then"});
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz"}]);
     });
 
     it('submitPregnancyObservation sets currentPregnancyObservation', function() {
@@ -107,7 +120,6 @@ describe('UpdateController', function() {
     });
 
     it('initializes', function() {
-        $rootScope.restApiUrl = 'http://example.com';
         var event = {
             preventDefault: function() {}
         };
@@ -145,6 +157,47 @@ describe('UpdateController', function() {
         expect(controller.allFieldWorkers).toEqual([{uuid: 1, id: 1, firstName: "test", "lastName": "test"}]);
         expect(controller.locationHierarchies).toEqual({1: []});
         expect(controller.allHierarchyLevels).toEqual([{uuid: 1}]);
+
+        delete $;
+    });
+
+    it('sets fieldworker', function() {
+        controller.setFieldWorker('foo');
+        expect(controller.currentFieldWorker).toEqual('foo');
+    });
+
+    it('submits visit', function() {
+        $ = function(value) {
+            return {
+                click: function(handler) {
+                    handler(event);
+                },
+                tab: function(e) {
+                    tabCalled = e;
+                }
+            };
+        };
+
+        $httpBackend.expectPOST("http://example.com/visits", {
+            "collectedByUuid":123,
+            "locationUuid":456,
+            "visit":{
+                "extId":"visitId",
+                "visitDate":"then",
+                "collectionDateTime": "then"
+            }
+        }).respond({uuid: "visit"});
+        controller.currentFieldWorker = {uuid: 123};
+        controller.selectedLocation = {uuid: 456};
+        controller.visitDate = "then";
+
+        controller.visit = {extId: "visitId", visitDate: "then"};
+
+        controller.submitVisit();
+
+        $httpBackend.flush();
+
+        expect(controller.currentVisit).toEqual({uuid: "visit"});
 
         delete $;
     });

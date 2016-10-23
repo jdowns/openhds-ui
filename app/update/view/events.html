@@ -94,16 +94,14 @@
     <table st-table="model.submittedEvents" class="table table-striped">
         <thead>
         <tr>
-            <th>extId</th>
             <th>event type</th>
             <th>individual</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="row in model.submittedEvents">
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{row.eventType}}</td>
+            <td>{{row.individual.extId}}</td>
             <td>
                 <button type="button" ng-click="model.removeSelectedEntity('selectedSocialGroups',row)" class="btn btn-sm btn-danger">
                     <i class="glyphicon glyphicon-remove-circle">

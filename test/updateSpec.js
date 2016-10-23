@@ -56,10 +56,12 @@ describe('UpdateController', function() {
         controller.currentFieldWorker = {uuid: 123};
         controller.currentVisit = {uuid: 456};
         controller.currentIndividual = {uuid: 789};
-        controller.submitDeath({deathDate: "then"});
+        controller.submitDeath({date: "then"});
         $httpBackend.flush();
 
-        expect(controller.submittedEvents).toEqual([{uuid: "xyz"}]);
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
+                                                     individual: {uuid: 789},
+                                                     eventType: "death"}]);
     });
 
     it('submitPregnancyObservation sets currentPregnancyObservation', function() {

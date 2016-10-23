@@ -14,7 +14,7 @@ function DeathService(EntityService) {
             visitUuid: model.visit.uuid,
             individualUuid: model.individual.uuid,
             death: {
-                deathDate: model.event.deathDate,
+                deathDate: model.event.date,
                 collectionDateTime: model.collectionDate
             }
         };
@@ -24,7 +24,7 @@ function DeathService(EntityService) {
                               individual, event) {
         var model = {
             fieldWorker: fieldWorker,
-            collectionDate: collectionDate,
+            collectionDate: visit.visitDate,
             visit: visit,
             individual: individual,
             event: event

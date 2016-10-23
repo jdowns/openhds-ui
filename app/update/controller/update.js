@@ -134,7 +134,10 @@ function UpdateController($rootScope,
 
 
     };
-
+    vm.setCurrentIndividual = function(row) {
+        vm.currentIndividual = row;
+        // TODO: set current residency within this method
+    };
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 

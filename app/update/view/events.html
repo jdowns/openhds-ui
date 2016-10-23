@@ -3,12 +3,17 @@
 
         <legend>Add Events</legend>
 
+            <label for="currentIndividual">Individual: </label>
+            <div align="center">
+                <input type="text" id="currentIndividual" ng-model="model.currentIndividual.extId" disabled />
+                <button class="btn btn-default" id="fieldworker-select" data-toggle="modal" data-target="#individualSelectModal">
+                    Select Individual
+                </button>
+            </div>
 
-        <selectbox label="Select Individual" id="individual" ng-model="model.event.individual">
-            <option>
-                TODO
-            </option>
-        </selectbox>
+
+
+
 
 
     </fieldSet>
@@ -113,3 +118,5 @@
 <ng-include src="'domain/death/partials/deathCreateModal.html'"></ng-include>
 <ng-include src="'domain/pregnancyObservation/partials/pregnancyObservationCreateModal.html'"></ng-include>
 <ng-include src="'domain/pregnancyOutcome/partials/pregnancyOutcomeCreateModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>

@@ -1,10 +1,4 @@
 'use strict';
-function initTab(id) {
-    $(id).click(function (e) {
-        e.preventDefault();
-        $(id).tab('show');
-    });
-}
 
 angular.module('BaselineModule', [])
     .controller('BaselineController',
@@ -201,11 +195,7 @@ function BaselineController($rootScope,
     };
 
     vm.init = function() {
-        var tabIds = ['#baselineTab', '#locationTab',
-                      '#groupTab', '#individualsTab',
-                      '#relationshipsTab'];
 
-        tabIds.map(initTab);
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})

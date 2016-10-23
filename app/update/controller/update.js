@@ -79,7 +79,12 @@ function UpdateController($rootScope,
     vm.submitDeath = function(event) {
         DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
             .then(function(response) {
-                vm.submittedEvents.push(response.data);
+                var event = {
+                    uuid: response.data.uuid,
+                    individual: vm.currentIndividual,
+                    eventType: "death"
+                };
+                vm.submittedEvents.push(event);
             });
         vm.currentDeath = null;
     };

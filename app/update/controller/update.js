@@ -28,7 +28,8 @@ function UpdateController($rootScope,
                           RelationshipService,
                           ResidencyService,
                           VisitService,
-                          DeathService) {
+                          DeathService,
+                          OutMigrationService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -61,9 +62,11 @@ function UpdateController($rootScope,
         vm.currentInMigration = null;
     };
 
-    vm.submitOutMigration = function(){
-        // post logic
-        // add to submitted events []
+    vm.submitOutMigration = function(event){
+        OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+            .then(function(response) {
+                vm.submittedEvents.push(response.data);
+            });
         vm.currentOutMigration = null;
     };
 

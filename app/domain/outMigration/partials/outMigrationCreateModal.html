@@ -22,7 +22,7 @@
                     <br /><br />
                     <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
                         <option>
-                            TODO
+                            <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
                         </option>
                     </selectbox>
                 </fieldset>

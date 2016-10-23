@@ -3,12 +3,17 @@
 
         <legend>Add Events</legend>
 
+            <label for="currentIndividual">Individual: </label>
+            <div align="center">
+                <input type="text" id="currentIndividual" ng-model="model.currentIndividual.extId" disabled />
+                <button class="btn btn-default" id="fieldworker-select" data-toggle="modal" data-target="#individualSelectModal">
+                    Select Individual
+                </button>
+            </div>
 
-        <selectbox label="Select Individual" id="individual" ng-model="model.event.individual">
-            <option>
-                TODO
-            </option>
-        </selectbox>
+
+
+
 
 
     </fieldSet>
@@ -21,7 +26,8 @@
 <div>
     <!-- TODO: logic of disabling buttons based on individual selected -->
 
-    <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal" data-target="#inMigrationCreateModal">
+    <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal"
+            data-target="#inMigrationCreateModal" ng-disabled="model.currentIndividual == null">
         <h4>In</h4>
         <h4>&nbspMigration&nbsp</h4>
 
@@ -30,7 +36,8 @@
         </h2>
     </button>
 
-    <button id="displayNewOutMigrationModal" class="btn btn-danger" data-toggle="modal" data-target="#outMigrationCreateModal">
+    <button id="displayNewOutMigrationModal" class="btn btn-danger" data-toggle="modal"
+            data-target="#outMigrationCreateModal" ng-disabled="model.currentIndividual == null">
         <h4>Out</h4>
         <h4>&nbspMigration&nbsp</h4>
 
@@ -41,7 +48,8 @@
 
 
 
-    <button id="displayNewPregnancyObservationModal" class="btn btn-default" data-toggle="modal" data-target="#pregnancyObservationCreateModal">
+    <button id="displayNewPregnancyObservationModal" class="btn btn-default" data-toggle="modal"
+            data-target="#pregnancyObservationCreateModal" ng-disabled="model.currentIndividual == null">
         <h4>Pregnancy</h4>
         <h4>Observation</h4>
 
@@ -50,7 +58,8 @@
         </h2>
 
     </button>
-    <button id="displayNewPregnancyOutcomeModal" class="btn btn-default" data-toggle="modal" data-target="#pregnancyOutcomeCreateModal">
+    <button id="displayNewPregnancyOutcomeModal" class="btn btn-default" data-toggle="modal"
+            data-target="#pregnancyOutcomeCreateModal" ng-disabled="model.currentIndividual == null">
         <h4>&nbspPregnancy&nbsp</h4>
         <h4>Outcome</h4>
 
@@ -59,7 +68,8 @@
 
         </h2>
     </button>
-    <button id="displayNewDeathModal" class="btn btn-primary" data-toggle="modal" data-target="#deathCreateModal">
+    <button id="displayNewDeathModal" class="btn btn-primary" data-toggle="modal"
+            data-target="#deathCreateModal" ng-disabled="model.currentIndividual == null">
         <h4> &nbsp&nbsp&nbsp Death &nbsp&nbsp&nbsp</h4>
         <h4><br/></h4>
 
@@ -113,3 +123,5 @@
 <ng-include src="'domain/death/partials/deathCreateModal.html'"></ng-include>
 <ng-include src="'domain/pregnancyObservation/partials/pregnancyObservationCreateModal.html'"></ng-include>
 <ng-include src="'domain/pregnancyOutcome/partials/pregnancyOutcomeCreateModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>

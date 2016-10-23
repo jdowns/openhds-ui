@@ -7,13 +7,14 @@ angular.module('UpdateModule', [])
                  'LocationHierarchyService',
                  'FieldWorkerService',
                  'LocationService',
-                 'SocialGroupService',
                  'IndividualService',
                  'MembershipService',
                  'RelationshipService',
                  'ResidencyService',
                  'VisitService',
                  'DeathService',
+                    'InMigrationService',
+                    'OutMigrationService',
                  UpdateController ]);
 
 
@@ -22,13 +23,14 @@ function UpdateController($rootScope,
                           LocationHierarchyService,
                           FieldWorkerService,
                           LocationService,
-                          SocialGroupService,
                           IndividualService,
                           MembershipService,
                           RelationshipService,
                           ResidencyService,
                           VisitService,
-                          DeathService) {
+                          DeathService,
+                          InMigrationService,
+                          OutMigrationService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -41,6 +43,7 @@ function UpdateController($rootScope,
     vm.submittedEvents = [];
 
 
+    vm.currentResidency = null;
     vm.currentInMigration = null;
     vm.currentOutMigration = null;
     vm.currentDeath = null;
@@ -55,15 +58,21 @@ function UpdateController($rootScope,
         $('#locationTab').tab('show');
     };
 
-    vm.submitInMigration = function(){
-        // post logic
-        // add to submitted events []
+    vm.submitInMigration = function(event){
+        InMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
+            .then(function(response) {
+                vm.submittedEvents.push(response.data);
+            });
         vm.currentInMigration = null;
     };
 
-    vm.submitOutMigration = function(){
-        // post logic
-        // add to submitted events []
+    vm.submitOutMigration = function(event){
+        OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
+            .then(function(response) {
+                vm.submittedEvents.push(response.data);
+            });
         vm.currentOutMigration = null;
     };
 
@@ -125,13 +134,17 @@ function UpdateController($rootScope,
 
 
     };
-
+    vm.setCurrentIndividual = function(row) {
+        vm.currentIndividual = row;
+        // TODO: set current residency within this method
+    };
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
         vm.residencies = vm.allResidencies.filter(function(location){
             return location.uuid === row.uuid;
         });
+
     };
 
     vm.availableHierarchies = function() {

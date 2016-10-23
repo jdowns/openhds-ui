@@ -13,19 +13,12 @@
 
 
                 <fieldset>
-
-                    <div>
-                        <label for="currentIndividual">Mother: </label>
-                        <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
-                    </div>
-
                     <br/><br/>
-
-
+                    <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                    <br/><br/>
                     <datebox label="Outcome Date" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.pregnancyDate"> </datebox>
                     <br /><br />
-
-                    <label for="currentIndividual">Father: </label>
+                    <label for="father">Father: </label>
                     <div align="center">
                         <input type="text" id="father" ng-model="model.individual" disabled />
                         <button class="btn btn-default" id="father-select" data-toggle="modal" data-target="#selectIndividualModal">

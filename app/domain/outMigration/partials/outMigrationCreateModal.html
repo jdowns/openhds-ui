@@ -13,20 +13,16 @@
 
 
                 <fieldset>
-                    <div>
-                        <label for="currentIndividual">Individual: </label>
-                        <input type="text" id="currentIndividual" ng-model="model.currentIndividual" disabled />
-                    </div>
-                    <br>
-
-
+                    <br/><br/>
+                    <constbox label="Individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                    <br/><br/>
                     <textbox label="Destination" id="origin" ng-model="model.currentOutMigration.destination"></textbox>
                     <br /><br /> <!-- todo css padding -->
                     <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
                     <br /><br />
                     <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
                         <option>
-                            TODO
+                            <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
                         </option>
                     </selectbox>
                 </fieldset>

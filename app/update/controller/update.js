@@ -7,13 +7,14 @@ angular.module('UpdateModule', [])
                  'LocationHierarchyService',
                  'FieldWorkerService',
                  'LocationService',
-                 'SocialGroupService',
                  'IndividualService',
                  'MembershipService',
                  'RelationshipService',
                  'ResidencyService',
                  'VisitService',
                  'DeathService',
+                    'InMigrationService',
+                    'OutMigrationService',
                  UpdateController ]);
 
 
@@ -22,13 +23,13 @@ function UpdateController($rootScope,
                           LocationHierarchyService,
                           FieldWorkerService,
                           LocationService,
-                          SocialGroupService,
                           IndividualService,
                           MembershipService,
                           RelationshipService,
                           ResidencyService,
                           VisitService,
                           DeathService,
+                          InMigrationService,
                           OutMigrationService) {
 
     var vm = this;
@@ -42,6 +43,7 @@ function UpdateController($rootScope,
     vm.submittedEvents = [];
 
 
+    vm.currentResidency = null;
     vm.currentInMigration = null;
     vm.currentOutMigration = null;
     vm.currentDeath = null;
@@ -56,14 +58,18 @@ function UpdateController($rootScope,
         $('#locationTab').tab('show');
     };
 
-    vm.submitInMigration = function(){
-        // post logic
-        // add to submitted events []
+    vm.submitInMigration = function(event){
+        InMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
+            .then(function(response) {
+                vm.submittedEvents.push(response.data);
+            });
         vm.currentInMigration = null;
     };
 
     vm.submitOutMigration = function(event){
-        OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+        OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
                 vm.submittedEvents.push(response.data);
             });
@@ -135,6 +141,7 @@ function UpdateController($rootScope,
         vm.residencies = vm.allResidencies.filter(function(location){
             return location.uuid === row.uuid;
         });
+
     };
 
     vm.availableHierarchies = function() {

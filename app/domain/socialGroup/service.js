@@ -33,6 +33,10 @@ function SocialGroupService(EntityService) {
         return EntityService.getBulk(urlBase, Response);
     };
 
+    service.getByUuid = function(uuid) {
+        return EntityService.getByUuid(urlBase, Response, uuid);
+    };
+
 
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {

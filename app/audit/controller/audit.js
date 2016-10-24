@@ -28,6 +28,74 @@ function AuditController($rootScope,
 
 
     var vm = this;
+    var headers = { authorization: "Basic " + $rootScope.credentials };
+
+    vm.currentEntity = null;
+
+    vm.temp = {
+        name: 'a thing'
+    };
+
+    vm.entityList = [
+        {
+            'name':'Location',
+            'code':'location'
+        },
+        {
+            'name':'Individual',
+            'code':'individual'
+        },
+        {
+            'name':'Household',
+            'code':'socialGroup'
+        }
+
+    ];
+
+
+    vm.searchEntity = function(){
+        switch(vm.entityType){
+            case null:
+                break;
+            case 'location':
+                vm.searchLocation();
+                break;
+            case 'individual':
+                vm.searchIndividual();
+                break;
+            case 'socialGroup':
+                vm.searchSocialGroup();
+                break;
+            default:
+                break;
+
+        }
+
+
+
+    };
+
+
+    vm.searchLocation = function(){
+        LocationService.getByUuid(vm.searchUuid)
+            .then(function(response) {
+                vm.currentEntity = response;
+            });
+    };
+
+    vm.searchIndividual = function(){
+        IndividualService.getByUuid(vm.searchUuid)
+            .then(function(response) {
+                vm.currentEntity = response;
+            });
+    };
+
+    vm.searchSocialGroup = function(){
+        SocialGroupService.getByUuid(vm.searchUuid)
+            .then(function(response) {
+                vm.currentEntity = response;
+            });
+    };
 
 
 
@@ -36,6 +104,14 @@ function AuditController($rootScope,
 
 
     vm.init = function() {
+
+
+        var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
+
+        $http.get(codesUrl, {headers: headers})
+            .then(function(response) {
+                vm.codes = response.data;
+            });
 
     };
 

@@ -30,6 +30,22 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+
+    service.getByUuid = function(urlBase, responseClass, uuid) {
+        var url = $rootScope.restApiUrl + urlBase + '/' + uuid;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';
         var responsePromise = $http.get(url, service.getHeaders());

@@ -27,6 +27,7 @@ module.exports = function(config) {
             'app/index.js',
             'app/update/**/*.js',
             'app/baseline/**/*.js',
+            'app/audit/**/*.js',
             'app/auth/controller/*.js',
             'app/auth/test/*.js',
             'app/domain/**/*.js',

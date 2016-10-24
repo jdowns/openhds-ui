@@ -169,33 +169,6 @@ describe('BaselineController', function() {
         expect(controller.currentFieldWorker).toEqual({uuid:2});
     });
 
-    it('initTab should register a click function', function() {
-        var event = {
-            preventDefault: function() {}
-        };
-
-        var tabCalled = false;
-
-        spyOn(event, 'preventDefault');
-
-        $ = function(value) {
-            return {
-                click: function(handler) {
-                    handler(event);
-                },
-                tab: function(e) {
-                    tabCalled = e;
-                }
-            };
-        };
-
-        initTab('foo');
-        delete $;
-
-        expect(event.preventDefault).toHaveBeenCalled();
-        expect(tabCalled).toEqual('show');
-    });
-
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3").respond({content: []});

@@ -46,6 +46,8 @@ function UpdateController($rootScope,
     vm.selectedIndividual = null;
     vm.submittedEvents = [];
 
+    vm.submittedVisits = [];
+
 
     vm.currentResidency = null;
     vm.currentInMigration = null;
@@ -68,7 +70,7 @@ function UpdateController($rootScope,
             .then(function(response) {
                 vm.currentVisit = response.data;
             });
-        $('#locationTab').tab('show');
+        $('#eventTab').tab('show');
     };
 
     vm.submitInMigration = function(event){
@@ -160,9 +162,17 @@ function UpdateController($rootScope,
 
 
     vm.finishVisit = function(){
+
+        vm.submittedVisits.push(vm.currentVisit);
+        vm.currentVisit = null;
+        vm.visit = null;
+
         vm.submittedEvents = [];
         vm.selectedLocation = null;
         vm.selectedIndividual = null;
+        $('#updateTab').tab('show');
+
+
     };
 
     vm.saveLocationHierarchy = function() {

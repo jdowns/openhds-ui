@@ -10,34 +10,37 @@
 </row>
 <hr>
 
-<!-- Display selected individuals -->
-<h4>Relationships:</h4>
-<table st-table="model.createdRelationships" class="table table-striped">
-    <thead>
-    <tr>
-        <th>Individual A</th>
-        <th>Individual B</th>
-        <th>Relationship Start Type</th>
-        <th>Relationship Start Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in model.submittedRelationships">
-        <td>{{row.individualA.uuid}}</td>
-        <td>{{row.individualB.uuid}}</td>
-        <td>{{row.relationshipType}}</td>
-        <td>{{row.startDate}}</td>
-        <td>
-            <button type="button" ng-click="model.removeSelectedEntity('submittedRelationships',row)" class="btn btn-sm btn-danger">
-                <i class="glyphicon glyphicon-remove-circle">
-                </i>
-            </button>
-        </td>
-    </tr>
+<div ng-if="model.submittedRelationships.length > 0">
+    <!-- Display selected individuals -->
+    <h4>Relationships:</h4>
+    <table st-table="model.createdRelationships" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Individual A</th>
+            <th>Individual B</th>
+            <th>Relationship Start Type</th>
+            <th>Relationship Start Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.submittedRelationships">
+            <td>{{row.individualA.uuid}}</td>
+            <td>{{row.individualB.uuid}}</td>
+            <td>{{row.relationshipType}}</td>
+            <td>{{row.startDate}}</td>
+            <td>
+                <button type="button" ng-click="model.removeSelectedEntity('submittedRelationships',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                </button>
+            </td>
+        </tr>
 
-    </tbody>
-</table>
-<hr>
+        </tbody>
+    </table>
+    <hr>
+
+</div>
 
 <button class="btn btn-primary pull-right"
         data-toggle="tab"

@@ -21,7 +21,7 @@ describe('UpdateController', function() {
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         $location = _$location_;
-	var args = {};
+        var args = {};
         controller = _$controller_('UpdateController', args);
         $rootScope.restApiUrl = 'http://example.com';
     }));
@@ -35,13 +35,45 @@ describe('UpdateController', function() {
         expect(controller).toBeDefined();
     });
 
-    it('submitInMigration sets currentInMigration', function() {
-        controller.submitInMigration();
+    it('submitInMigration submits currentInMigration', function() {
+        $httpBackend.expectPOST('http://example.com/inMigrations', {
+                "collectedByUuid":123,
+                "visitUuid":234,
+                "individualUuid":345,
+                "residencyUuid":456,
+                "inMigration":{"collectionDateTime":"then"}
+        }).respond({uuid: 999});
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = "then";
+        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
+        controller.currentIndividual = {uuid: 345};
+        controller.currentResidency = {uuid: 456};
+        controller.submitInMigration({});
+
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents[0]).toEqual({uuid: 999});
         expect(controller.currentInMigration).toBeNull();
     });
 
     it('submitOutMigration sets currentOutMigration', function() {
-        controller.submitOutMigration();
+        $httpBackend.expectPOST('http://example.com/outMigrations', {
+                "collectedByUuid":123,
+                "visitUuid":234,
+                "individualUuid":345,
+                "residencyUuid":456,
+                "outMigration":{"collectionDateTime":"then"}
+        }).respond({uuid: 999});
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = "then";
+        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
+        controller.currentIndividual = {uuid: 345};
+        controller.currentResidency = {uuid: 456};
+        controller.submitOutMigration({});
+
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents[0]).toEqual({uuid: 999});
         expect(controller.currentOutMigration).toBeNull();
     });
 
@@ -50,7 +82,7 @@ describe('UpdateController', function() {
             "collectedByUuid":123,
             "visitUuid":456,
             "individualUuid":789,
-            "death":{"deathDate":"then"}
+           "death":{"deathDate":"then"}
         }) .respond({uuid: "xyz"});
 
         controller.currentFieldWorker = {uuid: 123};
@@ -70,7 +102,35 @@ describe('UpdateController', function() {
     });
 
     it('submitPregnancyOutcome sets currentPregnancyOutcome', function() {
-        controller.submitPregnancyOutcome();
+        $httpBackend.expectPOST("http://example.com/pregnancyOutcomes", {
+                "collectedByUuid":123,
+                "visitUuid":456,
+                "fatherUuid":987,
+                "motherUuid":789,
+                "pregnancyOutcome":{"outcomeDate":"then"}
+        }) .respond({uuid: "xyz"});
+
+        $httpBackend.expectPOST('http://example.com/pregnancyResults', {
+            "collectedByUuid":123,
+	    "pregnancyResult":{} // TODO: this should expect some data
+        }).respond({});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = null;
+        controller.currentVisit = {uuid: 456};
+        controller.currentIndividual = {uuid: 789};
+        controller.currentPregnancyOutcome = {
+            father: {uuid: 987},
+            outcomeDate: "then"
+        };
+	controller.currentPregnancyResult = {
+            pregnancyResult: {type: "test"} //TODO: test for live birth logic
+	};
+
+        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome, controller.currentPregnancyResult);
+
+        $httpBackend.flush();
+
         expect(controller.currentPregnancyOutcome).toBeNull();
     });
 

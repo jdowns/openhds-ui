@@ -23,7 +23,8 @@
         <label for="currentLocation">Location: </label>
         <div align="center">
             <input type="text" id="currentLocation" ng-model="model.selectedLocation.name" disabled />
-            <button class="btn btn-default" id="location-select" data-toggle="modal" data-target="#locationSelectModal">
+            <button class="btn btn-default" id="location-select" data-toggle="modal" data-target="#locationSelectModal"
+                ng-disabled="model.selectedHierarchy.length < 1">
                 Select Location
             </button>
         </div>
@@ -33,7 +34,12 @@
         <hr>
         <button id="next"
                 class="btn btn-primary pull-right"
-                ng-click="model.submitVisit()">
+                ng-click="model.submitVisit()"
+                ng-disabled="model.visit.extId == '';
+                             model.visitDate == null;
+                             model.currentFieldworker == null;
+                             model.selectedHierarchy.length < 1;
+                             model.selectedLocation == null">
             Begin Visit
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>
@@ -42,9 +48,30 @@
 </div>
 
 
-<div>
-    <pre> {{ model.residencies | json}}</pre>
+
+<hr>
+
+
+<div ng-if="model.submittedVisits.length > 0">
+    <!-- Display submitted visits -->
+    <h4>Submitted Visits:</h4>
+    <table st-table="model.submittedVisits" class="table table-striped">
+        <thead>
+        <tr>
+            <th>extId</th>
+            <th>visit date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.submittedVisits">
+            <td id="{{row.extId}}">{{row.extId}}</td>
+            <td>{{row.visitDate}}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
+
 
 <ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
 <ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>

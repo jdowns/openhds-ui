@@ -15,8 +15,28 @@
 
         <!-- Main content -->
         <div class="col-md-10 no-float">
+            <div>
+                <ng-include src="'audit/view/auditTabBarPartial.html'"></ng-include>
 
-            <ng-include src="'audit/view/searchByUuid.html'"></ng-include>
+
+                <div class="tab-content">
+
+                    <!-- Lookup -->
+                    <div role="tabpanel" class="tab-pane fade in active" id="lookup">
+                        <ng-include src="'audit/view/auditLookup.html'"></ng-include>
+
+                    </div>
+
+                    <!-- Search -->
+                    <div role="tabpanel" class="tab-pane fade" id="search">
+                        <ng-include src="'audit/view/auditSearch.html'"></ng-include>
+                    </div>
+
+
+
+                </div>
+            </div>
+
 
 
         </div>

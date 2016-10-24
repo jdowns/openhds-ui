@@ -160,6 +160,18 @@ function UpdateController($rootScope,
             });
     };
 
+    vm.pregnancyDisableCheck = function(){
+        if(vm.currentIndividual == null){
+            return false;
+        }
+        else if( vm.currentIndividual.gender == "MALE"){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 
     vm.finishVisit = function(){
 

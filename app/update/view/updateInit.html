@@ -34,7 +34,12 @@
         <hr>
         <button id="next"
                 class="btn btn-primary pull-right"
-                ng-click="model.submitVisit()">
+                ng-click="model.submitVisit()"
+                ng-disabled="model.visit.extId == '';
+                             model.visitDate == null;
+                             model.currentFieldworker == null;
+                             model.selectedHierarchy.length < 1;
+                             model.selectedLocation == null">
             Begin Visit
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>

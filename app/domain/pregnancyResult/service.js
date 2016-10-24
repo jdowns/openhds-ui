@@ -9,9 +9,9 @@ function PregnancyResultService(EntityService) {
     var urlBase = "/pregnancyResults";
 
     function Request(model) {
+        console.log(model);
         return {
             collectedByUuid: model.fieldWorker.uuid,
-            visitUuid: model.visit.uuid,
             pregnancyOutcomeUuid: model.pregnancyOutcome.uuid,
             childUuid: model.child.uuid,
             pregnancyResult: {

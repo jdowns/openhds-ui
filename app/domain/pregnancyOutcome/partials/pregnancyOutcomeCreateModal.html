@@ -1,51 +1,138 @@
 <!--pregnancy outcome create modal -->
 <div class="modal fade" id="pregnancyOutcomeCreateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Outcome</h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <fieldset>
+          <br/><br/>
+          <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+          <br/><br/>
+          <datebox label="Outcome Date" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.outcomeDate"> </datebox>
+          <br /><br />
+          <selectbox label="Result Type" id="resultType" ng-model="model.currentPregnancyResult.type">
+            <option ng-if="code.codeGroup === 'pregnancyResultType'"
+                    ng-repeat="code in model.codes" value = "{{code.codeValue}}">
+              {{code.codeName}}
+            </option>
+          </selectbox>
+          <br /> <hr />
+          <div ng-hide="!model.currentPregnancyOutcome.father">
+            <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
+            <button ng-click="model.currentPregnancyOutcome.father = null">Clear</button>
+          </div>
+          <div ng-hide="model.currentPregnancyOutcome.father">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Outcome</h4>
+              <h4 class="modal-title">Father Select</h4>
             </div>
             <div class="modal-body">
 
+              <!-- Search for existing individual -->
+              <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>extId</th>
+                    <th st-sort="firstName">first</th>
+                    <th st-sort="lastName">last</th>
+                    <th>d.o.b.</th>
+                    <th>gender</th>
 
+                  </tr>
+                  <tr>
+                    <th></th>
+                    <th>
+                      <input st-search="extId" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                      <input st-search="firstName" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                      <input st-search="lastName" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th></th>
+                    <th></th>
 
-                <fieldset>
-                    <br/><br/>
-                    <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
-                    <br/><br/>
-                    <datebox label="Outcome Date" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.pregnancyDate"> </datebox>
-                    <br /><br />
-                    <label for="father">Father: </label>
-                    <div align="center">
-                        <input type="text" id="father" ng-model="model.individual" disabled />
-                        <button class="btn btn-default" id="father-select" data-toggle="modal" data-target="#selectIndividualModal">
-                            Select Father
-                        </button>
-                    </div>
-                    <br/><br/>
-
-                    // todo: logic regarding pregnancy result
-
-
-
-                </fieldset>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="row in model.individualDisplayCollection">
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="model.setFather(row)">
+                        select
+                      </button>
+                    </td>
+                    <td>{{row.extId}}</td>
+                    <td>{{row.firstName}}</td>
+                    <td>{{row.lastName}}</td>
+                    <td>{{row.dateOfBirth}}</td>
+                    <td>{{row.gender}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4" class="text-center">
+                      <div st-pagination="" st-items-by-page=10></div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        id="createPregnancyOutcome"
-                        ng-click="modal.submitPregnancyOutcome(model.currentPregnancyOutcome)">
-                Create
-                </button>
-
+              <button type="button" class="btn btn-primary" data-dismiss="modal">
+                Done
+              </button>
             </div>
-        </div>
-    </div>
-</div>
+          </div>
+          <hr />
+          <br /><br />
+          <div id="liveBirthResults" ng-show="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
+            <br/><br/>
+            <label>Child:</label> <br />
+            <textbox label="First Name" id="firstName" name="firstName"
+                     ng-model="model.currentPregnancyResult.child.firstName"></textbox>
+            <br /><br />
+            <textbox label="Last Name" id="lastName" name="lastName"
+                     ng-model="model.currentPregnancyResult.child.lastName"></textbox>
+            <br /><br />
+            <textbox label="External ID" id="extId" name="extId"
+                     ng-model="model.currentPregnancyResult.child.extId"></textbox>
+            <br /><br />
+            <selectbox ng-model="model.currentPregnancyResult.child.gender" id="gender" name="gender"
+                       label="Gender*">
+              <option ng-if="code.codeGroup === 'gender'"
+                      ng-repeat="code in model.codes"
+                      value="{{code.codeValue}}">{{code.codeName}}
+              </option>
+            </selectbox>
 
+          </div>
+
+
+        </fieldset>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success" data-dismiss="modal"
+                id="createPregnancyOutcome"
+                ng-click="model.submitPregnancyOutcome(model.currentPregnancyOutcome, model.currentPregnancyResult)">
+          Done
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>

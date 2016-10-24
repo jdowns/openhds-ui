@@ -9,7 +9,6 @@ function VisitService(EntityService) {
     var urlBase = "/visits";
 
     function Request(model) {
-        console.log(model)
         return {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,

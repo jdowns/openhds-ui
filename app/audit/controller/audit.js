@@ -32,9 +32,7 @@ function AuditController($rootScope,
 
     vm.currentEntity = null;
 
-    vm.temp = {
-        name: 'a thing'
-    };
+    vm.tempLoc = null;
 
     vm.entityList = [
         {
@@ -70,19 +68,27 @@ function AuditController($rootScope,
                 break;
 
         }
+    };
 
 
+    vm.toSubmit = {};
 
+    vm.setTemp = function(x){
+        vm[x] = angular.copy(vm.currentEntity);
     };
 
 
 
-
     vm.searchLocation = function(){
+        vm.currentEntity = null;
         LocationService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
+                vm.setTemp("tempLoc");
+                $("#editLocationModal").modal();
             });
+
+
     };
 
     vm.searchIndividual = function(){
@@ -101,15 +107,31 @@ function AuditController($rootScope,
 
 
 
+    vm.saveLocation = function(){
+        var temp = angular.copy(vm.currentEntity);
 
-    $(document).ready (function(){
-        $("#success-alert").hide();
-    });
+        // Placeholder
+        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
 
+
+        vm.toSubmit.location = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'collectedBy': temp.collectedBy,
+            'collectionDateTime': temp.collectionDateTime,
+            'extId': temp.extId,
+            'name': temp.name,
+            'type': temp.type,
+            'locationHierarchy': temp.locationHierarchy
+        };
+
+        vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
+
+
+    };
 
 
     vm.init = function() {
-        $("#success-alert").hide();
 
 
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";

@@ -41,7 +41,7 @@ function EntityService($rootScope, $http, $q) {
             responsePromise.then(
                 function(response) {
                     console.log("GOOD");
-                    var entities = response;
+                    var entities = response.data;
                     resolve(entities);
                 },
                 function(reject){

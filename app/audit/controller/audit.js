@@ -33,6 +33,7 @@ function AuditController($rootScope,
     vm.currentEntity = null;
 
     vm.tempLoc = null;
+    vm.tempIndiv = null;
 
     vm.entityList = [
         {
@@ -95,6 +96,8 @@ function AuditController($rootScope,
         IndividualService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
+                vm.setTemp("tempIndiv");
+                $("#editIndividualModal").modal();
             });
     };
 
@@ -109,6 +112,8 @@ function AuditController($rootScope,
 
     vm.saveLocation = function(){
         var temp = angular.copy(vm.tempLoc);
+
+        vm.toSubmit = {};
 
         // Placeholder
         vm.toSubmit.registrationDateTime = vm.collectionDateTime;
@@ -127,6 +132,25 @@ function AuditController($rootScope,
 
         vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
 
+    };
+
+    vm.saveIndividual = function(){
+        var temp = angular.copy(vm.tempIndiv);
+
+        vm.toSubmit = {};
+
+        // Placeholder
+        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
+        vm.toSubmit.individual = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'collectedBy': temp.collectedBy,
+            'collectionDateTime': temp.collectionDateTime,
+            'extId': temp.extId,
+            'firstName': temp.firstName,
+            'lastName': temp.lastName,
+            'locationHierarchy': temp.locationHierarchy
+        };
 
     };
 

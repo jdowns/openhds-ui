@@ -36,11 +36,19 @@ function EntityService($rootScope, $http, $q) {
 
         var responsePromise = $http.get(url, service.getHeaders());
 
+
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    var entities = response.data;
+                    console.log("GOOD");
+                    var entities = response;
                     resolve(entities);
+                },
+                function(reject){
+                    console.log(reject);
+                    window.alert("Status: " + reject.status +
+                        "\n" + reject.statusText);
+
                 }
             );
         });

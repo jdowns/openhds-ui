@@ -76,6 +76,8 @@ function AuditController($rootScope,
     };
 
 
+
+
     vm.searchLocation = function(){
         LocationService.getByUuid(vm.searchUuid)
             .then(function(response) {
@@ -100,10 +102,14 @@ function AuditController($rootScope,
 
 
 
+    $(document).ready (function(){
+        $("#success-alert").hide();
+    });
 
 
 
     vm.init = function() {
+        $("#success-alert").hide();
 
 
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";

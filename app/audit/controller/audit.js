@@ -29,6 +29,8 @@ function AuditController($rootScope,
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
+    vm.selectedHierarchy = [];
+
 
     vm.currentEntity = null;
 
@@ -52,18 +54,18 @@ function AuditController($rootScope,
     ];
 
 
-    vm.searchEntity = function(){
+    vm.lookupEntity = function(){
         switch(vm.entityType){
             case null:
                 break;
             case 'location':
-                vm.searchLocation();
+                vm.lookupLocation();
                 break;
             case 'individual':
-                vm.searchIndividual();
+                vm.lookupIndividual();
                 break;
             case 'socialGroup':
-                vm.searchSocialGroup();
+                vm.lookupSocialGroup();
                 break;
             default:
                 break;
@@ -80,7 +82,7 @@ function AuditController($rootScope,
 
 
 
-    vm.searchLocation = function(){
+    vm.lookupLocation = function(){
         vm.currentEntity = null;
         LocationService.getByUuid(vm.searchUuid)
             .then(function(response) {
@@ -92,7 +94,7 @@ function AuditController($rootScope,
 
     };
 
-    vm.searchIndividual = function(){
+    vm.lookupIndividual = function(){
         IndividualService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
@@ -101,7 +103,7 @@ function AuditController($rootScope,
             });
     };
 
-    vm.searchSocialGroup = function(){
+    vm.lookupSocialGroup = function(){
         SocialGroupService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
@@ -155,6 +157,66 @@ function AuditController($rootScope,
     };
 
 
+    vm.saveLocationHierarchy = function() {
+        var parentIndex = vm.selectedHierarchy.length - 2;
+        var lastIndex = vm.selectedHierarchy.length - 1;
+
+        var parent = vm.selectedHierarchy[parentIndex];
+        var last = vm.selectedHierarchy[lastIndex];
+        var children = vm.locationHierarchies[parent];
+        vm.currentHierarchy = children.filter(function(child) {
+            return child.uuid === last;
+        })[0];
+    };
+
+    vm.searchByHierarchy = function(){
+        console.log("GO------");
+        switch(vm.entityTypeBH){
+            case null:
+                break;
+            case 'location':
+                console.log("GOT HERE");
+                LocationService.getByHierarchy(vm.currentHierarchy.uuid)
+                    .then(function(response) {
+                        vm.allLocations = response;
+                        vm.locationDisplayCollection = [].concat(response);
+                    });
+                break;
+            case 'individual':
+                vm.lookupIndividual();
+                break;
+            case 'socialGroup':
+                vm.lookupSocialGroup();
+                break;
+            default:
+                break;
+
+        }
+    };
+
+    vm.viewJson = function(row){
+        vm.entityToView = row;
+        $("#entityJsonModal").modal();
+    };
+
+    vm.editLocation = function(row){
+        vm.currentEntity = row;
+        vm.setTemp("tempLoc");
+        $("#editLocationModal").modal();
+    };
+
+
+
+    vm.availableHierarchies = function() {
+        var result = [];
+
+        vm.selectedHierarchy.forEach(function(h) {
+            result.push(vm.locationHierarchies[h]);
+        });
+        return result;
+    };
+
+
     vm.init = function() {
 
 
@@ -164,6 +226,14 @@ function AuditController($rootScope,
             .then(function(response) {
                 vm.codes = response.data;
             });
+
+        LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
+            vm.locationHierarchies = hierarchyTree;
+        });
+        LocationHierarchyService.getLevels().then(function(response) {
+            vm.allHierarchyLevels = response.data;
+        });
+
 
     };
 

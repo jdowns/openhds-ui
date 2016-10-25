@@ -28,6 +28,11 @@
                     </div>
 
                     <!-- Search -->
+                    <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
+                        <ng-include src="'audit/view/searchByHierarchy.html'"></ng-include>
+                    </div>
+
+                    <!-- Search -->
                     <div role="tabpanel" class="tab-pane fade" id="search">
                         <ng-include src="'audit/view/auditSearch.html'"></ng-include>
                     </div>
@@ -42,10 +47,10 @@
         </div>
 
 
-
-
-
     </div>
 </div>
 
-
+<ng-include src="'domain/individual/partials/individualEditModal.html'"></ng-include>
+<ng-include src="'domain/location/partials/locationEditModal.html'"></ng-include>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
+<ng-include src="'core/partials/entityJsonModal.html'"></ng-include>

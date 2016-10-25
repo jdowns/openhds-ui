@@ -170,7 +170,7 @@ function UpdateController($rootScope,
         else{
             return true;
         }
-    }
+    };
 
 
     vm.finishVisit = function(){

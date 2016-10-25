@@ -108,7 +108,7 @@ function AuditController($rootScope,
 
 
     vm.saveLocation = function(){
-        var temp = angular.copy(vm.currentEntity);
+        var temp = angular.copy(vm.tempLoc);
 
         // Placeholder
         vm.toSubmit.registrationDateTime = vm.collectionDateTime;

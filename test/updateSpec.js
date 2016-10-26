@@ -112,7 +112,7 @@ describe('UpdateController', function() {
 
         $httpBackend.expectPOST('http://example.com/pregnancyResults', {
             "collectedByUuid":123,
-	    "pregnancyResult":{} // TODO: this should expect some data
+            "pregnancyResult":{type: "test"}
         }).respond({});
 
         controller.currentFieldWorker = {uuid: 123};
@@ -123,9 +123,49 @@ describe('UpdateController', function() {
             father: {uuid: 987},
             outcomeDate: "then"
         };
-	controller.currentPregnancyResult = {
-            pregnancyResult: {type: "test"} //TODO: test for live birth logic
-	};
+        controller.currentPregnancyResult = {
+            type: "test"
+        };
+
+        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome, controller.currentPregnancyResult);
+
+        $httpBackend.flush();
+
+        expect(controller.currentPregnancyOutcome).toBeNull();
+    });
+
+    it('creates individual if live birth', function() {
+        $httpBackend.expectPOST("http://example.com/pregnancyOutcomes", {
+                "collectedByUuid":123,
+                "visitUuid":456,
+                "fatherUuid":987,
+                "motherUuid":789,
+                "pregnancyOutcome":{"outcomeDate":"then"}
+        }) .respond({uuid: "xyz"});
+
+        $httpBackend.expectPOST('http://example.com/individuals', {
+            "collectedByUuid":123,
+            "individual":{}
+        }).respond({});
+
+        $httpBackend.expectPOST('http://example.com/pregnancyResults', {
+            "collectedByUuid":123,
+            "pregnancyOutcomeUuid":"xyz",
+            "pregnancyResult":{"type":"LIVE_BIRTH"}
+        }).respond({});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = null;
+        controller.currentVisit = {uuid: 456};
+        controller.currentIndividual = {uuid: 789};
+        controller.currentPregnancyOutcome = {
+            father: {uuid: 987},
+            outcomeDate: "then"
+        };
+        controller.currentPregnancyResult = {
+            child: {uuid: 12345},
+            type: "LIVE_BIRTH"
+        };
 
         controller.submitPregnancyOutcome(controller.currentPregnancyOutcome, controller.currentPregnancyResult);
 
@@ -226,6 +266,20 @@ describe('UpdateController', function() {
     it('sets fieldworker', function() {
         controller.setFieldWorker('foo');
         expect(controller.currentFieldWorker).toEqual('foo');
+    });
+
+    it('sets father', function() {
+        controller.currentPregnancyOutcome = null;
+        controller.setFather("father");
+        expect(controller.currentPregnancyOutcome.father).toEqual("father");
+
+        controller.setFather("12345");
+        expect(controller.currentPregnancyOutcome).toEqual({father: "12345"});
+    });
+
+    it('sets current individual', function() {
+        controller.setCurrentIndividual('foo');
+        expect(controller.currentIndividual).toEqual('foo');
     });
 
     it('submits visit', function() {

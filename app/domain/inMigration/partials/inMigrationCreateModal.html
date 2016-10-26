@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create In Migration</h4>
+                <h4 class="modal-title" >Create In Migration</h4>
             </div>
             <div class="modal-body">
 
@@ -20,15 +20,14 @@
 
                 <selectbox label="Migration Type" id="migrationType" ng-model="model.currentInMigration.migrationType">
 
-                    <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">{{code.codeName}}</option>
+                    <option ng-repeat="type in model.migrationTypes"
+                            value="{{type.codeValue}}">{{type.display}}</option>
 
                 </selectbox>
                 <br/><br/>
 
 
-                <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION' ||
-                            model.currentInMigration.migrationType === 'DEATH_MIGRATION' ">
+                <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
                         <constbox label="Individual" ng-model="model.individual.extId"></constbox>
                         <button ng-click="model.individual = null">Clear</button>
@@ -46,8 +45,7 @@
                     </div>
                 </div>
 
-                <div ng-if="model.currentInMigration.migrationType === 'EXTERNAL_MIGRATION' ||
-                            model.currentInMigration.migrationType === 'BIRTH_MIGRATION' ">
+                <div ng-if="model.currentInMigration.migrationType === 'EXTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
                         <constbox label="Individual" ng-model="model.individual.extId"></constbox>
                         <button ng-click="model.individual = null">Clear</button>

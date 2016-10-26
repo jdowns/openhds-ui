@@ -16,31 +16,36 @@
 </row>
 <hr>
 
-<!-- Display selected social groups -->
-<h4>Selected Social Groups:</h4>
-<table st-table="model.selectedSocialGroups" class="table table-striped">
-    <thead>
-    <tr>
-        <th>extId</th>
-        <th st-sort="groupName">group name</th>
-        <th>group type</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in model.selectedSocialGroups">
-        <td id="{{row.extId}}">{{row.extId}}</td>
-        <td>{{row.groupName}}</td>
-        <td>{{row.groupType}}</td>
-        <td>
-            <button type="button" ng-click="model.removeSelectedEntity('selectedSocialGroups',row)" class="btn btn-sm btn-danger">
-                <i class="glyphicon glyphicon-remove-circle">
-                </i>
-            </button>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<hr>
+
+<div ng-if="model.selectedSocialGroups.length > 0">
+    <!-- Display selected social groups -->
+    <h4>Selected Social Groups:</h4>
+    <table st-table="model.selectedSocialGroups" class="table table-striped">
+        <thead>
+        <tr>
+            <th>extId</th>
+            <th st-sort="groupName">group name</th>
+            <th>group type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.selectedSocialGroups">
+            <td id="{{row.extId}}">{{row.extId}}</td>
+            <td>{{row.groupName}}</td>
+            <td>{{row.groupType}}</td>
+            <td>
+                <button type="button" ng-click="model.removeSelectedEntity('selectedSocialGroups',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+</div>
+
 <button id="startIndividuals"
         class="btn btn-primary pull-right"
         onClick="$('#individualsTab').tab('show')"

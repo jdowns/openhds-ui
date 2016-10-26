@@ -21,8 +21,8 @@
                     <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
                     <br /><br />
                     <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
-                        <option>
-                            <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
+                        <option ng-repeat="type in model.migrationTypes" value="{{type.codeValue}}">
+                            {{type.display}}
                         </option>
                     </selectbox>
                 </fieldset>

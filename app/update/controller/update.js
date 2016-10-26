@@ -15,6 +15,7 @@ angular.module('UpdateModule', [])
                  'DeathService',
                  'InMigrationService',
                  'OutMigrationService',
+                 'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
                  UpdateController ]);
@@ -33,6 +34,7 @@ function UpdateController($rootScope,
                           DeathService,
                           InMigrationService,
                           OutMigrationService,
+                          PregnancyObservationService,
                           PregnancyOutcomeService,
                           PregnancyResultService) {
 
@@ -102,11 +104,18 @@ function UpdateController($rootScope,
         vm.currentDeath = null;
     };
 
-    vm.submitPregnancyObservation = function() {
-
-        // post logic
-        // add to submitted events []
-        vm.currentPregnancyObservation = null;
+    vm.submitPregnancyObservation = function(event) {
+        console.log('submit observation')
+        PregnancyObservationService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+            .then(function(response) {
+                var event = {
+                    uuid: response.data.uuid,
+                    individual: vm.currentIndividual,
+                    eventType: "pregnancy observation"
+                };
+                vm.submittedEvents.push(event);
+                vm.currentPregnancyObservation = null;
+            });
     };
 
     vm.submitPregnancyOutcome = function(outcome, result){

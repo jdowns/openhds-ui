@@ -15,8 +15,8 @@ function PregnancyObservationService(EntityService) {
             motherUuid: model.mother.uuid,
             pregnancyObservation: {
                 pregnancyDate: model.event.pregnancyDate,
-                expectedDeliveryDate: model.event.expectedDeliveryDate,
-                collectionDateTime: model.collectionDate
+                expectedDeliveryDate: model.event.deliveryDate,
+                collectionDateTime: model.visit.visitDate
             }
         };
     }

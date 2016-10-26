@@ -12,29 +12,54 @@
 
 
 
-                <fieldset>
-                    <label for="currentIndividual">Individual: </label>
-                    <div align="center">
-                        <input type="text" id="currentIndividual" ng-model="model.individual" disabled />
-                        <button class="btn btn-default" id="individual-select" data-toggle="modal" data-target="#selectIndividualModal">
-                            Select Individual
+
+                <textbox label="Origin" id="origin" ng-model="model.currentInMigration.origin"></textbox>
+                <br /><br /> <!-- todo css padding -->
+                <textbox label="Reason" id="reason" ng-model="model.currentInMigration.reason"></textbox>
+                <br /><br />
+
+                <selectbox label="Migration Type" id="migrationType" ng-model="model.currentInMigration.migrationType">
+
+                    <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes"
+                            value="{{code.codeValue}}">{{code.codeName}}</option>
+
+                </selectbox>
+                <br/><br/>
+
+
+                <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION' ||
+                            model.currentInMigration.migrationType === 'DEATH_MIGRATION' ">
+                    <div ng-hide="model.individual == null">
+                        <constbox label="Individual" ng-model="model.individual.extId"></constbox>
+                        <button ng-click="model.individual = null">Clear</button>
+                    </div>
+                    <div ng-hide="model.individual != null">
+                        <div align="center">
+                            <button class="btn btn-default" id="individual-select"
+                                    data-toggle="modal"
+                                    data-target="#individualSelectModalInMigrate"
+                                    data-dismiss="modal">
+                                Select Individual
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div ng-if="model.currentInMigration.migrationType === 'EXTERNAL_MIGRATION' ||
+                            model.currentInMigration.migrationType === 'BIRTH_MIGRATION' ">
+                    <div ng-hide="model.individual == null">
+                        <constbox label="Individual" ng-model="model.individual.extId"></constbox>
+                        <button ng-click="model.individual = null">Clear</button>
+                    </div>
+                    <div align="center" ng-hide="model.individual != null">
+                        <button class="btn btn-default" id="individual-create"
+                                data-toggle="modal"
+                                data-target="#individualCreateModalInMigrate">
+                            Create Individual
                         </button>
                     </div>
-                    <br/><br/>
-
-
-                    <textbox label="Origin" id="origin" ng-model="model.currentInMigration.origin"></textbox>
-                    <br /><br /> <!-- todo css padding -->
-                    <textbox label="Reason" id="reason" ng-model="model.currentInMigration.reason"></textbox>
-                    <br /><br />
-                    <selectbox label="Migration Type" id="migrationType" ng-model="model.currentInMigration.migrationType">
-
-                        <option ng-if="code.codeGroup === 'migrationType'" ng-repeat="code in model.codes"
-                                value="{{code.codeValue}}">{{code.codeName}}</option>
-
-                    </selectbox>
-
-
+                </div>
 
                 </fieldset>
 
@@ -47,12 +72,149 @@
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         id="createInMigration"
-                        ng-click="modal.submitInMigration(model.currentInMigration)">
+                        ng-click="modal.submitInMigration(model.currentInMigration)"
+                        ng-disabled="model.currentInMigration.migrationType == null;
+                                     model.individual == null">
                     Create
                 </button>
-
             </div>
         </div>
     </div>
 </div>
 
+
+
+<!-- individual select modal -->
+<div class="modal fade" id="individualSelectModalInMigrate" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Individual Select</h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- Search for existing individual -->
+                <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th st-sort="firstName">first</th>
+                        <th st-sort="lastName">last</th>
+                        <th>d.o.b.</th>
+                        <th>gender</th>
+
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="firstName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="lastName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.individualDisplayCollection">
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.individual = row"
+                                    data-target="#inMigrationCreateModal" data-dismiss="modal">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.dateOfBirth}}</td>
+                        <td>{{row.gender}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div st-pagination="" st-items-by-page=10></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- individual create modal -->
+<div class="modal fade" id="individualCreateModalInMigrate" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create New Individual</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset>
+                    <textbox label="First Name" id="firstName" name="firstName"
+                             ng-model="model.individual.firstName"></textbox>
+                    <br /><br />
+                    <textbox label="Last Name" id="lastName" name="lastName"
+                             ng-model="model.individual.lastName"></textbox>
+                    <br /><br />
+                    <textbox label="External ID" id="extId" name="extId"
+                             ng-model="model.individual.extId"></textbox>
+                    <br /><br />
+                    <selectbox ng-model="model.individual.gender" id="gender" name="gender"
+                               label="Gender*">
+                        <option ng-if="code.codeGroup === 'gender'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br /><br />
+                    <datebox label="Date Of Birth" id="dateOfBirth"
+                             ng-model="model.individual.dateOfBirth"></datebox>
+                    <br /><br />
+
+
+                    <datebox label="Residency Start Date" id="residencyStartDate"
+                             ng-model="model.residency.startDate"></datebox>
+                    <br /><br />
+                </fieldset>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.submitIndividual(model.individual)"
+                        data-dismiss="modal">
+                    Create New Individual
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -160,6 +160,17 @@ function UpdateController($rootScope,
             });
     };
 
+    // For External In-Migration
+    vm.submitIndividual = function(indiv){
+        IndividualService.submit(vm.currentFieldWorker,
+            vm.collectionDateTime,
+            indiv)
+            .then(function(response) {
+                console.log(response.data);
+                vm.currentIndividual = response.data;
+            });
+    };
+
     vm.pregnancyDisableCheck = function(){
         if(vm.currentIndividual == null){
             return false;

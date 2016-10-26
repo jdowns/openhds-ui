@@ -37,7 +37,7 @@ function AuditController($rootScope,
     vm.tempLoc = null;
     vm.tempIndiv = null;
 
-    vm.entityList = [
+    vm.lookupList = [
         {
             'name':'Location',
             'code':'location'
@@ -49,6 +49,18 @@ function AuditController($rootScope,
         {
             'name':'Household',
             'code':'socialGroup'
+        }
+
+    ];
+
+    vm.byHierarchyList = [
+        {
+            'name':'Location',
+            'code':'location'
+        },
+        {
+            'name':'Individual',
+            'code':'individual'
         }
 
     ];
@@ -129,7 +141,7 @@ function AuditController($rootScope,
             'extId': temp.extId,
             'name': temp.name,
             'type': temp.type,
-            'locationHierarchy': temp.locationHierarchy
+            'description': temp.description
         };
 
         vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
@@ -187,9 +199,6 @@ function AuditController($rootScope,
                         vm.individualDisplayCollection = [].concat(response);
                     });
                 break;
-            case 'socialGroup':
-                vm.lookupSocialGroup();
-                break;
             default:
                 break;
 
@@ -205,6 +214,12 @@ function AuditController($rootScope,
         vm.currentEntity = row;
         vm.setTemp("tempLoc");
         $("#editLocationModal").modal();
+    };
+
+    vm.editIndividual = function(row){
+        vm.currentEntity = row;
+        vm.setTemp("tempIndiv");
+        $("#editIndividualModal").modal();
     };
 
 

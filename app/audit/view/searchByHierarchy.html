@@ -12,7 +12,9 @@
             <label for="hierarchy-select">Location Hierarchy: </label>
 
             <div align="center">
-                <button class="btn btn-default" id="hierarchy-select" data-toggle="modal" data-target="#hierarchyModal">
+                <button class="btn btn-default" id="hierarchy-select"
+                        data-toggle="modal"
+                        data-target="#hierarchyModal">
                     Select Hierarchy
                 </button>
             </div>
@@ -21,7 +23,7 @@
 
         <br /><br/>
         <selectbox label="Entity Type" id="entityType" ng-model="model.entityTypeBH">
-            <option ng-repeat="ent in model.entityList"
+            <option ng-repeat="ent in model.byHierarchyList"
                     value="{{ent.code}}">{{ent.name}}</option>
         </selectbox>
         <br/><br/>

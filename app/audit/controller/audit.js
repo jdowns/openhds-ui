@@ -36,6 +36,7 @@ function AuditController($rootScope,
 
     vm.tempLoc = null;
     vm.tempIndiv = null;
+    vm.tempSocial = null;
 
     vm.lookupList = [
         {
@@ -119,6 +120,9 @@ function AuditController($rootScope,
         SocialGroupService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
+                vm.setTemp("tempSocial")
+                $("#editSocialGroupModal").modal();
+
             });
     };
 
@@ -163,7 +167,24 @@ function AuditController($rootScope,
             'extId': temp.extId,
             'firstName': temp.firstName,
             'lastName': temp.lastName,
-            'locationHierarchy': temp.locationHierarchy
+        };
+
+    };
+
+    vm.saveSocialGroup = function(){
+        var temp = angular.copy(vm.tempSocial);
+
+        vm.toSubmit = {};
+
+        // Placeholder
+        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
+        vm.toSubmit.socialGroup = {
+            'uuid': temp.uuid,
+            'extId': temp.extId,
+            'collectedBy': temp.collectedBy,
+            'collectionDateTime': temp.collectionDateTime,
+            'groupName': temp.groupName,
+            'groupType': temp.groupType
         };
 
     };

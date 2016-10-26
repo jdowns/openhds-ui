@@ -35,6 +35,10 @@ function LocationService(EntityService) {
         return EntityService.getByHierarchy(urlBase, Response, uuid);
     };
 
+    service.getByUuid = function(uuid) {
+        return EntityService.getByUuid(urlBase, Response, uuid);
+    };
+
     service.submit = function(fieldWorker, collectionDate, hierarchy, entity) {
         var model = {
             fieldWorker: fieldWorker,

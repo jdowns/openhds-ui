@@ -20,12 +20,12 @@ describe('PregnancyOutcome Service Test', function() {
             fatherUuid: 101112,
             pregnancyOutcome: {
                 outcomeDate: "then",
-                collectionDateTime: "01-13-2016"
+                collectionDateTime: "01-14-2016"
             }
         }).respond(200, "posted outcome");
 
         var fieldWorker = {uuid: 123};
-        var visit = {uuid: 456};
+        var visit = {uuid: 456, visitDate: '01-14-2016'};
         var individual = {uuid: 789};
         var father = {uuid: 101112};
         var collectionDate = "01-13-2016";

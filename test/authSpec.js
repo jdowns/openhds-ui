@@ -10,6 +10,7 @@ describe('LoginController', function() {
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
+    beforeEach(module('AuditModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('smart-table'));
 

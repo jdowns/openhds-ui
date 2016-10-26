@@ -170,12 +170,10 @@ function AuditController($rootScope,
     };
 
     vm.searchByHierarchy = function(){
-        console.log("GO------");
         switch(vm.entityTypeBH){
             case null:
                 break;
             case 'location':
-                console.log("GOT HERE");
                 LocationService.getByHierarchy(vm.currentHierarchy.uuid)
                     .then(function(response) {
                         vm.allLocations = response;
@@ -183,7 +181,11 @@ function AuditController($rootScope,
                     });
                 break;
             case 'individual':
-                vm.lookupIndividual();
+                IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+                    .then(function(response) {
+                        vm.allIndividuals = response;
+                        vm.individualDisplayCollection = [].concat(response);
+                    });
                 break;
             case 'socialGroup':
                 vm.lookupSocialGroup();

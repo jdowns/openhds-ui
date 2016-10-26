@@ -105,7 +105,6 @@ function UpdateController($rootScope,
     };
 
     vm.submitPregnancyObservation = function(event) {
-        console.log('submit observation')
         PregnancyObservationService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
             .then(function(response) {
                 var event = {

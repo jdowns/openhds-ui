@@ -175,12 +175,38 @@ describe('UpdateController', function() {
     });
 
     it('finishVisit resets submittedEvents, selectLocation and selectedIndividual', function() {
+        $ = function(value) {
+            return {
+                click: function(handler) {
+                    handler(event);
+                },
+                tab: function(e) {
+                    tabCalled = e;
+                }
+            };
+        };
         controller.finishVisit();
         expect(controller.submittedEvents).toEqual([]);
         expect(controller.selectedLocation).toBeNull();
         expect(controller.selectedIndividual).toBeNull();
+
+        delete $;
     });
 
+    it('shows no pregnancy option if currentIndividual is null', function() {
+        controller.currentIndividual = null;
+        expect(controller.pregnancyDisableCheck()).toBeFalse();
+    });
+
+    it('shows no pregnancy option if currentIndividual is male', function() {
+        controller.currentIndividual = {gender: "MALE"};
+        expect(controller.pregnancyDisableCheck()).toBeFalse();
+    });
+
+    it('shows pregnancy option if currentIndividual is not male', function() {
+        controller.currentIndividual = {};
+        expect(controller.pregnancyDisableCheck()).toBeTrue();
+    });
 
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';

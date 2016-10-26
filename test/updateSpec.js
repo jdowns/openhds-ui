@@ -195,17 +195,17 @@ describe('UpdateController', function() {
 
     it('shows no pregnancy option if currentIndividual is null', function() {
         controller.currentIndividual = null;
-        expect(controller.pregnancyDisableCheck()).toBeFalse();
+        expect(controller.pregnancyDisableCheck()).toBe(false);
     });
 
     it('shows no pregnancy option if currentIndividual is male', function() {
         controller.currentIndividual = {gender: "MALE"};
-        expect(controller.pregnancyDisableCheck()).toBeFalse();
+        expect(controller.pregnancyDisableCheck()).toBe(false);
     });
 
     it('shows pregnancy option if currentIndividual is not male', function() {
         controller.currentIndividual = {};
-        expect(controller.pregnancyDisableCheck()).toBeTrue();
+        expect(controller.pregnancyDisableCheck()).toBe(true);
     });
 
     it('Save location hierarchy saves location hierarchy', function() {

@@ -37,6 +37,8 @@ function AuditController($rootScope,
     vm.tempLoc = null;
     vm.tempIndiv = null;
     vm.tempSocial = null;
+    vm.toSubmit = {};
+
 
     vm.lookupList = [
         {
@@ -68,6 +70,7 @@ function AuditController($rootScope,
 
 
     vm.lookupEntity = function(){
+        vm.toSubmit = {};
         switch(vm.entityType){
             case null:
                 break;
@@ -87,7 +90,7 @@ function AuditController($rootScope,
     };
 
 
-    vm.toSubmit = {};
+
 
     vm.setTemp = function(x){
         vm[x] = angular.copy(vm.currentEntity);
@@ -97,7 +100,7 @@ function AuditController($rootScope,
 
     vm.lookupLocation = function(){
         vm.currentEntity = null;
-        LocationService.getByUuid(vm.searchUuid)
+        LocationService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.setTemp("tempLoc");
@@ -108,7 +111,7 @@ function AuditController($rootScope,
     };
 
     vm.lookupIndividual = function(){
-        IndividualService.getByUuid(vm.searchUuid)
+        IndividualService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.setTemp("tempIndiv");
@@ -117,7 +120,7 @@ function AuditController($rootScope,
     };
 
     vm.lookupSocialGroup = function(){
-        SocialGroupService.getByUuid(vm.searchUuid)
+        SocialGroupService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.setTemp("tempSocial")

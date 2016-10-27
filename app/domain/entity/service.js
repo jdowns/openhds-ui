@@ -31,8 +31,8 @@ function EntityService($rootScope, $http, $q) {
     };
 
 
-    service.getByUuid = function(urlBase, responseClass, uuid) {
-        var url = $rootScope.restApiUrl + urlBase + '/' + uuid;
+    service.getByExtId = function(urlBase, responseClass, extId) {
+        var url = $rootScope.restApiUrl + urlBase + '/external/' + extId;
 
         var responsePromise = $http.get(url, service.getHeaders());
 
@@ -40,8 +40,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    console.log("GOOD");
-                    var entities = response.data;
+                    var entities = response.data.content[0];
                     resolve(entities);
                 },
                 function(reject){

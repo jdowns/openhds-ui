@@ -293,6 +293,10 @@ function AuditController($rootScope,
                 vm.codes = response.data;
             });
 
+        FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
+            vm.allFieldWorkers = fieldworkers;
+        });
+
         LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
         });

@@ -1,6 +1,7 @@
 <div>
 
     <br/><br/>
+    <!-- alert to inform user why actions are disabled -->
     <div class="alert alert-danger" role="alert"
             ng-if="model.entityType != null &&
                    model.entityType != 'location' &&
@@ -11,7 +12,9 @@
     <fieldset>
         <div ng-hide="model.currentHierarchy == null">
             <constbox label="Location Hierarchy" ng-model="model.currentHierarchy.extId"></constbox>
-            <button class="btn btn-danger" ng-click="model.currentHierarchy = null">Clear</button>
+            <button class="btn btn-danger" ng-click="model.currentHierarchy = null">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
         </div>
         <div ng-hide="model.currentHierarchy != null">
             <label for="hierarchy-select">Location Hierarchy: </label>

@@ -1,0 +1,44 @@
+<div>
+
+    <br/><br/>
+
+
+    <fieldset>
+        <div ng-hide="model.currentFieldWorker == null">
+            <constbox label="Field Worker" ng-model="model.currentFieldWorker.id"></constbox>
+            <button class="btn btn-danger" ng-click="model.currentFieldWorker = null">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+        <div ng-hide="model.currentFieldWorker != null">
+            <label for="hierarchy-select">Field Worker: </label>
+
+            <div align="center">
+                <button class="btn btn-default" id="hierarchy-select"
+                        data-toggle="modal"
+                        data-target="#fieldworkerModal">
+                    Select Field Worker
+                </button>
+            </div>
+        </div>
+
+
+        <br/>
+
+
+    </fieldset>
+
+    <button id="searchHierarchy"
+            class="btn btn-primary pull-right"
+            ng-click="model.searchByHierarchy()"
+            ng-disabled="model.currentFieldWorker == null">
+        Search
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <br/><br/>
+
+
+</div>
+
+
+

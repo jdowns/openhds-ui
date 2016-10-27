@@ -45,9 +45,7 @@ function BaselineController($rootScope,
 
     vm.selectedRelationships = [];
 
-    vm.setFieldWorker = function(fw){
-        vm.currentFieldWorker = fw;
-    };
+
 
     vm.submittedLocations = [];
     vm.submittedMemberships = [];
@@ -62,13 +60,6 @@ function BaselineController($rootScope,
         }
     };
 
-    vm.saveFieldWorker = function() {
-        var result = vm.allFieldWorkers.filter(
-            function(fw) {
-                return fw.uuid === vm.currentFieldWorkerUuid;
-            });
-        vm.currentFieldWorker = result[0];
-    };
 
     vm.setLocation = function(row) {
         vm.selectedLocation = row;

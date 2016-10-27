@@ -46,9 +46,14 @@
 
                     </div>
 
-                    <!-- Search -->
+                    <!-- Search By Hierarchy-->
                     <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
                         <ng-include src="'audit/view/searchByHierarchy.html'"></ng-include>
+                    </div>
+
+                    <!-- Search By Field Worker-->
+                    <div role="tabpanel" class="tab-pane fade" id="byFieldWorker">
+                        <ng-include src="'audit/view/searchByFieldWorker.html'"></ng-include>
                     </div>
 
                 </div>
@@ -68,6 +73,8 @@
 
 
 <ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
+
 <ng-include src="'core/partials/entityJsonModal.html'"></ng-include>
 
 <ng-include src="'domain/individual/partials/individualEditModal.html'"></ng-include>

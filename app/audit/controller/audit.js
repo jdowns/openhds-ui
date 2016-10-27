@@ -176,7 +176,7 @@ function AuditController($rootScope,
             'collectionDateTime': temp.collectionDateTime,
             'extId': temp.extId,
             'firstName': temp.firstName,
-            'lastName': temp.lastName,
+            'lastName': temp.lastName
         };
 
     };
@@ -213,21 +213,22 @@ function AuditController($rootScope,
     };
 
     vm.searchByHierarchy = function(){
+        vm.queryResult.entityType = vm.entityType;
         switch(vm.entityType){
             case null:
                 break;
             case 'location':
                 LocationService.getByHierarchy(vm.currentHierarchy.uuid)
                     .then(function(response) {
-                        vm.allLocations = response;
-                        vm.locationDisplayCollection = [].concat(response);
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
             case 'individual':
                 IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
                     .then(function(response) {
-                        vm.allIndividuals = response;
-                        vm.individualDisplayCollection = [].concat(response);
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
 

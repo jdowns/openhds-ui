@@ -1,6 +1,12 @@
 <div>
 
     <br/><br/>
+    <div class="alert alert-danger" role="alert"
+            ng-if="model.entityType != null &&
+                   model.entityType != 'location' &&
+                   model.entityType != 'individual'">
+        Search by hierarchy is only available for locations and individuals
+    </div>
 
     <fieldset>
         <div ng-hide="model.currentHierarchy == null">
@@ -13,7 +19,10 @@
             <div align="center">
                 <button class="btn btn-default" id="hierarchy-select"
                         data-toggle="modal"
-                        data-target="#hierarchyModal">
+                        data-target="#hierarchyModal"
+                        ng-disabled="model.entityType == null ||
+                                    model.entityType != 'location' &&
+                                    model.entityType != 'individual'">
                     Select Hierarchy
                 </button>
             </div>
@@ -27,7 +36,8 @@
 
     <button id="searchHierarchy"
             class="btn btn-primary pull-right"
-            ng-click="model.searchByHierarchy()">
+            ng-click="model.searchByHierarchy()"
+            ng-disabled="model.currentHierarchy == null">
         Search
         <span class="glyphicon glyphicon-search"></span>
     </button>

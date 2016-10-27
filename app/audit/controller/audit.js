@@ -36,8 +36,9 @@ function AuditController($rootScope,
 
     vm.tempLoc = null;
     vm.tempIndiv = null;
+    vm.tempSocial = null;
 
-    vm.entityList = [
+    vm.lookupList = [
         {
             'name':'Location',
             'code':'location'
@@ -49,6 +50,18 @@ function AuditController($rootScope,
         {
             'name':'Household',
             'code':'socialGroup'
+        }
+
+    ];
+
+    vm.byHierarchyList = [
+        {
+            'name':'Location',
+            'code':'location'
+        },
+        {
+            'name':'Individual',
+            'code':'individual'
         }
 
     ];
@@ -107,6 +120,9 @@ function AuditController($rootScope,
         SocialGroupService.getByUuid(vm.searchUuid)
             .then(function(response) {
                 vm.currentEntity = response;
+                vm.setTemp("tempSocial")
+                $("#editSocialGroupModal").modal();
+
             });
     };
 
@@ -129,7 +145,7 @@ function AuditController($rootScope,
             'extId': temp.extId,
             'name': temp.name,
             'type': temp.type,
-            'locationHierarchy': temp.locationHierarchy
+            'description': temp.description
         };
 
         vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
@@ -151,7 +167,24 @@ function AuditController($rootScope,
             'extId': temp.extId,
             'firstName': temp.firstName,
             'lastName': temp.lastName,
-            'locationHierarchy': temp.locationHierarchy
+        };
+
+    };
+
+    vm.saveSocialGroup = function(){
+        var temp = angular.copy(vm.tempSocial);
+
+        vm.toSubmit = {};
+
+        // Placeholder
+        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
+        vm.toSubmit.socialGroup = {
+            'uuid': temp.uuid,
+            'extId': temp.extId,
+            'collectedBy': temp.collectedBy,
+            'collectionDateTime': temp.collectionDateTime,
+            'groupName': temp.groupName,
+            'groupType': temp.groupType
         };
 
     };
@@ -170,12 +203,10 @@ function AuditController($rootScope,
     };
 
     vm.searchByHierarchy = function(){
-        console.log("GO------");
         switch(vm.entityTypeBH){
             case null:
                 break;
             case 'location':
-                console.log("GOT HERE");
                 LocationService.getByHierarchy(vm.currentHierarchy.uuid)
                     .then(function(response) {
                         vm.allLocations = response;
@@ -183,10 +214,11 @@ function AuditController($rootScope,
                     });
                 break;
             case 'individual':
-                vm.lookupIndividual();
-                break;
-            case 'socialGroup':
-                vm.lookupSocialGroup();
+                IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+                    .then(function(response) {
+                        vm.allIndividuals = response;
+                        vm.individualDisplayCollection = [].concat(response);
+                    });
                 break;
             default:
                 break;
@@ -203,6 +235,12 @@ function AuditController($rootScope,
         vm.currentEntity = row;
         vm.setTemp("tempLoc");
         $("#editLocationModal").modal();
+    };
+
+    vm.editIndividual = function(row){
+        vm.currentEntity = row;
+        vm.setTemp("tempIndiv");
+        $("#editIndividualModal").modal();
     };
 
 

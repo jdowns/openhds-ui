@@ -198,6 +198,20 @@ function UpdateController($rootScope,
 
     };
 
+    vm.migrationTypes = [
+        {
+            display: "Internal",
+            codeValue : "INTERNAL_MIGRATION",
+            description : "migrated between locations in the study area"
+        },
+        {
+            display: "External",
+            codeValue : "EXTERNAL_MIGRATION",
+            description : "migrated from a location outside the study area"
+        }
+    ];
+
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;

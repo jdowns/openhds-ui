@@ -266,6 +266,13 @@ function AuditController($rootScope,
     };
 
 
+    vm.clearResults = function(){
+        vm.queryResult.entityType = null;
+        vm.queryResult.data = [];
+        vm.queryResult.displayCollection = [];
+    };
+
+
     vm.init = function() {
 
 

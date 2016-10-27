@@ -1,13 +1,24 @@
 <div>
 
+    <br/>
+
     <!-- Locations -->
     <div ng-if="model.queryResult.displayCollection.length > 0 &&
                 model.entityType == 'location' &&
-                model.queryResult.entityType === model.entityType">
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
+
         <!-- Display locations -->
         <h4>Locations:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
-
 
             <thead>
             <tr>
@@ -58,7 +69,16 @@
     <!-- Individuals -->
     <div ng-if="model.queryResult.displayCollection.length > 0 &&
                 model.entityType == 'individual' &&
-                model.queryResult.entityType === model.entityType">
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
         <!-- Display locations -->
         <h4>Individuals:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
@@ -117,18 +137,27 @@
 
 
     <!-- Social Groups -->
-    <div ng-if="model.socialGroupDisplayCollection.length > 0 &&
+    <div ng-if="model.queryResult.displayCollection.length > 0 &&
                 model.entityType == 'socialGroup' &&
-                model.queryResult.entityType === model.entityType">
-        <!-- Display locations -->
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
+
+        <!-- Display Social Groups -->
         <h4>Social Groups:</h4>
-        <table st-safe-src="model.allSocialGroups" st-table="model.socialGroupDisplayCollection" class="table table-striped">
+        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
             <tr>
                 <th>extId</th>
-                <th>startDate</th>
-                <th>startType</th>
-                <th>individual</th>
+                <th>groupName</th>
+                <th>groupType</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -138,10 +167,10 @@
                     <input st-search="extId" class="input-sm form-control" type="search"/>
                 </th>
                 <th>
-                    <input st-search="firstName" class="input-sm form-control" type="search"/>
+                    <input st-search="groupName" class="input-sm form-control" type="search"/>
                 </th>
                 <th>
-                    <input st-search="lastName" class="input-sm form-control" type="search"/>
+                    <input st-search="groupType" class="input-sm form-control" type="search"/>
                 </th>
                 <th></th>
                 <th></th>
@@ -151,11 +180,10 @@
 
             </thead>
             <tbody>
-            <tr ng-repeat="row in model.socialGroupDisplayCollection">
+            <tr ng-repeat="row in model.queryResult.displayCollection">
                 <td>{{row.extId}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>{{row.gender}}</td>
+                <td>{{row.groupName}}</td>
+                <td>{{row.groupType}}</td>
                 <td>
                     <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
                         json

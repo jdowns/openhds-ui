@@ -46,6 +46,13 @@ function AuditController($rootScope,
         displayCollection : []
     };
 
+    vm.clearResults = function(){
+        vm.queryResult.entityType = null;
+        vm.queryResult.data = [];
+        vm.queryResult.displayCollection = [];
+    };
+
+
     vm.entityList = [
         {
             'name':'Location',
@@ -256,6 +263,13 @@ function AuditController($rootScope,
     };
 
 
+    vm.editSocialGroup = function(row){
+        vm.currentEntity = row;
+        vm.setTemp("tempSocial");
+        $("#editSocialGroupModal").modal();
+    };
+
+
 
     vm.availableHierarchies = function() {
         var result = [];
@@ -267,11 +281,6 @@ function AuditController($rootScope,
     };
 
 
-    vm.clearResults = function(){
-        vm.queryResult.entityType = null;
-        vm.queryResult.data = [];
-        vm.queryResult.displayCollection = [];
-    };
 
 
     vm.init = function() {

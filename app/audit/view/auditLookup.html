@@ -6,7 +6,14 @@
     <fieldset>
 
         <br /><br /> <!-- todo css padding -->
-        <textbox label="External ID" id="identifier" ng-model="model.searchExtId"></textbox>
+        <div row>
+            <textbox label="External ID" id="identifier" ng-model="model.searchExtId"></textbox>
+            <button class="btn btn-danger" ng-click="model.searchExtId = null"
+                    ng-disabled="model.searchExtId == null">clear
+
+            </button>
+        </div>
+
         <br /><br /> <!-- todo css padding -->
     </fieldset>
 

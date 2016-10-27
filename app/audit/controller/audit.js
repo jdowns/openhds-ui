@@ -40,6 +40,12 @@ function AuditController($rootScope,
     vm.toSubmit = {};
 
 
+    vm.queryResult = {
+        entityType : null,
+        data : [],
+        displayCollection : []
+    };
+
     vm.entityList = [
         {
             'name':'Location',
@@ -50,8 +56,20 @@ function AuditController($rootScope,
             'code':'individual'
         },
         {
-            'name':'Household',
+            'name':'Social Group',
             'code':'socialGroup'
+        },
+        {
+            'name':'Relationship',
+            'code':'relationship'
+        },
+        {
+            'name':'Field Worker',
+            'code':'fieldWorker'
+        },
+        {
+            'name':'User',
+            'code':'user'
         }
 
     ];
@@ -60,6 +78,7 @@ function AuditController($rootScope,
 
     vm.lookupEntity = function(){
         vm.toSubmit = {};
+        vm.queryResult.entityType = vm.entityType;
         switch(vm.entityType){
             case null:
                 break;
@@ -92,8 +111,8 @@ function AuditController($rootScope,
         LocationService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
-                vm.allLocations = response;
-                vm.locationDisplayCollection = [].concat(response);
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
             });
 
 
@@ -103,8 +122,8 @@ function AuditController($rootScope,
         IndividualService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
-                vm.allIndividuals = response;
-                vm.individualDisplayCollection = [].concat(response);
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
             });
     };
 
@@ -112,9 +131,8 @@ function AuditController($rootScope,
         SocialGroupService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
-                vm.setTemp("tempSocial")
-                $("#editSocialGroupModal").modal();
-
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
             });
     };
 
@@ -212,6 +230,7 @@ function AuditController($rootScope,
                         vm.individualDisplayCollection = [].concat(response);
                     });
                 break;
+
             default:
                 break;
 

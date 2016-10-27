@@ -40,7 +40,7 @@ function AuditController($rootScope,
     vm.toSubmit = {};
 
 
-    vm.lookupList = [
+    vm.entityList = [
         {
             'name':'Location',
             'code':'location'
@@ -56,17 +56,6 @@ function AuditController($rootScope,
 
     ];
 
-    vm.byHierarchyList = [
-        {
-            'name':'Location',
-            'code':'location'
-        },
-        {
-            'name':'Individual',
-            'code':'individual'
-        }
-
-    ];
 
 
     vm.lookupEntity = function(){
@@ -103,8 +92,8 @@ function AuditController($rootScope,
         LocationService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
-                vm.setTemp("tempLoc");
-                $("#editLocationModal").modal();
+                vm.allLocations = response;
+                vm.locationDisplayCollection = [].concat(response);
             });
 
 
@@ -114,8 +103,8 @@ function AuditController($rootScope,
         IndividualService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
-                vm.setTemp("tempIndiv");
-                $("#editIndividualModal").modal();
+                vm.allIndividuals = response;
+                vm.individualDisplayCollection = [].concat(response);
             });
     };
 
@@ -206,7 +195,7 @@ function AuditController($rootScope,
     };
 
     vm.searchByHierarchy = function(){
-        switch(vm.entityTypeBH){
+        switch(vm.entityType){
             case null:
                 break;
             case 'location':

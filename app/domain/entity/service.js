@@ -40,7 +40,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    var entities = response.data.content[0];
+                    var entities = response.data.content;
                     resolve(entities);
                 },
                 function(reject){

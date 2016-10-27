@@ -1,14 +1,10 @@
 <div>
-    <h4>Lookup by External ID</h4>
-    <hr>
+
     <br>
 
 
     <fieldset>
-        <selectbox label="Entity Type" id="entityType" ng-model="model.entityType">
-            <option ng-repeat="ent in model.lookupList"
-                    value="{{ent.code}}">{{ent.name}}</option>
-        </selectbox>
+
         <br /><br /> <!-- todo css padding -->
         <textbox label="External ID" id="identifier" ng-model="model.searchExtId"></textbox>
         <br /><br /> <!-- todo css padding -->
@@ -26,7 +22,9 @@
     </button>
     <br/><br/>
 
-    <hr>
+
+
+
 
 
 </div>

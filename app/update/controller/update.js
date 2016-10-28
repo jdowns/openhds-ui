@@ -83,6 +83,7 @@ function UpdateController($rootScope,
     };
 
     vm.submitOutMigration = function(event){
+        console.log(vm.currentResidency);
         OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
@@ -206,15 +207,23 @@ function UpdateController($rootScope,
     };
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
-        // TODO: set current residency within this method
+        if (vm.residencies === null) {
+            vm.currentResidency = {uuid: "UNKNOWN"};
+        } else {
+            vm.currentResidency = vm.residencies.filter(function(res) {
+                return res.individual.uuid === vm.currentIndividual.uuid;
+            })[0];
+        }
+        console.log(vm.currentIndividual)
+        console.log(vm.currentLocation)
+        console.log(vm.currentResidency)
     };
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
-        vm.residencies = vm.allResidencies.filter(function(location){
-            return location.uuid === row.uuid;
+        vm.residencies = vm.allResidencies.filter(function(residency){
+            return residency.location.uuid === row.uuid;
         });
-
     };
 
     vm.availableHierarchies = function() {

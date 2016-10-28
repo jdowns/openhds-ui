@@ -48,6 +48,8 @@ function UpdateController($rootScope,
     vm.selectedIndividual = null;
     vm.submittedEvents = [];
 
+    vm.submittedVisits = [];
+
 
     vm.currentResidency = null;
     vm.currentInMigration = null;
@@ -70,7 +72,7 @@ function UpdateController($rootScope,
             .then(function(response) {
                 vm.currentVisit = response.data;
             });
-        $('#locationTab').tab('show');
+        $('#eventTab').tab('show');
     };
 
     vm.submitInMigration = function(event){
@@ -167,12 +169,57 @@ function UpdateController($rootScope,
             });
     };
 
+    // For External In-Migration
+    vm.submitIndividual = function(indiv){
+        IndividualService.submit(vm.currentFieldWorker,
+            vm.collectionDateTime,
+            indiv)
+            .then(function(response) {
+                console.log(response.data);
+                vm.currentIndividual = response.data;
+            });
+    };
+
+    vm.pregnancyDisableCheck = function(){
+        if(vm.currentIndividual == null){
+            return false;
+        }
+        else if( vm.currentIndividual.gender == "MALE"){
+            return false;
+        }
+        else{
+            return true;
+        }
+    };
+
 
     vm.finishVisit = function(){
+
+        vm.submittedVisits.push(vm.currentVisit);
+        vm.currentVisit = null;
+        vm.visit = null;
+
         vm.submittedEvents = [];
         vm.selectedLocation = null;
         vm.selectedIndividual = null;
+        $('#updateTab').tab('show');
+
+
     };
+
+    vm.migrationTypes = [
+        {
+            display: "Internal",
+            codeValue : "INTERNAL_MIGRATION",
+            description : "migrated between locations in the study area"
+        },
+        {
+            display: "External",
+            codeValue : "EXTERNAL_MIGRATION",
+            description : "migrated from a location outside the study area"
+        }
+    ];
+
 
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;

@@ -16,7 +16,7 @@
     <!-- Main content -->
     <div class="col-md-10 no-float">
       <div>
-        <ng-include src="'update/view/updateTabBarPartial.html'"></ng-include>
+        <ng-include src="'update/view/updateTabBarPartial.html'" ng-hide="1==1"></ng-include>
 
         <div class="tab-content">
 
@@ -43,3 +43,21 @@
 
   </div>
 </div>
+
+
+
+<!-- Modals -->
+
+<ng-include src="'domain/fieldworker/partials/fieldWorkerSelectModal.html'"></ng-include>
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
+
+<ng-include src="'domain/location/partials/locationSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+
+<ng-include src="'domain/inMigration/partials/inMigrationCreateModal.html'"></ng-include>
+<ng-include src="'domain/outMigration/partials/outMigrationCreateModal.html'"></ng-include>
+<ng-include src="'domain/death/partials/deathCreateModal.html'"></ng-include>
+<ng-include src="'domain/pregnancyObservation/partials/pregnancyObservationCreateModal.html'"></ng-include>
+<ng-include src="'domain/pregnancyOutcome/partials/pregnancyOutcomeCreateModal.html'"></ng-include>
+

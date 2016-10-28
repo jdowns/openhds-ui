@@ -1,0 +1,159 @@
+<div>
+    <h4>Search By Hierarchy</h4>
+    <hr>
+    <br>
+
+    <fieldset>
+        <div ng-hide="model.currentHierarchy == null">
+            <constbox label="Location Hierarchy" ng-model="model.currentHierarchy.extId"></constbox>
+            <button class="btn btn-danger" ng-click="model.currentHierarchy = null">Clear</button>
+        </div>
+        <div ng-hide="model.currentHierarchy != null">
+            <label for="hierarchy-select">Location Hierarchy: </label>
+
+            <div align="center">
+                <button class="btn btn-default" id="hierarchy-select"
+                        data-toggle="modal"
+                        data-target="#hierarchyModal">
+                    Select Hierarchy
+                </button>
+            </div>
+        </div>
+
+
+        <br /><br/>
+        <selectbox label="Entity Type" id="entityType" ng-model="model.entityTypeBH">
+            <option ng-repeat="ent in model.byHierarchyList"
+                    value="{{ent.code}}">{{ent.name}}</option>
+        </selectbox>
+        <br/><br/>
+
+    </fieldset>
+
+    <button id="searchHierarchy"
+            class="btn btn-primary pull-right"
+            ng-click="model.searchByHierarchy()">
+        Search
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <br/><br/>
+
+
+    <hr>
+
+    <div>
+        <!-- Locations -->
+        <div ng-if="model.locationDisplayCollection.length > 0 && model.entityTypeBH == 'location'">
+            <!-- Display locations -->
+            <h4>Locations:</h4>
+            <table st-safe-src="model.allLocations" st-table="model.locationDisplayCollection" class="table table-striped">
+
+
+                <thead>
+                <tr>
+                    <th>extId</th>
+                    <th>name</th>
+                    <th>type</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <input st-search="extId" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                        <input st-search="name" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                        <input st-search="type" class="input-sm form-control" type="search"/>
+                    </th>
+
+                </tr>
+
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in model.locationDisplayCollection">
+                    <td>{{row.extId}}</td>
+                    <td>{{row.name}}</td>
+                    <td>{{row.type}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                           json
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning" ng-click="model.editLocation(row)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <hr>
+        </div>
+
+        <!-- Individuals -->
+        <div ng-if="model.individualDisplayCollection.length > 0 && model.entityTypeBH == 'individual'">
+            <!-- Display locations -->
+            <h4>Individuals:</h4>
+            <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>extId</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>gender</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <input st-search="extId" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                        <input st-search="firstName" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th>
+                        <input st-search="lastName" class="input-sm form-control" type="search"/>
+                    </th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in model.individualDisplayCollection">
+                    <td>{{row.extId}}</td>
+                    <td>{{row.firstName}}</td>
+                    <td>{{row.lastName}}</td>
+                    <td>{{row.gender}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                            json
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <hr>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+

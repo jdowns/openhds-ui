@@ -1,0 +1,75 @@
+
+<!-- Edit Location modal -->
+<div class="modal fade" id="editLocationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Edit Location</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="uuid">UUID</label>
+                    <input type="text" class="form-control" id="uuid" ng-model="model.tempLoc.uuid" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="extId">External ID</label>
+                    <input type="text" class="form-control" id="extId" ng-model="model.tempLoc.extId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="entityStatus">Entity Status</label>
+                    <input type="text" class="form-control" id="entityStatus" ng-model="model.tempLoc.entityStatus">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" ng-model="model.tempLoc.name">
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <input type="text" class="form-control" id="type" ng-model="model.tempLoc.type">
+                </div>
+                <div class="form-group">
+                    <label for="descr">Description</label>
+                    <input type="text" class="form-control" id="descr" ng-model="model.tempLoc.description">
+                </div>
+
+
+                <div>
+                    <pre>toSubmit: {{model.toSubmit | json}}</pre>
+                </div>
+
+
+
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    Cancel
+                </button>
+
+
+                <button class="btn" ng-click="model.setTemp('tempLoc')">
+                    Reset
+                </button>
+                <button class="btn" ng-click="model.saveLocation()">
+                    Save
+                </button>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
+                        aria-label="Close" ng-click="model.submitLocation()">
+                    Update Location
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,26 +18,32 @@
 
 <hr>
 
-<h4>Current Location:</h4>
+<div ng-if="model.selectedLocation !=null">
+    <h4>Current Location:</h4>
 
-<table st-table="model.selectedLocation" class="table table-striped">
-    <thead>
-    <tr>
-        <th>uuid</th>
-        <th>extId</th>
-        <th>name</th>
-        <th>type</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td id="selectedLocationId">{{model.selectedLocation.uuid}}</td>
-        <td id="selectedLocationExtId">{{model.selectedLocation.extId}}</td>
-        <td id="selectedLocationName">{{model.selectedLocation.name}}</td>
-        <td id="selectedLocationType">{{model.selectedLocation.type}}</td>
-    </tr>
-    </tbody>
-</table>
+    <table st-table="model.selectedLocation" class="table table-striped">
+        <thead>
+        <tr>
+            <th>uuid</th>
+            <th>extId</th>
+            <th>name</th>
+            <th>type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="selectedLocationId">{{model.selectedLocation.uuid}}</td>
+            <td id="selectedLocationExtId">{{model.selectedLocation.extId}}</td>
+            <td id="selectedLocationName">{{model.selectedLocation.name}}</td>
+            <td id="selectedLocationType">{{model.selectedLocation.type}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+</div>
 
 <hr>
 
@@ -51,6 +57,4 @@
 
 
 
-<!-- Modals -->
-<ng-include src="'domain/location/partials/locationCreateModal.html'"></ng-include>
-<ng-include src="'domain/location/partials/locationSelectModal.html'"></ng-include>
+

@@ -19,59 +19,65 @@
 </row>
 <hr>
 
-<!-- Display selected individuals -->
-<h4>Selected Individuals:</h4>
-<table st-table="model.selectedIndividuals" class="table table-striped">
-    <thead>
-    <tr>
-        <th>firstName</th>
-        <th>lastName</th>
-        <th>dateOfBirth</th>
-        <th>extId</th>
-        <th>gender</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in model.selectedIndividuals">
-        <td>{{row.firstName}}</td>
-        <td>{{row.lastName}}</td>
-        <td>{{row.dateOfBirth}}</td>
-        <td>{{row.extId}}</td>
-        <td>{{row.gender}}</td>
-        <td>
-            <button type="button" ng-click="model.removeSelectedEntity('selectedIndividuals',row)" class="btn btn-sm btn-danger">
-                <i class="glyphicon glyphicon-remove-circle">
-                </i>
-            </button>
-        </td>
-    </tr>
+<div ng-if="model.selectedIndividuals.length > 0">
+    <!-- Display selected individuals -->
+    <h4>Selected Individuals:</h4>
+    <table st-table="model.selectedIndividuals" class="table table-striped">
+        <thead>
+        <tr>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>dateOfBirth</th>
+            <th>extId</th>
+            <th>gender</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.selectedIndividuals">
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.dateOfBirth}}</td>
+            <td>{{row.extId}}</td>
+            <td>{{row.gender}}</td>
+            <td>
+                <button type="button" ng-click="model.removeSelectedEntity('selectedIndividuals',row)" class="btn btn-sm btn-danger">
+                    <i class="glyphicon glyphicon-remove-circle">
+                    </i>
+                </button>
+            </td>
+        </tr>
 
-    </tbody>
-</table>
-<hr>
+        </tbody>
+    </table>
+    <hr>
 
-<h4>Submitted Memberships:</h4>
-<table st-table="model.submittedMemberships" class="table table-striped">
-    <thead>
-    <tr>
-        <th>individual</th>
-        <th>socialGroup</th>
-        <th>extId</th>
-        <th>start type</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in model.submittedMemberships">
-        <td>{{row.individual}}</td>
-        <td>{{row.socialGroup}}</td>
-        <td>{{row.extId}}</td>
-        <td>{{row.startType}}</td>
+</div>
 
-    </tr>
+<div ng-if="model.submittedMemberships.length > 0">
+    <h4>Submitted Memberships:</h4>
+    <table st-table="model.submittedMemberships" class="table table-striped">
+        <thead>
+        <tr>
+            <th>individual</th>
+            <th>socialGroup</th>
+            <th>extId</th>
+            <th>start type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in model.submittedMemberships">
+            <td>{{row.individual}}</td>
+            <td>{{row.socialGroup}}</td>
+            <td>{{row.extId}}</td>
+            <td>{{row.startType}}</td>
 
-    </tbody>
-</table>
-<hr>
+        </tr>
+
+        </tbody>
+    </table>
+    <hr>
+</div>
+
 
 
 
@@ -83,7 +89,3 @@
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
 
-
-<ng-include src="'domain/individual/partials/individualCreateModal.html'"></ng-include>
-<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
-<ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

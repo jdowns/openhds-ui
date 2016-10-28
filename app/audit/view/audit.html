@@ -15,15 +15,42 @@
 
         <!-- Main content -->
         <div class="col-md-10 no-float">
+            <div>
+                <ng-include src="'audit/view/auditTabBarPartial.html'"></ng-include>
 
-            TODO
+
+                <div class="tab-content">
+
+                    <!-- Lookup -->
+                    <div role="tabpanel" class="tab-pane fade in active" id="lookup">
+                        <ng-include src="'audit/view/auditLookup.html'"></ng-include>
+
+                    </div>
+
+                    <!-- Search -->
+                    <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
+                        <ng-include src="'audit/view/searchByHierarchy.html'"></ng-include>
+                    </div>
+
+                 
+
+
+
+                </div>
+            </div>
+
 
 
         </div>
 
 
-
-
-
     </div>
 </div>
+
+
+<ng-include src="'domain/locationHierarchy/partials/locationHierarchyModal.html'"></ng-include>
+<ng-include src="'core/partials/entityJsonModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualEditModal.html'"></ng-include>
+<ng-include src="'domain/location/partials/locationEditModal.html'"></ng-include>
+<ng-include src="'domain/socialGroup/partials/socialGroupEditModal.html'"></ng-include>

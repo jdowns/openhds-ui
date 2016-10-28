@@ -12,6 +12,7 @@ var app = angular.module('openhds',
 app.config(['$httpProvider', corsConfig]);
 app.config(['$routeProvider', routeConfig]);
 
+
 function routeConfig($routeProvider) {
     $routeProvider
         .when('/', {

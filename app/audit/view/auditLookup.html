@@ -1,0 +1,32 @@
+<div>
+    <h4>Lookup uuid</h4>
+    <hr>
+    <br>
+
+
+    <fieldset>
+        <selectbox label="Entity Type" id="entityType" ng-model="model.entityType">
+            <option ng-repeat="ent in model.lookupList"
+                    value="{{ent.code}}">{{ent.name}}</option>
+        </selectbox>
+        <br /><br /> <!-- todo css padding -->
+        <textbox label="UUID" id="uuid" ng-model="model.searchUuid"></textbox>
+        <br /><br /> <!-- todo css padding -->
+    </fieldset>
+
+
+
+    <button id="searchuuid"
+            class="btn btn-primary pull-right"
+            ng-click="model.lookupEntity()">
+        Search
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <br/><br/>
+
+    <hr>
+
+
+</div>
+
+

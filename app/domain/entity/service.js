@@ -30,6 +30,30 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+
+    service.getByUuid = function(urlBase, responseClass, uuid) {
+        var url = $rootScope.restApiUrl + urlBase + '/' + uuid;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log("GOOD");
+                    var entities = response.data;
+                    resolve(entities);
+                },
+                function(reject){
+                    console.log(reject);
+                    window.alert("Status: " + reject.status +
+                        "\n" + reject.statusText);
+
+                }
+            );
+        });
+    };
+
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';
         var responsePromise = $http.get(url, service.getHeaders());

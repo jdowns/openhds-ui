@@ -1,0 +1,207 @@
+<div>
+
+    <br/>
+
+    <!-- Locations -->
+    <div ng-if="model.queryResult.displayCollection.length > 0 &&
+                model.entityType == 'location' &&
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
+
+        <!-- Display locations -->
+        <h4>Locations:</h4>
+        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
+
+            <thead>
+            <tr>
+                <th>extId</th>
+                <th>name</th>
+                <th>type</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <th>
+                    <input st-search="extId" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="name" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="type" class="input-sm form-control" type="search"/>
+                </th>
+
+            </tr>
+
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in model.queryResult.displayCollection">
+                <td>{{row.extId}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.type}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                        json
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning" ng-click="model.editLocation(row)">
+                        Edit
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr>
+    </div>
+
+    <!-- Individuals -->
+    <div ng-if="model.queryResult.displayCollection.length > 0 &&
+                model.entityType == 'individual' &&
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
+        <!-- Display locations -->
+        <h4>Individuals:</h4>
+        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
+            <thead>
+            <tr>
+                <th>extId</th>
+                <th>firstName</th>
+                <th>lastName</th>
+                <th>gender</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <th>
+                    <input st-search="extId" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="firstName" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="lastName" class="input-sm form-control" type="search"/>
+                </th>
+                <th></th>
+                <th></th>
+
+            </tr>
+
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in model.queryResult.displayCollection">
+                <td>{{row.extId}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.gender}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                        json
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
+                        Edit
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr>
+
+    </div>
+
+
+
+
+    <!-- Social Groups -->
+    <div ng-if="model.queryResult.displayCollection.length > 0 &&
+                model.entityType == 'socialGroup' &&
+                model.queryResult.entityType === model.entityType"
+                style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+
+
+
+        <!-- Display Social Groups -->
+        <h4>Social Groups:</h4>
+        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
+            <thead>
+            <tr>
+                <th>extId</th>
+                <th>groupName</th>
+                <th>groupType</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <th>
+                    <input st-search="extId" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="groupName" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="groupType" class="input-sm form-control" type="search"/>
+                </th>
+                <th></th>
+                <th></th>
+
+            </tr>
+
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in model.queryResult.displayCollection">
+                <td>{{row.extId}}</td>
+                <td>{{row.groupName}}</td>
+                <td>{{row.groupType}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                        json
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning" ng-click="model.editSocialGroup(row)">
+                        Edit
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr>
+
+    </div>
+
+
+
+</div>

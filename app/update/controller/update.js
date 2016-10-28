@@ -265,9 +265,7 @@ function UpdateController($rootScope,
         return result;
     };
 
-    vm.setFieldWorker = function(fw){
-        vm.currentFieldWorker = fw;
-    };
+
 
     vm.init = function() {
 

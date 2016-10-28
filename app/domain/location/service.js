@@ -35,8 +35,8 @@ function LocationService(EntityService) {
         return EntityService.getByHierarchy(urlBase, Response, uuid);
     };
 
-    service.getByUuid = function(uuid) {
-        return EntityService.getByUuid(urlBase, Response, uuid);
+    service.getByExtId = function(extId) {
+        return EntityService.getByExtId(urlBase, Response, extId);
     };
 
     service.submit = function(fieldWorker, collectionDate, hierarchy, entity) {

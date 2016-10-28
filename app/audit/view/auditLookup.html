@@ -1,30 +1,39 @@
 <div>
-    <h4>Lookup uuid</h4>
-    <hr>
+
     <br>
 
 
     <fieldset>
-        <selectbox label="Entity Type" id="entityType" ng-model="model.entityType">
-            <option ng-repeat="ent in model.lookupList"
-                    value="{{ent.code}}">{{ent.name}}</option>
-        </selectbox>
+
         <br /><br /> <!-- todo css padding -->
-        <textbox label="UUID" id="uuid" ng-model="model.searchUuid"></textbox>
+        <div row>
+            <textbox label="External ID" id="identifier" ng-model="model.searchExtId"></textbox>
+            <button class="btn btn-danger" ng-click="model.searchExtId = null"
+                    ng-disabled="model.searchExtId == null">clear
+
+            </button>
+        </div>
+
         <br /><br /> <!-- todo css padding -->
     </fieldset>
 
 
 
+
+
     <button id="searchuuid"
             class="btn btn-primary pull-right"
-            ng-click="model.lookupEntity()">
+            ng-click="model.lookupEntity()"
+            ng-disabled="model.entityType == null;
+                         model.searchExtId == null">
         Search
         <span class="glyphicon glyphicon-search"></span>
     </button>
     <br/><br/>
 
-    <hr>
+
+
+
 
 
 </div>

@@ -261,9 +261,6 @@ function UpdateController($rootScope,
                 return res.individual.uuid === vm.currentIndividual.uuid;
             })[0];
         }
-        console.log(vm.currentIndividual)
-        console.log(vm.currentLocation)
-        console.log(vm.currentResidency)
     };
     vm.setLocation = function(row) {
         vm.selectedLocation = row;

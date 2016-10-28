@@ -97,7 +97,30 @@ describe('UpdateController', function() {
     });
 
     it('submitPregnancyObservation sets currentPregnancyObservation', function() {
-        controller.submitPregnancyObservation();
+        $httpBackend.expectPOST("http://example.com/pregnancyObservations", {
+            "collectedByUuid":123,
+            "visitUuid":456,
+            "motherUuid":789,
+            "pregnancyObservation": {
+                "pregnancyDate":"then",
+                "expectedDeliveryDate":"later",
+                "collectionDateTime":"now"
+            }
+        }) .respond({uuid: "xyz"});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.currentVisit = {uuid: 456, visitDate: "now"};
+        controller.currentIndividual = {uuid: 789};
+        controller.submitPregnancyObservation({
+            pregnancyDate: "then",
+            deliveryDate: "later"
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
+                                                     individual: {uuid: 789},
+                                                     eventType: "pregnancy observation"}]);
         expect(controller.currentPregnancyObservation).toBeNull();
     });
 

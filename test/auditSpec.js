@@ -32,7 +32,18 @@ describe('AuditController', function() {
     });
 
     it('Inits controller', function() {
+        $httpBackend.expectGET('http://example.com/projectCodes/bulk.json')
+            .respond('codes');
+        $httpBackend.expectGET('http://example.com/locationHierarchyLevels/bulk.json')
+            .respond(['levels']);
+        $httpBackend.expectGET('http://example.com/locationHierarchies/bulk.json')
+            .respond([{uuid: 1, parent: {uuid: 2}}]);
+        $httpBackend.expectGET('http://example.com/locationHierarchyLevels/bulk.json')
+            .respond(['levels']);
+
         controller.init();
+
+        $httpBackend.flush();
         expect(controller).toBeDefined();
     });
 });

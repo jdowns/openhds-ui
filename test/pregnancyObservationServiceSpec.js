@@ -20,15 +20,15 @@ describe('PregnancyObservation Service Test', function() {
             pregnancyObservation: {
                 pregnancyDate: "then",
                 expectedDeliveryDate: "later",
-                collectionDateTime: "01-13-2016"
+                collectionDateTime: "01-14-2016"
             }
         }).respond(200, "posted observation");
 
         var fieldWorker = {uuid: 123};
-        var visit = {uuid: 456};
+        var visit = {uuid: 456, visitDate: "01-14-2016"};
         var individual = {uuid: 789};
         var collectionDate = "01-13-2016";
-        var event = {pregnancyDate: "then", expectedDeliveryDate: "later"};
+        var event = {pregnancyDate: "then", deliveryDate: "later"};
 
         var result = service.submit(fieldWorker, collectionDate, visit, individual, event);
 

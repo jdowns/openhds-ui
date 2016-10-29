@@ -75,7 +75,7 @@ function EntityService($rootScope, $http, $q) {
         var responsePromise = $http.get(url, service.getHeaders());
         return $q(function(resolve, reject) {
             responsePromise.then(function(response) {
-                var entities = response.data.map(responseClass);
+                var entities = response.data;
                 resolve(entities);
             });
         });

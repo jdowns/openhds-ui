@@ -266,18 +266,16 @@ function AuditController($rootScope,
     };
 
     vm.searchByFields = function(){
-        var parsedString = "{";
         var tmp = "";
         Object.keys(vm.currentSearch).forEach(function(key){
-            tmp = key + "=" + vm.currentSearch[key] + ",";
+            tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
         });
         tmp = tmp.substring(0, tmp.length-1);
-        var res = parsedString.concat(tmp, "}");
-        console.log(res);
-        var stringVersion = String(res);
-        vm.tempTest = stringVersion;
-        IndividualService.getBySearch(stringVersion)
-            .then(function(response){
+        console.log(tmp);
+
+        vm.queryResult.entityType = vm.entityType;
+        IndividualService.getBySearch(tmp)
+        .then(function(response){
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
         });

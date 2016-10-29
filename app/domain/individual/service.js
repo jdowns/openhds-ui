@@ -42,6 +42,10 @@ function IndividualService(EntityService) {
         return EntityService.getByExtId(urlBase, Response, extId);
     };
 
+    service.getByFieldWorker = function(id) {
+        return EntityService.getByFieldWorker(urlBase, Response, id);
+    };
+
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,

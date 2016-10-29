@@ -104,14 +104,9 @@ function AuditController($rootScope,
         }
     };
 
-
-
-
     vm.setTemp = function(x){
         vm[x] = angular.copy(vm.currentEntity);
     };
-
-
 
     vm.lookupLocation = function(){
         vm.currentEntity = null;
@@ -121,8 +116,6 @@ function AuditController($rootScope,
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
             });
-
-
     };
 
     vm.lookupIndividual = function(){

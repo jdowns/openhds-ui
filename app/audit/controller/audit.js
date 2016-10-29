@@ -266,6 +266,9 @@ function AuditController($rootScope,
     };
 
     vm.searchByFields = function(){
+        if (vm.currentSearch == null){
+            return;
+        }
         var tmp = "";
         Object.keys(vm.currentSearch).forEach(function(key){
             if (vm.currentSearch[key] != null){

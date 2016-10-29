@@ -245,6 +245,26 @@ function AuditController($rootScope,
         }
     };
 
+
+    vm.searchByFieldWorker = function(){
+        vm.queryResult.entityType = vm.entityType;
+        switch(vm.entityType){
+            case null:
+                break;
+            case 'individual':
+                IndividualService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
+            default:
+                break;
+
+        }
+    };
+
     vm.viewJson = function(row){
         vm.entityToView = row;
         $("#entityJsonModal").modal();

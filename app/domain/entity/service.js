@@ -30,6 +30,21 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+    service.getByFieldWorker = function(urlBase, responseClass, id) {
+        var url = $rootScope.restApiUrl + urlBase + '.json?fieldWorkerId=' + id;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data.content.map(responseClass);
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
 
     service.getByExtId = function(urlBase, responseClass, extId) {
         var url = $rootScope.restApiUrl + urlBase + '/external/' + extId;

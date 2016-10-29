@@ -268,7 +268,9 @@ function AuditController($rootScope,
     vm.searchByFields = function(){
         var tmp = "";
         Object.keys(vm.currentSearch).forEach(function(key){
-            tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
+            if (vm.currentSearch[key] != null){
+                tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
+            }
         });
         tmp = tmp.substring(0, tmp.length-1);
         console.log(tmp);

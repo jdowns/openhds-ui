@@ -249,10 +249,15 @@ describe('UpdateController', function() {
     });
 
     it('setLocation sets selectedLocation and filters allResidencies', function() {
-        controller.allResidencies = [{uuid: 1, name: "test residency"}];
+        controller.allResidencies = [{uuid: 1, name: "test residency",
+                                      location: {uuid: 1}}];
         controller.setLocation({uuid: 1});
 
-        expect(controller.residencies).toEqual([{uuid: 1, name: "test residency"}]);
+        expect(controller.residencies).toEqual([{
+            uuid: 1,
+            name: "test residency",
+            location: {uuid: 1}
+        }]);
         expect(controller.selectedLocation).toEqual({uuid: 1});
     });
 
@@ -312,11 +317,6 @@ describe('UpdateController', function() {
         delete $;
     });
 
-    it('sets fieldworker', function() {
-        controller.setFieldWorker('foo');
-        expect(controller.currentFieldWorker).toEqual('foo');
-    });
-
     it('sets father', function() {
         controller.currentPregnancyOutcome = null;
         controller.setFather("father");
@@ -327,8 +327,10 @@ describe('UpdateController', function() {
     });
 
     it('sets current individual', function() {
+        controller.residencies = null;
         controller.setCurrentIndividual('foo');
         expect(controller.currentIndividual).toEqual('foo');
+        expect(controller.currentResidency).toEqual({uuid: "UNKNOWN"});
     });
 
     it('submits visit', function() {

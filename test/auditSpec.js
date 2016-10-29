@@ -34,12 +34,14 @@ describe('AuditController', function() {
     it('Inits controller', function() {
         $httpBackend.expectGET('http://example.com/projectCodes/bulk.json')
             .respond('codes');
+        $httpBackend.expectGET('http://example.com/fieldWorkers/bulk.json')
+            .respond([{uuid: 1}]);
         $httpBackend.expectGET('http://example.com/locationHierarchyLevels/bulk.json')
-            .respond(['levels']);
+            .respond([{uuid: 2}]);
         $httpBackend.expectGET('http://example.com/locationHierarchies/bulk.json')
-            .respond([{uuid: 1, parent: {uuid: 2}}]);
+            .respond([{uuid: 1, level: {uuid: 2}}]);
         $httpBackend.expectGET('http://example.com/locationHierarchyLevels/bulk.json')
-            .respond(['levels']);
+            .respond({uuid: 2});
 
         controller.init();
 

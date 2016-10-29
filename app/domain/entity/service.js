@@ -68,6 +68,19 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+
+    service.getBySearch = function(urlBase, responseClass, entityList) {
+        var url = $rootScope.restApiUrl + urlBase + '/search?' + entityList;
+        console.log(url);
+        var responsePromise = $http.get(url, service.getHeaders());
+        return $q(function(resolve, reject) {
+            responsePromise.then(function(response) {
+                var entities = response.data.map(responseClass);
+                resolve(entities);
+            });
+        });
+    };
+
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';
         var responsePromise = $http.get(url, service.getHeaders());
@@ -84,6 +97,7 @@ function EntityService($rootScope, $http, $q) {
         var request = requestClass(model);
         return $http.post(url, request, service.getHeaders());
     };
+
 
     return service;
 }

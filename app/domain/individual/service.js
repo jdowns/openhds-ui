@@ -46,6 +46,11 @@ function IndividualService(EntityService) {
         return EntityService.getByFieldWorker(urlBase, Response, id);
     };
 
+
+    service.getBySearch = function(entityList) {
+        return EntityService.getBySearch(urlBase, Response, entityList);
+    };
+
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,
@@ -54,6 +59,8 @@ function IndividualService(EntityService) {
         };
         return EntityService.submit(urlBase, Request, model);
     };
+
+
 
     return service;
 }

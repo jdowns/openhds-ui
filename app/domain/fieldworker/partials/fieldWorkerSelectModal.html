@@ -40,7 +40,7 @@
           <tbody>
           <tr ng-repeat="row in model.displayFieldWorkers">
             <td>
-              <button id="{{row.id}}" class="btn btn-success" data-dismiss="modal" ng-click="model.setFieldWorker(row)">
+              <button id="{{row.id}}" class="btn btn-success" data-dismiss="modal" ng-click="model.currentFieldWorker = row">
                 select
               </button>
             </td>
@@ -61,9 +61,9 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal"
-                id="saveFieldworker"
-                ng-click="model.saveFieldWorker()">Done</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Done
+        </button>
       </div>
     </div>
   </div>

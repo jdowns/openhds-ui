@@ -229,19 +229,6 @@ function UpdateController($rootScope,
                 vm.locationDisplayCollection = [].concat(response);
             });
 
-        IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
-            .then(function(response) {
-                vm.allIndividuals = response;
-                vm.individualDisplayCollection = [].concat(response);
-            });
-
-        ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
-            .then(function(response) {
-                vm.allResidencies = response;
-                vm.residencyDisplayCollection = [].concat(response);
-            });
-
-
     };
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
@@ -250,8 +237,9 @@ function UpdateController($rootScope,
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
-        vm.residencies = vm.allResidencies.filter(function(location){
-            return location.uuid === row.uuid;
+        IndividualService.getByLocation(row.uuid).then(function(response){
+            vm.allIndividuals = response;
+            vm.individualDisplayCollection = [].concat(response);
         });
 
     };

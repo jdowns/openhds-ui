@@ -333,6 +333,16 @@ describe('UpdateController', function() {
         expect(controller.currentResidency).toEqual({uuid: "UNKNOWN"});
     });
 
+    it('sets current individual and residency', function() {
+        controller.residencies = [{uuid: 1,
+                                   location: {uuid: 2},
+                                   individual: {uuid: 123}
+                                  }];
+        controller.setCurrentIndividual({uuid: 123});
+        expect(controller.currentIndividual).toEqual({uuid: 123});
+        expect(controller.currentResidency).toEqual(controller.residencies[0]);
+    });
+
     it('submits visit', function() {
         $ = function(value) {
             return {
@@ -367,5 +377,16 @@ describe('UpdateController', function() {
         expect(controller.currentVisit).toEqual({uuid: "visit"});
 
         delete $;
+    });
+
+    it('submits individual for external in-migration', function() {
+        $httpBackend.expectPOST('http://example.com/individuals', {
+            "collectedByUuid":123,
+            "individual":{}
+        }).respond({uuid: 1});
+        controller.currentFieldWorker = {uuid: 123};
+
+        controller.submitIndividual({});
+        $httpBackend.flush();
     });
 });

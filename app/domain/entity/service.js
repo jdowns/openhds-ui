@@ -43,11 +43,11 @@ function EntityService($rootScope, $http, $q) {
                     var entities = response.data.content;
                     resolve(entities);
                 },
-                function(reject){
-                    console.log(reject);
-                    window.alert("Status: " + reject.status +
-                        "\n" + reject.statusText);
-
+                function(response){
+                    console.log(response);
+                    window.alert("Status: " + response.status +
+                                 "\n" + response.statusText);
+                    reject(response);
                 }
             );
         });

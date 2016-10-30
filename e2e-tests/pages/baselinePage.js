@@ -16,17 +16,15 @@ function LocationModal() {
     };
 
     this.submit = function() {
-        var button = fw.getElement('createLocation');
-        button.click();
-        browser.driver.wait(protractor.until.elementIsNotVisible(button));
+        fw.click('createLocation');
+        browser.sleep(2000);
     };
 }
 
 function LocationTab() {
     this.openCreateModal = function() {
-        var button = fw.getElement('displayNewLocationModal');
-        button.click();
-        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createLocation')));
+        fw.click('displayNewLocationModal');
+        browser.sleep(2000);
     };
 
     this.openSelectModal = function() {
@@ -36,9 +34,8 @@ function LocationTab() {
     };
 
     this.completeRegistration = function() {
-        var button = fw.getElement('startSocialGroups');
-        button.click();
-        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createSocialGroup')));
+        fw.click('startSocialGroups');
+        browser.sleep(2000);
         return new GroupTab();
     };
 
@@ -73,42 +70,35 @@ function BaselinePage() {
     this.setExternalId = function(id) {
         // set individual extId
         fw.getElement('extId_input').sendKeys(id);
-    }
+    };
 
     this.setGender = function(gender) {
         fw.selectOption(gender);
-    }
+    };
 
     this.setDob = function(dob) {
         fw.getElement('dateOfBirth_input').sendKeys(dob);
-    }
+    };
 
     this.setIndividualFirstName = function(name) {
-        var input = fw.getElement('firstName_input');
-	browser.sleep(2000);
-        browser.driver.wait(protractor.until.elementIsVisible(input));
-	input.sendKeys(name);
-    }
+        fw.sendKeys('firstName_input', name);
+    };
 
     this.setIndividualLastName = function(name) {
-        var input = fw.getElement('lastName_input');
-	input.sendKeys(name);
-    }
+        fw.sendKeys('lastName_input', name);
+    };
 
     this.setResidencyStartDate = function(startDate) {
-        fw.getElement('residencyStartDate_input').sendKeys(startDate);
-    }
+        fw.sendKeys('residencyStartDate_input', startDate);
+    };
 
     this.startAssignMemberships = function() {
-        var button = fw.getElement('assignMembership');
-	button.click()
-        browser.driver.wait(protractor.until.elementIsNotVisible(button));
-    }
+        fw.click('assignMembership');
+    };
 
     this.openLocationModal = function() {
-        var openModalButton = fw.getElement('displayNewLocationModal');
-        openModalButton.click();
-        browser.driver.wait(protractor.until.elementIsVisible(fw.getElement('createLocation')));
+        fw.click('displayNewLocationModal');
+        browser.sleep(2000);
         return new LocationModal();
     };
 
@@ -117,10 +107,9 @@ function BaselinePage() {
     };
 
     this.setDefaultFieldWorker = function() {
-        this.fieldWorkerModalButton.click();
-        var fieldWorkerSelectButton = fw.getElement('fieldworker');
-        browser.driver.wait(protractor.until.elementIsVisible(fieldWorkerSelectButton));
-        fieldWorkerSelectButton.click();
+        fw.click('fieldworker-select');
+        browser.sleep(2000);
+        fw.click('fieldworker');
         browser.sleep(1000);
     };
 
@@ -129,9 +118,8 @@ function BaselinePage() {
     };
 
     this.setHierarchy = function() {
-        browser.driver.wait(protractor.until.elementIsNotVisible(fw.getElement('fieldworker')));
-        this.hierarchyModalButton.click();
-        browser.sleep(1000);
+        fw.click('hierarchy-select');
+        browser.sleep(2000);
         fw.selectOption('hierarchy-0');
         browser.sleep(100);
         fw.selectOption('hierarchy-0-1');
@@ -146,15 +134,11 @@ function BaselinePage() {
     };
 
     this.setLocationName = function(name) {
-        var input = fw.getElement('locationName_input');
-        browser.driver.wait(protractor.until.elementIsVisible(input));
-        input.sendKeys(name);
+        fw.sendKeys('locationName_input', name);
     };
 
     this.setLocationExtId = function(extId) {
-        var input = fw.getElement('locationExtId_input');
-        browser.driver.wait(protractor.until.elementIsVisible(input));
-        input.sendKeys(extId);
+        fw.sendKeys('locationExtId_input', extId);
     };
 
     this.selectLocationType = function(locType) {
@@ -166,15 +150,11 @@ function BaselinePage() {
     };
 
     this.setGroupName = function(name) {
-        var input = fw.getElement('groupName_input');
-        browser.driver.wait(protractor.until.elementIsVisible(input));
-        input.sendKeys(name);
+        fw.sendKeys('groupName_input', name);
     };
 
     this.setGroupExtId = function(extId) {
-        var input = fw.getElement('socialGroupExtId_input');
-        browser.driver.wait(protractor.until.elementIsVisible(input));
-        input.sendKeys(extId);
+        fw.sendKeys('socialGroupExtId_input', extId);
     };
 
     this.selectGroupType = function(grpType) {

@@ -76,7 +76,7 @@ function UpdateController($rootScope,
     };
 
     vm.submitInMigration = function(event){
-        InMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+        InMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
                 vm.submittedEvents.push(response.data);
@@ -172,8 +172,8 @@ function UpdateController($rootScope,
     // For External In-Migration
     vm.submitIndividual = function(indiv){
         IndividualService.submit(vm.currentFieldWorker,
-            vm.collectionDateTime,
-            indiv)
+                                 vm.currentVisit.visitDate,
+                                 indiv)
             .then(function(response) {
                 console.log(response.data);
                 vm.currentIndividual = response.data;

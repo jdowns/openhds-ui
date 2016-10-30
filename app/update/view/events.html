@@ -6,7 +6,7 @@
             <label for="currentIndividual">Individual: </label>
             <div align="center">
                 <input type="text" id="currentIndividual" ng-model="model.currentIndividual.extId" disabled />
-                <button class="btn btn-default" id="fieldworker-select" data-toggle="modal" data-target="#individualSelectModal">
+                <button class="btn btn-default" id="individual-select" data-toggle="modal" data-target="#individualSelectModal">
                     Select Individual
                 </button>
             </div>
@@ -116,10 +116,9 @@
 
 </div>
 
-<button id="tb"
+<button id="complete-visit"
         class="btn btn-primary pull-right"
         ng-click="model.finishVisit()">
     Complete Visit
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
-

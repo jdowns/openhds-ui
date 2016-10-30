@@ -9,11 +9,18 @@ function InMigrationService(EntityService) {
     var urlBase = "/inMigrations";
 
     function Request(model) {
+        var residencyUuid;
+        if (!model.residency) {
+            residencyUuid = "UNKNOWN";
+        } else {
+            residencyUuid = model.residency.uuid;
+        }
+
         return {
             collectedByUuid: model.fieldWorker.uuid,
             visitUuid: model.visit.uuid,
             individualUuid: model.individual.uuid,
-            residencyUuid: model.residency.uuid,
+            residencyUuid: residencyUuid,
             inMigration: {
                 migrationDate: model.event.migrationDate,
                 migrationType: model.event.migrationType,

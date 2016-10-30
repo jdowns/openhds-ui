@@ -18,8 +18,6 @@
 
         <hr>
 
-
-        <!-- TODO: select location -->
         <label for="currentLocation">Location: </label>
         <div align="center">
             <input type="text" id="currentLocation" ng-model="model.selectedLocation.name" disabled />
@@ -32,7 +30,7 @@
 
 
         <hr>
-        <button id="next"
+        <button id="begin_visit_button"
                 class="btn btn-primary pull-right"
                 ng-click="model.submitVisit()"
                 ng-disabled="model.visit.extId == '';
@@ -46,8 +44,6 @@
 
     </fieldset>
 </div>
-
-
 
 <hr>
 
@@ -70,4 +66,3 @@
         </tbody>
     </table>
 </div>
-

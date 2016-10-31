@@ -98,6 +98,7 @@ function AuditController($rootScope,
             case 'socialGroup':
                 vm.lookupSocialGroup();
                 break;
+
             default:
                 break;
 
@@ -251,6 +252,22 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
+            case 'location':
+                LocationService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
+            case 'socialGroup':
+                SocialGroupService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
 
             default:
                 break;

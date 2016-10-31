@@ -31,6 +31,8 @@ function EntityService($rootScope, $http, $q) {
     };
 
 
+
+
     service.getByExtId = function(urlBase, responseClass, extId) {
         var url = $rootScope.restApiUrl + urlBase + '/external/' + extId;
 
@@ -48,6 +50,28 @@ function EntityService($rootScope, $http, $q) {
                     window.alert("Status: " + response.status +
                                  "\n" + response.statusText);
                     reject(response);
+                }
+            );
+        });
+    };
+
+    service.getByLocation = function(urlBase, responseClass, locationId) {
+        var url = $rootScope.restApiUrl + urlBase + '/findByLocation/?locationUuid=' + locationId;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data;
+                    resolve(entities);
+                },
+                function(reject){
+                    console.log(reject);
+                    window.alert("Status: " + reject.status +
+                        "\n" + reject.statusText);
+
                 }
             );
         });

@@ -19,18 +19,32 @@
             <legend>Entity Audit</legend>
 
 
-            <div>
-                <br /><br/>
-                <selectbox label="Entity Type" id="entityType" ng-model="model.entityType">
-                    <option ng-repeat="ent in model.entityList"
-                            value="{{ent.code}}">{{ent.name}}</option>
-                </selectbox>
-                <br/><br/><br/>
+
+            <!-- TODO: Need styling. Selectbox wouldn't work with ng-change" -->
+            <div style="width: 400px;
+                        padding: 20px;
+                        font-size: 16px;
+                        line-height: 2;">
+                <label for="entityTypeSelect">Entity Type:</label>
+                <select id="entityTypeSelect"
+                            ng-model="model.entityType"
+                            ng-change="model.currentSearch = {}"
+                            style="width:200px;
+                                   height:30px;">
+                            <option ng-repeat="ent in model.entityList" value="{{ent.code}}">
+                            {{ent.name}}
+                        </option>
+                    </select>
+
+
+
 
 
             </div>
 
 
+            <br /><br/>
+            <br/><br/><br/>
 
 
             <div style="border:1px solid black;">

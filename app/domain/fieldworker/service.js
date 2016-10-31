@@ -6,7 +6,7 @@ angular.module('openhds')
 
 function FieldWorkerService(EntityService) {
     var service = this;
-    var baseUrl = '/fieldWorkers';
+    var urlBase = '/fieldWorkers';
 
     function FieldWorker(json) {
         return {
@@ -18,7 +18,13 @@ function FieldWorkerService(EntityService) {
     }
 
     service.getAllFieldWorkers = function(callback) {
-        return EntityService.getBulk(baseUrl, FieldWorker);
+        return EntityService.getBulk(urlBase, FieldWorker);
+    };
+
+
+    service.getBySearch = function(entityList) {
+        return EntityService.getBySearch(urlBase, FieldWorker, entityList);
+
     };
 
     return service;

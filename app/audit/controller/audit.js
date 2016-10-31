@@ -297,12 +297,19 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
+            case 'fieldWorker':
+                FieldWorkerService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
 
             default:
                 break;
 
 
-        };
+        }
 
 
 

@@ -1,0 +1,23 @@
+<div>
+    <br/><br/>
+
+    <ng-include src="'domain/individual/partials/individualSearch.html'"></ng-include>
+
+
+
+    <button id="searchHierarchy"
+            class="btn btn-primary pull-right"
+            ng-click="model.searchByFields()">
+        Search
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <button class="btn btn-danger pull-right"
+            ng-click="model.currentSearch = null">
+        reset
+    </button>
+    <br/><br/>
+
+
+
+</div>
+

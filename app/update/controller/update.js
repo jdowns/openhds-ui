@@ -276,6 +276,7 @@ function UpdateController($rootScope,
 
 
 
+
     vm.init = function() {
 
 

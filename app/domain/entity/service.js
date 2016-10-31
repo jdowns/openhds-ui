@@ -30,6 +30,21 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+    service.getByFieldWorker = function(urlBase, responseClass, id) {
+        var url = $rootScope.restApiUrl + urlBase + '.json?fieldWorkerId=' + id;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data.content.map(responseClass);
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
 
 
 
@@ -77,6 +92,19 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+
+    service.getBySearch = function(urlBase, responseClass, entityList) {
+        var url = $rootScope.restApiUrl + urlBase + '/search?' + entityList;
+        console.log(url);
+        var responsePromise = $http.get(url, service.getHeaders());
+        return $q(function(resolve, reject) {
+            responsePromise.then(function(response) {
+                var entities = response.data;
+                resolve(entities);
+            });
+        });
+    };
+
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';
         var responsePromise = $http.get(url, service.getHeaders());
@@ -93,6 +121,7 @@ function EntityService($rootScope, $http, $q) {
         var request = requestClass(model);
         return $http.post(url, request, service.getHeaders());
     };
+
 
     return service;
 }

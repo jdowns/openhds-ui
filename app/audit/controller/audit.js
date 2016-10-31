@@ -238,6 +238,49 @@ function AuditController($rootScope,
         }
     };
 
+
+    vm.searchByFieldWorker = function(){
+        vm.queryResult.entityType = vm.entityType;
+        switch(vm.entityType){
+            case null:
+                break;
+            case 'individual':
+                IndividualService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
+            default:
+                break;
+
+        }
+    };
+
+    vm.searchByFields = function(){
+        if (vm.currentSearch == null){
+            return;
+        }
+        var tmp = "";
+        Object.keys(vm.currentSearch).forEach(function(key){
+            if (vm.currentSearch[key] != null){
+                tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
+            }
+        });
+        tmp = tmp.substring(0, tmp.length-1);
+        console.log(tmp);
+
+        vm.queryResult.entityType = vm.entityType;
+        IndividualService.getBySearch(tmp)
+        .then(function(response){
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+        });
+
+    };
+
+
     vm.viewJson = function(row){
         vm.entityToView = row;
         $("#entityJsonModal").modal();

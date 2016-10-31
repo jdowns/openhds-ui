@@ -15,6 +15,7 @@ angular.module('UpdateModule', [])
                  'DeathService',
                  'InMigrationService',
                  'OutMigrationService',
+                 'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
                  UpdateController ]);
@@ -33,6 +34,7 @@ function UpdateController($rootScope,
                           DeathService,
                           InMigrationService,
                           OutMigrationService,
+                          PregnancyObservationService,
                           PregnancyOutcomeService,
                           PregnancyResultService) {
 
@@ -74,7 +76,7 @@ function UpdateController($rootScope,
     };
 
     vm.submitInMigration = function(event){
-        InMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+        InMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
                 vm.submittedEvents.push(response.data);
@@ -83,6 +85,7 @@ function UpdateController($rootScope,
     };
 
     vm.submitOutMigration = function(event){
+        console.log(vm.currentResidency);
         OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
@@ -104,11 +107,17 @@ function UpdateController($rootScope,
         vm.currentDeath = null;
     };
 
-    vm.submitPregnancyObservation = function() {
-
-        // post logic
-        // add to submitted events []
-        vm.currentPregnancyObservation = null;
+    vm.submitPregnancyObservation = function(event) {
+        PregnancyObservationService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+            .then(function(response) {
+                var event = {
+                    uuid: response.data.uuid,
+                    individual: vm.currentIndividual,
+                    eventType: "pregnancy observation"
+                };
+                vm.submittedEvents.push(event);
+                vm.currentPregnancyObservation = null;
+            });
     };
 
     vm.submitPregnancyOutcome = function(outcome, result){
@@ -163,8 +172,8 @@ function UpdateController($rootScope,
     // For External In-Migration
     vm.submitIndividual = function(indiv){
         IndividualService.submit(vm.currentFieldWorker,
-            vm.collectionDateTime,
-            indiv)
+                                 vm.currentVisit.visitDate,
+                                 indiv)
             .then(function(response) {
                 console.log(response.data);
                 vm.currentIndividual = response.data;
@@ -232,16 +241,28 @@ function UpdateController($rootScope,
     };
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
-        // TODO: set current residency within this method
+        if (vm.residencies === null) {
+            vm.currentResidency = {uuid: "UNKNOWN"};
+        } else {
+            vm.currentResidency = vm.residencies.filter(function(res) {
+                return res.individual.uuid === vm.currentIndividual.uuid;
+            })[0];
+        }
     };
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
+
+
         IndividualService.getByLocation(row.uuid).then(function(response){
             vm.allIndividuals = response;
             vm.individualDisplayCollection = [].concat(response);
+
         });
 
+        vm.residencies = vm.allResidencies.filter(function(residency){
+            return residency.location.uuid === row.uuid;
+        }
     };
 
     vm.availableHierarchies = function() {

@@ -36,7 +36,7 @@
                     <tbody>
                     <tr ng-repeat="row in model.locationDisplayCollection">
                         <td>
-                            <button class="btn btn-success" data-dismiss="modal" ng-click="model.setLocation(row)">
+                            <button id="{{row.extId}}" class="btn btn-success" data-dismiss="modal" ng-click="model.setLocation(row)">
                                 select
                             </button>
                         </td>

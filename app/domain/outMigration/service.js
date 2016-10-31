@@ -9,6 +9,9 @@ function OutMigrationService(EntityService) {
     var urlBase = "/outMigrations";
 
     function Request(model) {
+        if (model.residency === null)  {
+            model.residency = {uuid: "UNKNOWN"};
+        }
         return {
             collectedByUuid: model.fieldWorker.uuid,
             visitUuid: model.visit.uuid,

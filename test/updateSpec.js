@@ -97,7 +97,30 @@ describe('UpdateController', function() {
     });
 
     it('submitPregnancyObservation sets currentPregnancyObservation', function() {
-        controller.submitPregnancyObservation();
+        $httpBackend.expectPOST("http://example.com/pregnancyObservations", {
+            "collectedByUuid":123,
+            "visitUuid":456,
+            "motherUuid":789,
+            "pregnancyObservation": {
+                "pregnancyDate":"then",
+                "expectedDeliveryDate":"later",
+                "collectionDateTime":"now"
+            }
+        }) .respond({uuid: "xyz"});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.currentVisit = {uuid: 456, visitDate: "now"};
+        controller.currentIndividual = {uuid: 789};
+        controller.submitPregnancyObservation({
+            pregnancyDate: "then",
+            deliveryDate: "later"
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
+                                                     individual: {uuid: 789},
+                                                     eventType: "pregnancy observation"}]);
         expect(controller.currentPregnancyObservation).toBeNull();
     });
 
@@ -226,10 +249,15 @@ describe('UpdateController', function() {
     });
 
     it('setLocation sets selectedLocation and filters allResidencies', function() {
-        controller.allResidencies = [{uuid: 1, name: "test residency"}];
+        controller.allResidencies = [{uuid: 1, name: "test residency",
+                                      location: {uuid: 1}}];
         controller.setLocation({uuid: 1});
 
-        expect(controller.residencies).toEqual([{uuid: 1, name: "test residency"}]);
+        expect(controller.residencies).toEqual([{
+            uuid: 1,
+            name: "test residency",
+            location: {uuid: 1}
+        }]);
         expect(controller.selectedLocation).toEqual({uuid: 1});
     });
 
@@ -289,11 +317,6 @@ describe('UpdateController', function() {
         delete $;
     });
 
-    it('sets fieldworker', function() {
-        controller.setFieldWorker('foo');
-        expect(controller.currentFieldWorker).toEqual('foo');
-    });
-
     it('sets father', function() {
         controller.currentPregnancyOutcome = null;
         controller.setFather("father");
@@ -304,8 +327,20 @@ describe('UpdateController', function() {
     });
 
     it('sets current individual', function() {
+        controller.residencies = null;
         controller.setCurrentIndividual('foo');
         expect(controller.currentIndividual).toEqual('foo');
+        expect(controller.currentResidency).toEqual({uuid: "UNKNOWN"});
+    });
+
+    it('sets current individual and residency', function() {
+        controller.residencies = [{uuid: 1,
+                                   location: {uuid: 2},
+                                   individual: {uuid: 123}
+                                  }];
+        controller.setCurrentIndividual({uuid: 123});
+        expect(controller.currentIndividual).toEqual({uuid: 123});
+        expect(controller.currentResidency).toEqual(controller.residencies[0]);
     });
 
     it('submits visit', function() {
@@ -342,5 +377,16 @@ describe('UpdateController', function() {
         expect(controller.currentVisit).toEqual({uuid: "visit"});
 
         delete $;
+    });
+
+    it('submits individual for external in-migration', function() {
+        $httpBackend.expectPOST('http://example.com/individuals', {
+            "collectedByUuid":123,
+            "individual":{}
+        }).respond({uuid: 1});
+        controller.currentFieldWorker = {uuid: 123};
+
+        controller.submitIndividual({});
+        $httpBackend.flush();
     });
 });

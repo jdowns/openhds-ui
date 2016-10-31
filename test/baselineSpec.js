@@ -154,21 +154,6 @@ describe('BaselineController', function() {
         expect(controller.selectedSocialGroups).toEqual(["a", "b", "c"]);
     });
 
-
-    it('Should set selected fieldworker', function() {
-        controller.allFieldWorkers = [{uuid: 1}, {uuid: 2}];
-        controller.currentFieldWorkerUuid = 2;
-        controller.saveFieldWorker();
-        expect(controller.currentFieldWorker).toEqual({uuid: 2});
-    });
-
-
-    it('Should set selected fieldworker', function() {
-        controller.allFieldWorkers = [{uuid: 1}, {uuid: 2}];
-        controller.setFieldWorker(controller.allFieldWorkers[1]);
-        expect(controller.currentFieldWorker).toEqual({uuid:2});
-    });
-
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3").respond({content: []});

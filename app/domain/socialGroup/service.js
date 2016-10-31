@@ -6,7 +6,7 @@ angular.module('openhds')
 
 function SocialGroupService(EntityService) {
     var service = this;
-    var urlBase = '/socialGroups'
+    var urlBase = '/socialGroups';
 
     function Request(model) {
         return {

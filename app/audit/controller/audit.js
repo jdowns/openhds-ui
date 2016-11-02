@@ -9,10 +9,8 @@ angular.module('AuditModule', [])
             'FieldWorkerService',
             'LocationService',
             'SocialGroupService',
+            'VisitService',
             'IndividualService',
-            'MembershipService',
-            'RelationshipService',
-            'ResidencyService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -21,10 +19,8 @@ function AuditController($rootScope,
                             FieldWorkerService,
                             LocationService,
                             SocialGroupService,
-                            IndividualService,
-                            MembershipService,
-                            RelationshipService,
-                            ResidencyService) {
+                            VisitService,
+                            IndividualService) {
 
 
     var vm = this;
@@ -67,16 +63,12 @@ function AuditController($rootScope,
             'code':'socialGroup'
         },
         {
-            'name':'Relationship',
-            'code':'relationship'
+            'name':'Visit',
+            'code':'visit'
         },
         {
             'name':'Field Worker',
             'code':'fieldWorker'
-        },
-        {
-            'name':'User',
-            'code':'user'
         }
 
     ];
@@ -97,6 +89,9 @@ function AuditController($rootScope,
                 break;
             case 'socialGroup':
                 vm.lookupSocialGroup();
+                break;
+            case 'visit':
+                vm.lookupVisit();
                 break;
 
             default:
@@ -130,6 +125,15 @@ function AuditController($rootScope,
 
     vm.lookupSocialGroup = function(){
         SocialGroupService.getByExtId(vm.searchExtId)
+            .then(function(response) {
+                vm.currentEntity = response;
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            });
+    };
+
+    vm.lookupVisit = function(){
+        VisitService.getByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
@@ -227,6 +231,13 @@ function AuditController($rootScope,
                 break;
             case 'individual':
                 IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+            case 'visit':
+                VisitService.getByHierarchy(vm.currentHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);

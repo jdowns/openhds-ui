@@ -147,9 +147,6 @@
             Clear Results
         </button>
 
-
-
-
         <!-- Display Social Groups -->
         <h4>Social Groups:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
@@ -201,6 +198,68 @@
         <hr>
 
     </div>
+
+
+
+    <!-- Visits -->
+    <div ng-if="model.queryResult.displayCollection.length > 0 &&
+                model.entityType == 'visit' &&
+                model.queryResult.entityType === model.entityType"
+         style="border:1px solid black;padding: 20px">
+
+        <button class="btn btn-danger pull-right"
+                ng-click="model.clearResults()">
+            Clear Results
+        </button>
+
+        <!-- Display Visits -->
+        <h4>Visits:</h4>
+        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
+            <thead>
+            <tr>
+                <th>extId</th>
+                <th>collectionDateTime</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <th>
+                    <input st-search="extId" class="input-sm form-control" type="search"/>
+                </th>
+                <th>
+                    <input st-search="collectionDateTime" class="input-sm form-control" type="search"/>
+                </th>
+
+                <th></th>
+                <th></th>
+
+            </tr>
+
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in model.queryResult.displayCollection">
+                <td>{{row.extId}}</td>
+                <td>{{row.collectionDateTime}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                        json
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning" ng-click="model.editVisit(row)">
+                        Edit
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr>
+
+    </div>
+
 
 
 

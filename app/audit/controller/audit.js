@@ -393,6 +393,12 @@ function AuditController($rootScope,
         return result;
     };
 
+    vm.viewRelatedIndividual = function(row){
+        vm.currentEntity = row;
+        $("#relatedIndividualModal").modal();
+
+    };
+
 
 
 

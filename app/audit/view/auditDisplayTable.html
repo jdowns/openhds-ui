@@ -79,7 +79,7 @@
 
 
 
-        <!-- Display locations -->
+        <!-- Display individuals -->
         <h4>Individuals:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
@@ -88,6 +88,7 @@
                 <th>firstName</th>
                 <th>lastName</th>
                 <th>gender</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -102,6 +103,7 @@
                 <th>
                     <input st-search="lastName" class="input-sm form-control" type="search"/>
                 </th>
+                <th></th>
                 <th></th>
                 <th></th>
 
@@ -123,6 +125,11 @@
                 <td>
                     <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
                         Edit
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success" ng-click="model.viewRelatedIndividual(row)">
+                        Related
                     </button>
                 </td>
             </tr>

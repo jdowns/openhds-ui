@@ -278,6 +278,13 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
+            case 'visit':
+                VisitService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
 
 
             default:
@@ -320,6 +327,13 @@ function AuditController($rootScope,
                 break;
             case 'socialGroup':
                 SocialGroupService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+            case 'visit':
+                VisitService.getBySearch(tmp)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);

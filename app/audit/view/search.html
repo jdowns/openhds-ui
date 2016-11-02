@@ -1,7 +1,13 @@
 <div>
     <br/><br/>
 
-    <ng-include src="'domain/individual/partials/individualSearch.html'"></ng-include>
+    <ng-include ng-if="model.entityType === 'individual'" src="'domain/individual/partials/individualSearch.html'"></ng-include>
+
+    <ng-include ng-if="model.entityType === 'location'" src="'domain/location/partials/locationSearch.html'"></ng-include>
+
+    <ng-include ng-if="model.entityType === 'socialGroup'" src="'domain/socialGroup/partials/socialGroupSearch.html'"></ng-include>
+
+    <ng-include ng-if="model.entityType === 'fieldWorker'" src="'domain/fieldworker/partials/fieldWorkerSearch.html'"></ng-include>
 
 
 

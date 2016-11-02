@@ -39,6 +39,16 @@ function LocationService(EntityService) {
         return EntityService.getByExtId(urlBase, Response, extId);
     };
 
+    service.getByFieldWorker = function(id) {
+        return EntityService.getByFieldWorker(urlBase, Response, id);
+    };
+
+
+    service.getBySearch = function(entityList) {
+        return EntityService.getBySearch(urlBase, Response, entityList);
+
+    };
+
     service.submit = function(fieldWorker, collectionDate, hierarchy, entity) {
         var model = {
             fieldWorker: fieldWorker,

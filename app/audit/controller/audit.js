@@ -98,6 +98,7 @@ function AuditController($rootScope,
             case 'socialGroup':
                 vm.lookupSocialGroup();
                 break;
+
             default:
                 break;
 
@@ -251,6 +252,22 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
+            case 'location':
+                LocationService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
+            case 'socialGroup':
+                SocialGroupService.getByFieldWorker(vm.currentFieldWorker.id)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
 
             default:
                 break;
@@ -272,11 +289,46 @@ function AuditController($rootScope,
         console.log(tmp);
 
         vm.queryResult.entityType = vm.entityType;
-        IndividualService.getBySearch(tmp)
-        .then(function(response){
-                vm.queryResult.data = response;
-                vm.queryResult.displayCollection = [].concat(response);
-        });
+
+        switch(vm.entityType){
+            case null:
+                break;
+            case 'location':
+                LocationService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+            case 'individual':
+                IndividualService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+            case 'socialGroup':
+                SocialGroupService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+            case 'fieldWorker':
+                FieldWorkerService.getBySearch(tmp)
+                    .then(function(response){
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+                break;
+
+            default:
+                break;
+
+
+        }
+
+
 
     };
 
@@ -315,6 +367,7 @@ function AuditController($rootScope,
         });
         return result;
     };
+
 
 
 

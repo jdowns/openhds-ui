@@ -30,7 +30,8 @@
                 <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
                         <constbox label="Individual" ng-model="model.individual.extId"></constbox>
-                        <button ng-click="model.individual = null">Clear</button>
+                        <button class="btn btn-danger" ng-click="model.individual = null">clear</button>
+
                     </div>
                     <div ng-hide="model.individual != null">
                         <div align="center">

@@ -24,20 +24,25 @@
               {{code.codeName}}
             </option>
           </selectbox>
-          <br /> <hr />
+          <br />
 
-          <div ng-hide="model.currentPregnancyOutcome.father == null">
-            <constbox label="Father" ng-model="model.currentPregnancyOutcome.father"></constbox>
-            <button ng-click="model.individual = null">Clear</button>
-          </div>
-          <div ng-hide="model.currentPregnancyOutcome.father != null">
-            <div align="center">
-              <button class="btn btn-default" id="individual-select"
-                      data-toggle="modal"
-                      data-target="#fatherLookupModal"
-                      data-dismiss="modal">
-                Select Father
-              </button>
+          <div>
+            <div ng-hide="model.currentPregnancyOutcome.father == null">
+              <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
+              <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">clear</button>
+            </div>
+            <div ng-hide="model.currentPregnancyOutcome.father != null">
+              <br/>
+              <label for="individual-select">Father</label>
+              <div align="center">
+                <button class="btn btn-default" id="individual-select"
+                        data-toggle="modal"
+                        data-target="#individualLookupModal"
+                        data-dismiss="modal">
+                  Select Father
+                </button>
+              </div>
+
             </div>
 
           </div>
@@ -89,239 +94,6 @@
     </div>
   </div>
 </div>
-<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+<ng-include src="'domain/individual/partials/individualLookupModal.html'"></ng-include>
 
-
-
-
-
-
-<!-- father select modal -->
-<div class="modal fade" id="fatherLookupModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Select Father</h4>
-      </div>
-      <div class="modal-body" style="overflow-y:auto; height:500px;">
-
-
-
-        <div style="border:1px solid black;">
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-              <a role="tab" style="border: 1px solid white;" id="lookupTab" data-toggle="tab" data-target="#lookup">
-                Lookup External ID
-              </a>
-            </li>
-            <li role="presentation">
-              <a role="tab" style="border: 1px solid white;" id="hierarchyTab" data-toggle="tab" data-target="#byHierarchy">
-                Search By Hierarchy
-              </a>
-            </li>
-
-            <li role="presentation">
-              <a role="tab" style="border: 1px solid white;" id="searchTab" data-toggle="tab" data-target="#search">
-                Search
-              </a>
-            </li>
-
-          </ul>
-
-
-
-          <div class="tab-content"
-               style="padding-right: 20px;padding-bottom: 20px;padding-left:20px;">
-            <!-- Lookup -->
-            <div role="tabpanel" class="tab-pane fade in active" id="lookup">
-              <ng-include src="'audit/view/auditLookup.html'"></ng-include>
-
-            </div>
-
-            <!-- Search By Hierarchy-->
-            <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
-              <div>
-
-                <br/><br/>
-
-
-                <fieldset>
-                  <div ng-hide="model.searchHierarchy == null">
-                    <constbox label="Location Hierarchy" ng-model="model.searchHierarchy.extId"></constbox>
-                    <button class="btn btn-danger" ng-click="model.searchHierarchy = null">
-                      <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                  </div>
-                  <div ng-hide="model.searchHierarchy != null">
-                    <label for="hierarchy-select">Location Hierarchy: </label>
-
-                    <div align="center">
-                      <button class="btn btn-default" id="hierarchy-select"
-                              data-toggle="modal"
-                              data-target="#hierarchyModalForIndividualLookup"
-                              data-dismiss="modal"
-                              ng-disabled="model.entityType == null ||
-                                    model.entityType != 'location' &&
-                                    model.entityType != 'individual'">
-                        Select Hierarchy
-                      </button>
-                    </div>
-                  </div>
-
-
-                  <br/>
-
-
-                </fieldset>
-
-                <button id="searchHierarchyGo"
-                        class="btn btn-primary pull-right"
-                        ng-click="model.searchByHierarchy()"
-                        ng-disabled="model.searchHierarchy == null">
-                  Search
-                  <span class="glyphicon glyphicon-search"></span>
-                </button>
-                <br/><br/>
-
-
-              </div>
-
-
-
-
-
-            </div>
-
-
-            <!-- Search By field-->
-            <div role="tabpanel" class="tab-pane fade" id="search">
-              <br/><br/>
-              <br/><br/>
-
-              <ng-include src="'domain/individual/partials/individualSearch.html'"></ng-include>
-              <button id="searchFields"
-                      class="btn btn-primary pull-right"
-                      ng-click="model.searchByFields()">
-                Search
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-              <button class="btn btn-danger pull-right"
-                      ng-click="model.currentSearch = null">
-                reset
-              </button>
-              <br/><br/>
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-        <!-- Search for existing individual -->
-        <h4>Individuals:</h4>
-        <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
-          <thead>
-          <tr>
-            <th></th>
-            <th>extId</th>
-            <th st-sort="firstName">first</th>
-            <th st-sort="lastName">last</th>
-            <th>d.o.b.</th>
-            <th>gender</th>
-
-          </tr>
-          <tr>
-            <th></th>
-            <th>
-              <input st-search="extId" class="input-sm form-control" type="search"/>
-            </th>
-            <th>
-              <input st-search="firstName" class="input-sm form-control" type="search"/>
-            </th>
-            <th>
-              <input st-search="lastName" class="input-sm form-control" type="search"/>
-            </th>
-            <th></th>
-            <th></th>
-
-          </tr>
-          </thead>
-          <tbody>
-          <tr ng-repeat="row in model.queryResult.displayCollection">
-            <td>
-              <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.currentPregnancyOutcome.father=row"
-                      data-target="#pregnancyOutcomeCreateModal" data-dismiss="modal">
-                select
-              </button>
-            </td>
-            <td>{{row.extId}}</td>
-            <td>{{row.firstName}}</td>
-            <td>{{row.lastName}}</td>
-            <td>{{row.dateOfBirth}}</td>
-            <td>{{row.gender}}</td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr>
-            <td colspan="4" class="text-center">
-              <div st-pagination="" st-items-by-page=10></div>
-            </td>
-          </tr>
-          </tfoot>
-        </table>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
-          Done
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- needed separate modal for different destination -->
-<div class="modal fade" id="hierarchyModalForIndividualLookup" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Location Hierarchy Select</h4>
-      </div>
-      <div class="modal-body">
-        <select ng-model="model.selectedHierarchy[0]">
-          <option ng-repeat="root_hierarchy in model.locationHierarchies['HIERARCHY_ROOT']"
-                  value="{{root_hierarchy.uuid}}">
-            {{root_hierarchy.extId}}
-          </option>
-        </select>
-        <div ng-repeat="hierarchies in model.availableHierarchies()"
-             ng-if="hierarchies.length > 0">
-          <select ng-model="model.selectedHierarchy[hierarchies[0].level]">
-            <option ng-repeat="hierarchy in hierarchies"
-                    value="{{hierarchy.uuid}}">
-              {{hierarchy.extId}}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default"
-                data-toggle="modal"
-                ng-click="model.saveSearchHierarchy()"
-                data-target="#pregnancyOutcomeCreateModal"
-                data-dismiss="modal"
-                id="saveHierarchy">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 

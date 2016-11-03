@@ -58,6 +58,9 @@ function UpdateController($rootScope,
     vm.currentPregnancyObservation = null;
     vm.currentPregnancyOutcome = null;
 
+    vm.currentEventType = null;
+
+
     vm.setFather = function(row) {
         if (vm.currentPregnancyOutcome === null) {
             vm.currentPregnancyOutcome = {father: row};
@@ -221,6 +224,7 @@ function UpdateController($rootScope,
     ];
 
 
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -329,6 +333,22 @@ function UpdateController($rootScope,
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
             });
+    };
+
+
+    vm.chooseIndividual = function(row){
+        switch(vm.currentEventType){
+            case 'pregnancyOutcome':
+                vm.setFather(row);
+                $("#pregnancyOutcomeCreateModal").modal();
+                break;
+            case 'inMigration':
+                vm.individual = row;
+                $("#inMigrationCreateModal").modal();
+                break;
+            default:
+                break;
+        }
     };
 
     // END : Search for individual ------------------------

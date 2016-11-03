@@ -241,14 +241,9 @@ function UpdateController($rootScope,
     };
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
-        if (vm.residencies === null) {
-            vm.currentResidency = {uuid: "UNKNOWN"};
-        } else {
-            vm.currentResidency = vm.residencies.filter(function(res) {
-                return res.individual.uuid === vm.currentIndividual.uuid;
-            })[0];
-        }
+
     };
+
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
@@ -260,7 +255,7 @@ function UpdateController($rootScope,
 
         });
 
-   
+
     };
 
     vm.availableHierarchies = function() {
@@ -271,6 +266,59 @@ function UpdateController($rootScope,
         });
         return result;
     };
+
+
+    // START : Search for individual ------------------------
+    vm.entityType = 'individual';
+    vm.queryResult = {
+        entityType : 'individual',
+        data : [],
+        displayCollection : []
+    };
+
+    vm.clearResults = function(){
+        vm.queryResult.data = [];
+        vm.queryResult.displayCollection = [];
+    };
+
+    vm.lookupEntity = function(){
+        IndividualService.getByExtId(vm.searchExtId)
+            .then(function(response) {
+                vm.currentEntity = response;
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            });
+    };
+
+
+    vm.searchByHierarchy = function(){
+                IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+
+    };
+
+    vm.searchByFields = function(){
+        if (vm.currentSearch == null){
+            return;
+        }
+        var tmp = "";
+        Object.keys(vm.currentSearch).forEach(function(key){
+            if (vm.currentSearch[key] != null){
+                tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
+            }
+        });
+        tmp = tmp.substring(0, tmp.length-1);
+        IndividualService.getBySearch(tmp)
+            .then(function(response){
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            });
+    };
+
+    // END : Search for individual ------------------------
 
 
 

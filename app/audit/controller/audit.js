@@ -208,7 +208,7 @@ function AuditController($rootScope,
         var parent = vm.selectedHierarchy[parentIndex];
         var last = vm.selectedHierarchy[lastIndex];
         var children = vm.locationHierarchies[parent];
-        vm.currentHierarchy = children.filter(function(child) {
+        vm.searchHierarchy = children.filter(function(child) {
             return child.uuid === last;
         })[0];
     };
@@ -219,14 +219,14 @@ function AuditController($rootScope,
             case null:
                 break;
             case 'location':
-                LocationService.getByHierarchy(vm.currentHierarchy.uuid)
+                LocationService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
                     });
                 break;
             case 'individual':
-                IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
+                IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);

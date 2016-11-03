@@ -1,0 +1,138 @@
+<!-- individual select modal -->
+<div class="modal fade" id="individualLookupModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Individual Select</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div style="border:1px solid black;">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a role="tab" style="border: 1px solid white;" id="lookupTab" data-toggle="tab" data-target="#lookup">
+                                Lookup External ID
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a role="tab" style="border: 1px solid white;" id="hierarchyTab" data-toggle="tab" data-target="#byHierarchy">
+                                Search By Hierarchy
+                            </a>
+                        </li>
+
+                        <li role="presentation">
+                            <a role="tab" style="border: 1px solid white;" id="searchTab" data-toggle="tab" data-target="#search">
+                                Search
+                            </a>
+                        </li>
+
+                    </ul>
+
+
+
+                    <div class="tab-content"
+                         style="padding-right: 20px;padding-bottom: 20px;padding-left:20px;">
+                        <!-- Lookup -->
+                        <div role="tabpanel" class="tab-pane fade in active" id="lookup">
+                            <ng-include src="'audit/view/auditLookup.html'"></ng-include>
+
+                        </div>
+
+                        <!-- Search By Hierarchy-->
+                        <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
+                            <ng-include src="'audit/view/searchByHierarchy.html'"></ng-include>
+                        </div>
+
+
+                        <!-- Search By field-->
+                        <div role="tabpanel" class="tab-pane fade" id="search">
+                            <br/><br/>
+                            <br/><br/>
+
+                            <ng-include src="'domain/individual/partials/individualSearch.html'"></ng-include>
+                            <button id="searchFields"
+                                    class="btn btn-primary pull-right"
+                                    ng-click="model.searchByFields()">
+                                Search
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="btn btn-danger pull-right"
+                                    ng-click="model.currentSearch = null">
+                                reset
+                            </button>
+                            <br/><br/>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- Search for existing individual -->
+                <h4>Individuals:</h4>
+                <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>extId</th>
+                        <th st-sort="firstName">first</th>
+                        <th st-sort="lastName">last</th>
+                        <th>d.o.b.</th>
+                        <th>gender</th>
+
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input st-search="extId" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="firstName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th>
+                            <input st-search="lastName" class="input-sm form-control" type="search"/>
+                        </th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in model.queryResult.displayCollection">
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.individual = row"
+                                    data-target="#inMigrationCreateModal" data-dismiss="modal">
+                                select
+                            </button>
+                        </td>
+                        <td>{{row.extId}}</td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.dateOfBirth}}</td>
+                        <td>{{row.gender}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div st-pagination="" st-items-by-page=10></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

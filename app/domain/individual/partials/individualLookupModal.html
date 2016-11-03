@@ -45,7 +45,56 @@
 
                         <!-- Search By Hierarchy-->
                         <div role="tabpanel" class="tab-pane fade" id="byHierarchy">
-                            <ng-include src="'audit/view/searchByHierarchy.html'"></ng-include>
+                            <div>
+
+                                <br/><br/>
+
+
+                                <fieldset>
+                                    <div ng-hide="model.searchHierarchy == null">
+                                        <constbox label="Location Hierarchy" ng-model="model.searchHierarchy.extId"></constbox>
+                                        <button class="btn btn-danger" ng-click="model.searchHierarchy = null">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+                                    <div ng-hide="model.searchHierarchy != null">
+                                        <label for="hierarchy-select">Location Hierarchy: </label>
+
+                                        <div align="center">
+                                            <button class="btn btn-default" id="hierarchy-select"
+                                                    data-toggle="modal"
+                                                    data-target="#hierarchyModalForIndividualLookup"
+                                                    data-dismiss="modal"
+                                                    ng-disabled="model.entityType == null ||
+                                    model.entityType != 'location' &&
+                                    model.entityType != 'individual'">
+                                                Select Hierarchy
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <br/>
+
+
+                                </fieldset>
+
+                                <button id="searchHierarchyGo"
+                                        class="btn btn-primary pull-right"
+                                        ng-click="model.searchByHierarchy()"
+                                        ng-disabled="model.searchHierarchy == null">
+                                    Search
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                                <br/><br/>
+
+
+                            </div>
+
+
+
+
+
                         </div>
 
 
@@ -131,6 +180,47 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">
                     Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- needed separate modal for different destination -->
+<div class="modal fade" id="hierarchyModalForIndividualLookup" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Location Hierarchy Select</h4>
+            </div>
+            <div class="modal-body">
+                <select ng-model="model.selectedHierarchy[0]">
+                    <option ng-repeat="root_hierarchy in model.locationHierarchies['HIERARCHY_ROOT']"
+                            value="{{root_hierarchy.uuid}}">
+                        {{root_hierarchy.extId}}
+                    </option>
+                </select>
+                <div ng-repeat="hierarchies in model.availableHierarchies()"
+                     ng-if="hierarchies.length > 0">
+                    <select ng-model="model.selectedHierarchy[hierarchies[0].level]">
+                        <option ng-repeat="hierarchy in hierarchies"
+                                value="{{hierarchy.uuid}}">
+                            {{hierarchy.extId}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-toggle="modal"
+                        ng-click="model.saveSearchHierarchy()"
+                        data-target="#individualLookupModal"
+                        data-dismiss="modal"
+                        id="saveHierarchy">
+                    Close
                 </button>
             </div>
         </div>

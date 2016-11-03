@@ -239,6 +239,19 @@ function UpdateController($rootScope,
             });
 
     };
+
+    vm.saveSearchHierarchy = function() {
+        var parentIndex = vm.selectedHierarchy.length - 2;
+        var lastIndex = vm.selectedHierarchy.length - 1;
+
+        var parent = vm.selectedHierarchy[parentIndex];
+        var last = vm.selectedHierarchy[lastIndex];
+        var children = vm.locationHierarchies[parent];
+        vm.searchHierarchy = children.filter(function(child) {
+            return child.uuid === last;
+        })[0];
+    };
+
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
 

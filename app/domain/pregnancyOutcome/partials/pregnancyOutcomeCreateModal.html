@@ -26,7 +26,7 @@
           </selectbox>
           <br />
 
-          <div>
+          <div ng-if="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
             <div ng-hide="model.currentPregnancyOutcome.father == null">
               <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
               <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">clear</button>

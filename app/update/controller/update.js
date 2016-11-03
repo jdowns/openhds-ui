@@ -260,9 +260,7 @@ function UpdateController($rootScope,
 
         });
 
-        vm.residencies = vm.allResidencies.filter(function(residency){
-            return residency.location.uuid === row.uuid;
-        });
+   
     };
 
     vm.availableHierarchies = function() {

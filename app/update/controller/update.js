@@ -58,6 +58,9 @@ function UpdateController($rootScope,
     vm.currentPregnancyObservation = null;
     vm.currentPregnancyOutcome = null;
 
+    vm.currentEventType = null;
+
+
     vm.setFather = function(row) {
         if (vm.currentPregnancyOutcome === null) {
             vm.currentPregnancyOutcome = {father: row};
@@ -221,6 +224,7 @@ function UpdateController($rootScope,
     ];
 
 
+
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -239,16 +243,24 @@ function UpdateController($rootScope,
             });
 
     };
+
+    vm.saveSearchHierarchy = function() {
+        var parentIndex = vm.selectedHierarchy.length - 2;
+        var lastIndex = vm.selectedHierarchy.length - 1;
+
+        var parent = vm.selectedHierarchy[parentIndex];
+        var last = vm.selectedHierarchy[lastIndex];
+        var children = vm.locationHierarchies[parent];
+        vm.searchHierarchy = children.filter(function(child) {
+            return child.uuid === last;
+        })[0];
+    };
+
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
-        if (vm.residencies === null) {
-            vm.currentResidency = {uuid: "UNKNOWN"};
-        } else {
-            vm.currentResidency = vm.residencies.filter(function(res) {
-                return res.individual.uuid === vm.currentIndividual.uuid;
-            })[0];
-        }
+
     };
+
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
 
@@ -260,9 +272,7 @@ function UpdateController($rootScope,
 
         });
 
-        vm.residencies = vm.allResidencies.filter(function(residency){
-            return residency.location.uuid === row.uuid;
-        });
+
     };
 
     vm.availableHierarchies = function() {
@@ -273,6 +283,75 @@ function UpdateController($rootScope,
         });
         return result;
     };
+
+
+    // START : Search for individual ------------------------
+    vm.entityType = 'individual';
+    vm.queryResult = {
+        entityType : 'individual',
+        data : [],
+        displayCollection : []
+    };
+
+    vm.clearResults = function(){
+        vm.queryResult.data = [];
+        vm.queryResult.displayCollection = [];
+    };
+
+    vm.lookupEntity = function(){
+        IndividualService.getByExtId(vm.searchExtId)
+            .then(function(response) {
+                vm.currentEntity = response;
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            });
+    };
+
+
+    vm.searchByHierarchy = function(){
+                IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
+                    .then(function(response) {
+                        vm.queryResult.data = response;
+                        vm.queryResult.displayCollection = [].concat(response);
+                    });
+
+    };
+
+    vm.searchByFields = function(){
+        if (vm.currentSearch == null){
+            return;
+        }
+        var tmp = "";
+        Object.keys(vm.currentSearch).forEach(function(key){
+            if (vm.currentSearch[key] != null){
+                tmp = tmp.concat(key + "=" + vm.currentSearch[key] + "&");
+            }
+        });
+        tmp = tmp.substring(0, tmp.length-1);
+        IndividualService.getBySearch(tmp)
+            .then(function(response){
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            });
+    };
+
+
+    vm.chooseIndividual = function(row){
+        switch(vm.currentEventType){
+            case 'pregnancyOutcome':
+                vm.setFather(row);
+                $("#pregnancyOutcomeCreateModal").modal();
+                break;
+            case 'inMigration':
+                vm.individual = row;
+                $("#inMigrationCreateModal").modal();
+                break;
+            default:
+                break;
+        }
+    };
+
+    // END : Search for individual ------------------------
 
 
 

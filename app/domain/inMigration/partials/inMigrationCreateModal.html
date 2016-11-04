@@ -30,13 +30,14 @@
                 <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
                         <constbox label="Individual" ng-model="model.individual.extId"></constbox>
-                        <button ng-click="model.individual = null">Clear</button>
+                        <button class="btn btn-danger" ng-click="model.individual = null">clear</button>
+
                     </div>
                     <div ng-hide="model.individual != null">
                         <div align="center">
                             <button class="btn btn-default" id="individual-select"
                                     data-toggle="modal"
-                                    data-target="#individualSelectModalInMigrate"
+                                    data-target="#individualLookupModal"
                                     data-dismiss="modal">
                                 Select Individual
                             </button>
@@ -82,79 +83,7 @@
 
 
 
-<!-- individual select modal -->
-<div class="modal fade" id="individualSelectModalInMigrate" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Individual Select</h4>
-            </div>
-            <div class="modal-body">
 
-                <!-- Search for existing individual -->
-                <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>extId</th>
-                        <th st-sort="firstName">first</th>
-                        <th st-sort="lastName">last</th>
-                        <th>d.o.b.</th>
-                        <th>gender</th>
-
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th>
-                            <input st-search="extId" class="input-sm form-control" type="search"/>
-                        </th>
-                        <th>
-                            <input st-search="firstName" class="input-sm form-control" type="search"/>
-                        </th>
-                        <th>
-                            <input st-search="lastName" class="input-sm form-control" type="search"/>
-                        </th>
-                        <th></th>
-                        <th></th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in model.individualDisplayCollection">
-                        <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.individual = row"
-                                    data-target="#inMigrationCreateModal" data-dismiss="modal">
-                                select
-                            </button>
-                        </td>
-                        <td>{{row.extId}}</td>
-                        <td>{{row.firstName}}</td>
-                        <td>{{row.lastName}}</td>
-                        <td>{{row.dateOfBirth}}</td>
-                        <td>{{row.gender}}</td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            <div st-pagination="" st-items-by-page=10></div>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">
-                    Done
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- individual create modal -->

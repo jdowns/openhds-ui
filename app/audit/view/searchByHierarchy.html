@@ -5,8 +5,9 @@
     <div class="alert alert-danger" role="alert"
             ng-if="model.entityType != null &&
                    model.entityType != 'location' &&
-                   model.entityType != 'individual'">
-        Search by hierarchy is only available for locations and individuals
+                   model.entityType != 'individual' &&
+                   model.entityType != 'visit'">
+        Search by hierarchy is only available for locations, individuals and visits
     </div>
 
     <fieldset>
@@ -25,7 +26,8 @@
                         data-target="#hierarchyModal"
                         ng-disabled="model.entityType == null ||
                                     model.entityType != 'location' &&
-                                    model.entityType != 'individual'">
+                                    model.entityType != 'individual' &&
+                                    model.entityType != 'visit'">
                     Select Hierarchy
                 </button>
             </div>

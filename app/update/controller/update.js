@@ -47,10 +47,7 @@ function UpdateController($rootScope,
     vm.selectedLocation = null;
     vm.selectedIndividual = null;
     vm.submittedEvents = [];
-
     vm.submittedVisits = [];
-
-
     vm.currentResidency = null;
     vm.currentInMigration = null;
     vm.currentOutMigration = null;
@@ -224,7 +221,6 @@ function UpdateController($rootScope,
     ];
 
 
-
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -258,21 +254,16 @@ function UpdateController($rootScope,
 
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
-
     };
 
     vm.setLocation = function(row) {
         vm.selectedLocation = row;
-
-
 
         IndividualService.getByLocation(row.uuid).then(function(response){
             vm.allIndividuals = response;
             vm.individualDisplayCollection = [].concat(response);
 
         });
-
-
     };
 
     vm.availableHierarchies = function() {

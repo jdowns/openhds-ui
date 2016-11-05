@@ -21,8 +21,6 @@ function AuditController($rootScope,
                             SocialGroupService,
                             VisitService,
                             IndividualService) {
-
-
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
     vm.selectedHierarchy = [];
@@ -142,7 +140,6 @@ function AuditController($rootScope,
     };
 
 
-
     vm.saveLocation = function(){
         var temp = angular.copy(vm.tempLoc);
 
@@ -204,7 +201,6 @@ function AuditController($rootScope,
 
     };
 
-
     vm.saveLocationHierarchy = function() {
         var parentIndex = vm.selectedHierarchy.length - 2;
         var lastIndex = vm.selectedHierarchy.length - 1;
@@ -223,6 +219,8 @@ function AuditController($rootScope,
             case null:
                 break;
             case 'location':
+                console.log(vm.searchHierarchy.uuid);
+
                 LocationService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
@@ -237,7 +235,7 @@ function AuditController($rootScope,
                     });
                 break;
             case 'visit':
-                VisitService.getByHierarchy(vm.currentHierarchy.uuid)
+                VisitService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
@@ -249,7 +247,6 @@ function AuditController($rootScope,
 
         }
     };
-
 
     vm.searchByFieldWorker = function(){
         vm.queryResult.entityType = vm.entityType;

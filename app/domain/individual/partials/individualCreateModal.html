@@ -8,10 +8,9 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Create New Individual</h4>
             </div>
+            <form name="form">
+
             <div class="modal-body">
-
-
-
                 <fieldset>
                     <textbox label="First Name" id="firstName" name="firstName"
                              ng-model="model.individual.firstName"></textbox>
@@ -30,11 +29,23 @@
                         </option>
                     </selectbox>
                     <br /><br />
-                    <datebox label="Date Of Birth" id="dateOfBirth"
-                             ng-model="model.individual.dateOfBirth"></datebox>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="dateOfBirth_input">Date Of Birth</label>
+                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">Date of Birth cannot be in the future</span>
+                        <div class="col-md-4">
+                            <input required
+                                   name="dateOfBirth"
+                                   ng-max="{{model.collectionDateTime}}"
+                                   max="{{model.collectionDateTime}}"
+                                   type="date"
+                                   id="dateOfBirth_input"
+                                   name="dateOfBirth"
+                                   ng-model="model.individual.dateOfBirth"
+                                   class="form-control input-md"/>
+
+                            </div>
+                        </div>
                     <br /><br />
-
-
                     <datebox label="Residency Start Date" id="residencyStartDate"
                              ng-model="model.residency.startDate"></datebox>
                     <br /><br />
@@ -47,14 +58,16 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#membershipCreateModal" data-dismiss="modal"
-			id="assignMembership"
+			            id="assignMembership"
+                        ng-disabled="form.$invalid"
                         ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
                     Assign Membership
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
 
-
             </div>
+            </form>
+
         </div>
     </div>
 </div>

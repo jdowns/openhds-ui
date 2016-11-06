@@ -10,72 +10,63 @@
             </div>
             <form name="form">
 
-            <div class="modal-body">
-                <fieldset>
-                    <textbox label="First Name" id="firstName" name="firstName"
-                             ng-model="model.individual.firstName"></textbox>
-                    <br /><br />
-                    <textbox label="Last Name" id="lastName" name="lastName"
-                             ng-model="model.individual.lastName"></textbox>
-                    <br /><br />
-                    <textbox label="External ID" id="extId" name="extId"
-                             ng-model="model.individual.extId"></textbox>
-                    <br /><br />
-                    <selectbox ng-model="model.individual.gender" id="gender" name="gender"
-                               label="Gender*">
-                        <option ng-if="code.codeGroup === 'gender'"
-                                ng-repeat="code in model.codes"
-                                value="{{code.codeValue}}">{{code.codeName}}
-                        </option>
-                    </selectbox>
-                    <br /><br />
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="dateOfBirth_input">Date Of Birth</label>
-                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">Date of Birth cannot be in the future</span>
-                        <div class="col-md-4">
-                            <input required
-                                   name="dateOfBirth"
-                                   ng-max="{{model.collectionDateTime}}"
-                                   max="{{model.collectionDateTime}}"
-                                   type="date"
-                                   id="dateOfBirth_input"
-                                   name="dateOfBirth"
-                                   ng-model="model.individual.dateOfBirth"
-                                   class="form-control input-md"/>
+                <div class="modal-body">
+                    <fieldset>
+                        <textbox label="First Name" id="firstName" name="firstName"
+                                 ng-model="model.individual.firstName"></textbox>
+                        <br/><br/>
+                        <textbox label="Last Name" id="lastName" name="lastName"
+                                 ng-model="model.individual.lastName"></textbox>
+                        <br/><br/>
+                        <textbox label="External ID" id="extId" name="extId"
+                                 ng-model="model.individual.extId"></textbox>
+                        <br/><br/>
+                        <selectbox ng-model="model.individual.gender" id="gender" name="gender"
+                                   label="Gender">
+                            <option ng-if="code.codeGroup === 'gender'"
+                                    ng-repeat="code in model.codes"
+                                    value="{{code.codeValue}}">{{code.codeName}}
+                            </option>
+                        </selectbox>
+                        <br/><br/>
+                        <datebox label="Date of Birth" id="dateOfBirth"
+                                 max="{{model.collectionDateTime}}"
+                                 name="dateOfBirth"
+                                 ng-model="model.individual.dateOfBirth"></datebox>
+                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">Date of birth cannot be in the future</span>
 
-                            </div>
-                        </div>
-                    <br /><br />
-                    <datebox label="Residency Start Date" id="residencyStartDate"
-                             ng-model="model.residency.startDate"></datebox>
-                    <br /><br />
-                </fieldset>
+                        <br/><br/>
+                        <datebox label="Residency Start Date"
+                                 max="{{model.collectionDateTime}}"
+                                 name="residencyStartDate"
+                                 id="residencyStartDate"
+                                 ng-model="model.residency.startDate"></datebox>
+                        <span class="alert alert-danger" ng-show="form.residencyStartDate.$error.max">Start date cannot be in the future</span>
+
+                        <br/><br/>
+                    </fieldset>
 
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#membershipCreateModal" data-dismiss="modal"
-			            id="assignMembership"
-                        ng-disabled="form.$invalid"
-                        ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
-                    Assign Membership
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#membershipCreateModal" data-dismiss="modal"
+                            id="assignMembership"
+                            ng-disabled="form.$invalid"
+                            ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
+                        Assign Membership
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
 
-            </div>
+                </div>
             </form>
 
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 <ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

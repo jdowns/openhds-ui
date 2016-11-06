@@ -109,7 +109,7 @@ function AuditController($rootScope,
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
     vm.lookupIndividual = function(){
@@ -118,7 +118,7 @@ function AuditController($rootScope,
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
     vm.lookupSocialGroup = function(){
@@ -127,7 +127,7 @@ function AuditController($rootScope,
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
     vm.lookupVisit = function(){
@@ -136,7 +136,7 @@ function AuditController($rootScope,
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
 
@@ -225,21 +225,21 @@ function AuditController($rootScope,
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'individual':
                 IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'visit':
                 VisitService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
 
             default:
@@ -258,14 +258,14 @@ function AuditController($rootScope,
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'location':
                 LocationService.getByFieldWorker(vm.currentFieldWorker.id)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
 
             case 'socialGroup':
@@ -273,14 +273,14 @@ function AuditController($rootScope,
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'visit':
                 VisitService.getByFieldWorker(vm.currentFieldWorker.id)
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
 
 
@@ -313,35 +313,35 @@ function AuditController($rootScope,
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'individual':
                 IndividualService.getBySearch(tmp)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'socialGroup':
                 SocialGroupService.getBySearch(tmp)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'visit':
                 VisitService.getBySearch(tmp)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
             case 'fieldWorker':
                 FieldWorkerService.getBySearch(tmp)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
                 break;
 
             default:
@@ -402,21 +402,27 @@ function AuditController($rootScope,
         $http.get(codesUrl, {headers: headers})
             .then(function(response) {
                 vm.codes = response.data;
-            });
+            }, errorHandler);
 
         FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
-        });
+        }, errorHandler);
 
         LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
-        });
+        }, errorHandler);
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
-        });
+        }, errorHandler);
 
 
     };
+
+    function errorHandler(error) {
+        vm.errorMessage = error;
+    }
+
+    vm.errorHandler = errorHandler;
 
     return vm;
 }

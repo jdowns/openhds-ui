@@ -546,4 +546,10 @@ describe('AuditController', function() {
         expect(hierarchies).toEqual([[{uuid: 1}],
                                      [{uuid:2}, {uuid:3}]]);
     });
+
+    it('sets error message', function() {
+        controller.errorHandler('oops');
+        expect(controller.errorMessage).toEqual('oops');
+    })
+
 });

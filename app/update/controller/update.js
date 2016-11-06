@@ -71,7 +71,7 @@ function UpdateController($rootScope,
         VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
             .then(function(response) {
                 vm.currentVisit = response.data;
-            });
+            }, errorHandler);
         $('#eventTab').tab('show');
     };
 
@@ -80,7 +80,7 @@ function UpdateController($rootScope,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
                 vm.submittedEvents.push(response.data);
-            });
+            }, errorHandler);
         vm.currentInMigration = null;
     };
 
@@ -90,7 +90,7 @@ function UpdateController($rootScope,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
                 vm.submittedEvents.push(response.data);
-            });
+            }, errorHandler);
         vm.currentOutMigration = null;
     };
 
@@ -103,7 +103,7 @@ function UpdateController($rootScope,
                     eventType: "death"
                 };
                 vm.submittedEvents.push(event);
-            });
+            }, errorHandler);
         vm.currentDeath = null;
     };
 
@@ -117,7 +117,7 @@ function UpdateController($rootScope,
                 };
                 vm.submittedEvents.push(event);
                 vm.currentPregnancyObservation = null;
-            });
+            }, errorHandler);
     };
 
     vm.submitPregnancyOutcome = function(outcome, result){
@@ -147,8 +147,8 @@ function UpdateController($rootScope,
                                         eventType: "pregnancy result"
                                     };
                                     vm.submittedEvents.push(event);
-                                });
-                        });
+                                }, errorHandler);
+                        }, errorHandler);
                     vm.currentPregnancyOutcome = null;
                     vm.currentPregnancyResult = null;
                 }
@@ -164,9 +164,9 @@ function UpdateController($rootScope,
                             vm.submittedEvents.push(event);
                             vm.currentPregnancyOutcome = null;
                             vm.currentPregnancyResult = null;
-                        });
+                        }, errorHandler);
                 }
-            });
+            }, errorHandler);
     };
 
     // For External In-Migration
@@ -236,7 +236,7 @@ function UpdateController($rootScope,
             .then(function(response) {
                 vm.allLocations = response;
                 vm.locationDisplayCollection = [].concat(response);
-            });
+            }, errorHandler);
 
     };
 
@@ -295,7 +295,7 @@ function UpdateController($rootScope,
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
 
@@ -304,7 +304,7 @@ function UpdateController($rootScope,
                     .then(function(response) {
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
-                    });
+                    }, errorHandler);
 
     };
 
@@ -323,7 +323,7 @@ function UpdateController($rootScope,
             .then(function(response){
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
 
@@ -355,21 +355,27 @@ function UpdateController($rootScope,
         $http.get(codesUrl, {headers: headers})
             .then(function(response) {
                 vm.codes = response.data;
-            });
+            }, errorHandler);
 
         FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
-        });
+        }, errorHandler);
 
         LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
-        });
+        }, errorHandler);
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
-        });
+        }, errorHandler);
 
 
     };
+
+    function errorHandler(error) {
+        vm.errorMessage = error;
+    }
+
+    vm.errorHandler = errorHandler;
 
     return vm;
 

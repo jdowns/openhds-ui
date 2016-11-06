@@ -20,6 +20,15 @@
 
         <div class="tab-content">
 
+          <div id="alertbox">
+            <div class="alert alert-danger" role="alert" ng-show="model.errorMessage">
+              <button type="button" class="close" ng-click="model.errorMessage = null">
+                <span>&times;</span>
+              </button>
+              <strong>{{model.errorMessage.statusText}}</strong> {{model.errorMessage.data[0].message}}
+            </div>
+          </div>
+
           <!-- Update Initialization -->
           <div role="tabpanel" class="tab-pane fade in active" id="update">
             <ng-include src="'update/view/updateInit.html'"></ng-include>

@@ -518,4 +518,10 @@ describe('UpdateController', function() {
         expect(controller.currentPregnancyOutcome.father).toBeUndefined();
         expect(controller.individual).toBeUndefined();
     });
+
+    it('sets error message', function() {
+        controller.errorHandler('oops');
+        expect(controller.errorMessage).toEqual('oops');
+    })
+
 });

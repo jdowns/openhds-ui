@@ -11,38 +11,69 @@
             </div>
             <div class="modal-body">
 
-                <div>
-                    Memberships:
-                    <div ng-repeat = "mem in model.currentEntity.related.memberships">
-                        <button>GET</button>
+
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne" ng-click="model.toggleIndividualRelated('memberships')">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
+                                    Memberships
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.showIndividualRelated.memberships">
+                            <div class="panel-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
                     </div>
-                    <br/><br/>
-                    <hr>
 
-                    Relationships:
-                    <div ng-repeat = "mem in model.currentEntity.related.relationships">
-                        <button>GET</button>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('relationships')">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
+                                    Relationships
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.showIndividualRelated.relationships">
+                            <div class="panel-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
                     </div>
-                    <br/><br/>
-                    <hr>
 
-                    Residencies:
-                    <div ng-repeat = "mem in model.currentEntity.related.residencies">
-                        <button>GET</button>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('residencies')">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" >
+                                   Residencies
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.showIndividualRelated.residencies">
+                            <div class="panel-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
                     </div>
-                    <br/><br/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree" ng-click="model.toggleIndividualRelated('events')">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion">
+                                    Events
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.showIndividualRelated.events">
+                            <div class="panel-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
+                    </div>
 
 
-
-                    For debugging:
-                   <pre>{{model.currentEntity.related | json}}</pre>
-
-
-                </div>
-
-
-
-            </div>
 
 
             <div class="modal-footer">

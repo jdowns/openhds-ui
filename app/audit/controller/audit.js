@@ -11,6 +11,7 @@ angular.module('AuditModule', [])
             'SocialGroupService',
             'VisitService',
             'IndividualService',
+            'MembershipService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -20,7 +21,8 @@ function AuditController($rootScope,
                             LocationService,
                             SocialGroupService,
                             VisitService,
-                            IndividualService) {
+                            IndividualService,
+                            MembershipService) {
 
 
     var vm = this;
@@ -405,21 +407,45 @@ function AuditController($rootScope,
 
 
     
-    vm.showIndividualRelated = {
-        memberships : false,
-        relationships : false,
-        residencies : false,
-        events : false
+    vm.individualRelated = {
+        memberships : {
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        relationships : {
+            show: false,
+            data: []
+        },
+        residencies : {
+            show: false,
+            data: []
+        },
+        events :{
+            show: false,
+            data: []
+        }
     };
 
 
     vm.toggleIndividualRelated = function(type){
-        vm.showIndividualRelated[type] = !vm.showIndividualRelated[type];
+        if (!vm.individualRelated[type].show){
+            vm.individualRelated.memberships.loadMsg = true;
+            vm.getMembershipsByIndividual();
+        }
+        vm.individualRelated[type].show = !vm.individualRelated[type].show;
         console.log(type);
-
     };
 
-
+    vm.getMembershipsByIndividual = function(){
+        MembershipService.getByIndividual()
+            .then(function(response) {
+                vm.individualRelated.memberships.data = response;
+                vm.individualRelated.memberships.displayCollection = [].concat(response);
+                vm.individualRelated.memberships.loadMsg = false;
+            });
+    };
 
 
 

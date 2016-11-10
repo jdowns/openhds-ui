@@ -118,11 +118,6 @@
                 <td>{{row.lastName}}</td>
                 <td>{{row.gender}}</td>
                 <td>
-                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
-                        json
-                    </button>
-                </td>
-                <td>
                     <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
                         Edit
                     </button>
@@ -130,6 +125,11 @@
                 <td>
                     <button type="button" class="btn btn-success" ng-click="model.viewRelatedIndividual(row)">
                         Related
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                        Details
                     </button>
                 </td>
             </tr>

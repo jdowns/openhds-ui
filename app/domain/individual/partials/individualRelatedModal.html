@@ -22,9 +22,65 @@
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.showIndividualRelated.memberships">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.memberships.show">
                             <div class="panel-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                <div ng-if="model.individualRelated.memberships.loadMsg">
+                                    <h4>LOADING...</h4>
+                                </div>
+
+                                <div ng-if="!model.individualRelated.memberships.loadMsg">
+                                  
+
+                                    <!-- Display memberships -->
+                                    <table st-safe-src="model.individualRelated.memberships.data" st-table="model.individualRelated.memberships.displayCollection" class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>startDate</th>
+                                            <th>startType</th>
+                                            <th>socialGroup</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                <input st-search="startDate" class="input-sm form-control" type="search"/>
+                                            </th>
+                                            <th>
+                                                <input st-search="startType" class="input-sm form-control" type="search"/>
+                                            </th>
+                                            <th>
+                                                <input st-search="socialGroup" class="input-sm form-control" type="search"/>
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+
+                                        </tr>
+
+
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="row in model.individualRelated.memberships.displayCollection">
+                                            <td>{{row.startDate}}</td>
+                                            <td>{{row.startType}}</td>
+                                            <td>{{row.socialGroup}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
+                                                    Details
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -37,7 +93,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.showIndividualRelated.relationships">
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.relationships.show">
                             <div class="panel-body">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                             </div>
@@ -52,7 +108,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.showIndividualRelated.residencies">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.individualRelated.residencies.show">
                             <div class="panel-body">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                             </div>
@@ -66,7 +122,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.showIndividualRelated.events">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.individualRelated.events.show">
                             <div class="panel-body">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                             </div>

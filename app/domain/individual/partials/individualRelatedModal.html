@@ -35,14 +35,14 @@
                                     <table st-safe-src="model.individualRelated.memberships.data" st-table="model.individualRelated.memberships.displayCollection" class="table table-striped">
                                         <thead>
                                         <tr>
+                                            <th></th>
                                             <th>startDate</th>
                                             <th>startType</th>
                                             <th>socialGroup</th>
-                                            <th></th>
-                                            <th></th>
                                         </tr>
 
                                         <tr>
+                                            <th></th>
                                             <th>
                                                 <input st-search="startDate" class="input-sm form-control" type="search"/>
                                             </th>
@@ -52,8 +52,6 @@
                                             <th>
                                                 <input st-search="socialGroup" class="input-sm form-control" type="search"/>
                                             </th>
-                                            <th></th>
-                                            <th></th>
 
                                         </tr>
 
@@ -61,19 +59,20 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="row in model.individualRelated.memberships.displayCollection">
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                        <li class="dropdown-header">View</li>
+                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                             <td>{{row.startDate}}</td>
                                             <td>{{row.startType}}</td>
                                             <td>{{row.socialGroup}}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
-                                                    Edit
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
-                                                    Details
-                                                </button>
-                                            </td>
                                         </tr>
 
                                         </tbody>

@@ -33,7 +33,13 @@
 
           <br /> <br />
           <div>
-            <datebox label="Start Date" id="startDate" ng-model="model.relationship.startDate"></datebox>
+            <datebox label="Start Date"
+                     max="{{model.collectionDateTime}}"
+                     name="relationshipStartDate"
+                     id="startDate"
+                     ng-model="model.relationship.startDate"></datebox>
+            <span class="alert alert-danger" ng-show="form.relationship.$error.max">Start date cannot be in the future</span>
+
           </div>
         </fieldset>
 

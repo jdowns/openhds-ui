@@ -50,11 +50,28 @@
 <button id="startSocialGroups"
         class="btn btn-primary pull-right"
         onClick="$('#groupTab').tab('show')"
+        ng-show="!model.emptyLocation"
         ng-disabled="model.selectedLocation == null">
     Social Groups
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
 
+<button class="btn btn-primary pull-right"
+        id="completeBaselineEmptyLocation"
+        ng-show="model.emptyLocation"
+        data-toggle="tab"
+        data-target="#baseline"
+        onClick="$('#baselineTab').tab('show')"
+        ng-click="model.selectedLocation = null;
+                  model.selectedSocialGroups = [];
+                  model.selectedIndividuals=[];
+                  model.currentIndividual=null;
+                  model.submittedMemberships = [];
+                  model.submittedRelationships = [];
+                  model.emptyLocation = false;">
+    Complete Baseline
+    <span class="glyphicon glyphicon-arrow-right"></span>
+</button>
 
 
 

@@ -29,7 +29,7 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         };
     }
 
-    service.getByIndividual = function() {
+    service.getByIndividual = function(memberships) {
 
         var url = $rootScope.restApiUrl + '/memberships/bulk.json';
 

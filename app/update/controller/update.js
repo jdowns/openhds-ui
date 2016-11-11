@@ -79,7 +79,6 @@ function UpdateController($rootScope,
         InMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
             vm.currentVisit, vm.individual, vm.currentResidency, event)
             .then(function(response) {
-                console.log(response);
                 var event = {
                     uuid: response.data.uuid,
                     individual: vm.individual,
@@ -92,11 +91,16 @@ function UpdateController($rootScope,
 
     vm.submitOutMigration = function(event){
         console.log(vm.currentResidency);
-        OutMigrationService.submit(vm.currentFieldWorker, vm.collectionDateTime,
+        OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
-
-                vm.submittedEvents.push(response.data);
+                console.log(response);
+                var event = {
+                    uuid: response.data.uuid,
+                    individual: vm.currentIndividual,
+                    eventType: "outMigration"
+                };
+                vm.submittedEvents.push(event);
             }, errorHandler);
         vm.currentOutMigration = null;
     };

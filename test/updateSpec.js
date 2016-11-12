@@ -53,7 +53,7 @@ describe('UpdateController', function() {
         $httpBackend.flush();
 
         expect(controller.submittedEvents).toEqual([{uuid: "xyz",
-            individual: {uuid: 789},
+            individual: {uuid: 345},
             eventType: "inMigration"}]);
     });
 

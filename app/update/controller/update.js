@@ -90,11 +90,9 @@ function UpdateController($rootScope,
     };
 
     vm.submitOutMigration = function(event){
-        console.log(vm.currentResidency);
         OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
             vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
             .then(function(response) {
-                console.log(response);
                 var event = {
                     uuid: response.data.uuid,
                     individual: vm.currentIndividual,

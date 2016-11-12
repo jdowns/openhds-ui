@@ -42,38 +42,41 @@ describe('UpdateController', function() {
                 "individualUuid":345,
                 "residencyUuid":456,
                 "inMigration":{"collectionDateTime":"sometime"}
-        }).respond({uuid: 999});
+        }).respond({uuid: "xyz"});
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = "then";
         controller.currentVisit = {uuid: 234, visitDate: "sometime"};
-        controller.currentIndividual = {uuid: 345};
+        controller.individual = {uuid: 345};
         controller.currentResidency = {uuid: 456};
         controller.submitInMigration({});
 
         $httpBackend.flush();
 
-        expect(controller.submittedEvents[0]).toEqual({uuid: 999});
-        expect(controller.currentInMigration).toBeNull();
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
+            individual: {uuid: 789},
+            eventType: "inMigration"}]);
     });
 
     it('submitOutMigration sets currentOutMigration', function() {
         $httpBackend.expectPOST('http://example.com/outMigrations', {
                 "collectedByUuid":123,
                 "visitUuid":234,
-                "individualUuid":345,
+                "individualUuid":3456,
                 "residencyUuid":456,
-                "outMigration":{"collectionDateTime":"then"}
-        }).respond({uuid: 999});
+                "outMigration":{"collectionDateTime":"sometime"}
+        }).respond({uuid: "xyz123"});
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = "then";
         controller.currentVisit = {uuid: 234, visitDate: "sometime"};
-        controller.currentIndividual = {uuid: 345};
+        controller.currentIndividual = {uuid: 3456};
         controller.currentResidency = {uuid: 456};
         controller.submitOutMigration({});
 
         $httpBackend.flush();
 
-        expect(controller.submittedEvents[0]).toEqual({uuid: 999});
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz123",
+                                                     individual: {uuid: 3456},
+                                                     eventType: "outMigration"}]);
         expect(controller.currentOutMigration).toBeNull();
     });
 

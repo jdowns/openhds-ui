@@ -20,6 +20,8 @@
                     <br /><br /> <!-- todo css padding -->
                     <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
                     <br /><br />
+                    <datebox label="Migration Date" id="migrationDate" ng-model="model.currentOutMigration.migrationDate"> </datebox>
+                    <br /><br />
                     <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
                         <option ng-repeat="type in model.migrationTypes" value="{{type.codeValue}}">
                             {{type.display}}

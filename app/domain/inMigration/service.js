@@ -15,7 +15,7 @@ function InMigrationService(EntityService) {
         } else {
             residencyUuid = model.residency.uuid;
         }
-
+        console.log(model);
         return {
             collectedByUuid: model.fieldWorker.uuid,
             visitUuid: model.visit.uuid,

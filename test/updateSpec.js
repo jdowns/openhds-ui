@@ -357,13 +357,13 @@ describe('UpdateController', function() {
             "collectedByUuid":123,
             "locationUuid":456,
             "visit":{
-                "extId":"visitId",
+                "extId":"locId-fwId-then",
                 "visitDate":"then",
                 "collectionDateTime": "then"
             }
         }).respond({uuid: "visit"});
-        controller.currentFieldWorker = {uuid: 123};
-        controller.selectedLocation = {uuid: 456};
+        controller.currentFieldWorker = {uuid: 123, id: "fwId"};
+        controller.selectedLocation = {uuid: 456, extId: "locId"};
         controller.visitDate = "then";
 
         controller.visit = {extId: "visitId", visitDate: "then"};

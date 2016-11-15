@@ -171,17 +171,80 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('residencies')">
                             <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" >
-                                   Residencies
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
+                                    Residencies
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" ng-if="model.individualRelated.residencies.show">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.residencies.show">
                             <div class="panel-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.residencies.show">
+                                    <div class="panel-body">
+                                        <div ng-if="model.individualRelated.residencies.loadMsg">
+                                            <h4>LOADING...</h4>
+                                        </div>
+
+                                        <div ng-if="!model.individualRelated.residencies.loadMsg">
+
+
+                                            <!-- Display memberships -->
+                                            <table st-safe-src="model.individualRelated.residencies.data" st-table="model.individualRelated.residencies.displayCollection" class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>startType</th>
+                                                    <th>startDate</th>
+                                                    <th>location</th>
+                                                </tr>
+
+                                                <tr>
+                                                    <th></th>
+                                                    <th>
+                                                        <input st-search="startType" class="input-sm form-control" type="search"/>
+                                                    </th>
+                                                    <th>
+                                                        <input st-search="startDate" class="input-sm form-control" type="search"/>
+                                                    </th>
+                                                    <th>
+                                                        <input st-search="location" class="input-sm form-control" type="search"/>
+                                                    </th>
+
+
+                                                </tr>
+
+
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="row in model.individualRelated.residencies.displayCollection">
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                <span class="glyphicon glyphicon-chevron-down"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                <li class="dropdown-header">View</li>
+                                                                <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{row.startType}}</td>
+                                                    <td>{{row.startDate}}</td>
+                                                    <td>{{row.location.name}}</td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingThree" ng-click="model.toggleIndividualRelated('events')">
                             <h4 class="panel-title">

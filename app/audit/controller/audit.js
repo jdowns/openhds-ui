@@ -13,6 +13,7 @@ angular.module('AuditModule', [])
             'IndividualService',
             'MembershipService',
             'RelationshipService',
+            'ResidencyService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -24,7 +25,8 @@ function AuditController($rootScope,
                             VisitService,
                             IndividualService,
                             MembershipService,
-                            RelationshipService) {
+                            RelationshipService,
+                            ResidencyService) {
 
 
     var vm = this;
@@ -444,6 +446,9 @@ function AuditController($rootScope,
                 case "relationships":
                     vm.getRelationshipsByIndividual();
                     break;
+                case "residencies":
+                    vm.getResidenciesByIndividual();
+                    break;
                 default:
                     break;
             }
@@ -468,6 +473,15 @@ function AuditController($rootScope,
                 vm.individualRelated.relationships.data = response;
                 vm.individualRelated.relationships.displayCollection = [].concat(response);
                 vm.individualRelated.relationships.loadMsg = false;
+            });
+    };
+
+    vm.getResidenciesByIndividual = function(){
+        ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.residencies.data = response;
+                vm.individualRelated.residencies.displayCollection = [].concat(response);
+                vm.individualRelated.residencies.loadMsg = false;
             });
     };
 

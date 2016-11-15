@@ -66,3 +66,7 @@ a, h1
 input.ng-invalid-required.ng-touched {
     background: red;
 }
+
+input.ng-invalid-extidvalidator.ng-touched {
+    background: red;
+}

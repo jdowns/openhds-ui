@@ -23,8 +23,8 @@ function AuditController($rootScope,
                             SocialGroupService,
                             VisitService,
                             IndividualService,
-                            RelationshipService,
-                            MembershipService) {
+                            MembershipService,
+                            RelationshipService) {
 
 
     var vm = this;
@@ -454,7 +454,7 @@ function AuditController($rootScope,
     };
 
     vm.getMembershipsByIndividual = function(){
-        MembershipService.getByIndividual(vm.currentEntity.uuid)
+        MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
                 vm.individualRelated.memberships.data = response;
                 vm.individualRelated.memberships.displayCollection = [].concat(response);
@@ -463,7 +463,7 @@ function AuditController($rootScope,
     };
 
     vm.getRelationshipsByIndividual = function(){
-        RelationshipService.getByIndividual(vm.currentEntity.uuid)
+        RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
                 vm.individualRelated.relationships.data = response;
                 vm.individualRelated.relationships.displayCollection = [].concat(response);

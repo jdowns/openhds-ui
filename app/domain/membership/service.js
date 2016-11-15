@@ -30,7 +30,7 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         };
     }
 
-    service.getByIndividual = function(individualUuid) {
+    service.getMembershipsByIndividual = function(individualUuid) {
 
         var uuid = individualUuid;
 
@@ -42,6 +42,7 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
+                    console.log(response);
                     var entities = response.data;
                     resolve(entities);
                 },

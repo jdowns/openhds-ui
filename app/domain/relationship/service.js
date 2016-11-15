@@ -34,11 +34,11 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
     }
 
 
-    service.getByIndividual = function(individualUuid) {
+    service.getRelationshipsByIndividual = function(individualUuid) {
 
         var uuid = individualUuid;
 
-        var url = $rootScope.restApiUrl + '/individuals/getRelationships?individualUuid=' + uuid + ".json";
+        var url = $rootScope.restApiUrl + '/individuals/getRelationships?individualUuid=' + uuid;
 
         var responsePromise = $http.get(url, service.getHeaders());
 
@@ -46,6 +46,7 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
+                    console.log(response);
                     var entities = response.data;
                     resolve(entities);
                 },

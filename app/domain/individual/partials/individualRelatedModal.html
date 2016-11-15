@@ -115,19 +115,23 @@
                                                     <th></th>
                                                     <th>relationshipType</th>
                                                     <th>startDate</th>
-                                                    <th>individual</th>
+                                                    <th>individualA</th>
+                                                    <th>individualB</th>
                                                 </tr>
 
                                                 <tr>
                                                     <th></th>
                                                     <th>
-                                                        <input st-search="startType" class="input-sm form-control" type="search"/>
+                                                        <input st-search="relationshipType" class="input-sm form-control" type="search"/>
                                                     </th>
                                                     <th>
                                                         <input st-search="startDate" class="input-sm form-control" type="search"/>
                                                     </th>
                                                     <th>
-                                                        <input st-search="individual" class="input-sm form-control" type="search"/>
+                                                        <input st-search="individualA" class="input-sm form-control" type="search"/>
+                                                    </th>
+                                                    <th>
+                                                        <input st-search="individualB" class="input-sm form-control" type="search"/>
                                                     </th>
 
                                                 </tr>
@@ -147,9 +151,10 @@
                                                             </ul>
                                                         </div>
                                                     </td>
-                                                    <td>{{row.startType}}</td>
+                                                    <td>{{row.relationshipType}}</td>
                                                     <td>{{row.startDate}}</td>
-                                                    <td>{{row.individual.lastName}},{{row.individual.firstName}}</td>
+                                                    <td>{{row.individualA.lastName}},{{row.individualA.firstName}}</td>
+                                                    <td>{{row.individualB.lastName}},{{row.individualB.firstName}}</td>
                                                 </tr>
 
                                                 </tbody>
@@ -161,6 +166,7 @@
                             </div>
                         </div>
                     </div>
+                        </div>
 
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('residencies')">

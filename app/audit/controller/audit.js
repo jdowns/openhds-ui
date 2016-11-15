@@ -144,7 +144,7 @@ function AuditController($rootScope,
     };
 
     vm.lookupVisit = function(){
-        VisitService.getByExtId(vm.searchExtId)
+        VisitService.getVisitByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.queryResult.data = response;

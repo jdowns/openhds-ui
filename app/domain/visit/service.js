@@ -31,7 +31,7 @@ function VisitService(EntityService) {
 
 
 
-    service.getByExtId = function(extId) {
+    service.getVisitByExtId = function(extId) {
         return EntityService.getByExtId(urlBase, Response, extId);
     };
 

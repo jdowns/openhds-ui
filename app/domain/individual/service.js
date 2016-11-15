@@ -32,7 +32,7 @@ function IndividualService(EntityService) {
             gender: entity.gender
         };
     }
-    
+
     service.getByHierarchy = function(hierarchyUuid) {
         return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };

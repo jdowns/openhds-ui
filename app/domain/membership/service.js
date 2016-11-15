@@ -2,11 +2,20 @@
 
 angular.module('openhds')
     .service('MembershipService',
-             ['EntityService', MembershipService]);
+        ['$rootScope','$http','$q','EntityService', MembershipService]);
 
-function MembershipService(EntityService) {
+
+function MembershipService( $rootScope, $http, $q, EntityService) {
     var service = this;
     var urlBase = '/memberships';
+
+    service.getHeaders = function() {
+        return {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+    };
 
     function Request(model) {
         return {
@@ -20,6 +29,28 @@ function MembershipService(EntityService) {
             }
         };
     }
+
+    service.getMembershipsByIndividual = function(individualUuid) {
+
+        var uuid = individualUuid;
+
+        var url = $rootScope.restApiUrl + '/individuals/getMemberships?individualUuid=' + uuid;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
+
 
 
     service.submit = function(fieldWorker, collectionDate, entity) {

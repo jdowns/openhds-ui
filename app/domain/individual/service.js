@@ -32,8 +32,7 @@ function IndividualService(EntityService) {
             gender: entity.gender
         };
     }
-
-
+    
     service.getByHierarchy = function(hierarchyUuid) {
         return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };
@@ -56,6 +55,7 @@ function IndividualService(EntityService) {
         return EntityService.getBySearch(urlBase, Response, entityList);
 
     };
+
 
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {

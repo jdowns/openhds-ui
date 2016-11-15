@@ -2,11 +2,35 @@
 
 angular.module('openhds')
     .service('ResidencyService',
-             ['EntityService', ResidencyService]);
+        ['$rootScope','$http','$q','EntityService', ResidencyService]);
 
-function ResidencyService(EntityService) {
+function ResidencyService($rootScope, $http, $q, EntityService) {
     var service = this;
     var urlBase = '/residencies';
+
+    service.getHeaders = function() {
+        return {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+    };
+    service.getResidenciesByIndividual = function(individualUuid) {
+
+        var uuid = individualUuid;
+        var url = $rootScope.restApiUrl + '/individuals/getResidencies?individualUuid=' + uuid;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
 
     function Request(model) {
         return {

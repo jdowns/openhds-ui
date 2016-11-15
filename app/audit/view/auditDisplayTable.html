@@ -79,20 +79,22 @@
 
 
 
-        <!-- Display locations -->
+        <!-- Display individuals -->
         <h4>Individuals:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
             <tr>
+                <th></th>
                 <th>extId</th>
                 <th>firstName</th>
                 <th>lastName</th>
                 <th>gender</th>
-                <th></th>
-                <th></th>
+
+
             </tr>
 
             <tr>
+                <th></th>
                 <th>
                     <input st-search="extId" class="input-sm form-control" type="search"/>
                 </th>
@@ -102,8 +104,10 @@
                 <th>
                     <input st-search="lastName" class="input-sm form-control" type="search"/>
                 </th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input st-search="gender" class="input-sm form-control" type="search"/>
+                </th>
+
 
             </tr>
 
@@ -111,20 +115,28 @@
             </thead>
             <tbody>
             <tr ng-repeat="row in model.queryResult.displayCollection">
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                            <li class="dropdown-header">Actions</li>
+                            <li ng-click="model.editIndividual(row)"><a >Edit</a></li>
+                            <li><a href="#">Delete</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">View</li>
+                            <li ng-click="model.viewRelatedIndividual(row)"><a>Related Entities</a></li>
+                            <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                        </ul>
+                    </div>
+                </td>
                 <td>{{row.extId}}</td>
                 <td>{{row.firstName}}</td>
                 <td>{{row.lastName}}</td>
                 <td>{{row.gender}}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" ng-click="model.viewJson(row)">
-                        json
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-warning" ng-click="model.editIndividual(row)">
-                        Edit
-                    </button>
-                </td>
+
+
             </tr>
 
             </tbody>

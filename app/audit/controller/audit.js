@@ -12,6 +12,7 @@ angular.module('AuditModule', [])
             'VisitService',
             'IndividualService',
             'MembershipService',
+            'RelationshipService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -22,6 +23,7 @@ function AuditController($rootScope,
                             SocialGroupService,
                             VisitService,
                             IndividualService,
+                            RelationshipService,
                             MembershipService) {
 
 
@@ -416,7 +418,9 @@ function AuditController($rootScope,
         },
         relationships : {
             show: false,
-            data: []
+            data: [],
+            displayCollection: [],
+            loadMsg :false
         },
         residencies : {
             show: false,
@@ -431,8 +435,19 @@ function AuditController($rootScope,
 
     vm.toggleIndividualRelated = function(type){
         if (!vm.individualRelated[type].show){
-            vm.individualRelated.memberships.loadMsg = true;
-            vm.getMembershipsByIndividual();
+            vm.individualRelated[type].loadMsg = true;
+
+            switch(type){
+                case "memberships":
+                    vm.getMembershipsByIndividual();
+                    break;
+                case "relationships":
+                    vm.getRelationshipsByIndividual();
+                    break;
+                default:
+                    break;
+            }
+
         }
         vm.individualRelated[type].show = !vm.individualRelated[type].show;
         console.log(type);
@@ -444,6 +459,15 @@ function AuditController($rootScope,
                 vm.individualRelated.memberships.data = response;
                 vm.individualRelated.memberships.displayCollection = [].concat(response);
                 vm.individualRelated.memberships.loadMsg = false;
+            });
+    };
+
+    vm.getRelationshipsByIndividual = function(){
+        RelationshipService.getByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.relationships.data = response;
+                vm.individualRelated.relationships.displayCollection = [].concat(response);
+                vm.individualRelated.relationships.loadMsg = false;
             });
     };
 

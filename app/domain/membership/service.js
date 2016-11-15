@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('openhds')
-    .service('MembershipService', ['$rootScope','$http','$q','EntityService', MembershipService]);
+    .service('MembershipService',
+        ['$rootScope','$http','$q','EntityService', MembershipService]);
 
 
 function MembershipService( $rootScope, $http, $q, EntityService) {

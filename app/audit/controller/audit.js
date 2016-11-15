@@ -29,18 +29,15 @@ function AuditController($rootScope,
                             RelationshipService,
                             ResidencyService,
                             VisitEventService) {
+    
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
     vm.selectedHierarchy = [];
-
-
     vm.currentEntity = null;
-
     vm.tempLoc = null;
     vm.tempIndiv = null;
     vm.tempSocial = null;
     vm.toSubmit = {};
-
 
     vm.queryResult = {
         entityType : null,
@@ -53,10 +50,6 @@ function AuditController($rootScope,
         vm.queryResult.data = [];
         vm.queryResult.displayCollection = [];
     };
-
-
-
-
 
     vm.entityList = [
         {
@@ -81,8 +74,6 @@ function AuditController($rootScope,
         }
 
     ];
-
-
 
     vm.lookupEntity = function(){
         vm.toSubmit = {};
@@ -150,7 +141,6 @@ function AuditController($rootScope,
             }, errorHandler);
     };
 
-
     vm.saveLocation = function(){
         var temp = angular.copy(vm.tempLoc);
 
@@ -172,7 +162,6 @@ function AuditController($rootScope,
         };
 
         vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
-
     };
 
     vm.saveIndividual = function(){
@@ -191,7 +180,6 @@ function AuditController($rootScope,
             'firstName': temp.firstName,
             'lastName': temp.lastName
         };
-
     };
 
     vm.saveSocialGroup = function(){
@@ -209,7 +197,6 @@ function AuditController($rootScope,
             'groupName': temp.groupName,
             'groupType': temp.groupType
         };
-
     };
 
     vm.saveLocationHierarchy = function() {
@@ -276,7 +263,6 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
             case 'socialGroup':
                 SocialGroupService.getByFieldWorker(vm.currentFieldWorker.id)
                     .then(function(response) {
@@ -291,11 +277,8 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
-
             default:
                 break;
-
         }
     };
 
@@ -352,17 +335,10 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
             default:
                 break;
-
-
         }
-
-
-
     };
-
 
     vm.viewJson = function(row){
         vm.entityToView = row;
@@ -381,14 +357,11 @@ function AuditController($rootScope,
         $("#editIndividualModal").modal();
     };
 
-
     vm.editSocialGroup = function(row){
         vm.currentEntity = row;
         vm.setTemp("tempSocial");
         $("#editSocialGroupModal").modal();
     };
-
-
 
     vm.availableHierarchies = function() {
         var result = [];
@@ -405,9 +378,6 @@ function AuditController($rootScope,
 
     };
 
-
-
-    
     vm.individualRelated = {
         memberships : {
             show: false,
@@ -435,7 +405,6 @@ function AuditController($rootScope,
         }
     };
 
-
     vm.toggleIndividualRelated = function(type){
         if (!vm.individualRelated[type].show){
             vm.individualRelated[type].loadMsg = true;
@@ -456,7 +425,6 @@ function AuditController($rootScope,
                 default:
                     break;
             }
-
         }
         vm.individualRelated[type].show = !vm.individualRelated[type].show;
         console.log(type);
@@ -498,12 +466,7 @@ function AuditController($rootScope,
             });
     };
 
-
-
-
     vm.init = function() {
-
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
@@ -521,8 +484,6 @@ function AuditController($rootScope,
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
         }, errorHandler);
-
-
     };
 
     function errorHandler(error) {

@@ -14,6 +14,7 @@ angular.module('AuditModule', [])
             'MembershipService',
             'RelationshipService',
             'ResidencyService',
+            'VisitEventService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -26,7 +27,8 @@ function AuditController($rootScope,
                             IndividualService,
                             MembershipService,
                             RelationshipService,
-                            ResidencyService) {
+                            ResidencyService,
+                            VisitEventService) {
 
 
     var vm = this;
@@ -426,11 +428,15 @@ function AuditController($rootScope,
         },
         residencies : {
             show: false,
-            data: []
+            data: [],
+            displayCollection: [],
+            loadMsg :false
         },
         events :{
             show: false,
-            data: []
+            data: [],
+            displayCollection: [],
+            loadMsg :false
         }
     };
 
@@ -448,6 +454,9 @@ function AuditController($rootScope,
                     break;
                 case "residencies":
                     vm.getResidenciesByIndividual();
+                    break;
+                case "events":
+                    vm.getEventsByIndividual();
                     break;
                 default:
                     break;
@@ -482,6 +491,15 @@ function AuditController($rootScope,
                 vm.individualRelated.residencies.data = response;
                 vm.individualRelated.residencies.displayCollection = [].concat(response);
                 vm.individualRelated.residencies.loadMsg = false;
+            });
+    };
+
+    vm.getEventsByIndividual = function(){
+        VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.events.data = response;
+                vm.individualRelated.events.displayCollection = [].concat(response);
+                vm.individualRelated.events.loadMsg = false;
             });
     };
 

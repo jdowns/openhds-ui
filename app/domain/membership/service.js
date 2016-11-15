@@ -29,9 +29,11 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         };
     }
 
-    service.getByIndividual = function(memberships) {
+    service.getByIndividual = function(individualUuid) {
 
-        var url = $rootScope.restApiUrl + '/memberships/bulk.json';
+        var uuid = individualUuid;
+
+        var url = $rootScope.restApiUrl + '/individuals/getMemberships?individualUuid=' + uuid;
 
         var responsePromise = $http.get(url, service.getHeaders());
 

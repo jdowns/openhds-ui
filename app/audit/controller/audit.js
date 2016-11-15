@@ -439,7 +439,7 @@ function AuditController($rootScope,
     };
 
     vm.getMembershipsByIndividual = function(){
-        MembershipService.getByIndividual(vm.currentEntity.related.memberships)
+        MembershipService.getByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
                 vm.individualRelated.memberships.data = response;
                 vm.individualRelated.memberships.displayCollection = [].concat(response);

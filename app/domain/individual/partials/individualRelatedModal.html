@@ -38,7 +38,8 @@
                                             <th></th>
                                             <th>startDate</th>
                                             <th>startType</th>
-                                            <th>socialGroup</th>
+                                            <th>groupName</th>
+                                            <th>groupType</th>
                                         </tr>
 
                                         <tr>
@@ -50,7 +51,10 @@
                                                 <input st-search="startType" class="input-sm form-control" type="search"/>
                                             </th>
                                             <th>
-                                                <input st-search="socialGroup" class="input-sm form-control" type="search"/>
+                                                <input st-search="groupName" class="input-sm form-control" type="search"/>
+                                            </th>
+                                            <th>
+                                                <input st-search="groupType" class="input-sm form-control" type="search"/>
                                             </th>
 
                                         </tr>
@@ -72,7 +76,8 @@
                                             </td>
                                             <td>{{row.startDate}}</td>
                                             <td>{{row.startType}}</td>
-                                            <td>{{row.socialGroup}}</td>
+                                            <td>{{row.socialGroup.groupName}}</td>
+                                            <td>{{row.socialGroup.groupType}}</td>
                                         </tr>
 
                                         </tbody>

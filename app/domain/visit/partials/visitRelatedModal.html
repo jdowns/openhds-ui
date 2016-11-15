@@ -1,0 +1,128 @@
+
+<!-- Edit Visit modal -->
+<div class="modal fade" id="relatedVisitModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Visit - Related Entities</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" ng-click="model.toggleVisitRelated('events')">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
+                                    Events (TODO)
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.visitRelated.events.show">
+                            <div class="panel-body">
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.visitRelated.events.show">
+                                    <div class="panel-body">
+                                        <div ng-if="model.visitRelated.events.loadMsg">
+                                            <h4>LOADING...</h4>
+                                        </div>
+
+                                        <div ng-if="!model.visitRelated.events.loadMsg">
+
+                                            <!--
+                                            <div>
+                                                INM
+                                                <pre>{{model.visitRelated.events.data.inMigrations | json}}</pre>
+                                                <hr>
+                                            </div>
+
+                                            <div ng-repeat="x in model.visitRelated.events.data">
+                                                <pre>{{x | json}}</pre>
+                                                <hr>
+                                            </div> -->
+
+
+
+                                            <!-- Display memberships -->
+                                            <table st-safe-src="model.visitRelated.events.data" st-table="model.visitRelated.events.displayCollection" class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>eventType</th>
+                                                    <th>startType</th>
+                                                    <th>startDate</th>
+                                                    <th>location</th>
+                                                </tr>
+
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>
+                                                        <input st-search="startType" class="input-sm form-control" type="search"/>
+                                                    </th>
+                                                    <th>
+                                                        <input st-search="startDate" class="input-sm form-control" type="search"/>
+                                                    </th>
+                                                    <th>
+                                                        <input st-search="location" class="input-sm form-control" type="search"/>
+                                                    </th>
+
+
+                                                </tr>
+
+
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="row in model.visitRelated.events.displayCollection.inMigrations">
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                <span class="glyphicon glyphicon-chevron-down"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                <li class="dropdown-header">View</li>
+                                                                <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td>inMigration</td>
+                                                    <td>{{row.origin}}</td>
+                                                    <td>{{row.reason}}</td>
+                                                    <td>{{row.migrationType}}</td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                            Cancel
+                        </button>
+
+
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
+                                aria-label="Close">
+                            Ok
+                        </button>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -49,12 +49,6 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
                     console.log(response);
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(response){
-                    console.log(response);
-                    window.alert("Status: " + response.status +
-                        "\n" + response.statusText);
-                    reject(response);
                 }
             );
         });

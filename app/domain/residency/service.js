@@ -18,11 +18,8 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
     service.getResidenciesByIndividual = function(individualUuid) {
 
         var uuid = individualUuid;
-
         var url = $rootScope.restApiUrl + '/individuals/getResidencies?individualUuid=' + uuid;
-
         var responsePromise = $http.get(url, service.getHeaders());
-
 
         return $q(function(resolve, reject) {
             responsePromise.then(
@@ -30,12 +27,6 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
                     console.log(response);
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(response){
-                    console.log(response);
-                    window.alert("Status: " + response.status +
-                        "\n" + response.statusText);
-                    reject(response);
                 }
             );
         });

@@ -436,7 +436,7 @@ function AuditController($rootScope,
                 vm.individualRelated.memberships.data = response;
                 vm.individualRelated.memberships.displayCollection = [].concat(response);
                 vm.individualRelated.memberships.loadMsg = false;
-            });
+            }, errorHandler);
     };
 
     vm.getRelationshipsByIndividual = function(){
@@ -445,7 +445,7 @@ function AuditController($rootScope,
                 vm.individualRelated.relationships.data = response;
                 vm.individualRelated.relationships.displayCollection = [].concat(response);
                 vm.individualRelated.relationships.loadMsg = false;
-            });
+            }, errorHandler);
     };
 
     vm.getResidenciesByIndividual = function(){
@@ -454,7 +454,7 @@ function AuditController($rootScope,
                 vm.individualRelated.residencies.data = response;
                 vm.individualRelated.residencies.displayCollection = [].concat(response);
                 vm.individualRelated.residencies.loadMsg = false;
-            });
+            }, errorHandler);
     };
 
     vm.getEventsByIndividual = function(){
@@ -463,7 +463,7 @@ function AuditController($rootScope,
                 vm.individualRelated.events.data = response;
                 vm.individualRelated.events.displayCollection = [].concat(response);
                 vm.individualRelated.events.loadMsg = false;
-            });
+            }, errorHandler);
     };
 
     vm.init = function() {

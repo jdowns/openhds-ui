@@ -29,7 +29,7 @@ function AuditController($rootScope,
                             RelationshipService,
                             ResidencyService,
                             VisitEventService) {
-    
+
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
     vm.selectedHierarchy = [];

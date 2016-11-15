@@ -32,52 +32,13 @@ function IndividualService(EntityService) {
             gender: entity.gender
         };
     }
-
-    function AuditResponse(entity) {
-        var links = {
-            memberships : [],
-            relationships : [],
-            residencies : []
-        };
-
-        for(var i = 0; i < entity.link.length; i++){
-            var temp = entity.link[i].href;
-            var n = temp.lastIndexOf('/');
-            var result = temp.substring(n + 1);
-
-            switch(entity.link[i].rel){
-                case "residencies" :
-                    links.residencies.push(result);
-                    break;
-                case "memberships" :
-                    links.memberships.push(result);
-                    break;
-                case "relationships" :
-                    links.relationships.push(result);
-                    break;
-
-            }
-        }
-
-        return {
-            uuid: entity.uuid,
-            extId: entity.extId,
-            firstName: entity.firstName,
-            lastName: entity.lastName,
-            dateOfBirth: entity.dateOfBirth,
-            gender: entity.gender,
-            related : links
-        };
-    }
-
-
-
+    
     service.getByHierarchy = function(hierarchyUuid) {
         return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };
 
     service.getByExtId = function(extId) {
-        return EntityService.getByExtId(urlBase, AuditResponse, extId);
+        return EntityService.getByExtId(urlBase, Response, extId);
     };
 
 

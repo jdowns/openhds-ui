@@ -15,10 +15,11 @@ function textbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-                  '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+                  '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">label</label>' +
                   '<div class="col-md-4">' +
                   '<input required type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
                   '</div>' +
@@ -89,10 +90,13 @@ function passwordbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: '@',
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-        '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+
+        '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">label</label>' +
+
         '<div class="col-md-4">' +
         '<input required type="password" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +

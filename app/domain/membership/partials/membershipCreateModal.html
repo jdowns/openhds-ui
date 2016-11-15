@@ -8,53 +8,59 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Assign Membership</h4>
             </div>
-            <div class="modal-body">
+            <form name="form">
+                <div class="modal-body">
 
 
-                <selectbox label="Individual"
-                           id="individual"
-                           ng-model="model.membership.individual.uuid">
-                    <option value="{{model.currentIndividual.uuid}}">
-                        {{model.currentIndividual.firstName}}
-                    </option>
-                </selectbox>
-                <br /><br />
-                <selectbox label="Social Group"
-                           id="socialGroup"
-                           ng-model="model.membership.socialGroup.uuid">
-                    <option ng-repeat="sg in model.selectedSocialGroups"
-                            value="{{sg.uuid}}">{{sg.groupName}}
-                    </option>
-                </selectbox>
-                <br /><br />
-                <selectbox label="Group Membership Start Type"
-                           id="membershipStartType"
-                           ng-model="model.membership.startType">
-                    <option ng-if="code.codeGroup === 'membershipType'"
-                            ng-repeat="code in model.codes"
-                            value="{{code.codeValue}}">{{code.codeName}}
-                    </option>
-                </selectbox>
-                <br /><br />
-                <datebox label="Group Membership Start Date"
-                         id="membershipStartDate"
-                         ng-model="model.membership.startDate"></datebox>
+                    <selectbox label="Individual"
+                               id="individual"
+                               ng-model="model.membership.individual.uuid">
+                        <option value="{{model.currentIndividual.uuid}}">
+                            {{model.currentIndividual.firstName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
+                    <selectbox label="Social Group"
+                               id="socialGroup"
+                               ng-model="model.membership.socialGroup.uuid">
+                        <option ng-repeat="sg in model.selectedSocialGroups"
+                                value="{{sg.uuid}}">{{sg.groupName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
+                    <selectbox label="Group Membership Start Type"
+                               id="membershipStartType"
+                               ng-model="model.membership.startType">
+                        <option ng-if="code.codeGroup === 'membershipType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
+                    <datebox label="Group Membership Start Date"
+                             max="{{model.collectionDateTime}}"
+                             name="membershipStartDate"
+                             id="membershipStartDate"
+                             ng-model="model.membership.startDate"></datebox>
+                    <span class="alert alert-danger" ng-show="form.membershipStartDate.$error.max">Start date cannot be in the future</span>
 
-                <br /><br />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-			id="createMembership"
-                        ng-click="model.selectedIndividuals.push(model.currentIndividual);
+                    <br/><br/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                            id="createMembership"
+                            ng-disabled="form.$invalid"
+                            ng-click="model.selectedIndividuals.push(model.currentIndividual);
                                   model.submitMembership(model.membership)">
-                    Create
-                </button>
+                        Create
+                    </button>
 
 
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

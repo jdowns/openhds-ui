@@ -8,12 +8,23 @@ function VisitService(EntityService) {
     var service = this;
     var urlBase = "/visits";
 
+    function visitUuid(model) {
+        var extId = model.location.extId +
+                "-" +
+                model.fieldWorker.id +
+                "-" +
+                model.collectionDate
+        ;
+        console.log(model.fieldWorker);
+        return extId;
+    }
+
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
-                extId: model.entity.extId,
+                extId: visitUuid(model),
                 visitDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }

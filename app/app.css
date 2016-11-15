@@ -62,3 +62,11 @@ a, h1
     background: #804515;
     color: #D49A6A;
 }
+
+input.ng-invalid-required.ng-touched {
+    background: red;
+}
+
+input.ng-invalid-extidvalidator.ng-touched {
+    background: red;
+}

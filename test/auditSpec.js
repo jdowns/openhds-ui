@@ -122,6 +122,22 @@ describe('AuditController', function() {
         });
     });
 
+    it('looks up visit', function() {
+        $httpBackend.expectGET('http://example.com/visits/external/id')
+            .respond({content: {uuid: 1}});
+        controller.searchExtId = 'id';
+        controller.entityType = "visit";
+        controller.lookupEntity();
+
+        $httpBackend.flush();
+        expect(controller.currentEntity).toEqual({uuid: 1});
+        expect(controller.queryResult).toEqual({
+            entityType: "visit",
+            data: {uuid: 1},
+            displayCollection: [{uuid: 1}]
+        });
+    });
+
     it('sets temp as copy', function() {
         controller.currentEntity = {'foo': 1, test: {a: 2}};
         controller.setTemp('xyz');
@@ -235,7 +251,7 @@ describe('AuditController', function() {
         };
         controller.saveLocationHierarchy();
 
-        expect(controller.currentHierarchy).toEqual({uuid: 3});
+        expect(controller.searchHierarchy).toEqual({uuid: 3});
     });
 
     it('short circuits hierarchy search if entity type is null', function() {
@@ -258,7 +274,7 @@ describe('AuditController', function() {
         $httpBackend.expectGET('http://example.com/locations.json?locationHierarchyUuid=1')
             .respond({content: [{uuid: 123}]});
         controller.entityType = 'location';
-        controller.currentHierarchy = {uuid: 1};
+        controller.searchHierarchy = {uuid: 1};
         controller.queryResult = {};
 
         controller.searchByHierarchy();
@@ -272,7 +288,7 @@ describe('AuditController', function() {
         $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=1')
             .respond({content: [{uuid: 123}]});
         controller.entityType = 'individual';
-        controller.currentHierarchy = {uuid: 1};
+        controller.searchHierarchy = {uuid: 1};
         controller.queryResult = {};
 
         controller.searchByHierarchy();
@@ -280,6 +296,174 @@ describe('AuditController', function() {
         $httpBackend.flush();
         expect(controller.queryResult.entityType).toEqual('individual');
         expect(controller.queryResult.data[0].uuid).toEqual(123);
+    });
+
+   it('searches for visit by hierarchy', function() {
+        $httpBackend.expectGET('http://example.com/visits.json?locationHierarchyUuid=1')
+            .respond({content: [{uuid: 123}]});
+        controller.entityType = 'visit';
+        controller.searchHierarchy = {uuid: 1};
+        controller.queryResult = {};
+
+        controller.searchByHierarchy();
+
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual('visit');
+        expect(controller.queryResult.data[0].uuid).toEqual(123);
+    });
+
+   it('does not search by fieldworker if entity type is null', function() {
+        controller.entityType = null;
+        controller.searchByFieldWorker();
+        expect(controller.queryResult.entityType).toBeNull();
+    });
+
+   it('does not search by fieldworker if entity type is null', function() {
+        controller.entityType = "not a real entity";
+        controller.searchByFieldWorker();
+        expect(controller.queryResult.entityType).toEqual("not a real entity");
+    });
+
+   it('searches for individual by fieldWorker', function() {
+        $httpBackend.expectGET('http://example.com/individuals.json?fieldWorkerId=fieldWorker')
+            .respond({content: [{uuid: 123}]});
+        controller.entityType = 'individual';
+        controller.currentFieldWorker = {id: "fieldWorker"}
+        controller.searchHierarchy = {uuid: 1};
+        controller.queryResult = {};
+
+        controller.searchByFieldWorker();
+
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual('individual');
+        expect(controller.queryResult.data[0].uuid).toEqual(123);
+   });
+
+   it('searches for location by fieldWorker', function() {
+        $httpBackend.expectGET('http://example.com/locations.json?fieldWorkerId=fieldWorker')
+            .respond({content: [{uuid: 123}]});
+        controller.entityType = 'location';
+        controller.currentFieldWorker = {id: "fieldWorker"}
+        controller.searchHierarchy = {uuid: 1};
+        controller.queryResult = {};
+
+        controller.searchByFieldWorker();
+
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual('location');
+        expect(controller.queryResult.data[0].uuid).toEqual(123);
+    });
+
+   it('searches for socialGroup by fieldWorker', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups.json?fieldWorkerId=fieldWorker')
+            .respond({content: [{uuid: 123}]});
+        controller.entityType = 'socialGroup';
+        controller.currentFieldWorker = {id: "fieldWorker"}
+        controller.searchHierarchy = {uuid: 1};
+        controller.queryResult = {};
+
+        controller.searchByFieldWorker();
+
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual('socialGroup');
+        expect(controller.queryResult.data[0].uuid).toEqual(123);
+    });
+
+   it('searches for visit by fieldWorker', function() {
+        $httpBackend.expectGET('http://example.com/visits.json?fieldWorkerId=fieldWorker')
+            .respond({content: [{uuid: 123}]});
+        controller.entityType = 'visit';
+        controller.currentFieldWorker = {id: "fieldWorker"}
+        controller.searchHierarchy = {uuid: 1};
+        controller.queryResult = {};
+
+        controller.searchByFieldWorker();
+
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual('visit');
+        expect(controller.queryResult.data[0].uuid).toEqual(123);
+    });
+
+    it('does not search by field if currentSearch is null', function() {
+        controller.currentSearch = null;
+        controller.searchByFields();
+        expect(controller.queryResult).toEqual({entityType: null, data: [], displayCollection: []});
+    });
+
+    it('does not search by field if entityType is null', function() {
+        controller.currentSearch = {key: "value", anotherKey: null};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = null;
+        controller.searchByFields();
+        expect(controller.queryResult.entityType).toBeNull();
+    });
+
+    it('does not search by field if entityType is unknown', function() {
+        controller.currentSearch = {key: "value", anotherKey: null};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "things that don't exist";
+        controller.searchByFields();
+        expect(controller.queryResult.entityType).toEqual("things that don't exist");
+    });
+
+    it('searches locations by field', function() {
+        $httpBackend.expectGET('http://example.com/locations/search?key=value&anotherKey=another_value').respond([{uuid: 1}]);
+        controller.currentSearch = {key: "value", anotherKey: "another_value"};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "location";
+        controller.searchByFields();
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual("location");
+        expect(controller.queryResult.data).toEqual([{uuid: 1}]);
+        expect(controller.queryResult.displayCollection[0].uuid).toEqual(1);
+    });
+
+    it('searches individuals by field', function() {
+        $httpBackend.expectGET('http://example.com/individuals/search?key=value&anotherKey=another_value').respond([{uuid: 1}]);
+        controller.currentSearch = {key: "value", anotherKey: "another_value"};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "individual";
+        controller.searchByFields();
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual("individual");
+        expect(controller.queryResult.data).toEqual([{uuid: 1}]);
+        expect(controller.queryResult.displayCollection[0].uuid).toEqual(1);
+    });
+
+    it('searches visits by field', function() {
+        $httpBackend.expectGET('http://example.com/visits/search?key=value&anotherKey=another_value').respond([{uuid: 1}]);
+        controller.currentSearch = {key: "value", anotherKey: "another_value"};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "visit";
+        controller.searchByFields();
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual("visit");
+        expect(controller.queryResult.data).toEqual([{uuid: 1}]);
+        expect(controller.queryResult.displayCollection[0].uuid).toEqual(1);
+    });
+
+    it('searches socialGroups by field', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups/search?key=value&anotherKey=another_value').respond([{uuid: 1}]);
+        controller.currentSearch = {key: "value", anotherKey: "another_value"};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "socialGroup";
+        controller.searchByFields();
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual("socialGroup");
+        expect(controller.queryResult.data).toEqual([{uuid: 1}]);
+        expect(controller.queryResult.displayCollection[0].uuid).toEqual(1);
+    });
+
+    it('searches fieldWorkers by field', function() {
+        $httpBackend.expectGET('http://example.com/fieldWorkers/search?key=value&anotherKey=another_value').respond([{uuid: 1}]);
+        controller.currentSearch = {key: "value", anotherKey: "another_value"};
+        controller.queryResult.entityType = "something from an old search";
+        controller.entityType = "fieldWorker";
+        controller.searchByFields();
+        $httpBackend.flush();
+        expect(controller.queryResult.entityType).toEqual("fieldWorker");
+        expect(controller.queryResult.data).toEqual([{uuid: 1}]);
+        expect(controller.queryResult.displayCollection[0].uuid).toEqual(1);
     });
 
     it('shows entityJsonModal', function() {
@@ -332,7 +516,6 @@ describe('AuditController', function() {
         delete $;
     });
 
-
     it('shows edit social group Modal', function() {
         var modalCalled = false;
         $ = function() {
@@ -363,4 +546,10 @@ describe('AuditController', function() {
         expect(hierarchies).toEqual([[{uuid: 1}],
                                      [{uuid:2}, {uuid:3}]]);
     });
+
+    it('sets error message', function() {
+        controller.errorHandler('oops');
+        expect(controller.errorMessage).toEqual('oops');
+    })
+
 });

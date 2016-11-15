@@ -24,75 +24,30 @@
               {{code.codeName}}
             </option>
           </selectbox>
-          <br /> <hr />
-          <div ng-hide="!model.currentPregnancyOutcome.father">
-            <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
-            <button ng-click="model.currentPregnancyOutcome.father = null">Clear</button>
+          <br />
+
+          <div ng-if="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
+            <div ng-hide="model.currentPregnancyOutcome.father == null">
+              <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
+              <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">clear</button>
+            </div>
+            <div ng-hide="model.currentPregnancyOutcome.father != null">
+              <br/>
+              <label for="individual-select">Father</label>
+              <div align="center">
+                <button class="btn btn-default" id="individual-select"
+                        data-toggle="modal"
+                        data-target="#individualLookupModal"
+                        data-dismiss="modal">
+                  Select Father
+                </button>
+              </div>
+
+            </div>
+
           </div>
-          <div ng-hide="model.currentPregnancyOutcome.father">
-            <div class="modal-header">
-              <h4 class="modal-title">Father Select</h4>
-            </div>
-            <div class="modal-body">
 
-              <!-- Search for existing individual -->
-              <table st-safe-src="model.allIndividuals" st-table="model.individualDisplayCollection" class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>extId</th>
-                    <th st-sort="firstName">first</th>
-                    <th st-sort="lastName">last</th>
-                    <th>d.o.b.</th>
-                    <th>gender</th>
 
-                  </tr>
-                  <tr>
-                    <th></th>
-                    <th>
-                      <input st-search="extId" class="input-sm form-control" type="search"/>
-                    </th>
-                    <th>
-                      <input st-search="firstName" class="input-sm form-control" type="search"/>
-                    </th>
-                    <th>
-                      <input st-search="lastName" class="input-sm form-control" type="search"/>
-                    </th>
-                    <th></th>
-                    <th></th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="row in model.individualDisplayCollection">
-                    <td>
-                      <button type="button" class="btn btn-primary" ng-click="model.setFather(row)">
-                        select
-                      </button>
-                    </td>
-                    <td>{{row.extId}}</td>
-                    <td>{{row.firstName}}</td>
-                    <td>{{row.lastName}}</td>
-                    <td>{{row.dateOfBirth}}</td>
-                    <td>{{row.gender}}</td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="4" class="text-center">
-                      <div st-pagination="" st-items-by-page=10></div>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">
-                Done
-              </button>
-            </div>
-          </div>
           <hr />
           <br /><br />
           <div id="liveBirthResults" ng-show="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
@@ -121,6 +76,10 @@
         </fieldset>
 
       </div>
+
+
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
           Cancel
@@ -135,4 +94,6 @@
     </div>
   </div>
 </div>
-<ng-include src="'domain/individual/partials/individualSelectModal.html'"></ng-include>
+<ng-include src="'domain/individual/partials/individualLookupModal.html'"></ng-include>
+
+

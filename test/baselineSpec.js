@@ -340,4 +340,9 @@ describe('BaselineController', function() {
 
         expect(controller.submittedResidencies).toEqual([{uuid: 1}]);
     });
+
+    it('sets error message', function() {
+        controller.errorHandler('oops');
+        expect(controller.errorMessage).toEqual('oops');
+    })
 });

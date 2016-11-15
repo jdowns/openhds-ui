@@ -8,38 +8,38 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Create New Location</h4>
             </div>
-            <div class="modal-body">
-
-
+            <form name="form">
+              <div class="modal-body">
 
                 <fieldset>
 
-                    <textbox label="Location Name" id="locationName" ng-model="model.location.name"></textbox>
-                    <br /><br /> <!-- todo css padding -->
-                    <textbox label="External ID" id="locationExtId" ng-model="model.location.extId"></textbox>
-                    <br /><br />
-                    <selectbox label="Location Type" id="locationType" ng-model="model.location.type">
-                        <option ng-if="code.codeGroup === 'locationType'"
-                                ng-repeat="code in model.codes" value="{{code.codeValue}}">
-                            {{code.codeName}}
-                        </option>
-                    </selectbox>
+                  <textbox label="Location Name" id="locationName" ng-model="model.location.name"></textbox>
+                  <br /><br /> <!-- todo css padding -->
+                  <extidbox label="External ID" id="locationExtId" ng-model="model.location.extId"></extidbox>
+                  <br /><br />
+                  <selectbox label="Location Type" id="locationType" ng-model="model.location.type">
+                    <option ng-if="code.codeGroup === 'locationType'"
+                            ng-repeat="code in model.codes" value="{{code.codeValue}}">
+                      {{code.codeName}}
+                    </option>
+                  </selectbox>
                 </fieldset>
 
 
+                <label for="emptyLocation">Empty?</label> <input id="emptyLocation" type="checkbox" ng-model="model.emptyLocation" />
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                Cancel
+              </button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal"
+                      id="createLocation"
+                      ng-click="model.submitLocation(model.location)">
+                Create
+              </button>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        id="createLocation"
-                        ng-click="model.submitLocation(model.location)">
-                    Create
-                </button>
-
-            </div>
+              </div>
+            </form>
         </div>
     </div>
 </div>

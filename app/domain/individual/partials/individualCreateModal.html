@@ -8,61 +8,65 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Create New Individual</h4>
             </div>
-            <div class="modal-body">
+            <form name="form">
+
+                <div class="modal-body">
+                    <fieldset>
+                        <textbox label="First Name" id="firstName" name="firstName"
+                                 ng-model="model.individual.firstName"></textbox>
+                        <br/><br/>
+                        <textbox label="Last Name" id="lastName" name="lastName"
+                                 ng-model="model.individual.lastName"></textbox>
+                        <br/><br/>
+                        <extidbox label="External ID" id="extId" name="extId"
+                                 ng-model="model.individual.extId"></extidbox>
+                        <br/><br/>
+                        <selectbox ng-model="model.individual.gender" id="gender" name="gender"
+                                   label="Gender">
+                            <option ng-if="code.codeGroup === 'gender'"
+                                    ng-repeat="code in model.codes"
+                                    value="{{code.codeValue}}">{{code.codeName}}
+                            </option>
+                        </selectbox>
+                        <br/><br/>
+                        <datebox label="Date of Birth" id="dateOfBirth"
+                                 max="{{model.collectionDateTime}}"
+                                 name="dateOfBirth"
+                                 ng-model="model.individual.dateOfBirth"></datebox>
+                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">Date of birth cannot be in the future</span>
+
+                        <br/><br/>
+                        <datebox label="Residency Start Date"
+                                 max="{{model.collectionDateTime}}"
+                                 name="residencyStartDate"
+                                 id="residencyStartDate"
+                                 ng-model="model.residency.startDate"></datebox>
+                        <span class="alert alert-danger" ng-show="form.residencyStartDate.$error.max">Start date cannot be in the future</span>
+
+                        <br/><br/>
+                    </fieldset>
 
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#membershipCreateModal" data-dismiss="modal"
+                            id="assignMembership"
+                            ng-disabled="form.$invalid"
+                            ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
+                        Assign Membership
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
 
-                <fieldset>
-                    <textbox label="First Name" id="firstName" name="firstName"
-                             ng-model="model.individual.firstName"></textbox>
-                    <br /><br />
-                    <textbox label="Last Name" id="lastName" name="lastName"
-                             ng-model="model.individual.lastName"></textbox>
-                    <br /><br />
-                    <textbox label="External ID" id="extId" name="extId"
-                             ng-model="model.individual.extId"></textbox>
-                    <br /><br />
-                    <selectbox ng-model="model.individual.gender" id="gender" name="gender"
-                               label="Gender*">
-                        <option ng-if="code.codeGroup === 'gender'"
-                                ng-repeat="code in model.codes"
-                                value="{{code.codeValue}}">{{code.codeName}}
-                        </option>
-                    </selectbox>
-                    <br /><br />
-                    <datebox label="Date Of Birth" id="dateOfBirth"
-                             ng-model="model.individual.dateOfBirth"></datebox>
-                    <br /><br />
+                </div>
+            </form>
 
-
-                    <datebox label="Residency Start Date" id="residencyStartDate"
-                             ng-model="model.residency.startDate"></datebox>
-                    <br /><br />
-                </fieldset>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#membershipCreateModal" data-dismiss="modal"
-			id="assignMembership"
-                        ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
-                    Assign Membership
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
-
-
-            </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 <ng-include src="'domain/membership/partials/membershipCreateModal.html'"></ng-include>

@@ -15,8 +15,13 @@
     </option>
   </selectbox>
   <br /><br />
-  <datebox label="Start Date" id="startDate"
+  <datebox label="Start Date"
+           max="{{model.collectionDateTime}}"
+           name="startDate"
+           id="startDate"
            ng-model="model.startDate"></datebox>
+  <span class="alert alert-danger" ng-show="form.startDate.$error.max">Start date cannot be in the future</span>
+
   <br /><br />
 
 </fieldset>

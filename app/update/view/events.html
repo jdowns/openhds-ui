@@ -27,6 +27,7 @@
     <!-- TODO: logic of disabling buttons based on individual selected -->
 
     <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal"
+            ng-click="model.currentEventType = 'inMigration'"
             data-target="#inMigrationCreateModal">
         <h4>In</h4>
         <h4>&nbspMigration&nbsp</h4>
@@ -60,6 +61,7 @@
 
     </button>
     <button id="displayNewPregnancyOutcomeModal" class="btn btn-default" data-toggle="modal"
+            ng-click="model.currentEventType = 'pregnancyOutcome'"
             data-target="#pregnancyOutcomeCreateModal"
             ng-disabled="!model.pregnancyDisableCheck()">
         <h4>&nbspPregnancy&nbsp</h4>

@@ -11,7 +11,7 @@ angular.module('BaselineModule', [])
                  'IndividualService',
                  'MembershipService',
                  'RelationshipService',
-                    'ResidencyService',
+                 'ResidencyService',
                  BaselineController]);
 
 function BaselineController($rootScope,
@@ -89,21 +89,21 @@ function BaselineController($rootScope,
                 console.log(response);
                 vm.allLocations = response;
                 vm.locationDisplayCollection = [].concat(response);
-            });
+            }, errorHandler);
 
         IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 console.log(response);
                 vm.allIndividuals = response;
                 vm.individualDisplayCollection = [].concat(response);
-            });
+            }, errorHandler);
 
         ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 console.log(response);
                 vm.allResidencies = response;
                 vm.residencyDisplayCollection = [].concat(response);
-            });
+            }, errorHandler);
     };
 
     vm.availableHierarchies = function() {
@@ -125,7 +125,7 @@ function BaselineController($rootScope,
                 vm.submittedLocations.push(response.data);
                 vm.selectedLocation = response.data;
                 vm.location = {};
-            });
+            }, errorHandler);
     };
 
     vm.submitSocialGroup = function(sg) {
@@ -136,7 +136,7 @@ function BaselineController($rootScope,
                 console.log(response.data);
                 vm.selectedSocialGroups.push(response.data);
                 vm.socialGroup = {};
-            });
+            }, errorHandler);
     };
 
     vm.submitIndividual = function(indiv){
@@ -146,7 +146,7 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.currentIndividual = response.data;
-            });
+            }, errorHandler);
     };
 
     vm.submitResidency = function(res) {
@@ -160,7 +160,7 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.submittedResidencies.push(response.data);
-            });
+            }, errorHandler);
     };
 
     vm.submitMembership = function(mem){
@@ -171,7 +171,7 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.submittedMemberships.push(response.data);
-            });
+            }, errorHandler);
     };
 
     vm.submitRelationship = function(rel) {
@@ -182,7 +182,7 @@ function BaselineController($rootScope,
             .then(function(response) {
                 console.log(response.data);
                 vm.submittedRelationships.push(response.data);
-            });
+            }, errorHandler);
     };
 
     vm.init = function() {
@@ -196,19 +196,25 @@ function BaselineController($rootScope,
 
         FieldWorkerService.getAllFieldWorkers().then(function(fieldworkers) {
             vm.allFieldWorkers = fieldworkers;
-        });
+        }, errorHandler);
 
         LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
-        });
+        }, errorHandler);
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
-        });
+        }, errorHandler);
 
         SocialGroupService.getAllSocialGroups().then(function(groups) {
             vm.allSocialGroups = groups;
-        });
+        }, errorHandler);
     };
+
+    function errorHandler(error) {
+        vm.errorMessage = error;
+    }
+
+    vm.errorHandler = errorHandler;
 
     return vm;
 };

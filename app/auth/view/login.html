@@ -9,8 +9,13 @@
 
     <fieldset>
       <legend>Login</legend>
-      <textbox label="Username" id="username" ng-model="model.username"></textbox>
-      <passwordbox label="Password" id="password" ng-model="model.password"></passwordbox>
+
+      <textbox label="{{usernameFieldLabel}}"
+               i18next="[html]usernameFieldLabel"
+               id="username" ng-model="model.username"></textbox>
+      <passwordbox label="{{passwordFieldLabel}}"
+                   i18next="[html]passwordFieldLabel"
+                   id="password" ng-model="model.password"></passwordbox>
       <submitbutton></submitbutton>
     </fieldset>
   </form>

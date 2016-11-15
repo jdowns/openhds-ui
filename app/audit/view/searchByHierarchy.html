@@ -11,13 +11,13 @@
     </div>
 
     <fieldset>
-        <div ng-hide="model.currentHierarchy == null">
-            <constbox label="Location Hierarchy" ng-model="model.currentHierarchy.extId"></constbox>
-            <button class="btn btn-danger" ng-click="model.currentHierarchy = null">
+        <div ng-hide="model.searchHierarchy == null">
+            <constbox label="Location Hierarchy" ng-model="model.searchHierarchy.extId"></constbox>
+            <button class="btn btn-danger" ng-click="model.searchHierarchy = null">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
-        <div ng-hide="model.currentHierarchy != null">
+        <div ng-hide="model.searchHierarchy != null">
             <label for="hierarchy-select">Location Hierarchy: </label>
 
             <div align="center">
@@ -39,10 +39,10 @@
 
     </fieldset>
 
-    <button id="searchHierarchy"
+    <button id="searchHierarchyGo"
             class="btn btn-primary pull-right"
             ng-click="model.searchByHierarchy()"
-            ng-disabled="model.currentHierarchy == null">
+            ng-disabled="model.searchHierarchy == null">
         Search
         <span class="glyphicon glyphicon-search"></span>
     </button>

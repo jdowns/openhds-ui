@@ -1,5 +1,6 @@
 angular.module('openhds')
     .directive('textbox', textbox)
+    .directive('extidbox', extidbox)
     .directive('passwordbox', passwordbox)
     .directive('datebox', datebox)
     .directive('constbox', constbox)
@@ -14,16 +15,37 @@ function textbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-                  '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+                  '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">label</label>' +
                   '<div class="col-md-4">' +
                   '<input required type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
                   '</div>' +
                   '</div>'
     };
 }
+
+
+function extidbox() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            label: '@',
+            id: '@',
+            modelKey: "=ngModel"
+        },
+        template: '<div class="form-group">' +
+            '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+            '<div class="col-md-4">' +
+            '<input required extidvalidator type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+            '</div>' +
+            '</div>'
+    };
+}
+
 
 function constbox() {
     return {
@@ -68,10 +90,13 @@ function passwordbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: '@',
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-        '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+
+        '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">label</label>' +
+
         '<div class="col-md-4">' +
         '<input required type="password" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +
@@ -86,12 +111,14 @@ function datebox() {
         scope: {
             label: '@',
             id: '@',
+            max: '@',
+            name: '@',
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
         '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
         '<div class="col-md-4">' +
-        '<input required type="date" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
+        '<input required name="{{name}}" max="{{max}}" type="date" id="{{id}}_input" class="form-control input-md" ng-max="{{max}}" ng-model="modelKey" />' +
         '</div>' +
         '</div>'
     };

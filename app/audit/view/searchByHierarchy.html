@@ -12,23 +12,24 @@
 
     <fieldset>
         <div ng-hide="model.searchHierarchy == null">
-            <constbox label="Location Hierarchy" ng-model="model.searchHierarchy.extId"></constbox>
+            <constbox label="{{labels.locationHierarchy}}" i18next="[html]labels.locationHierarchy" ng-model="model.searchHierarchy.extId"></constbox>
             <button class="btn btn-danger" ng-click="model.searchHierarchy = null">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
         <div ng-hide="model.searchHierarchy != null">
-            <label for="hierarchy-select">Location Hierarchy: </label>
+            <label for="hierarchy-select" ng-i18next="[html]labels.locationHierarchy">{{labels.locationHierarchy}}: </label>
 
             <div align="center">
                 <button class="btn btn-default" id="hierarchy-select"
                         data-toggle="modal"
                         data-target="#hierarchyModal"
+                        ng-i18next="[html]labels.select"
                         ng-disabled="model.entityType == null ||
                                     model.entityType != 'location' &&
                                     model.entityType != 'individual' &&
                                     model.entityType != 'visit'">
-                    Select Hierarchy
+                    {{labels.select}}
                 </button>
             </div>
         </div>
@@ -42,11 +43,13 @@
     <button id="searchHierarchyGo"
             class="btn btn-primary pull-right"
             ng-click="model.searchByHierarchy()"
+            ng-i18next="[html]labels.search"
             ng-disabled="model.searchHierarchy == null">
-        Search
+        <div>{{labels.search}}</div>
         <span class="glyphicon glyphicon-search"></span>
     </button>
     <br/><br/>
+
 
 
 </div>

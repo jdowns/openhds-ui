@@ -19,11 +19,8 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
     service.getEventsByIndividual = function(individualUuid) {
 
         var uuid = individualUuid;
-
         var url = $rootScope.restApiUrl + '/individuals/getEvents?individualUuid=' + uuid;
-
         var responsePromise = $http.get(url, service.getHeaders());
-
 
         return $q(function(resolve, reject) {
             responsePromise.then(
@@ -31,12 +28,6 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
                     console.log(response);
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(response){
-                    console.log(response);
-                    window.alert("Status: " + response.status +
-                        "\n" + response.statusText);
-                    reject(response);
                 }
             );
         });

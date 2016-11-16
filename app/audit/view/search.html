@@ -15,16 +15,17 @@
 
     <button id="searchHierarchy"
             class="btn btn-primary pull-right"
+            ng-i18next="[html]labels.search"
             ng-click="model.searchByFields()">
-        Search
+        {{labels.search}}
         <span class="glyphicon glyphicon-search"></span>
     </button>
     <button class="btn btn-danger pull-right"
+            ng-i18next="[html]labels.clear"
             ng-click="model.currentSearch = null">
-        reset
+        {{labels.clear}}
     </button>
     <br/><br/>
-
 
 
 </div>

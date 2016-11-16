@@ -257,6 +257,10 @@
                             <div class="panel-body">
                                 <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.events.show">
                                     <div class="panel-body">
+
+                                        <div><pre>{{model.individualRelated.events.data | json}}</pre></div>
+
+
                                         <div ng-if="model.individualRelated.events.loadMsg">
                                             <h4>LOADING...</h4>
                                         </div>

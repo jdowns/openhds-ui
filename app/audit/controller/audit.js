@@ -430,6 +430,42 @@ function AuditController($rootScope,
         console.log(type);
     };
 
+
+    // -----------------
+
+    vm.viewRelatedVisit= function(row){
+        vm.currentEntity = row;
+        $("#relatedVisitModal").modal();
+
+    };
+    vm.visitRelated = {
+        events :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        }
+    };
+
+    vm.toggleVisitRelated = function(type){
+        if (!vm.visitRelated[type].show){
+            vm.visitRelated[type].loadMsg = true;
+
+            switch(type){
+                case "events":
+                    vm.getEventsByVisit();
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.visitRelated[type].show = !vm.visitRelated[type].show;
+        console.log(type);
+    };
+
+
+
+
     vm.getMembershipsByIndividual = function(){
         MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
@@ -463,6 +499,15 @@ function AuditController($rootScope,
                 vm.individualRelated.events.data = response;
                 vm.individualRelated.events.displayCollection = [].concat(response);
                 vm.individualRelated.events.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getEventsByVisit = function(){
+        VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.visitRelated.events.data = response;
+                vm.visitRelated.events.displayCollection = [].concat(response);
+                vm.visitRelated.events.loadMsg = false;
             }, errorHandler);
     };
 

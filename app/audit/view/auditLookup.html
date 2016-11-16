@@ -4,9 +4,9 @@
 
         <br /><br /> <!-- todo css padding -->
         <div row>
-            <textbox label="External ID" id="identifier" ng-model="model.searchExtId"></textbox>
-            <button class="btn btn-danger" ng-click="model.searchExtId = null"
-                    ng-disabled="model.searchExtId == null">clear
+            <textbox label="{{labels.externalId}}" i18next="[html]labels.externalId" id="identifier" ng-model="model.searchExtId"></textbox>
+            <button class="btn btn-danger" ng-click="model.searchExtId = null"  ng-i18next="[html]labels.clear"
+                    ng-disabled="model.searchExtId == null">{{labels.clear}}
 
             </button>
         </div>
@@ -16,9 +16,11 @@
     <button id="searchExtid"
             class="btn btn-primary pull-right"
             ng-click="model.lookupEntity()"
+            ng-i18next="[html]labels.search"
             ng-disabled="model.entityType == null;
                          model.searchExtId == null">
-        Search
+        <div>{{labels.search}}</div>
+
         <span class="glyphicon glyphicon-search"></span>
     </button>
     <br/><br/>

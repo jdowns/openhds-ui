@@ -34,5 +34,23 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
     };
 
 
+    service.getEventsByVisit = function(visitUuid) {
+
+        var uuid = visitUuid;
+        var url = $rootScope.restApiUrl + '/visits/getEvents?visitUuid=' + uuid;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
+
     return service;
 }

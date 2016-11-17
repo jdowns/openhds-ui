@@ -464,6 +464,48 @@ function AuditController($rootScope,
     };
 
 
+    // -----------------------
+
+    vm.viewRelatedLocation= function(row){
+        vm.currentEntity = row;
+        $("#relatedLocationModal").modal();
+
+    };
+    vm.locationRelated = {
+        individuals :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        visits :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        }
+    };
+
+    vm.toggleLocationRelated = function(type){
+        if (!vm.locationRelated[type].show){
+            vm.locationRelated[type].loadMsg = true;
+
+            switch(type){
+                case "individuals":
+                    vm.getIndividualsByLocation();
+                    break;
+                case "visits":
+                    vm.getVisitsByLocation();
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.locationRelated[type].show = !vm.locationRelated[type].show;
+        console.log(type);
+    };
+
+
 
 
     vm.getMembershipsByIndividual = function(){
@@ -508,6 +550,24 @@ function AuditController($rootScope,
                 vm.visitRelated.events.data = response;
                 vm.visitRelated.events.displayCollection = [].concat(response);
                 vm.visitRelated.events.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getIndividualsByLocation = function(){
+        IndividualService.getByLocation(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.locationRelated.individuals.data = response;
+                vm.locationRelated.individuals.displayCollection = [].concat(response);
+                vm.locationRelated.individuals.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getVisitsByLocation = function(){
+        VisitService.getByLocation(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.locationRelated.visits.data = response;
+                vm.locationRelated.visits.displayCollection = [].concat(response);
+                vm.locationRelated.visits.loadMsg = false;
             }, errorHandler);
     };
 

@@ -40,7 +40,9 @@ function VisitService(EntityService) {
         };
     }
 
-
+    service.getByLocation = function(locationId) {
+        return EntityService.getByLocation(urlBase, Response, locationId);
+    };
 
     service.getVisitByExtId = function(extId) {
         return EntityService.getByExtId(urlBase, Response, extId);

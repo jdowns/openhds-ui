@@ -245,83 +245,156 @@
 
 
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('events')">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Events (TODO)
-                                </a>
-                            </h4>
-                        </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.events.show">
-                            <div class="panel-body">
-                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.events.show">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('events')">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" ng-i18next="[html]labels.events">
+                                            {{labels.events}}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.events.show">
                                     <div class="panel-body">
+                                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.events.show">
+                                            <div class="panel-body">
 
-                                        <div><pre>{{model.individualRelated.events.data | json}}</pre></div>
-                                        <div ng-if="model.individualRelated.events.loadMsg">
-                                            <h4>LOADING...</h4>
+                                                <div ng-if="model.individualRelated.events.loadMsg">
+                                                    <h4>LOADING...</h4>
+                                                </div>
+
+                                                <div ng-if="!model.individualRelated.events.loadMsg">
+
+
+
+
+                                                    <!-- Display memberships -->
+                                                    <table st-safe-src="model.individualRelated.events.data" st-table="model.individualRelated.events.displayCollection" class="table table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>event type</th>
+                                                            <th>first name</th>
+                                                            <th>last name</th>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>
+                                                                <input st-search="eventType" class="input-sm form-control" type="search"/>
+                                                            </th>
+                                                            <th>
+                                                                <input st-search="firstName" class="input-sm form-control" type="search"/>
+                                                            </th>
+                                                            <th>
+                                                                <input st-search="lastName" class="input-sm form-control" type="search"/>
+                                                            </th>
+
+
+                                                        </tr>
+
+
+                                                        </thead>
+                                                        <tbody>
+                                                        <!-- inMigrations -->
+                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].inMigrations">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                        <li class="dropdown-header">View</li>
+                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td>inMigration</td>
+                                                            <td>{{row.individual.firstName}}</td>
+                                                            <td>{{row.individual.lastName}}</td>
+                                                        </tr>
+                                                        <!-- outMigrations -->
+                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].outMigrations">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                        <li class="dropdown-header">View</li>
+                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td>outMigration</td>
+                                                            <td>{{row.individual.firstName}}</td>
+                                                            <td>{{row.individual.lastName}}</td>
+                                                        </tr>
+                                                        <!-- deaths -->
+                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].deaths">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                        <li class="dropdown-header">View</li>
+                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td>death</td>
+                                                            <td>{{row.individual.firstName}}</td>
+                                                            <td>{{row.individual.lastName}}</td>
+                                                        </tr>
+
+                                                        <!-- pregnancy observation -->
+                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].pregnancyObservations">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                        <li class="dropdown-header">View</li>
+                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td>pregnancyObservation</td>
+                                                            <td>{{row.mother.firstName}}</td>
+                                                            <td>{{row.mother.lastName}}</td>
+                                                        </tr>
+
+                                                        <!-- pregnancy outcome -->
+                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].pregnancyOutcomes">
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                                                        <li class="dropdown-header">View</li>
+                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td>pregnancyOutcome</td>
+                                                            <td>{{row.mother.firstName}}</td>
+                                                            <td>{{row.mother.lastName}}</td>
+                                                        </tr>
+
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
                                         </div>
-
-                                        <div ng-if="!model.individualRelated.events.loadMsg">
-
-
-                                            <!-- Display memberships -->
-                                            <table st-safe-src="model.individualRelated.events.data" st-table="model.individualRelated.events.displayCollection" class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>startType</th>
-                                                    <th>startDate</th>
-                                                    <th>location</th>
-                                                </tr>
-
-                                                <tr>
-                                                    <th></th>
-                                                    <th>
-                                                        <input st-search="startType" class="input-sm form-control" type="search"/>
-                                                    </th>
-                                                    <th>
-                                                        <input st-search="startDate" class="input-sm form-control" type="search"/>
-                                                    </th>
-                                                    <th>
-                                                        <input st-search="location" class="input-sm form-control" type="search"/>
-                                                    </th>
-
-
-                                                </tr>
-
-
-                                                </thead>
-                                                <tbody>
-                                                <tr ng-repeat="row in model.individualRelated.events.displayCollection">
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                                <span class="glyphicon glyphicon-chevron-down"></span>
-                                                            </button>
-                                                            <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                <li class="dropdown-header">View</li>
-                                                                <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                    <td>{{row.startType}}</td>
-                                                    <td>{{row.startDate}}</td>
-                                                    <td>{{row.location.name}}</td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
 
 
 

@@ -36,26 +36,23 @@
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>startDate</th>
-                                            <th>startType</th>
                                             <th>groupName</th>
-                                            <th>groupType</th>
+                                            <th>startDate</th>
+                                            <th>endDate</th>
                                         </tr>
 
                                         <tr>
                                             <th></th>
                                             <th>
-                                                <input st-search="startDate" class="input-sm form-control" type="search"/>
-                                            </th>
-                                            <th>
-                                                <input st-search="startType" class="input-sm form-control" type="search"/>
-                                            </th>
-                                            <th>
                                                 <input st-search="groupName" class="input-sm form-control" type="search"/>
                                             </th>
                                             <th>
-                                                <input st-search="groupType" class="input-sm form-control" type="search"/>
+                                                <input st-search="startDate" class="input-sm form-control" type="search"/>
                                             </th>
+                                            <th>
+                                                <input st-search="endDate" class="input-sm form-control" type="search"/>
+                                            </th>
+
 
                                         </tr>
 
@@ -74,10 +71,10 @@
                                                     </ul>
                                                 </div>
                                             </td>
-                                            <td>{{row.startDate}}</td>
-                                            <td>{{row.startType}}</td>
+
                                             <td>{{row.socialGroup.groupName}}</td>
-                                            <td>{{row.socialGroup.groupType}}</td>
+                                            <td>{{row.startDate}}</td>
+                                            <td>{{row.endDate}}</td>
                                         </tr>
 
                                         </tbody>
@@ -108,19 +105,22 @@
                                         <div ng-if="!model.individualRelated.relationships.loadMsg">
 
 
-                                            <!-- Display memberships -->
+                                            <!-- Display relationships -->
                                             <table st-safe-src="model.individualRelated.relationships.data" st-table="model.individualRelated.relationships.displayCollection" class="table table-striped">
                                                 <thead>
                                                 <tr>
                                                     <th></th>
+                                                    <th>individualB</th>
                                                     <th>relationshipType</th>
                                                     <th>startDate</th>
-                                                    <th>individualA</th>
-                                                    <th>individualB</th>
+                                                    <th>endDate</th>
                                                 </tr>
 
                                                 <tr>
                                                     <th></th>
+                                                    <th>
+                                                        <input st-search="individualB" class="input-sm form-control" type="search"/>
+                                                    </th>
                                                     <th>
                                                         <input st-search="relationshipType" class="input-sm form-control" type="search"/>
                                                     </th>
@@ -128,11 +128,10 @@
                                                         <input st-search="startDate" class="input-sm form-control" type="search"/>
                                                     </th>
                                                     <th>
-                                                        <input st-search="individualA" class="input-sm form-control" type="search"/>
+                                                        <input st-search="endDate" class="input-sm form-control" type="search"/>
                                                     </th>
-                                                    <th>
-                                                        <input st-search="individualB" class="input-sm form-control" type="search"/>
-                                                    </th>
+
+
 
                                                 </tr>
 
@@ -142,7 +141,7 @@
                                                 <tr ng-repeat="row in model.individualRelated.relationships.displayCollection">
                                                     <td>
                                                         <div class="dropdown">
-                                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                                 <span class="glyphicon glyphicon-chevron-down"></span>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
@@ -151,10 +150,10 @@
                                                             </ul>
                                                         </div>
                                                     </td>
+                                                    <td>{{row.individualB.lastName}},{{row.individualB.firstName}}</td>
                                                     <td>{{row.relationshipType}}</td>
                                                     <td>{{row.startDate}}</td>
-                                                    <td>{{row.individualA.lastName}},{{row.individualA.firstName}}</td>
-                                                    <td>{{row.individualB.lastName}},{{row.individualB.firstName}}</td>
+                                                    <td>{{row.endDate}}</td>
                                                 </tr>
 
                                                 </tbody>
@@ -187,27 +186,28 @@
                                         <div ng-if="!model.individualRelated.residencies.loadMsg">
 
 
-                                            <!-- Display memberships -->
+                                            <!-- Display residencies -->
                                             <table st-safe-src="model.individualRelated.residencies.data" st-table="model.individualRelated.residencies.displayCollection" class="table table-striped">
                                                 <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>startType</th>
-                                                    <th>startDate</th>
                                                     <th>location</th>
+                                                    <th>startType</th>
+                                                    <th>endDate</th>
                                                 </tr>
 
                                                 <tr>
                                                     <th></th>
                                                     <th>
-                                                        <input st-search="startType" class="input-sm form-control" type="search"/>
+                                                        <input st-search="location" class="input-sm form-control" type="search"/>
                                                     </th>
                                                     <th>
                                                         <input st-search="startDate" class="input-sm form-control" type="search"/>
                                                     </th>
                                                     <th>
-                                                        <input st-search="location" class="input-sm form-control" type="search"/>
+                                                        <input st-search="endDate" class="input-sm form-control" type="search"/>
                                                     </th>
+
 
 
                                                 </tr>
@@ -227,9 +227,9 @@
                                                             </ul>
                                                         </div>
                                                     </td>
-                                                    <td>{{row.startType}}</td>
-                                                    <td>{{row.startDate}}</td>
                                                     <td>{{row.location.name}}</td>
+                                                    <td>{{row.startDate}}</td>
+                                                    <td>{{row.endDate}}</td>
                                                 </tr>
 
                                                 </tbody>

@@ -18,8 +18,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" ng-click="model.toggleVisitRelated('events')">
                             <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Events (TODO)
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" ng-i18next="[html]labels.events">
+                                    {{labels.events}}
                                 </a>
                             </h4>
                         </div>
@@ -34,17 +34,6 @@
 
                                         <div ng-if="!model.visitRelated.events.loadMsg">
 
-                                            <!--
-                                            <div>
-                                                INM
-                                                <pre>{{model.visitRelated.events.data.inMigrations | json}}</pre>
-                                                <hr>
-                                            </div>
-
-                                            <div ng-repeat="x in model.visitRelated.events.data">
-                                                <pre>{{x | json}}</pre>
-                                                <hr>
-                                            </div> -->
 
 
 

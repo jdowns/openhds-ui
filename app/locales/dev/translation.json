@@ -24,7 +24,8 @@
         "migration" : "Migration",
         "pregnancy" : "Pregnancy",
         "select" : "Select",
-        "lookup" : "Lookup"
+        "lookup" : "Lookup",
+        "events" : "Events"
     }
 
 

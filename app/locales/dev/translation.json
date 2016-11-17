@@ -1,4 +1,11 @@
 {
     "usernameFieldLabel": "Username",
-    "passwordFieldLabel": "Password"
+    "passwordFieldLabel": "Password",
+    "baselineTitle": "Begin Baseline",
+    "collectionDateLabel": "Collection Date",
+    "fieldWorkerLabel": "Fieldworker",
+    "locationHierarchyLabel": "Location Hierarchy",
+    "fieldworkerSelectButtonLabel": "Select Fieldworker",
+    "locationHierarchySelectButtonLabel": "Select Hierarchy",
+    "locationButtonLabel": "Location"
 }

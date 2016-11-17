@@ -2,11 +2,23 @@
 
 angular.module('openhds')
     .service('RelationshipService',
-             ['EntityService', RelationshipService]);
+             ['$rootScope','$http','$q','EntityService', RelationshipService ]);
 
-function RelationshipService(EntityService) {
+function RelationshipService($rootScope, $http, $q, EntityService) {
     var service = this;
     var urlBase = '/relationships';
+
+    service.getHeaders = function() {
+        return {
+            headers: {
+                authorization: "Basic " + $rootScope.credentials
+            }
+        };
+    };
+
+
+
+
 
     function Request(model) {
         return {
@@ -20,6 +32,27 @@ function RelationshipService(EntityService) {
             }
         };
     }
+
+
+    service.getRelationshipsByIndividual = function(individualUuid) {
+
+        var uuid = individualUuid;
+
+        var url = $rootScope.restApiUrl + '/individuals/getRelationships?individualUuid=' + uuid;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
 
     service.submitOne = function(fieldWorker, collectionDate, entity) {
         var model = {

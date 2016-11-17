@@ -7,5 +7,30 @@
     "locationHierarchyLabel": "Location Hierarchy",
     "fieldworkerSelectButtonLabel": "Select Fieldworker",
     "locationHierarchySelectButtonLabel": "Select Hierarchy",
-    "locationButtonLabel": "Location"
+    "locationButtonLabel": "Location",
+    "labels" : {
+        "origin" : "Origin",
+        "reason" : "Reason",
+        "migrationDate" : "Migration Date",
+        "migrationType" : "Migration Type",
+        "externalId" : "External ID",
+        "entityType" : "Entity Type",
+        "entityAudit" : "Entity Audit",
+        "search" : "Search",
+        "clear" : "Clear",
+        "fieldWorker" : "Field Worker",
+        "user" : "User",
+        "individual" : "Individual",
+        "location" : "Location",
+        "locationHierarchy" : "Location Hierarchy",
+        "socialGroup" : "Social Group",
+        "membership" : "Membership",
+        "relationship" : "Relationship",
+        "residency" : "Residency",
+        "death" : "Death",
+        "migration" : "Migration",
+        "pregnancy" : "Pregnancy",
+        "select" : "Select",
+        "lookup" : "Lookup"
+    }
 }

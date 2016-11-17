@@ -4,19 +4,20 @@
 
     <fieldset>
         <div ng-hide="model.currentFieldWorker == null">
-            <constbox label="Field Worker" ng-model="model.currentFieldWorker.id"></constbox>
+            <constbox label="{{labels.fieldWorker}}" ng-i18next="[html]labels.fieldWorker" ng-model="model.currentFieldWorker.id"></constbox>
             <button class="btn btn-danger" ng-click="model.currentFieldWorker = null">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
         <div ng-hide="model.currentFieldWorker != null">
-            <label for="hierarchy-select">Field Worker: </label>
+            <label for="hierarchy-select" ng-i18next="[html]labels.fieldWorker">{{labels.fieldWorker}}: </label>
 
             <div align="center">
                 <button class="btn btn-default" id="hierarchy-select"
+                        ng-i18next="[html]labels.select"
                         data-toggle="modal"
                         data-target="#fieldworkerModal">
-                    Select Field Worker
+                    {{labels.select}}
                 </button>
             </div>
         </div>
@@ -31,11 +32,15 @@
     <button id="searchHierarchy"
             class="btn btn-primary pull-right"
             ng-click="model.searchByFieldWorker()"
+            ng-i18next="[html]labels.search"
             ng-disabled="model.currentFieldWorker == null">
-        Search
+        <div>{{labels.search}}</div>
+
         <span class="glyphicon glyphicon-search"></span>
     </button>
     <br/><br/>
+
+
 
 
 

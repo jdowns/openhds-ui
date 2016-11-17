@@ -13,12 +13,14 @@
 
 
 
-                <textbox label="Origin" id="origin" ng-model="model.currentInMigration.origin"></textbox>
+                <textbox label={{labels.origin}}" i18next="[html]labels.origin" ng-model="model.currentInMigration.origin"></textbox>
                 <br /><br /> <!-- todo css padding -->
-                <textbox label="Reason" id="reason" ng-model="model.currentInMigration.reason"></textbox>
+                <textbox label={{labels.reason}}" i18next="[html]labels.reason"  ng-model="model.currentInMigration.reason"></textbox>
+                <br /><br />
+                <datebox label={{labels.migrationDate}}" i18next="[html]labels.migrationDate"  ng-model="model.currentInMigration.migrationDate"> </datebox>
                 <br /><br />
 
-                <selectbox label="Migration Type" id="migrationType" ng-model="model.currentInMigration.migrationType">
+                <selectbox label={{labels.migrationType}}" i18next="[html]labels.migrationType"  ng-model="model.currentInMigration.migrationType">
 
                     <option ng-repeat="type in model.migrationTypes"
                             value="{{type.codeValue}}">{{type.display}}</option>

@@ -11,6 +11,10 @@ angular.module('AuditModule', [])
             'SocialGroupService',
             'VisitService',
             'IndividualService',
+            'MembershipService',
+            'RelationshipService',
+            'ResidencyService',
+            'VisitEventService',
             AuditController]);
 
 function AuditController($rootScope,
@@ -20,19 +24,20 @@ function AuditController($rootScope,
                             LocationService,
                             SocialGroupService,
                             VisitService,
-                            IndividualService) {
+                            IndividualService,
+                            MembershipService,
+                            RelationshipService,
+                            ResidencyService,
+                            VisitEventService) {
+
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
     vm.selectedHierarchy = [];
-
-
     vm.currentEntity = null;
-
     vm.tempLoc = null;
     vm.tempIndiv = null;
     vm.tempSocial = null;
     vm.toSubmit = {};
-
 
     vm.queryResult = {
         entityType : null,
@@ -45,7 +50,6 @@ function AuditController($rootScope,
         vm.queryResult.data = [];
         vm.queryResult.displayCollection = [];
     };
-
 
     vm.entityList = [
         {
@@ -70,8 +74,6 @@ function AuditController($rootScope,
         }
 
     ];
-
-
 
     vm.lookupEntity = function(){
         vm.toSubmit = {};
@@ -131,14 +133,13 @@ function AuditController($rootScope,
     };
 
     vm.lookupVisit = function(){
-        VisitService.getByExtId(vm.searchExtId)
+        VisitService.getVisitByExtId(vm.searchExtId)
             .then(function(response) {
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
             }, errorHandler);
     };
-
 
     vm.saveLocation = function(){
         var temp = angular.copy(vm.tempLoc);
@@ -161,7 +162,6 @@ function AuditController($rootScope,
         };
 
         vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
-
     };
 
     vm.saveIndividual = function(){
@@ -180,7 +180,6 @@ function AuditController($rootScope,
             'firstName': temp.firstName,
             'lastName': temp.lastName
         };
-
     };
 
     vm.saveSocialGroup = function(){
@@ -198,7 +197,6 @@ function AuditController($rootScope,
             'groupName': temp.groupName,
             'groupType': temp.groupType
         };
-
     };
 
     vm.saveLocationHierarchy = function() {
@@ -219,8 +217,6 @@ function AuditController($rootScope,
             case null:
                 break;
             case 'location':
-                console.log(vm.searchHierarchy.uuid);
-
                 LocationService.getByHierarchy(vm.searchHierarchy.uuid)
                     .then(function(response) {
                         vm.queryResult.data = response;
@@ -267,7 +263,6 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
             case 'socialGroup':
                 SocialGroupService.getByFieldWorker(vm.currentFieldWorker.id)
                     .then(function(response) {
@@ -282,11 +277,8 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
-
             default:
                 break;
-
         }
     };
 
@@ -343,17 +335,10 @@ function AuditController($rootScope,
                         vm.queryResult.displayCollection = [].concat(response);
                     }, errorHandler);
                 break;
-
             default:
                 break;
-
-
         }
-
-
-
     };
-
 
     vm.viewJson = function(row){
         vm.entityToView = row;
@@ -372,14 +357,11 @@ function AuditController($rootScope,
         $("#editIndividualModal").modal();
     };
 
-
     vm.editSocialGroup = function(row){
         vm.currentEntity = row;
         vm.setTemp("tempSocial");
         $("#editSocialGroupModal").modal();
     };
-
-
 
     vm.availableHierarchies = function() {
         var result = [];
@@ -390,13 +372,101 @@ function AuditController($rootScope,
         return result;
     };
 
+    vm.viewRelatedIndividual = function(row){
+        vm.currentEntity = row;
+        $("#relatedIndividualModal").modal();
 
+    };
 
+    vm.individualRelated = {
+        memberships : {
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        relationships : {
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        residencies : {
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        events :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        }
+    };
 
+    vm.toggleIndividualRelated = function(type){
+        if (!vm.individualRelated[type].show){
+            vm.individualRelated[type].loadMsg = true;
+
+            switch(type){
+                case "memberships":
+                    vm.getMembershipsByIndividual();
+                    break;
+                case "relationships":
+                    vm.getRelationshipsByIndividual();
+                    break;
+                case "residencies":
+                    vm.getResidenciesByIndividual();
+                    break;
+                case "events":
+                    vm.getEventsByIndividual();
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.individualRelated[type].show = !vm.individualRelated[type].show;
+        console.log(type);
+    };
+
+    vm.getMembershipsByIndividual = function(){
+        MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.memberships.data = response;
+                vm.individualRelated.memberships.displayCollection = [].concat(response);
+                vm.individualRelated.memberships.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getRelationshipsByIndividual = function(){
+        RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.relationships.data = response;
+                vm.individualRelated.relationships.displayCollection = [].concat(response);
+                vm.individualRelated.relationships.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getResidenciesByIndividual = function(){
+        ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.residencies.data = response;
+                vm.individualRelated.residencies.displayCollection = [].concat(response);
+                vm.individualRelated.residencies.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getEventsByIndividual = function(){
+        VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.individualRelated.events.data = response;
+                vm.individualRelated.events.displayCollection = [].concat(response);
+                vm.individualRelated.events.loadMsg = false;
+            }, errorHandler);
+    };
 
     vm.init = function() {
-
-
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
@@ -414,8 +484,6 @@ function AuditController($rootScope,
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
         }, errorHandler);
-
-
     };
 
     function errorHandler(error) {

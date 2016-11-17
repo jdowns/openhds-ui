@@ -16,7 +16,7 @@
         <!-- Main content -->
         <div class="col-md-10 no-float">
 
-            <legend>Entity Audit</legend>
+            <legend ng-i18next="[html]labels.entityAudit">{{labels.entityAudit}}</legend>
 
 
 
@@ -25,7 +25,7 @@
                         padding: 20px;
                         font-size: 16px;
                         line-height: 2;">
-                <label for="entityTypeSelect">Entity Type:</label>
+                <label for="entityTypeSelect" ng-i18next="[html]labels.entityType">{{labels.entityType}}</label>
                 <select id="entityTypeSelect"
                             ng-model="model.entityType"
                             ng-change="model.currentSearch = {}"
@@ -36,11 +36,12 @@
                         </option>
                     </select>
 
-
-
-
-
             </div>
+
+
+
+
+
 
 
             <br /><br/>
@@ -99,3 +100,5 @@
 <ng-include src="'domain/individual/partials/individualEditModal.html'"></ng-include>
 <ng-include src="'domain/location/partials/locationEditModal.html'"></ng-include>
 <ng-include src="'domain/socialGroup/partials/socialGroupEditModal.html'"></ng-include>
+
+<ng-include src="'domain/individual/partials/individualRelatedModal.html'"></ng-include>

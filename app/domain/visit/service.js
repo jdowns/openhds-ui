@@ -57,7 +57,7 @@ function VisitService(EntityService) {
     };
 
     service.getByVisitDate = function(visitDate) {
-        return EntityService.getBySearch(urlBase, Response, visitDate);
+        return EntityService.getByVisitDate(urlBase, Response, visitDate);
     };
 
 

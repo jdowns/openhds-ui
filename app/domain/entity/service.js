@@ -108,8 +108,9 @@ function EntityService($rootScope, $http, $q) {
 
 
     service.getByVisitDate = function(urlBase, responseClass, visitDate) {
+        
 
-        var url = $rootScope.restApiUrl + urlBase + '/getByVisitDate?visitDate=' + visitDate;
+        var url = $rootScope.restApiUrl + urlBase + '/findByVisitDate?visitDate=' + visitDate;
         var responsePromise = $http.get(url, service.getHeaders());
 
         return $q(function(resolve, reject) {

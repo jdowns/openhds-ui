@@ -59,12 +59,6 @@ function EntityService($rootScope, $http, $q) {
                 function(response) {
                     var entities = response.data.content.map(responseClass);
                     resolve(entities);
-                },
-                function(response){
-                    console.log(response);
-                    window.alert("Status: " + response.status +
-                                 "\n" + response.statusText);
-                    reject(response);
                 }
             );
         });
@@ -81,12 +75,6 @@ function EntityService($rootScope, $http, $q) {
                 function(response) {
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(reject){
-                    console.log(reject);
-                    window.alert("Status: " + reject.status +
-                        "\n" + reject.statusText);
-
                 }
             );
         });
@@ -103,12 +91,6 @@ function EntityService($rootScope, $http, $q) {
                 function(response) {
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(reject){
-                    console.log(reject);
-                    window.alert("Status: " + reject.status +
-                        "\n" + reject.statusText);
-
                 }
             );
         });

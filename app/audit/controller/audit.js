@@ -372,42 +372,86 @@ function AuditController($rootScope,
         return result;
     };
 
-    vm.viewRelatedIndividual = function(row){
-        vm.currentEntity = row;
-        $("#relatedIndividualModal").modal();
+
+
+    // ----------------------- Related entities -----
+
+    vm.related = {
+        currentType : null,
+
+        socialGroup : {
+          individuals : {},
+          memberships :{}
+        },
+        location : {
+            individuals :{},
+            visits :{}
+        },
+        individual :{
+            memberships : {},
+            relationships : {},
+            residencies : {},
+            events :{}
+        },
+        visit : {
+            events :{}
+        }
 
     };
 
-    vm.individualRelated = {
-        memberships : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        },
-        relationships : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        },
-        residencies : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        },
-        events :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
+    vm.viewRelated = function(type, row){
+        vm.related.currentType = type;
+        vm.currentEntity = row;
+
+        // close any open tables from previous searches
+        var objList = Object.keys(vm.related[type]);
+        for(var i = 0; i < objList.length; i++){
+            vm.related[type][objList[i]].show = false;
+        }
+
+
+        switch(type){
+            case "socialGroup":
+                $("#relatedSocialGroupModal").modal();
+                break;
+            case "individual":
+                $("#relatedIndividualModal").modal();
+                break;
+            case "location":
+                $("#relatedLocationModal").modal();
+                break;
+            case "visit":
+                $("#relatedVisitModal").modal();
+                break;
+            default:
+                break;
         }
     };
 
+
+    vm.toggleSocialGroupRelated = function(type){
+        if (!vm.related['socialGroup'][type].show){
+             vm.related['socialGroup'][type].loadMsg = true;
+
+            switch(type){
+                case "individuals":
+                    vm.getIndividualsBySocialGroup();
+                    break;
+                case "memberships":
+                    vm.getMembershipsBySocialGroup();
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.related['socialGroup'][type].show = !vm.related['socialGroup'][type].show;
+        console.log(type);
+    };
+
+
     vm.toggleIndividualRelated = function(type){
-        if (!vm.individualRelated[type].show){
-            vm.individualRelated[type].loadMsg = true;
+        if (!vm.related['individual'][type].show){
+            vm.related['individual'][type].loadMsg = true;
 
             switch(type){
                 case "memberships":
@@ -426,69 +470,14 @@ function AuditController($rootScope,
                     break;
             }
         }
-        vm.individualRelated[type].show = !vm.individualRelated[type].show;
+        vm.related['individual'][type].show = !vm.related['individual'][type].show;
         console.log(type);
     };
 
-
-    // -----------------
-
-    vm.viewRelatedVisit= function(row){
-        vm.currentEntity = row;
-        $("#relatedVisitModal").modal();
-
-    };
-    vm.visitRelated = {
-        events :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        }
-    };
-
-    vm.toggleVisitRelated = function(type){
-        if (!vm.visitRelated[type].show){
-            vm.visitRelated[type].loadMsg = true;
-
-            switch(type){
-                case "events":
-                    vm.getEventsByVisit();
-                    break;
-                default:
-                    break;
-            }
-        }
-        vm.visitRelated[type].show = !vm.visitRelated[type].show;
-        console.log(type);
-    };
-
-
-    // -----------------------
-
-    vm.viewRelatedLocation= function(row){
-        vm.currentEntity = row;
-        $("#relatedLocationModal").modal();
-
-    };
-    vm.locationRelated = {
-        individuals :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        },
-        visits :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        }
-    };
 
     vm.toggleLocationRelated = function(type){
-        if (!vm.locationRelated[type].show){
-            vm.locationRelated[type].loadMsg = true;
+        if (!vm.related['location'][type].show){
+            vm.related['location'][type].loadMsg = true;
 
             switch(type){
                 case "individuals":
@@ -501,135 +490,107 @@ function AuditController($rootScope,
                     break;
             }
         }
-        vm.locationRelated[type].show = !vm.locationRelated[type].show;
+        vm.related['location'][type].show = !vm.related['location'][type].show;
         console.log(type);
     };
 
 
-
-    // -----------------------
-
-    vm.viewRelatedSocialGroup= function(row){
-        vm.currentEntity = row;
-        $("#relatedSocialGroupModal").modal();
-
-    };
-    vm.socialGroupRelated = {
-        individuals :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        },
-        memberships :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
-        }
-    };
-
-    vm.toggleSocialGroupRelated = function(type){
-        if (!vm.socialGroupRelated[type].show){
-            vm.socialGroupRelated[type].loadMsg = true;
+    vm.toggleVisitRelated = function(type){
+        if (!vm.related['visit'][type].show){
+            vm.related['visit'][type].loadMsg = true;
 
             switch(type){
-                case "individuals":
-                    vm.getIndividualsBySocialGroup();
-                    break;
-                case "memberships":
-                    vm.getMembershipsBySocialGroup();
+                case "events":
+                    vm.getEventsByVisit();
                     break;
                 default:
                     break;
             }
         }
-        vm.socialGroupRelated[type].show = !vm.socialGroupRelated[type].show;
+        vm.related['visit'][type].show = !vm.related['visit'][type].show;
         console.log(type);
     };
-
-
 
 
 
     vm.getMembershipsByIndividual = function(){
         MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.individualRelated.memberships.data = response;
-                vm.individualRelated.memberships.displayCollection = [].concat(response);
-                vm.individualRelated.memberships.loadMsg = false;
+                vm.related['individual'].memberships.data = response;
+                vm.related['individual'].memberships.displayCollection = [].concat(response);
+                vm.related['individual'].memberships.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getRelationshipsByIndividual = function(){
         RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.individualRelated.relationships.data = response;
-                vm.individualRelated.relationships.displayCollection = [].concat(response);
-                vm.individualRelated.relationships.loadMsg = false;
+                vm.related['individual'].relationships.data = response;
+                vm.related['individual'].relationships.displayCollection = [].concat(response);
+                vm.related['individual'].relationships.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getResidenciesByIndividual = function(){
         ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.individualRelated.residencies.data = response;
-                vm.individualRelated.residencies.displayCollection = [].concat(response);
-                vm.individualRelated.residencies.loadMsg = false;
+                vm.related['individual'].residencies.data = response;
+                vm.related['individual'].residencies.displayCollection = [].concat(response);
+                vm.related['individual'].residencies.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getEventsByIndividual = function(){
         VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.individualRelated.events.data = response;
-                vm.individualRelated.events.displayCollection = [].concat(response);
-                vm.individualRelated.events.loadMsg = false;
+                vm.related['individual'].events.data = response;
+                vm.related['individual'].events.displayCollection = [].concat(response);
+                vm.related['individual'].events.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getEventsByVisit = function(){
         VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.visitRelated.events.data = response;
-                vm.visitRelated.events.displayCollection = [].concat(response);
-                vm.visitRelated.events.loadMsg = false;
+                vm.related['visit'].events.data = response;
+                vm.related['visit'].events.displayCollection = [].concat(response);
+                vm.related['visit'].events.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getIndividualsByLocation = function(){
         IndividualService.getByLocation(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.locationRelated.individuals.data = response;
-                vm.locationRelated.individuals.displayCollection = [].concat(response);
-                vm.locationRelated.individuals.loadMsg = false;
+                vm.related['location'].individuals.data = response;
+                vm.related['location'].individuals.displayCollection = [].concat(response);
+                vm.related['location'].individuals.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getVisitsByLocation = function(){
         VisitService.getByLocation(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.locationRelated.visits.data = response;
-                vm.locationRelated.visits.displayCollection = [].concat(response);
-                vm.locationRelated.visits.loadMsg = false;
+                vm.related['location'].visits.data = response;
+                vm.related['location'].visits.displayCollection = [].concat(response);
+                vm.related['location'].visits.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getMembershipsBySocialGroup = function(){
         MembershipService.getMembershipsBySocialGroup(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.socialGroupRelated.memberships.data = response;
-                vm.socialGroupRelated.memberships.displayCollection = [].concat(response);
-                vm.socialGroupRelated.memberships.loadMsg = false;
+                vm.related['socialGroup'].memberships.data = response;
+                vm.related['socialGroup'].memberships.displayCollection = [].concat(response);
+                vm.related['socialGroup'].memberships.loadMsg = false;
             }, errorHandler);
     };
 
     vm.getIndividualsBySocialGroup = function(){
         IndividualService.getBySocialGroup(vm.currentEntity.uuid)
             .then(function(response) {
-                vm.socialGroupRelated.individuals.data = response;
-                vm.socialGroupRelated.individuals.displayCollection = [].concat(response);
-                vm.socialGroupRelated.individuals.loadMsg = false;
+                vm.related['socialGroup'].individuals.data = response;
+                vm.related['socialGroup'].individuals.displayCollection = [].concat(response);
+                vm.related['socialGroup'].individuals.loadMsg = false;
             }, errorHandler);
     };
 

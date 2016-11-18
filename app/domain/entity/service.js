@@ -92,6 +92,28 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+    service.getBySocialGroup = function(urlBase, responseClass, socialGroupId) {
+        var url = $rootScope.restApiUrl + urlBase + '/findBySocialGroup/?socialGroupUuid=' + socialGroupId;
+
+        var responsePromise = $http.get(url, service.getHeaders());
+
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data;
+                    resolve(entities);
+                },
+                function(reject){
+                    console.log(reject);
+                    window.alert("Status: " + reject.status +
+                        "\n" + reject.statusText);
+
+                }
+            );
+        });
+    };
+
 
     service.getBySearch = function(urlBase, responseClass, entityList) {
         var url = $rootScope.restApiUrl + urlBase + '/search?' + entityList;

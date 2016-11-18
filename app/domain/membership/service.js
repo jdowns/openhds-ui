@@ -33,11 +33,8 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
     service.getMembershipsByIndividual = function(individualUuid) {
 
         var uuid = individualUuid;
-
         var url = $rootScope.restApiUrl + '/individuals/getMemberships?individualUuid=' + uuid;
-
         var responsePromise = $http.get(url, service.getHeaders());
-
 
         return $q(function(resolve, reject) {
             responsePromise.then(
@@ -49,6 +46,25 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
             );
         });
     };
+
+
+    service.getMembershipsBySocialGroup = function(socialGroupUuid) {
+
+        var uuid = socialGroupUuid;
+        var url = $rootScope.restApiUrl + '/socialGroups/getMemberships?socialGroupUuid=' + uuid;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
 
 
 

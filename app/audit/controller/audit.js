@@ -507,6 +507,50 @@ function AuditController($rootScope,
 
 
 
+    // -----------------------
+
+    vm.viewRelatedSocialGroup= function(row){
+        vm.currentEntity = row;
+        $("#relatedSocialGroupModal").modal();
+
+    };
+    vm.socialGroupRelated = {
+        individuals :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        },
+        memberships :{
+            show: false,
+            data: [],
+            displayCollection: [],
+            loadMsg :false
+        }
+    };
+
+    vm.toggleSocialGroupRelated = function(type){
+        if (!vm.socialGroupRelated[type].show){
+            vm.socialGroupRelated[type].loadMsg = true;
+
+            switch(type){
+                case "individuals":
+                    vm.getIndividualsBySocialGroup();
+                    break;
+                case "memberships":
+                    vm.getMembershipsBySocialGroup();
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.socialGroupRelated[type].show = !vm.socialGroupRelated[type].show;
+        console.log(type);
+    };
+
+
+
+
 
     vm.getMembershipsByIndividual = function(){
         MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
@@ -568,6 +612,24 @@ function AuditController($rootScope,
                 vm.locationRelated.visits.data = response;
                 vm.locationRelated.visits.displayCollection = [].concat(response);
                 vm.locationRelated.visits.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getMembershipsBySocialGroup = function(){
+        MembershipService.getMembershipsBySocialGroup(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.socialGroupRelated.memberships.data = response;
+                vm.socialGroupRelated.memberships.displayCollection = [].concat(response);
+                vm.socialGroupRelated.memberships.loadMsg = false;
+            }, errorHandler);
+    };
+
+    vm.getIndividualsBySocialGroup = function(){
+        IndividualService.getBySocialGroup(vm.currentEntity.uuid)
+            .then(function(response) {
+                vm.socialGroupRelated.individuals.data = response;
+                vm.socialGroupRelated.individuals.displayCollection = [].concat(response);
+                vm.socialGroupRelated.individuals.loadMsg = false;
             }, errorHandler);
     };
 

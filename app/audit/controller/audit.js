@@ -377,7 +377,6 @@ function AuditController($rootScope,
     // ----------------------- Related entities -----
 
     vm.related = {
-        currentType : null,
 
         socialGroup : {
           individuals : {},
@@ -396,11 +395,9 @@ function AuditController($rootScope,
         visit : {
             events :{}
         }
-
     };
 
     vm.viewRelated = function(type, row){
-        vm.related.currentType = type;
         vm.currentEntity = row;
 
         // close any open tables from previous searches
@@ -408,7 +405,6 @@ function AuditController($rootScope,
         for(var i = 0; i < objList.length; i++){
             vm.related[type][objList[i]].show = false;
         }
-
 
         switch(type){
             case "socialGroup":
@@ -428,17 +424,26 @@ function AuditController($rootScope,
         }
     };
 
-
     vm.toggleSocialGroupRelated = function(type){
         if (!vm.related['socialGroup'][type].show){
              vm.related['socialGroup'][type].loadMsg = true;
 
             switch(type){
                 case "individuals":
-                    vm.getIndividualsBySocialGroup();
+                    IndividualService.getBySocialGroup(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['socialGroup'].individuals.data = response;
+                            vm.related['socialGroup'].individuals.displayCollection = [].concat(response);
+                            vm.related['socialGroup'].individuals.loadMsg = false;
+                        }, errorHandler);
                     break;
                 case "memberships":
-                    vm.getMembershipsBySocialGroup();
+                    MembershipService.getMembershipsBySocialGroup(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['socialGroup'].memberships.data = response;
+                            vm.related['socialGroup'].memberships.displayCollection = [].concat(response);
+                            vm.related['socialGroup'].memberships.loadMsg = false;
+                        }, errorHandler);
                     break;
                 default:
                     break;
@@ -455,16 +460,36 @@ function AuditController($rootScope,
 
             switch(type){
                 case "memberships":
-                    vm.getMembershipsByIndividual();
+                    MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].memberships.data = response;
+                            vm.related['individual'].memberships.displayCollection = [].concat(response);
+                            vm.related['individual'].memberships.loadMsg = false;
+                        }, errorHandler);
                     break;
                 case "relationships":
-                    vm.getRelationshipsByIndividual();
+                    RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].relationships.data = response;
+                            vm.related['individual'].relationships.displayCollection = [].concat(response);
+                            vm.related['individual'].relationships.loadMsg = false;
+                        }, errorHandler);
                     break;
                 case "residencies":
-                    vm.getResidenciesByIndividual();
+                    ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].residencies.data = response;
+                            vm.related['individual'].residencies.displayCollection = [].concat(response);
+                            vm.related['individual'].residencies.loadMsg = false;
+                        }, errorHandler);
                     break;
                 case "events":
-                    vm.getEventsByIndividual();
+                    VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].events.data = response;
+                            vm.related['individual'].events.displayCollection = [].concat(response);
+                            vm.related['individual'].events.loadMsg = false;
+                        }, errorHandler);
                     break;
                 default:
                     break;
@@ -481,10 +506,20 @@ function AuditController($rootScope,
 
             switch(type){
                 case "individuals":
-                    vm.getIndividualsByLocation();
+                    IndividualService.getByLocation(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['location'].individuals.data = response;
+                            vm.related['location'].individuals.displayCollection = [].concat(response);
+                            vm.related['location'].individuals.loadMsg = false;
+                        }, errorHandler);
                     break;
                 case "visits":
-                    vm.getVisitsByLocation();
+                    VisitService.getByLocation(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['location'].visits.data = response;
+                            vm.related['location'].visits.displayCollection = [].concat(response);
+                            vm.related['location'].visits.loadMsg = false;
+                        }, errorHandler);
                     break;
                 default:
                     break;
@@ -501,7 +536,12 @@ function AuditController($rootScope,
 
             switch(type){
                 case "events":
-                    vm.getEventsByVisit();
+                    VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['visit'].events.data = response;
+                            vm.related['visit'].events.displayCollection = [].concat(response);
+                            vm.related['visit'].events.loadMsg = false;
+                        }, errorHandler);
                     break;
                 default:
                     break;
@@ -511,88 +551,6 @@ function AuditController($rootScope,
         console.log(type);
     };
 
-
-
-    vm.getMembershipsByIndividual = function(){
-        MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['individual'].memberships.data = response;
-                vm.related['individual'].memberships.displayCollection = [].concat(response);
-                vm.related['individual'].memberships.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getRelationshipsByIndividual = function(){
-        RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['individual'].relationships.data = response;
-                vm.related['individual'].relationships.displayCollection = [].concat(response);
-                vm.related['individual'].relationships.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getResidenciesByIndividual = function(){
-        ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['individual'].residencies.data = response;
-                vm.related['individual'].residencies.displayCollection = [].concat(response);
-                vm.related['individual'].residencies.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getEventsByIndividual = function(){
-        VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['individual'].events.data = response;
-                vm.related['individual'].events.displayCollection = [].concat(response);
-                vm.related['individual'].events.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getEventsByVisit = function(){
-        VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['visit'].events.data = response;
-                vm.related['visit'].events.displayCollection = [].concat(response);
-                vm.related['visit'].events.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getIndividualsByLocation = function(){
-        IndividualService.getByLocation(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['location'].individuals.data = response;
-                vm.related['location'].individuals.displayCollection = [].concat(response);
-                vm.related['location'].individuals.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getVisitsByLocation = function(){
-        VisitService.getByLocation(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['location'].visits.data = response;
-                vm.related['location'].visits.displayCollection = [].concat(response);
-                vm.related['location'].visits.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getMembershipsBySocialGroup = function(){
-        MembershipService.getMembershipsBySocialGroup(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['socialGroup'].memberships.data = response;
-                vm.related['socialGroup'].memberships.displayCollection = [].concat(response);
-                vm.related['socialGroup'].memberships.loadMsg = false;
-            }, errorHandler);
-    };
-
-    vm.getIndividualsBySocialGroup = function(){
-        IndividualService.getBySocialGroup(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.related['socialGroup'].individuals.data = response;
-                vm.related['socialGroup'].individuals.displayCollection = [].concat(response);
-                vm.related['socialGroup'].individuals.loadMsg = false;
-            }, errorHandler);
-    };
 
     vm.init = function() {
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";

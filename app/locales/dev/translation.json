@@ -27,9 +27,6 @@
         "residency" : "Residency",
         "residencies" : "Residencies",
 
-        "collectedBy" : "Collected By",
-        "description" : "Description",
-        "status" : "Status",
 
         "events" : "Events",
         "migration" : "Migration",
@@ -52,9 +49,6 @@
         "death" : "Death",
         "placeOfDeath" : "Place of death",
         "cause" : "Cause",
-
-        "entityAudit" : "Entity Audit",
-        "relatedEntities" : "Related Entities",
 
         "externalId" : "External ID",
         "fieldWorkerID" : "Field Worker ID",
@@ -83,6 +77,7 @@
         "relationshipType" : "Relationship Type",
         "groupType" : "Group Type",
         "eventType" : "Event Type",
+        "locationType" : "Location Type",
 
         "select" : "Select",
         "search" : "Search",
@@ -93,7 +88,13 @@
         "new" : "New",
         "reset" : "Reset",
         "delete" : "Delete",
-        "loading" : "Loading"
+        "loading" : "Loading",
+        "collectedBy" : "Collected By",
+        "description" : "Description",
+        "status" : "Status",
+        "entityAudit" : "Entity Audit",
+        "relatedEntities" : "Related Entities"
+
 
 
     }

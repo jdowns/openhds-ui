@@ -318,7 +318,7 @@ function AuditController($rootScope,
                     }, errorHandler);
                 break;
             case 'visit':
-                VisitService.getBySearch(tmp)
+                VisitService.getByVisitDate(vm.currentSearch.visitDate)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);

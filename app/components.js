@@ -35,10 +35,11 @@ function extidbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-            '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+            '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">label</label>' +
             '<div class="col-md-4">' +
             '<input required extidvalidator type="text" id="{{id}}_input" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
             '</div>' +
@@ -54,6 +55,7 @@ function constbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
@@ -72,6 +74,7 @@ function checkbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
@@ -113,10 +116,12 @@ function datebox() {
             id: '@',
             max: '@',
             name: '@',
+            i18next: "@",
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-        '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+        '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}"></label>' +
+
         '<div class="col-md-4">' +
         '<input required name="{{name}}" max="{{max}}" type="date" id="{{id}}_input" class="form-control input-md" ng-max="{{max}}" ng-model="modelKey" />' +
         '</div>' +
@@ -132,16 +137,16 @@ function selectbox() {
         scope: {
             label: '@',
             id: '@',
+            i18next: "@",
             modelKey: '=ngModel'
         },
         template: '<div class="form-group">' +
-                  '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
-                  '<div class="col-md-4">' +
-                  '<select required ng-transclude id="{{id}}_select" ng-model=modelKey ng-required="true" class="form-control">' +
-
-                  '</select>' +
-                  '</div>' +
-                  '</div>'
+            '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}"></label>' +
+            '<div class="col-md-4">' +
+            '<select required ng-transclude id="{{id}}_select" ng-model=modelKey ng-required="true" class="form-control">' +
+            '</select>' +
+            '</div>' +
+            '</div>'
     };
 }
 

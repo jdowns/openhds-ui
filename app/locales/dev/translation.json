@@ -1,6 +1,13 @@
 {
     "usernameFieldLabel": "Username",
     "passwordFieldLabel": "Password",
+    "baselineTitle": "Begin Baseline",
+    "collectionDateLabel": "Collection Date",
+    "fieldWorkerLabel": "Fieldworker",
+    "locationHierarchyLabel": "Location Hierarchy",
+    "fieldworkerSelectButtonLabel": "Select Fieldworker",
+    "locationHierarchySelectButtonLabel": "Select Hierarchy",
+    "locationButtonLabel": "Location",
     "labels" : {
         "origin" : "Origin",
         "reason" : "Reason",
@@ -27,6 +34,4 @@
         "lookup" : "Lookup",
         "events" : "Events"
     }
-
-
 }

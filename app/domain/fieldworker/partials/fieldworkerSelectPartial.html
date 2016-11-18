@@ -1,7 +1,7 @@
-<label for="currentFieldworker">Fieldworker: </label>
+<label ng-i18next="[html]fieldWorkerLabel" for="currentFieldworker"></label>
 <div align="center">
     <input type="text" id="currentFieldworker" ng-model="model.currentFieldWorker.id" disabled />
     <button class="btn btn-default" id="fieldworker-select" data-toggle="modal" data-target="#fieldworkerModal">
-      Select Fieldworker
+      <span ng-i18next="[html]fieldworkerSelectButtonLabel"></span>
     </button>
 </div>

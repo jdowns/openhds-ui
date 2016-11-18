@@ -1,7 +1,7 @@
-<label for="currentHierarchy">Location Hierarchy: </label>
+<label ng-i18next="[html]locationHierarchyLabel" for="currentHierarchy"></label>
 <div align="center">
   <input type="text" id="currentHierarchy" ng-model="model.currentHierarchy.extId" disabled />
   <button class="btn btn-default" id="hierarchy-select" data-toggle="modal" data-target="#hierarchyModal">
-  Select Hierarchy
+  <span ng-i18next="[html]locationHierarchySelectButtonLabel"></span>
 </button>
 </div>

@@ -57,7 +57,7 @@
                             <li><a href="#">Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelatedLocation(row)"><a>Related Entities</a></li>
+                            <li ng-click="model.viewRelated('location', row)"><a>Related Entities</a></li>
                             <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
                         </ul>
                     </div>
@@ -131,7 +131,7 @@
                             <li><a href="#">Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelatedIndividual(row)"><a>Related Entities</a></li>
+                            <li ng-click="model.viewRelated('individual',row)"><a>Related Entities</a></li>
                             <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
                         </ul>
                     </div>
@@ -195,7 +195,7 @@
             <tr ng-repeat="row in model.queryResult.displayCollection">
                 <td>
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
@@ -204,7 +204,7 @@
                             <li><a href="#">Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelatedSocialGroup(row)"><a>Related Entities</a></li>
+                            <li ng-click="model.viewRelated('socialGroup', row)"><a>Related Entities</a></li>
                             <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
                         </ul>
                     </div>
@@ -272,7 +272,7 @@
                             <li><a href="#">Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelatedVisit(row)"><a>Related Entities</a></li>
+                            <li ng-click="model.viewRelated('visit',row)"><a>Related Entities</a></li>
                             <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
                         </ul>
                     </div>

@@ -1,4 +1,4 @@
-<div class="modal fade" id="relatedLocationModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="relatedSocialGroupModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,43 +13,48 @@
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne" ng-click="model.toggleLocationRelated('visits')">
+                        <div class="panel-heading" role="tab" id="headingOne" ng-click="model.toggleSocialGroupRelated('memberships')">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Visits
+                                    Memberships
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['location'].visits.show">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['socialGroup'].memberships.show">
                             <div class="panel-body">
-                                <div ng-if="model.related['location'].visits.loadMsg">
+                                <div ng-if="model.related['socialGroup'].memberships.loadMsg">
                                     <h4>LOADING...</h4>
                                 </div>
 
-                                <div ng-if="!model.related['location'].visits.loadMsg">
+                                <div ng-if="!model.related['socialGroup'].memberships.loadMsg">
 
 
-                                    <!-- Display visits -->
-                                    <table st-safe-src="model.related['location'].visits.data" st-table="model.related['location'].visits.displayCollection" class="table table-striped">
+                                    <!-- Display memberships -->
+                                    <table st-safe-src="model.related['socialGroup'].memberships.data" st-table="model.related['socialGroup'].memberships.displayCollection" class="table table-striped">
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>visitDate</th>
-                                            <th>extId</th>
-                                            <th>collectedBy</th>
+                                            <th>startType</th>
+                                            <th>startDate</th>
+                                            <th>endDate</th>
+                                            <th>individual</th>
                                         </tr>
 
                                         <tr>
                                             <th></th>
                                             <th>
-                                                <input st-search="visitDate" class="input-sm form-control" type="search"/>
+                                                <input st-search="startType" class="input-sm form-control" type="search"/>
                                             </th>
                                             <th>
-                                                <input st-search="extId" class="input-sm form-control" type="search"/>
+                                                <input st-search="startDate" class="input-sm form-control" type="search"/>
                                             </th>
                                             <th>
-                                                <input st-search="collectedBy" class="input-sm form-control" type="search"/>
+                                                <input st-search="endDate" class="input-sm form-control" type="search"/>
                                             </th>
+                                            <th>
+                                                <input st-search="individual" class="input-sm form-control" type="search"/>
+                                            </th>
+
 
 
                                         </tr>
@@ -57,7 +62,7 @@
 
                                         </thead>
                                         <tbody>
-                                        <tr ng-repeat="row in model.related['location'].visits.displayCollection">
+                                        <tr ng-repeat="row in model.related['socialGroup'].memberships.displayCollection">
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -70,9 +75,10 @@
                                                 </div>
                                             </td>
 
-                                            <td>{{row.visitDate}}</td>
-                                            <td>{{row.extId}}</td>
-                                            <td>{{row.collectedBy.uuid}}</td>
+                                            <td>{{row.startType}}</td>
+                                            <td>{{row.startDate}}</td>
+                                            <td>{{row.endDate}}</td>
+                                            <td>{{row.individual.extId}}</td>
                                         </tr>
 
                                         </tbody>
@@ -85,26 +91,26 @@
                     </div>
 
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" ng-click="model.toggleLocationRelated('individuals')">
+                        <div class="panel-heading" role="tab" ng-click="model.toggleSocialGroupRelated('individuals')">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" >
                                     Individuals
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.related['location'].individuals.show">
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.related['socialGroup'].individuals.show">
                             <div class="panel-body">
-                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['location'].individuals.show">
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['socialGroup'].individuals.show">
                                     <div class="panel-body">
-                                        <div ng-if="model.related['location'].individuals.loadMsg">
+                                        <div ng-if="model.related['socialGroup'].individuals.loadMsg">
                                             <h4>LOADING...</h4>
                                         </div>
 
-                                        <div ng-if="!model.related['location'].individuals.loadMsg">
+                                        <div ng-if="!model.related['socialGroup'].individuals.loadMsg">
 
 
                                             <!-- Display relationships -->
-                                            <table st-safe-src="model.related['location'].individuals.data" st-table="model.related['location'].individuals.displayCollection" class="table table-striped">
+                                            <table st-safe-src="model.related['socialGroup'].individuals.data" st-table="model.related['socialGroup'].individuals.displayCollection" class="table table-striped">
                                                 <thead>
                                                 <tr>
                                                     <th></th>
@@ -124,7 +130,7 @@
                                                     <th>
                                                         <input st-search="startDate" class="input-sm form-control" type="search"/>
                                                     </th>
-                                                  
+
 
 
 
@@ -133,7 +139,7 @@
 
                                                 </thead>
                                                 <tbody>
-                                                <tr ng-repeat="row in model.related['location'].individuals.displayCollection">
+                                                <tr ng-repeat="row in model.related['socialGroup'].individuals.displayCollection">
                                                     <td>
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

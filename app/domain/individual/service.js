@@ -46,6 +46,11 @@ function IndividualService(EntityService) {
         return EntityService.getByLocation(urlBase, Response, locationId);
     };
 
+    service.getBySocialGroup = function(socialGroupId) {
+        return EntityService.getBySocialGroup(urlBase, Response, socialGroupId);
+    };
+
+
     service.getByFieldWorker = function(id) {
         return EntityService.getByFieldWorker(urlBase, Response, id);
     };

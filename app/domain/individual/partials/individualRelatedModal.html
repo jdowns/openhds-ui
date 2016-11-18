@@ -22,17 +22,17 @@
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.memberships.show">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].memberships.show">
                             <div class="panel-body">
-                                <div ng-if="model.individualRelated.memberships.loadMsg">
+                                <div ng-if="model.related['individual'].memberships.loadMsg">
                                     <h4>LOADING...</h4>
                                 </div>
 
-                                <div ng-if="!model.individualRelated.memberships.loadMsg">
+                                <div ng-if="!model.related['individual'].memberships.loadMsg">
 
 
                                     <!-- Display memberships -->
-                                    <table st-safe-src="model.individualRelated.memberships.data" st-table="model.individualRelated.memberships.displayCollection" class="table table-striped">
+                                    <table st-safe-src="model.related['individual'].memberships.data" st-table="model.related['individual'].memberships.displayCollection" class="table table-striped">
                                         <thead>
                                         <tr>
                                             <th></th>
@@ -59,7 +59,7 @@
 
                                         </thead>
                                         <tbody>
-                                        <tr ng-repeat="row in model.individualRelated.memberships.displayCollection">
+                                        <tr ng-repeat="row in model.related['individual'].memberships.displayCollection">
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -94,19 +94,19 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.relationships.show">
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.related['individual'].relationships.show">
                             <div class="panel-body">
-                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.relationships.show">
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].relationships.show">
                                     <div class="panel-body">
-                                        <div ng-if="model.individualRelated.relationships.loadMsg">
+                                        <div ng-if="model.related['individual'].relationships.loadMsg">
                                             <h4>LOADING...</h4>
                                         </div>
 
-                                        <div ng-if="!model.individualRelated.relationships.loadMsg">
+                                        <div ng-if="!model.related['individual'].relationships.loadMsg">
 
 
                                             <!-- Display relationships -->
-                                            <table st-safe-src="model.individualRelated.relationships.data" st-table="model.individualRelated.relationships.displayCollection" class="table table-striped">
+                                            <table st-safe-src="model.related['individual'].relationships.data" st-table="model.related['individual'].relationships.displayCollection" class="table table-striped">
                                                 <thead>
                                                 <tr>
                                                     <th></th>
@@ -138,7 +138,7 @@
 
                                                 </thead>
                                                 <tbody>
-                                                <tr ng-repeat="row in model.individualRelated.relationships.displayCollection">
+                                                <tr ng-repeat="row in model.related['individual'].relationships.displayCollection">
                                                     <td>
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -175,19 +175,19 @@
                                 </a>
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.residencies.show">
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.related['individual'].residencies.show">
                             <div class="panel-body">
-                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.residencies.show">
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].residencies.show">
                                     <div class="panel-body">
-                                        <div ng-if="model.individualRelated.residencies.loadMsg">
+                                        <div ng-if="model.related['individual'].residencies.loadMsg">
                                             <h4>LOADING...</h4>
                                         </div>
 
-                                        <div ng-if="!model.individualRelated.residencies.loadMsg">
+                                        <div ng-if="!model.related['individual'].residencies.loadMsg">
 
 
                                             <!-- Display residencies -->
-                                            <table st-safe-src="model.individualRelated.residencies.data" st-table="model.individualRelated.residencies.displayCollection" class="table table-striped">
+                                            <table st-safe-src="model.related['individual'].residencies.data" st-table="model.related['individual'].residencies.displayCollection" class="table table-striped">
                                                 <thead>
                                                 <tr>
                                                     <th></th>
@@ -215,7 +215,7 @@
 
                                                 </thead>
                                                 <tbody>
-                                                <tr ng-repeat="row in model.individualRelated.residencies.displayCollection">
+                                                <tr ng-repeat="row in model.related['individual'].residencies.displayCollection">
                                                     <td>
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -253,22 +253,22 @@
                                         </a>
                                     </h4>
                                 </div>
-                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.individualRelated.events.show">
+                                <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" ng-if="model.related['individual'].events.show">
                                     <div class="panel-body">
-                                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.individualRelated.events.show">
+                                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].events.show">
                                             <div class="panel-body">
 
-                                                <div ng-if="model.individualRelated.events.loadMsg">
+                                                <div ng-if="model.related['individual'].events.loadMsg">
                                                     <h4>LOADING...</h4>
                                                 </div>
 
-                                                <div ng-if="!model.individualRelated.events.loadMsg">
+                                                <div ng-if="!model.related['individual'].events.loadMsg">
 
 
 
 
                                                     <!-- Display memberships -->
-                                                    <table st-safe-src="model.individualRelated.events.data" st-table="model.individualRelated.events.displayCollection" class="table table-striped">
+                                                    <table st-safe-src="model.related['individual'].events.data" st-table="model.related['individual'].events.displayCollection" class="table table-striped">
                                                         <thead>
                                                         <tr>
                                                             <th></th>
@@ -297,7 +297,7 @@
                                                         </thead>
                                                         <tbody>
                                                         <!-- inMigrations -->
-                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].inMigrations">
+                                                        <tr ng-repeat="row in model.related['individual'].events.displayCollection[0].inMigrations">
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -314,7 +314,7 @@
                                                             <td>{{row.individual.lastName}}</td>
                                                         </tr>
                                                         <!-- outMigrations -->
-                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].outMigrations">
+                                                        <tr ng-repeat="row in model.related['individual'].events.displayCollection[0].outMigrations">
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -331,7 +331,7 @@
                                                             <td>{{row.individual.lastName}}</td>
                                                         </tr>
                                                         <!-- deaths -->
-                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].deaths">
+                                                        <tr ng-repeat="row in model.related['individual'].events.displayCollection[0].deaths">
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -349,7 +349,7 @@
                                                         </tr>
 
                                                         <!-- pregnancy observation -->
-                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].pregnancyObservations">
+                                                        <tr ng-repeat="row in model.related['individual'].events.displayCollection[0].pregnancyObservations">
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -367,7 +367,7 @@
                                                         </tr>
 
                                                         <!-- pregnancy outcome -->
-                                                        <tr ng-repeat="row in model.individualRelated.events.displayCollection[0].pregnancyOutcomes">
+                                                        <tr ng-repeat="row in model.related['individual'].events.displayCollection[0].pregnancyOutcomes">
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

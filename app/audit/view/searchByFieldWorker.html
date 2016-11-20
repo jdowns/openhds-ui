@@ -4,7 +4,7 @@
 
     <fieldset>
         <div ng-hide="model.currentFieldWorker == null">
-            <constbox label="{{labels.fieldWorker}}" ng-i18next="[html]labels.fieldWorker" ng-model="model.currentFieldWorker.id"></constbox>
+            <constbox label="{{labels.fieldWorker}}" i18next="[html]labels.fieldWorker" ng-model="model.currentFieldWorker.id"></constbox>
             <button class="btn btn-danger" ng-click="model.currentFieldWorker = null">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
@@ -29,7 +29,7 @@
 
     </fieldset>
 
-    <button id="searchHierarchy"
+    <button id="searchFieldWorker"
             class="btn btn-primary pull-right"
             ng-click="model.searchByFieldWorker()"
             ng-i18next="[html]labels.search"

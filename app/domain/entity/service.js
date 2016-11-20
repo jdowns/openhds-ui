@@ -59,12 +59,6 @@ function EntityService($rootScope, $http, $q) {
                 function(response) {
                     var entities = response.data.content.map(responseClass);
                     resolve(entities);
-                },
-                function(response){
-                    console.log(response);
-                    window.alert("Status: " + response.status +
-                                 "\n" + response.statusText);
-                    reject(response);
                 }
             );
         });
@@ -81,12 +75,20 @@ function EntityService($rootScope, $http, $q) {
                 function(response) {
                     var entities = response.data;
                     resolve(entities);
-                },
-                function(reject){
-                    console.log(reject);
-                    window.alert("Status: " + reject.status +
-                        "\n" + reject.statusText);
+                }
+            );
+        });
+    };
 
+    service.getBySocialGroup = function(urlBase, responseClass, socialGroupId) {
+        var url = $rootScope.restApiUrl + urlBase + '/findBySocialGroup/?socialGroupUuid=' + socialGroupId;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data;
+                    resolve(entities);
                 }
             );
         });
@@ -95,7 +97,6 @@ function EntityService($rootScope, $http, $q) {
 
     service.getBySearch = function(urlBase, responseClass, entityList) {
         var url = $rootScope.restApiUrl + urlBase + '/search?' + entityList;
-        console.log(url);
         var responsePromise = $http.get(url, service.getHeaders());
         return $q(function(resolve, reject) {
             responsePromise.then(function(response) {
@@ -104,6 +105,25 @@ function EntityService($rootScope, $http, $q) {
             });
         });
     };
+
+
+    service.getByVisitDate = function(urlBase, responseClass, visitDate) {
+
+        var visJson = visitDate.toJSON();
+        var url = $rootScope.restApiUrl + urlBase + '/findByVisitDate?visitDate=' + visJson;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    console.log(response);
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
 
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';

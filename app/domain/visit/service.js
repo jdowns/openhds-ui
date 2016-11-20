@@ -40,7 +40,9 @@ function VisitService(EntityService) {
         };
     }
 
-
+    service.getByLocation = function(locationId) {
+        return EntityService.getByLocation(urlBase, Response, locationId);
+    };
 
     service.getVisitByExtId = function(extId) {
         return EntityService.getByExtId(urlBase, Response, extId);
@@ -54,10 +56,15 @@ function VisitService(EntityService) {
         return EntityService.getByFieldWorker(urlBase, Response, id);
     };
 
-    service.getBySearch = function(entityList) {
-        return EntityService.getBySearch(urlBase, Response, entityList);
-
+    service.getByVisitDate = function(visitDate) {
+        return EntityService.getByVisitDate(urlBase, Response, visitDate);
     };
+
+
+
+
+
+
 
     service.submit = function(fieldWorker, collectionDate, location, event) {
         var model = {

@@ -67,10 +67,6 @@ function AuditController($rootScope,
         {
             'name':'Visit',
             'code':'visit'
-        },
-        {
-            'name':'Field Worker',
-            'code':'fieldWorker'
         }
 
     ];
@@ -322,14 +318,7 @@ function AuditController($rootScope,
                     }, errorHandler);
                 break;
             case 'visit':
-                VisitService.getBySearch(tmp)
-                    .then(function(response){
-                        vm.queryResult.data = response;
-                        vm.queryResult.displayCollection = [].concat(response);
-                    }, errorHandler);
-                break;
-            case 'fieldWorker':
-                FieldWorkerService.getBySearch(tmp)
+                VisitService.getByVisitDate(vm.currentSearch.visitDate)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);
@@ -372,99 +361,185 @@ function AuditController($rootScope,
         return result;
     };
 
-    vm.viewRelatedIndividual = function(row){
-        vm.currentEntity = row;
-        $("#relatedIndividualModal").modal();
 
-    };
 
-    vm.individualRelated = {
-        memberships : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
+    // ----------------------- Related entities -----
+
+    vm.related = {
+
+        socialGroup : {
+          individuals : {},
+          memberships :{}
         },
-        relationships : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
+        location : {
+            individuals :{},
+            visits :{}
         },
-        residencies : {
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
+        individual :{
+            memberships : {},
+            relationships : {},
+            residencies : {},
+            events :{}
         },
-        events :{
-            show: false,
-            data: [],
-            displayCollection: [],
-            loadMsg :false
+        visit : {
+            events :{}
         }
     };
 
-    vm.toggleIndividualRelated = function(type){
-        if (!vm.individualRelated[type].show){
-            vm.individualRelated[type].loadMsg = true;
+    vm.viewRelated = function(type, row){
+        vm.currentEntity = row;
+
+        // close any open tables from previous searches
+        var objList = Object.keys(vm.related[type]);
+        for(var i = 0; i < objList.length; i++){
+            vm.related[type][objList[i]].show = false;
+        }
+
+        switch(type){
+            case "socialGroup":
+                $("#relatedSocialGroupModal").modal();
+                break;
+            case "individual":
+                $("#relatedIndividualModal").modal();
+                break;
+            case "location":
+                $("#relatedLocationModal").modal();
+                break;
+            case "visit":
+                $("#relatedVisitModal").modal();
+                break;
+            default:
+                break;
+        }
+    };
+
+    vm.toggleSocialGroupRelated = function(type){
+        if (!vm.related['socialGroup'][type].show){
+             vm.related['socialGroup'][type].loadMsg = true;
 
             switch(type){
+                case "individuals":
+                    IndividualService.getBySocialGroup(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['socialGroup'].individuals.data = response;
+                            vm.related['socialGroup'].individuals.displayCollection = [].concat(response);
+                            vm.related['socialGroup'].individuals.loadMsg = false;
+                        }, errorHandler);
+                    break;
                 case "memberships":
-                    vm.getMembershipsByIndividual();
-                    break;
-                case "relationships":
-                    vm.getRelationshipsByIndividual();
-                    break;
-                case "residencies":
-                    vm.getResidenciesByIndividual();
-                    break;
-                case "events":
-                    vm.getEventsByIndividual();
+                    MembershipService.getMembershipsBySocialGroup(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['socialGroup'].memberships.data = response;
+                            vm.related['socialGroup'].memberships.displayCollection = [].concat(response);
+                            vm.related['socialGroup'].memberships.loadMsg = false;
+                        }, errorHandler);
                     break;
                 default:
                     break;
             }
         }
-        vm.individualRelated[type].show = !vm.individualRelated[type].show;
+        vm.related['socialGroup'][type].show = !vm.related['socialGroup'][type].show;
         console.log(type);
     };
 
-    vm.getMembershipsByIndividual = function(){
-        MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.individualRelated.memberships.data = response;
-                vm.individualRelated.memberships.displayCollection = [].concat(response);
-                vm.individualRelated.memberships.loadMsg = false;
-            }, errorHandler);
+
+    vm.toggleIndividualRelated = function(type){
+        if (!vm.related['individual'][type].show){
+            vm.related['individual'][type].loadMsg = true;
+
+            switch(type){
+                case "memberships":
+                    MembershipService.getMembershipsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].memberships.data = response;
+                            vm.related['individual'].memberships.displayCollection = [].concat(response);
+                            vm.related['individual'].memberships.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                case "relationships":
+                    RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].relationships.data = response;
+                            vm.related['individual'].relationships.displayCollection = [].concat(response);
+                            vm.related['individual'].relationships.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                case "residencies":
+                    ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].residencies.data = response;
+                            vm.related['individual'].residencies.displayCollection = [].concat(response);
+                            vm.related['individual'].residencies.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                case "events":
+                    VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['individual'].events.data = response;
+                            vm.related['individual'].events.displayCollection = [].concat(response);
+                            vm.related['individual'].events.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.related['individual'][type].show = !vm.related['individual'][type].show;
+        console.log(type);
     };
 
-    vm.getRelationshipsByIndividual = function(){
-        RelationshipService.getRelationshipsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.individualRelated.relationships.data = response;
-                vm.individualRelated.relationships.displayCollection = [].concat(response);
-                vm.individualRelated.relationships.loadMsg = false;
-            }, errorHandler);
+
+    vm.toggleLocationRelated = function(type){
+        if (!vm.related['location'][type].show){
+            vm.related['location'][type].loadMsg = true;
+
+            switch(type){
+                case "individuals":
+                    IndividualService.getByLocation(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['location'].individuals.data = response;
+                            vm.related['location'].individuals.displayCollection = [].concat(response);
+                            vm.related['location'].individuals.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                case "visits":
+                    VisitService.getByLocation(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['location'].visits.data = response;
+                            vm.related['location'].visits.displayCollection = [].concat(response);
+                            vm.related['location'].visits.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.related['location'][type].show = !vm.related['location'][type].show;
+        console.log(type);
     };
 
-    vm.getResidenciesByIndividual = function(){
-        ResidencyService.getResidenciesByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.individualRelated.residencies.data = response;
-                vm.individualRelated.residencies.displayCollection = [].concat(response);
-                vm.individualRelated.residencies.loadMsg = false;
-            }, errorHandler);
+
+    vm.toggleVisitRelated = function(type){
+        if (!vm.related['visit'][type].show){
+            vm.related['visit'][type].loadMsg = true;
+
+            switch(type){
+                case "events":
+                    VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            vm.related['visit'].events.data = response;
+                            vm.related['visit'].events.displayCollection = [].concat(response);
+                            vm.related['visit'].events.loadMsg = false;
+                        }, errorHandler);
+                    break;
+                default:
+                    break;
+            }
+        }
+        vm.related['visit'][type].show = !vm.related['visit'][type].show;
+        console.log(type);
     };
 
-    vm.getEventsByIndividual = function(){
-        VisitEventService.getEventsByIndividual(vm.currentEntity.uuid)
-            .then(function(response) {
-                vm.individualRelated.events.data = response;
-                vm.individualRelated.events.displayCollection = [].concat(response);
-                vm.individualRelated.events.loadMsg = false;
-            }, errorHandler);
-    };
 
     vm.init = function() {
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";

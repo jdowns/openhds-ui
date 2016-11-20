@@ -1,32 +1,24 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
+
   <li role="presentation" class="active">
-    <a role="tab" id="baselineTab" data-toggle="tab" data-target="#baseline">
-      Baseline
-    </a>
+    <a ng-i18next="[html]tabs.baseline" role="tab" id="baselineTab" data-toggle="tab" data-target="#baseline"></a>
   </li>
-  <li role="presentation"
-      ng-hide="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
-    <a role="tab" id="locationTab" data-toggle="tab" data-target="#location">
-      Location
-    </a>
+
+  <li role="presentation" ng-hide="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
+    <a ng-i18next="[html]tabs.location" role="tab" id="locationTab" data-toggle="tab" data-target="#location"></a>
   </li>
-  <li role="presentation"
-      ng-hide="model.selectedLocation == null">
-    <a role="tab" id="groupTab" data-toggle="tab" data-target="#group">
-      Group
-    </a>
+
+  <li role="presentation" ng-hide="model.selectedLocation == null">
+    <a ng-i18next="[html]tabs.group" role="tab" id="groupTab" data-toggle="tab" data-target="#group"></a>
   </li>
-  <li role="presentation"
-      ng-hide="model.selectedSocialGroups.length < 1">
-    <a role="tab" id="individualsTab" data-toggle="tab" data-target="#individuals">
-      Individuals
-    </a>
+
+  <li role="presentation" ng-hide="model.selectedSocialGroups.length < 1">
+    <a ng-i18next="[html]tabs.individual" role="tab" id="individualsTab" data-toggle="tab" data-target="#individuals"></a>
   </li>
-  <li role="presentation"
-      ng-hide="model.selectedIndividuals.length < 1">
-    <a role="tab" id="relationshipsTab" data-toggle="tab" data-target="#relationships">
-      Relationships
-    </a>
+
+  <li role="presentation" ng-hide="model.selectedIndividuals.length < 1">
+    <a ng-i18next="[html]tabs.relationship" role="tab" id="relationshipsTab" data-toggle="tab" data-target="#relationships"></a>
   </li>
+
 </ul>

@@ -1,17 +1,12 @@
 <div>
     <fieldset>
-        <legend>Begin Baseline</legend>
-
-
-        <datebox
-           i18next="[html]collectionDateLabel"
-           label="Collection Date" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
+        <legend ng-i18next="[html]legends.beginBaseline"></legend>
+        <datebox i18next="[html]labels.collectionDate" id="collectionDate" ng-model="model.collectionDateTime"> </datebox>
         <br />
-
-
 
         <hr>
         <ng-include src="'domain/fieldworker/partials/fieldworkerSelectPartial.html'"></ng-include>
+        <br /><br />
         <hr>
 
         <ng-include src="'domain/locationHierarchy/partials/locationHierarchySelectPartial.html'"></ng-include>
@@ -19,11 +14,10 @@
 
         <hr>
 
-        <button id="next"
-                class="btn btn-primary pull-right"
-                onClick="$('#locationTab').tab('show')"
+        <button id="next" class="btn btn-primary pull-right" onClick="$('#locationTab').tab('show')"
+                class="glyphicon glyphicon-arrow-right"
                 ng-disabled="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
-            Location
+            {{'navigation.startLocation' | i18next}}
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>
 

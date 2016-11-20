@@ -6,35 +6,30 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create New Death Record</h4>
+                <h4 class="modal-title" ng-i18next="[html]legends.deaths"></h4>
             </div>
             <div class="modal-body">
 
-
-
                 <fieldset>
                   <br/><br/>
-                  <constbox label="Individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                  <constbox i18next="[html]labels.individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
                   <br/><br/>
-                  <textbox label="Place of death" id="deathPlace" ng-model="model.currentDeath.place" disabled></textbox>
+                  <textbox i18next="[html]labels.placeOfDeath" id="deathPlace" ng-model="model.currentDeath.place" disabled></textbox>
                   <br /><br /> <!-- todo css padding -->
-                  <textbox label="Cause" id="deathCause" ng-model="model.currentDeath.cause"></textbox>
+                  <textbox i18next="[html]labels.cause" id="deathCause" ng-model="model.currentDeath.cause"></textbox>
                   <br /><br />
-                  <datebox label="Date of death" id="deathDate" ng-model="model.currentDeath.date"> </datebox>
+                  <datebox i18next="[html]labels.dateOfDeath" id="deathDate" ng-model="model.currentDeath.date"> </datebox>
                   <br /><br />
                 </fieldset>
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         id="createInMigration"
                         ng-click="model.submitDeath(model.currentDeath)">
-                    Create
+                    {{ 'buttons.create' | i18next }}
                 </button>
 
             </div>

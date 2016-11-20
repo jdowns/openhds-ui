@@ -1,15 +1,15 @@
-<row><h3>Individual</h3></row>
+<row><h3>{{ 'legends.individual' | i18next }}</h3></row>
 <row>
 
     <button id="openCreateIndividualsModal" class="btn btn-primary" data-toggle="modal" data-target="#individualCreateModal">
-        <h3>Create New</h3>
+        <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
     </button>
 
     <button class="btn btn-success"  data-toggle="modal" data-target="#individualSelectModal">
-        <h3> Select Existing </h3>
+        <h3> {{ 'legends.selectExisting' | i18next }} </h3>
         <h2>
             <span class="glyphicon glyphicon-search"></span>
         </h2>
@@ -21,15 +21,15 @@
 
 <div ng-if="model.selectedIndividuals.length > 0">
     <!-- Display selected individuals -->
-    <h4>Selected Individuals:</h4>
+    <h4>{{ 'headers.selectedIndividuals' | i18next }}</h4>
     <table st-table="model.selectedIndividuals" class="table table-striped">
         <thead>
         <tr>
-            <th>firstName</th>
-            <th>lastName</th>
-            <th>dateOfBirth</th>
-            <th>extId</th>
-            <th>gender</th>
+            <th>{{ 'tables.firstName' | i18next }}</th>
+            <th>{{ 'tables.lastName' | i18next }}</th>
+            <th>{{ 'tables.dateOfBirth | i18next }}</th>
+            <th>{{ 'tables.extId' | i18next }}</th>
+            <th>{{ 'tables.gender' | i18next }}</th>
         </tr>
         </thead>
         <tbody>
@@ -54,14 +54,14 @@
 </div>
 
 <div ng-if="model.submittedMemberships.length > 0">
-    <h4>Submitted Memberships:</h4>
+    <h4>{{ 'legends.submittedMemberships' | i18next}}</h4>
     <table st-table="model.submittedMemberships" class="table table-striped">
         <thead>
         <tr>
-            <th>individual</th>
-            <th>socialGroup</th>
-            <th>extId</th>
-            <th>start type</th>
+            <th>{{ 'table.individual' | i18next }}</th>
+            <th>{{ 'table.socialGroup' | i18next }}</th>
+            <th>{{ 'table.extId' | i18next }}</th>
+            <th>{{ 'table.startType' | i18next }}</th>
         </tr>
         </thead>
         <tbody>
@@ -78,14 +78,10 @@
     <hr>
 </div>
 
-
-
-
 <button id="startRelationships"
         class="btn btn-primary pull-right"
         onClick="$('#relationshipsTab').tab('show')"
         ng-disabled="model.selectedIndividuals.length < 1">
-    Relationships
+    {{ 'buttons.relationship' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
-

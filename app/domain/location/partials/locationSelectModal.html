@@ -6,7 +6,8 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Select Location</h4>
+                <h4 ng-i18next="[html]legends.selectLocation"
+                    class="modal-title"></h4>
             </div>
             <div class="modal-body">
 
@@ -15,9 +16,9 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>extId</th>
-                        <th st-sort="name">name</th>
-                        <th>type</th>
+                        <th>{{ 'tables.extId' | i18next }}</th>
+                        <th st-sort="name">{{ 'tables.name' | i18next }}</th>
+                        <th>{{ 'tables.type' | i18next }}</th>
                     </tr>
                     <tr>
                         <th></th>
@@ -37,7 +38,7 @@
                     <tr ng-repeat="row in model.locationDisplayCollection">
                         <td>
                             <button id="{{row.extId}}" class="btn btn-success" data-dismiss="modal" ng-click="model.setLocation(row)">
-                                select
+                                {{ 'buttons.select' | i18next }}
                             </button>
                         </td>
                         <td>{{row.extId}}</td>
@@ -57,9 +58,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
-
 
             </div>
         </div>

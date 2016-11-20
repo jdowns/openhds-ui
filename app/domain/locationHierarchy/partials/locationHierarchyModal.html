@@ -1,12 +1,3 @@
-<!--
-    id: hierarchyModal
-    required fields:
-        model.allHierarchyLevels
-        model.allHierarchies
-        model.selectedHierarchy
-        model.saveLocationHierarchy()
-  -->
-
 <div class="modal fade" id="hierarchyModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -14,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Location Hierarchy Select</h4>
+        <h4 class="modal-title">{{ 'legends.hierarchySelect' | i18next }}</h4>
       </div>
       <div class="modal-body">
         <select ng-model="model.selectedHierarchy[0]">
@@ -36,7 +27,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"
                 id="saveHierarchy"
-                ng-click="model.saveLocationHierarchy()">Close</button>
+                ng-click="model.saveLocationHierarchy()">{{ 'buttons.close' | i18next }}</button>
       </div>
     </div>
   </div>

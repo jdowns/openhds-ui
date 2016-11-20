@@ -7,6 +7,8 @@ if(window.i18next) {
 
         backend: {
             loadPath: '../locales/{{lng}}/{{ns}}.json'
+	    // uncomment for testing
+            //loadPath: '../locales/de/translation.json'
         },
         useCookie: false,
         useLocalStorage: false

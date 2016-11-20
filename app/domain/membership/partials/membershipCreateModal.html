@@ -6,13 +6,11 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Assign Membership</h4>
+                <h4 class="modal-title">{{ 'legends.assignMembership' | i18next }}</h4>
             </div>
             <form name="form">
                 <div class="modal-body">
-
-
-                    <selectbox label="Individual"
+                    <selectbox i18next="[html]labels.individual"
                                id="individual"
                                ng-model="model.membership.individual.uuid">
                         <option value="{{model.currentIndividual.uuid}}">
@@ -20,7 +18,7 @@
                         </option>
                     </selectbox>
                     <br/><br/>
-                    <selectbox label="Social Group"
+                    <selectbox i18next="[html]labels.socialGroup"
                                id="socialGroup"
                                ng-model="model.membership.socialGroup.uuid">
                         <option ng-repeat="sg in model.selectedSocialGroups"
@@ -28,7 +26,7 @@
                         </option>
                     </selectbox>
                     <br/><br/>
-                    <selectbox label="Group Membership Start Type"
+                    <selectbox i18next="[html]labels.membershipStartType"
                                id="membershipStartType"
                                ng-model="model.membership.startType">
                         <option ng-if="code.codeGroup === 'membershipType'"
@@ -37,7 +35,7 @@
                         </option>
                     </selectbox>
                     <br/><br/>
-                    <datebox label="Group Membership Start Date"
+                    <datebox i18next="labels.membershipStartDate"
                              max="{{model.collectionDateTime}}"
                              name="membershipStartDate"
                              id="membershipStartDate"
@@ -48,20 +46,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                        Cancel
+                        {{ 'buttons.cancel' | i18next }}
                     </button>
                     <button type="button" class="btn btn-success" data-dismiss="modal"
                             id="createMembership"
                             ng-disabled="form.$invalid"
                             ng-click="model.selectedIndividuals.push(model.currentIndividual);
                                   model.submitMembership(model.membership)">
-                        Create
+                        {{ 'buttons.create' | i18next }}
                     </button>
-
 
                 </div>
             </form>
         </div>
     </div>
 </div>
-

@@ -6,37 +6,37 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create New Individual</h4>
+                <h4 class="modal-title">{{ 'legends.createNewIndividual' | i18next }}</h4>
             </div>
             <form name="form">
 
                 <div class="modal-body">
                     <fieldset>
-                        <textbox label="First Name" id="firstName" name="firstName"
+                        <textbox i18next="[html]labels.firstName" id="firstName" name="firstName"
                                  ng-model="model.individual.firstName"></textbox>
                         <br/><br/>
-                        <textbox label="Last Name" id="lastName" name="lastName"
+                        <textbox i18next="[html]labels.lastName" id="lastName" name="lastName"
                                  ng-model="model.individual.lastName"></textbox>
                         <br/><br/>
-                        <extidbox label="External ID" id="extId" name="extId"
+                        <extidbox i18next="[html]labels.externalId" id="extId" name="extId"
                                  ng-model="model.individual.extId"></extidbox>
                         <br/><br/>
                         <selectbox ng-model="model.individual.gender" id="gender" name="gender"
-                                   label="Gender">
+                                   i18next="[html]labels.gender">
                             <option ng-if="code.codeGroup === 'gender'"
                                     ng-repeat="code in model.codes"
                                     value="{{code.codeValue}}">{{code.codeName}}
                             </option>
                         </selectbox>
                         <br/><br/>
-                        <datebox label="Date of Birth" id="dateOfBirth"
+                        <datebox i18next="[html]labels.dateOfBirth" id="dateOfBirth"
                                  max="{{model.collectionDateTime}}"
                                  name="dateOfBirth"
                                  ng-model="model.individual.dateOfBirth"></datebox>
-                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">Date of birth cannot be in the future</span>
+                        <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">{{ 'errors.dateInFuture' | i18next }}</span>
 
                         <br/><br/>
-                        <datebox label="Residency Start Date"
+                        <datebox i18next="[html]labels.residencyStartDate"
                                  max="{{model.collectionDateTime}}"
                                  name="residencyStartDate"
                                  id="residencyStartDate"
@@ -50,14 +50,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                        Cancel
+                        {{ 'buttons.cancel' | i18next}}
                     </button>
                     <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#membershipCreateModal" data-dismiss="modal"
                             id="assignMembership"
                             ng-disabled="form.$invalid"
                             ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
-                        Assign Membership
+                        {{ 'buttons.assignMembership' | i18next }}
                         <span class="glyphicon glyphicon-arrow-right"></span>
                     </button>
 

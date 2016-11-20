@@ -6,20 +6,20 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create New Social Group</h4>
+                <h4 class="modal-title">{{ 'legends.createSocialGroup' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
 
 
                 <fieldset>
-                    <textbox label="Group Name" id="groupName"
+                    <textbox i18next="[html]labels.groupName" id="groupName"
                              ng-model="model.socialGroup.groupName"></textbox>
                     <br /><br />
-                    <extidbox label="External ID" id="socialGroupExtId"
+                    <extidbox i18next="[html]labels.externalId" id="socialGroupExtId"
                              ng-model="model.socialGroup.extId"></extidbox>
                     <br /><br />
-                    <selectbox label="Group Type" id="groupType"
+                    <selectbox i18next="[html]labels.groupType" id="groupType"
                                ng-model="model.socialGroup.groupType">
                         <option ng-if="code.codeGroup === 'socialGroupType'"
                                 ng-repeat="code in model.codes"
@@ -34,11 +34,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                     id="submitSocialGroup" ng-click="model.submitSocialGroup(model.socialGroup)">
-                    Create
+                    {{ 'buttons.create' | i18next }}
                 </button>
 
             </div>

@@ -1,8 +1,8 @@
 <div>
     <fieldset>
-        <textbox label="Location Name" id="name" ng-model="model.currentSearch.name"></textbox>
+        <textbox label="{{labels.locationName}}" i18next="[html]labels.locationName" ng-model="model.currentSearch.name"></textbox>
         <br /><br /> <!-- todo css padding -->
-        <textbox label="Type" id="type" ng-model="model.currentSearch.type"></textbox>
+        <textbox label="{{labels.locationType}}" i18next="[html]labels.locationType" ng-model="model.currentSearch.type"></textbox>
         <br /><br /> <!-- todo css padding -->
 
     </fieldset>

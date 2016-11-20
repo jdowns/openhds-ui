@@ -1,9 +1,8 @@
 <div>
     <fieldset>
         <!-- TODO: What fields are searchable for visit? -->
-        <textbox label="placeholder" id="ph" ng-model="model.currentSearch.placeholder"></textbox>
-        <br /><br /> <!-- todo css padding -->
-
+        <datebox label="{{labels.visitDate}}" i18next="[html]labels.visitDate" ng-model="model.currentSearch.visitDate"> </datebox>
+        <br /><br />
 
     </fieldset>
 

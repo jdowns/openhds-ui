@@ -67,10 +67,6 @@ function AuditController($rootScope,
         {
             'name':'Visit',
             'code':'visit'
-        },
-        {
-            'name':'Field Worker',
-            'code':'fieldWorker'
         }
 
     ];
@@ -322,14 +318,7 @@ function AuditController($rootScope,
                     }, errorHandler);
                 break;
             case 'visit':
-                VisitService.getBySearch(tmp)
-                    .then(function(response){
-                        vm.queryResult.data = response;
-                        vm.queryResult.displayCollection = [].concat(response);
-                    }, errorHandler);
-                break;
-            case 'fieldWorker':
-                FieldWorkerService.getBySearch(tmp)
+                VisitService.getByVisitDate(vm.currentSearch.visitDate)
                     .then(function(response){
                         vm.queryResult.data = response;
                         vm.queryResult.displayCollection = [].concat(response);

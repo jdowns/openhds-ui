@@ -75,18 +75,19 @@ describe('AuditController', function() {
     });
 
     it('looks up location', function() {
+        var entity = [{uuid: 1, extId: "id", name: "name", type: "test", description: "description"}]
         $httpBackend.expectGET('http://example.com/locations/external/id')
-            .respond({content: {uuid: 1}});
+            .respond({content: entity});
         controller.searchExtId = 'id';
         controller.entityType = "location";
         controller.lookupEntity();
 
         $httpBackend.flush();
-        expect(controller.currentEntity).toEqual({uuid: 1});
+        expect(controller.currentEntity).toEqual(entity);
         expect(controller.queryResult).toEqual({
             entityType: "location",
-            data: {uuid: 1},
-            displayCollection: [{uuid: 1}]
+            data: entity,
+            displayCollection: entity 
         });
     });
 

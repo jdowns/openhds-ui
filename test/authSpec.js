@@ -6,8 +6,7 @@ describe('LoginController', function() {
         $httpBackend;
 
     beforeEach(module('smart-table'));
-    beforeEach(module('jm.i18next'));
-    beforeEach(module('openhds', ['jm.i18next']));
+    beforeEach(module('openhds'));
     beforeEach(module('LoginModule'));
     beforeEach(module('AuditModule'));
     beforeEach(module('BaselineModule'));

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('UpdateModule', [])
+angular.module('UpdateModule', ['ui.tree'])
     .controller('UpdateController',
                 ['$rootScope',
                  '$http',

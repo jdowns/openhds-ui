@@ -3,6 +3,7 @@
   <head>
     <title>OpenHDS</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/angular-ui-tree/dist/angular-ui-tree.min.css">
     <link rel="stylesheet" href="app.css">
 
   </head>
@@ -10,7 +11,6 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/bootstrap/js/alert.js"></script>
-
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="node_modules/angular-route/angular-route.min.js"></script>
     <script src="node_modules/angular-smart-table/dist/smart-table.min.js"></script>
@@ -18,12 +18,11 @@
     <script src="node_modules/i18next/i18next.min.js"></script>
     <script src="node_modules/i18next-xhr-backend/i18nextXHRBackend.js"></script>
     <script src="node_modules/ng-i18next/dist/ng-i18next.min.js"></script>
-
+    <script src="node_modules/angular-ui-tree/dist/angular-ui-tree.js"></script>
     <script src="index.js"></script>
     <script src="domain/entity/service.js"></script>
     <script src="domain/locationHierarchy/service.js"></script>
     <script src="domain/fieldworker/service.js"></script>
-
     <script src="domain/individual/service.js"></script>
     <script src="domain/socialGroup/service.js"></script>
     <script src="domain/relationship/service.js"></script>
@@ -38,18 +37,12 @@
     <script src="domain/visit/service.js"></script>
     <script src="domain/visitEvent/service.js"></script>
     <script src="auth/controller/loginController.js"></script>
-
     <script src="baseline/controller/baseline.js"></script>
     <script src="audit/controller/audit.js"></script>
-
     <script src="components.js"></script>
     <script src="validation.js"></script>
-
     <script src="domain/location/service.js"></script>
-
     <script src="update/controller/update.js"></script>
-
     <div ng-view class="app-div"></div>
-
   </body>
 </html>

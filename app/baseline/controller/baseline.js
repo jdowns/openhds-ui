@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('BaselineModule', [])
+angular.module('BaselineModule', ['ui.tree'])
     .controller('BaselineController',
                 ['$rootScope',
                  '$http',

@@ -6,13 +6,12 @@ describe('LoginController', function() {
         $httpBackend;
 
     beforeEach(module('smart-table'));
-    beforeEach(module('LoginModule'));
-    beforeEach(module('BaselineModule'));
-    beforeEach(module('openhds'));
+    beforeEach(module('jm.i18next'));
+    beforeEach(module('openhds', ['jm.i18next']));
     beforeEach(module('LoginModule'));
     beforeEach(module('AuditModule'));
     beforeEach(module('BaselineModule'));
-    beforeEach(module('smart-table'));
+
 
     beforeEach(inject(function(_$controller_, _$httpBackend_,
                                _$rootScope_, _$location_){

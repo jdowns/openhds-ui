@@ -618,24 +618,218 @@ describe('AuditController', function() {
         controller.related = {
             socialGroup: {
                 foo: {
-                    show: false
+                    show: true
                 }
             }
         };
         controller.toggleSocialGroupRelated("foo");
 
-        expect(controller.related['socialGroup']['foo'].show).toBe(true);
+        expect(controller.related['socialGroup']['foo'].show).toBe(false);
     });
+
     it('toggles individualRelated', function() {
         controller.related = {
             individual: {
                 foo: {
-                    show: false
+                    show: true
                 }
             }
         };
         controller.toggleIndividualRelated("foo");
 
-        expect(controller.related['individual']['foo'].show).toBe(true);
+        expect(controller.related['individual']['foo'].show).toBe(false);
     });
+
+    it('toggles locationRelated', function() {
+        controller.related = {
+            location: {
+                foo: {
+                    show: true
+                }
+            }
+        };
+        controller.toggleLocationRelated("foo");
+
+        expect(controller.related['location']['foo'].show).toBe(false);
+    });
+
+    it('toggles visitRelated', function() {
+        controller.related = {
+            visit: {
+                foo: {
+                    show: true
+                }
+            }
+        };
+        controller.toggleVisitRelated("foo");
+
+        expect(controller.related['visit']['foo'].show).toBe(false);
+    });
+
+    it('gets related individuals by socialgroup', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/findBySocialGroup/?socialGroupUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {socialGroup: {individuals: {show: false, loadMsg: false}}};
+        controller.toggleSocialGroupRelated("individuals");
+        $httpBackend.flush();
+
+        expect(controller.related['socialGroup'].individuals.data).toEqual(response);
+        expect(controller.related.socialGroup.individuals.displayCollection).toEqual(response);
+        expect(controller.related['socialGroup']['individuals'].loadMsg).toBe(false);
+    });
+
+    it('gets related memberships by socialgroup', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/socialGroups/getMemberships?socialGroupUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {socialGroup: {memberships: {show: false, loadMsg: false}}};
+        controller.toggleSocialGroupRelated("memberships");
+        $httpBackend.flush();
+
+        expect(controller.related['socialGroup'].memberships.data).toEqual(response);
+        expect(controller.related.socialGroup.memberships.displayCollection).toEqual(response);
+        expect(controller.related['socialGroup']['memberships'].loadMsg).toBe(false);
+    });
+
+    it('gets nothing for socialgroup if type is not related', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+
+        controller.currentEntity = {uuid: 1};
+        controller.related = {socialGroup: {visits: {show: false, loadMsg: false}}};
+        controller.toggleSocialGroupRelated("visits");
+
+        expect(controller.related['socialGroup']['visits'].loadMsg).toBe(true);
+    });
+
+    it('gets related memberships by individual', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {individual: {memberships: {show: false, loadMsg: false}}};
+        controller.toggleIndividualRelated("memberships");
+        $httpBackend.flush();
+
+        expect(controller.related.individual.memberships.data).toEqual(response);
+        expect(controller.related.individual.memberships.displayCollection).toEqual(response);
+        expect(controller.related.individual.memberships.loadMsg).toBe(false);
+    });
+
+    it('gets related relationships by individual', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {individual: {relationships: {show: false, loadMsg: false}}};
+        controller.toggleIndividualRelated("relationships");
+        $httpBackend.flush();
+
+        expect(controller.related.individual.relationships.data).toEqual(response);
+        expect(controller.related.individual.relationships.displayCollection).toEqual(response);
+        expect(controller.related.individual.relationships.loadMsg).toBe(false);
+    });
+
+    it('gets related residencies by individual', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/getResidencies?individualUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {individual: {residencies: {show: false, loadMsg: false}}};
+        controller.toggleIndividualRelated("residencies");
+        $httpBackend.flush();
+
+        expect(controller.related.individual.residencies.data).toEqual(response);
+        expect(controller.related.individual.residencies.displayCollection).toEqual(response);
+        expect(controller.related.individual.residencies.loadMsg).toBe(false);
+    });
+
+    it('gets related events by individual', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/getEvents?individualUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {individual: {events: {show: false, loadMsg: false}}};
+        controller.toggleIndividualRelated("events");
+        $httpBackend.flush();
+
+        expect(controller.related.individual.events.data).toEqual(response);
+        expect(controller.related.individual.events.displayCollection).toEqual(response);
+        expect(controller.related.individual.events.loadMsg).toBe(false);
+    });
+
+    it('gets nothing for individuals if type is not related', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+
+        controller.currentEntity = {uuid: 1};
+        controller.related = {individual: {location: {show: false, loadMsg: false}}};
+        controller.toggleIndividualRelated("location");
+
+        expect(controller.related['individual']['location'].loadMsg).toBe(true);
+    });
+
+    it('gets related individuals by location', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/individuals/findByLocation/?locationUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {location: {individuals: {show: false, loadMsg: false}}};
+        controller.toggleLocationRelated("individuals");
+        $httpBackend.flush();
+
+        expect(controller.related.location.individuals.data).toEqual(response);
+        expect(controller.related.location.individuals.displayCollection).toEqual(response);
+        expect(controller.related.location.individuals.loadMsg).toBe(false);
+    });
+
+    it('gets related visits by individual', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/visits/findByLocation/?locationUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {location: {visits: {show: false, loadMsg: false}}};
+        controller.toggleLocationRelated("visits");
+        $httpBackend.flush();
+
+        expect(controller.related.location.visits.data).toEqual(response);
+        expect(controller.related.location.visits.displayCollection).toEqual(response);
+        expect(controller.related.location.visits.loadMsg).toBe(false);
+    });
+
+    it('gets nothing for location if type is not related', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+
+        controller.currentEntity = {uuid: 1};
+        controller.related = {location: {socialGroup: {show: false, loadMsg: false}}};
+        controller.toggleLocationRelated("socialGroup");
+
+        expect(controller.related['location']['socialGroup'].loadMsg).toBe(true);
+    });
+
+    it('gets related events by visit', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+        $httpBackend.expectGET('http://example.com/visits/getEvents?visitUuid=1')
+            .respond(response);
+        controller.currentEntity = {uuid: 1};
+        controller.related = {visit: {events: {show: false, loadMsg: false}}};
+        controller.toggleVisitRelated("events");
+        $httpBackend.flush();
+
+        expect(controller.related.visit.events.data).toEqual(response);
+        expect(controller.related.visit.events.displayCollection).toEqual(response);
+        expect(controller.related.visit.events.loadMsg).toBe(false);
+    });
+
+    it('gets nothing for visit if type is not related', function() {
+        var response = [{uuid: 0}, {uuid: 1}];
+
+        controller.currentEntity = {uuid: 1};
+        controller.related = {visit: {socialGroup: {show: false, loadMsg: false}}};
+        controller.toggleVisitRelated("socialGroup");
+
+        expect(controller.related['visit']['socialGroup'].loadMsg).toBe(true);
+    });
+
 });

@@ -24,6 +24,7 @@ module.exports = function(config) {
             'node_modules/angular-route/angular-route.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/i18next/i18next.js',
+            'node_modules/angular-ui-tree/dist/angular-ui-tree.js',
             'node_modules/angular-smart-table/dist/smart-table.js',
             'node_modules/angular-sanitize/angular-sanitize.js',
             'node_modules/ng-i18next/dist/ng-i18next.js',

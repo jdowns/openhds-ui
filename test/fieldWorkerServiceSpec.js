@@ -44,4 +44,5 @@ describe('FieldWorkerService Test', function() {
 
         $httpBackend.flush();
     });
+
 });

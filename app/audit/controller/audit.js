@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('AuditModule', [])
+angular.module('AuditModule', ['ui.tree'])
     .controller('AuditController',
         ['$rootScope',
             '$http',

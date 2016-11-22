@@ -10,6 +10,7 @@ describe('UpdateController', function() {
         mockMembershipService,
         mockRelationshipService;
 
+    beforeEach(module('ui.tree'));
     beforeEach(module('LoginModule'));
     beforeEach(module('UpdateModule'));
     beforeEach(module('openhds'));

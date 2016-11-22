@@ -60,12 +60,6 @@ function VisitService(EntityService) {
         return EntityService.getByVisitDate(urlBase, Response, visitDate);
     };
 
-
-
-
-
-
-
     service.submit = function(fieldWorker, collectionDate, location, event) {
         var model = {
             fieldWorker: fieldWorker,

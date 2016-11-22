@@ -546,6 +546,71 @@ describe('AuditController', function() {
     it('sets error message', function() {
         controller.errorHandler('oops');
         expect(controller.errorMessage).toEqual('oops');
-    })
+    });
 
+    it('viewRelated sets current entity to row', function() {
+        controller.related = {"other": {"individuals": {"membership": "m"}}};
+        controller.viewRelated("other", "abc");
+        expect(controller.currentEntity).toEqual("abc");
+    });
+
+    it('shows relatedSocialGroupModal', function() {
+        var modalCalled = false;
+        $ = function() {
+            return {
+                modal: function() {
+                    modalCalled = true;
+                }
+            };
+        };
+        controller.related = {"socialGroup": {"individual": {"membership": "m"}}};
+        controller.viewRelated("socialGroup", "abc");
+        expect(modalCalled).toBe(true);
+        delete $;
+    });
+
+    it('shows relatedIndividualsModal', function() {
+        var modalCalled = false;
+        $ = function() {
+            return {
+                modal: function() {
+                    modalCalled = true;
+                }
+            };
+        };
+        controller.related = {"individual": {"membership": {"socialGroup": "m"}}};
+        controller.viewRelated("individual", "abc");
+        expect(modalCalled).toBe(true);
+        delete $;
+    });
+
+    it('shows relatedLocationssModal', function() {
+        var modalCalled = false;
+        $ = function() {
+            return {
+                modal: function() {
+                    modalCalled = true;
+                }
+            };
+        };
+        controller.related = {"location": {"residency": {"individuals": "m"}}};
+        controller.viewRelated("location", "abc");
+        expect(modalCalled).toBe(true);
+        delete $;
+    });
+
+    it('shows relatedLocationssModal', function() {
+        var modalCalled = false;
+        $ = function() {
+            return {
+                modal: function() {
+                    modalCalled = true;
+                }
+            };
+        };
+        controller.related = {"visit": {"individual": {"events": "m"}}};
+        controller.viewRelated("visit", "abc");
+        expect(modalCalled).toBe(true);
+        delete $;
+    });
 });

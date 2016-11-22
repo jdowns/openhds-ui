@@ -613,4 +613,29 @@ describe('AuditController', function() {
         expect(modalCalled).toBe(true);
         delete $;
     });
+
+    it('toggles socialGroupRelated', function() {
+        controller.related = {
+            socialGroup: {
+                foo: {
+                    show: false
+                }
+            }
+        };
+        controller.toggleSocialGroupRelated("foo");
+
+        expect(controller.related['socialGroup']['foo'].show).toBe(true);
+    });
+    it('toggles individualRelated', function() {
+        controller.related = {
+            individual: {
+                foo: {
+                    show: false
+                }
+            }
+        };
+        controller.toggleIndividualRelated("foo");
+
+        expect(controller.related['individual']['foo'].show).toBe(true);
+    });
 });

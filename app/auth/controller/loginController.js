@@ -1,3 +1,4 @@
+/*
 if(window.i18next) {
     window.i18next.use(window.i18nextXHRBackend);
 
@@ -16,7 +17,7 @@ if(window.i18next) {
         console.log('resources loaded');
     });
 }
-
+*/
 angular.module('LoginModule', ['jm.i18next'])
     .controller('LoginController',
                 ['$rootScope', '$location', '$http', '$i18next', LoginController]);

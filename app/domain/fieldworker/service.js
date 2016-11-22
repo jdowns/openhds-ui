@@ -21,11 +21,5 @@ function FieldWorkerService(EntityService) {
         return EntityService.getBulk(urlBase, FieldWorker);
     };
 
-
-    service.getBySearch = function(entityList) {
-        return EntityService.getBySearch(urlBase, FieldWorker, entityList);
-
-    };
-
     return service;
 }

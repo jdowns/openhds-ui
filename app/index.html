@@ -19,6 +19,22 @@
     <script src="node_modules/i18next-xhr-backend/i18nextXHRBackend.js"></script>
     <script src="node_modules/ng-i18next/dist/ng-i18next.min.js"></script>
 
+    <script type="text/javascript">
+      if(window.i18next) {
+        window.i18next.use(window.i18nextXHRBackend);
+
+        window.i18next.init({
+          debug: true,
+          backend: {
+            loadPath: '../locales/{{lng}}/{{ns}}.json'
+          },
+          useCookie: false,
+          useLocalStorage: false
+        }, function (err, t) {
+          console.log('resources loaded');
+        });
+      }
+    </script>
     <script src="index.js"></script>
     <script src="domain/entity/service.js"></script>
     <script src="domain/locationHierarchy/service.js"></script>

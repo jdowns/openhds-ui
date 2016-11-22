@@ -416,16 +416,17 @@ describe('UpdateController', function() {
     });
 
     it('looks up entity by extId', function() {
-        $httpBackend.expectGET('http://example.com/individuals/external/extId').respond({content: [{uuid: 1}]});
-        controller.searchExtId = "extId"
+        var entity = { uuid: 1, extId: "id", firstName: "first", lastName: "last", dateOfBirth: "dob", gender: "test" };
+        $httpBackend.expectGET('http://example.com/individuals/external/extId').respond({content: [entity]});
+        controller.searchExtId = "extId";
         controller.lookupEntity();
         $httpBackend.flush();
 
-        expect(controller.currentEntity).toEqual([{uuid: 1}]);
+        expect(controller.currentEntity).toEqual([entity]);
         expect(controller.queryResult).toEqual({
             entityType: "individual",
-            data: [{uuid: 1}],
-            displayCollection: [{uuid: 1}]
+            data: [entity],
+            displayCollection: [entity]
         });
     });
 

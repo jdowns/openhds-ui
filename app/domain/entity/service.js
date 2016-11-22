@@ -47,16 +47,13 @@ function EntityService($rootScope, $http, $q) {
 
 
 
-
     service.getByExtId = function(urlBase, responseClass, extId) {
         var url = $rootScope.restApiUrl + urlBase + '/external/' + extId;
-
         var responsePromise = $http.get(url, service.getHeaders());
-
-
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
+                    console.log(response);
                     var entities = response.data.content.map(responseClass);
                     resolve(entities);
                 }

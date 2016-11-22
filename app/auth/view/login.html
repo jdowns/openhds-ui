@@ -1,23 +1,12 @@
 <div class="container">
   <h1>Open HDS</h1>
-  <form name="form"
-        id="loginForm"
-        class="form-horizontal"
-        ng-submit="model.login(form.$valid)"
-        ng-init="model.load()"
-        novalidate>
-
+  <form name="form" id="loginForm" class="form-horizontal" ng-submit="model.login(form.$valid)" ng-init="model.load()" novalidate>
     <fieldset>
-      <legend>Login</legend>
+      <legend ng-i18next="[html]legends.login"></legend>
 
-      <textbox label="{{usernameFieldLabel}}"
-               i18next="[html]usernameFieldLabel"
-               id="username" ng-model="model.username"></textbox>
-      <passwordbox label="{{passwordFieldLabel}}"
-                   i18next="[html]passwordFieldLabel"
-                   id="password" ng-model="model.password"></passwordbox>
+      <textbox i18next="[html]labels.username" id="username" ng-model="model.username"></textbox>
+      <passwordbox i18next="[html]labels.password" id="password" ng-model="model.password"></passwordbox>
       <submitbutton></submitbutton>
     </fieldset>
   </form>
 </div>
-\

@@ -6,23 +6,21 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create Out Migration</h4>
+                <h4 class="modal-title">{{ 'legends.outMigrations' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
-
-
                 <fieldset>
                     <br/><br/>
-                    <constbox label="Individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                    <constbox i18next="labels.individual" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
                     <br/><br/>
-                    <textbox label="Destination" id="origin" ng-model="model.currentOutMigration.destination"></textbox>
+                    <textbox i18next="labels.destination" id="origin" ng-model="model.currentOutMigration.destination"></textbox>
                     <br /><br /> <!-- todo css padding -->
-                    <textbox label="Reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
+                    <textbox i18next="labels.reason" id="reason" ng-model="model.currentOutMigration.reason"></textbox>
                     <br /><br />
-                    <datebox label="Migration Date" id="migrationDate" ng-model="model.currentOutMigration.migrationDate"> </datebox>
+                    <datebox i18next="labels.migrationDate" id="migrationDate" ng-model="model.currentOutMigration.migrationDate"> </datebox>
                     <br /><br />
-                    <selectbox label="Migration Type" id="migrationType" ng-model="model.currentOutMigration.migrationType">
+                    <selectbox i18next="labels.migrationType" id="migrationType" ng-model="model.currentOutMigration.migrationType">
                         <option ng-repeat="type in model.migrationTypes" value="{{type.codeValue}}">
                             {{type.display}}
                         </option>
@@ -34,12 +32,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         id="createOutMigration"
                         ng-click="model.submitOutMigration(model.currentOutMigration)">
-                Create
+                {{ 'buttons.create' | i18next }}
                 </button>
 
             </div>

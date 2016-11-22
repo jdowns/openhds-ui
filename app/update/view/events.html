@@ -1,25 +1,15 @@
 <div>
     <fieldSet>
-
-        <legend>Add Events</legend>
-
-            <label for="currentIndividual">Individual: </label>
-            <div align="center">
-                <input type="text" id="currentIndividual" ng-model="model.currentIndividual.extId" disabled />
-                <button class="btn btn-default" id="individual-select" data-toggle="modal" data-target="#individualSelectModal">
-                    Select Individual
-                </button>
-            </div>
-
-
-
-
-
-
+        <legend>{{ 'legends.addEvents' | i18next }}</legend>
+        <div align="center form-group">
+          <div class="col-md-4">
+            <button class="btn btn-info" id="individual-select" data-toggle="modal" data-target="#individualSelectModal">
+              {{ 'buttons.selectIndividual' | i18next }}
+          </button>
+          </div>
+          <constbox id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+        </div>
     </fieldSet>
-
-
-
     <br/><br/>
 </div>
 
@@ -29,32 +19,27 @@
     <button id="displayNewInMigrationModal" class="btn btn-success" data-toggle="modal"
             ng-click="model.currentEventType = 'inMigration'"
             data-target="#inMigrationCreateModal">
-        <h4>In</h4>
-        <h4>&nbspMigration&nbsp</h4>
+      <h4 align="center" ng-i18next="buttons.inMigrations"></h4>
 
         <h2>
             <span class="glyphicon glyphicon-log-in"></span>
         </h2>
     </button>
 
-    <button id="displayNewOutMigrationModal" class="btn btn-danger" data-toggle="modal"
-            data-target="#outMigrationCreateModal" ng-disabled="model.currentIndividual == null">
-        <h4>Out</h4>
-        <h4>&nbspMigration&nbsp</h4>
-
+    <button id="displayNewOutMigrationModal" class="btn btn-danger"
+            data-toggle="modal"
+            data-target="#outMigrationCreateModal"
+            ng-disabled="model.currentIndividual == null">
+        <h4 ng-i18next="buttons.outMigrations"></h4>
         <h2>
             <span class="glyphicon glyphicon-log-out"></span>
         </h2>
     </button>
 
-
-
     <button id="displayNewPregnancyObservationModal" class="btn btn-default" data-toggle="modal"
             data-target="#pregnancyObservationCreateModal"
             ng-disabled="!model.pregnancyDisableCheck()">
-        <h4>Pregnancy</h4>
-        <h4>Observation</h4>
-
+        <h4 ng-i18next="buttons.pregnancyObservation"></h4>
         <h2>
             <span class="glyphicon glyphicon-eye-open"></span>
         </h2>
@@ -64,18 +49,15 @@
             ng-click="model.currentEventType = 'pregnancyOutcome'"
             data-target="#pregnancyOutcomeCreateModal"
             ng-disabled="!model.pregnancyDisableCheck()">
-        <h4>&nbspPregnancy&nbsp</h4>
-        <h4>Outcome</h4>
+        <h4 ng-i18next="buttons.pregnancyOutcome"></h4>
 
         <h2>
             <span class="glyphicon glyphicon-check"></span>
-
         </h2>
     </button>
     <button id="displayNewDeathModal" class="btn btn-primary" data-toggle="modal"
             data-target="#deathCreateModal" ng-disabled="model.currentIndividual == null">
-        <h4> &nbsp&nbsp&nbsp Death &nbsp&nbsp&nbsp</h4>
-        <h4><br/></h4>
+        <h4 ng-i18next="buttons.death"></h4>
 
         <h2>
             <span class="glyphicon glyphicon-remove-sign"></span>
@@ -121,6 +103,6 @@
 <button id="complete-visit"
         class="btn btn-primary pull-right"
         ng-click="model.finishVisit()">
-    Complete Visit
+    {{ 'buttons.completeVisit' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

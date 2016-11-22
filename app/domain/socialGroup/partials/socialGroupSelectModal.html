@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Social Group Select</h4>
+                <h4 class="modal-title"> {{ 'legends.selectSocialGroup' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
@@ -15,9 +15,9 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>extId</th>
-                        <th st-sort="groupName">group name</th>
-                        <th>group type</th>
+                        <th>{{ 'tables.extId' | i18next }}</th>
+                        <th st-sort="groupName">{{ 'tables.groupName' | i18next }}</th>
+                        <th>{{ 'tables.groupType' | i18next }}</th>
                     </tr>
                     <tr>
                         <th></th>
@@ -37,7 +37,7 @@
                     <tr ng-repeat="row in model.displayCollection">
                         <td>
                             <button class="btn btn-success" data-dismiss="modal" ng-click="model.selectedSocialGroups.push(row)">
-                                select
+                                {{ 'buttons.select' | i18next }}
                             </button>
                         </td>
                         <td>{{row.extId}}</td>
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">
-                    Done
+                    {{ 'buttons.done' | i18next }}
                 </button>
             </div>
         </div>

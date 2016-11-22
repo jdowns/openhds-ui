@@ -6,94 +6,75 @@
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Outcome</h4>
+        <h4 class="modal-title" ng-i18next="[html]legends.pregnancyOutcome"></h4>
       </div>
       <div class="modal-body">
-
-
-
         <fieldset>
           <br/><br/>
-          <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+          <constbox i18next="[html]labels.mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
           <br/><br/>
-          <datebox label="Outcome Date" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.outcomeDate"> </datebox>
+          <datebox i18next="[html]labels.outcomeDate" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.outcomeDate"> </datebox>
           <br /><br />
-          <selectbox label="Result Type" id="resultType" ng-model="model.currentPregnancyResult.type">
+          <selectbox i18next="[html]labels.resultType" id="resultType" ng-model="model.currentPregnancyResult.type">
             <option ng-if="code.codeGroup === 'pregnancyResultType'"
                     ng-repeat="code in model.codes" value = "{{code.codeValue}}">
               {{code.codeName}}
             </option>
           </selectbox>
           <br />
-
           <div ng-if="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
             <div ng-hide="model.currentPregnancyOutcome.father == null">
-              <constbox label="Father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
+              <constbox i18next="[html]labels.father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
               <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">clear</button>
             </div>
             <div ng-hide="model.currentPregnancyOutcome.father != null">
               <br/>
-              <label for="individual-select">Father</label>
+              <label for="individual-select">{{ 'labels.father' | i18next }}</label>
               <div align="center">
                 <button class="btn btn-default" id="individual-select"
                         data-toggle="modal"
                         data-target="#individualLookupModal"
                         data-dismiss="modal">
-                  Select Father
+                  {{ 'buttons.selectFather' | i18next }}
                 </button>
               </div>
-
             </div>
-
           </div>
-
-
           <hr />
           <br /><br />
           <div id="liveBirthResults" ng-show="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
             <br/><br/>
-            <label>Child:</label> <br />
-            <textbox label="First Name" id="firstName" name="firstName"
+            <label ng-i18next="[html]labels.child"></label> <br />
+            <textbox i18next="[html]labels.firstName" id="firstName" name="firstName"
                      ng-model="model.currentPregnancyResult.child.firstName"></textbox>
             <br /><br />
-            <textbox label="Last Name" id="lastName" name="lastName"
+            <textbox i18next="[html]labels.lastName" id="lastName" name="lastName"
                      ng-model="model.currentPregnancyResult.child.lastName"></textbox>
             <br /><br />
-            <textbox label="External ID" id="extId" name="extId"
+            <textbox i18next="[html]labels.externalId" id="extId" name="extId"
                      ng-model="model.currentPregnancyResult.child.extId"></textbox>
             <br /><br />
             <selectbox ng-model="model.currentPregnancyResult.child.gender" id="gender" name="gender"
-                       label="Gender*">
+                       i18next="[html]labels.gender">
               <option ng-if="code.codeGroup === 'gender'"
                       ng-repeat="code in model.codes"
                       value="{{code.codeValue}}">{{code.codeName}}
               </option>
             </selectbox>
-
           </div>
-
-
         </fieldset>
-
       </div>
-
-
-
-
       <div class="modal-footer">
         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-          Cancel
+          {{ 'buttons.cancel' | i18next }}
         </button>
         <button type="button" class="btn btn-success" data-dismiss="modal"
                 id="createPregnancyOutcome"
                 ng-click="model.submitPregnancyOutcome(model.currentPregnancyOutcome, model.currentPregnancyResult)">
-          Done
+          {{ 'buttons.done' | i18next }}
         </button>
-
       </div>
     </div>
   </div>
 </div>
 <ng-include src="'domain/individual/partials/individualLookupModal.html'"></ng-include>
-
-

@@ -1,7 +1,9 @@
-<label ng-i18next="[html]locationHierarchyLabel" for="currentHierarchy"></label>
-<div align="center">
-  <input type="text" id="currentHierarchy" ng-model="model.currentHierarchy.extId" disabled />
-  <button class="btn btn-default" id="hierarchy-select" data-toggle="modal" data-target="#hierarchyModal">
-  <span ng-i18next="[html]locationHierarchySelectButtonLabel"></span>
-</button>
+<div align="center form-group">
+
+  <div class="col-md-4">
+    <button class="form-control btn btn-info" id="hierarchy-select" data-toggle="modal" data-target="#hierarchyModal">
+      <span ng-i18next="[html]buttons.selectHierarchy"></span>
+    </button>
+  </div>
+  <constbox id="currentHierarchy" ng-model="model.currentHierarchy.extId"></constbox>
 </div>

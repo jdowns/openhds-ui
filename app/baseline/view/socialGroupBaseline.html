@@ -1,14 +1,14 @@
 <row><h3>Social Group</h3></row>
 <row>
     <button id="createSocialGroup" class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
-        <h3>Create New</h3>
+        <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
     </button>
 
     <button class="btn btn-success"  data-toggle="modal" data-target="#socialGroupSelectModal">
-        <h3> Select Existing </h3>
+        <h3> {{ 'legends.selectExisting' | i18next }} </h3>
         <h2>
             <span class="glyphicon glyphicon-search"></span>
         </h2>
@@ -19,13 +19,13 @@
 
 <div ng-if="model.selectedSocialGroups.length > 0">
     <!-- Display selected social groups -->
-    <h4>Selected Social Groups:</h4>
+    <h4>{{ 'legends.selectedSocialGroups' | i18next }}</h4>
     <table st-table="model.selectedSocialGroups" class="table table-striped">
         <thead>
         <tr>
-            <th>extId</th>
-            <th st-sort="groupName">group name</th>
-            <th>group type</th>
+            <th>{{ 'tables.extId' | i18next }}</th>
+            <th st-sort="groupName">{{ 'tables.groupName' | i18next }}</th>
+            <th>{{ 'tables.groupType' | i18next }}</th>
         </tr>
         </thead>
         <tbody>
@@ -50,9 +50,6 @@
         class="btn btn-primary pull-right"
         onClick="$('#individualsTab').tab('show')"
         ng-disabled="model.selectedSocialGroups.length < 1">
-    Individuals
+    {{ 'buttons.individual' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
-
-
-

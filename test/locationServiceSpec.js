@@ -91,15 +91,4 @@ describe('LocationService Test', function() {
 
         $httpBackend.flush();
     });
-
-    it('should search by extId', function() {
-        $httpBackend.expectGET('http://example.com/locations/external/id')
-            .respond({content: [{uuid: 1}]});
-
-        var result = service.getByExtId("id");
-
-        $httpBackend.flush();
-
-        expect(result.$$state.value).toEqual([{uuid: 1}]);
-    });
 });

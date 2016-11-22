@@ -6,22 +6,17 @@
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Fieldworker Select</h4>
+        <h4 class="modal-title">{{'legends.fieldworkerSelect' | i18next }}</h4>
       </div>
       <div class="modal-body">
-
-
-
-
-
         <!-- Search for existing social group -->
         <table st-safe-src="model.allFieldWorkers" st-table="model.displayFieldWorkers" class="table table-striped">
           <thead>
           <tr>
             <th></th>
-            <th>id</th>
-            <th st-sort="firstName">First Name</th>
-            <th st-sort="lastName">Last Name</th>
+            <th>{{ 'tables.id' | i18next}}</th>
+            <th st-sort="firstName">{{ 'tables.firstName' | i18next}}</th>
+            <th st-sort="lastName">{{ 'tables.lastName' | i18next}}</th>
           </tr>
           <tr>
             <th></th>
@@ -34,14 +29,13 @@
             <th>
               <input st-search="lastName" class="input-sm form-control" type="search"/>
             </th>
-
           </tr>
           </thead>
           <tbody>
           <tr ng-repeat="row in model.displayFieldWorkers">
             <td>
               <button id="{{row.id}}" class="btn btn-success" data-dismiss="modal" ng-click="model.currentFieldWorker = row">
-                select
+                {{'buttons.select' | i18next }}
               </button>
             </td>
             <td>{{row.id}}</td>
@@ -57,12 +51,10 @@
           </tr>
           </tfoot>
         </table>
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">
-          Done
+          {{'buttons.done' | i18next}}
         </button>
       </div>
     </div>

@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Create New Pregnancy Observation</h4>
+                <h4 class="modal-title" ng-i18next="[html]legends.pregnancyObservation"></h4>
             </div>
             <div class="modal-body">
 
@@ -15,11 +15,11 @@
                 <fieldset>
 
                     <br/><br/>
-                    <constbox label="Mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
+                    <constbox i18next="[html]labels.mother" id="currentIndividual" ng-model="model.currentIndividual.extId"></constbox>
                     <br/><br/>
-                    <datebox label="Expected Delivery Date" id="deliveryDate" ng-model="model.currentPregnancyObservation.deliveryDate"> </datebox>
+                    <datebox i18next="[html]labels.deliveryDate" id="deliveryDate" ng-model="model.currentPregnancyObservation.deliveryDate"> </datebox>
                     <br /><br />
-                    <datebox label="Pregnancy Date" id="pregnancyDate" ng-model="model.currentPregnancyObservation.pregnancyDate"> </datebox>
+                    <datebox i18next="[html]labels.pregnancyDate" id="pregnancyDate" ng-model="model.currentPregnancyObservation.pregnancyDate"> </datebox>
                     <br /><br />
 
 
@@ -29,12 +29,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         id="createPregnancyObservation"
                         ng-click="model.submitPregnancyObservation(model.currentPregnancyObservation)">
-                Create
+                {{ 'buttons.create' | i18next }}
                 </button>
 
             </div>

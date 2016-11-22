@@ -6,21 +6,18 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" >Create In Migration</h4>
+                <h4 class="modal-title" ng-i18next="[html]legends.inMigrations"></h4>
             </div>
             <div class="modal-body">
 
-
-
-
-                <textbox label={{labels.origin}}" i18next="[html]labels.origin" ng-model="model.currentInMigration.origin"></textbox>
+                <textbox i18next="[html]labels.origin" ng-model="model.currentInMigration.origin"></textbox>
                 <br /><br /> <!-- todo css padding -->
-                <textbox label={{labels.reason}}" i18next="[html]labels.reason"  ng-model="model.currentInMigration.reason"></textbox>
+                <textbox i18next="[html]labels.reason"  ng-model="model.currentInMigration.reason"></textbox>
                 <br /><br />
-                <datebox label={{labels.migrationDate}}" i18next="[html]labels.migrationDate"  ng-model="model.currentInMigration.migrationDate"> </datebox>
+                <datebox i18next="[html]labels.migrationDate"  ng-model="model.currentInMigration.migrationDate"> </datebox>
                 <br /><br />
 
-                <selectbox label={{labels.migrationType}}" i18next="[html]labels.migrationType"  ng-model="model.currentInMigration.migrationType">
+                <selectbox i18next="[html]labels.migrationType"  ng-model="model.currentInMigration.migrationType">
 
                     <option ng-repeat="type in model.migrationTypes"
                             value="{{type.codeValue}}">{{type.display}}</option>
@@ -28,11 +25,10 @@
                 </selectbox>
                 <br/><br/>
 
-
                 <div ng-if="model.currentInMigration.migrationType === 'INTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
-                        <constbox label="Individual" ng-model="model.individual.extId"></constbox>
-                        <button class="btn btn-danger" ng-click="model.individual = null">clear</button>
+                        <constbox i18next="labels.individual" ng-model="model.individual.extId"></constbox>
+                        <button class="btn btn-danger" ng-click="model.individual = null">{{ 'buttons.clear' | i18next }}</button>
 
                     </div>
                     <div ng-hide="model.individual != null">
@@ -41,7 +37,7 @@
                                     data-toggle="modal"
                                     data-target="#individualLookupModal"
                                     data-dismiss="modal">
-                                Select Individual
+                                {{ 'buttons.selectIndividual' | i18next }}
                             </button>
                         </div>
 
@@ -51,32 +47,31 @@
                 <div ng-if="model.currentInMigration.migrationType === 'EXTERNAL_MIGRATION'">
                     <div ng-hide="model.individual == null">
                         <constbox label="Individual" ng-model="model.individual.extId"></constbox>
-                        <button ng-click="model.individual = null">Clear</button>
+                        <button ng-click="model.individual = null">{{ 'buttons.clear' | i18next }}</button>
                     </div>
+
                     <div align="center" ng-hide="model.individual != null">
                         <button class="btn btn-default" id="individual-create"
                                 data-toggle="modal"
                                 data-target="#individualCreateModalInMigrate">
-                            Create Individual
+                            {{ 'buttons.createIndividual' | i18next }}
                         </button>
                     </div>
                 </div>
 
                 </fieldset>
 
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         id="createInMigration"
                         ng-click="model.submitInMigration(model.currentInMigration)"
                         ng-disabled="model.currentInMigration.migrationType == null;
                                      model.individual == null">
-                    Create
+                    {{ 'buttons.create' | i18next }}
                 </button>
             </div>
         </div>

@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Individual Select</h4>
+                <h4 class="modal-title">{{ 'legends.selectIndividual' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
@@ -15,11 +15,11 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>extId</th>
-                        <th st-sort="firstName">first</th>
-                        <th st-sort="lastName">last</th>
-                        <th>d.o.b.</th>
-                        <th>gender</th>
+                        <th>{{ 'tables.extId' | i18next }}</th>
+                        <th st-sort="firstName"> {{ 'tables.firstName' | i18next }}</th>
+                        <th st-sort="lastName"> {{ 'tables.lastName' | i18next }} </th>
+                        <th> {{ 'tables.dateOfBirth' | i18next }}</th>
+                        <th> {{ 'tables.gender' | i18next }}</th>
 
                     </tr>
                     <tr>
@@ -43,7 +43,7 @@
                         <td>
                             <button id="{{row.extId}}" type="button" class="btn btn-primary" data-toggle="modal" ng-click="model.setCurrentIndividual(row)"
                                     data-target="#membershipCreateModal" data-dismiss="modal">
-                                select
+                                {{ 'buttons.select' | i18next }}
                             </button>
                         </td>
                         <td>{{row.extId}}</td>
@@ -65,7 +65,7 @@
             </div>
             <div class="modal-footer">
                 <button id="choose-individual-button" type="button" class="btn btn-primary" data-dismiss="modal">
-                    Done
+                    {{ 'buttons.done' | i18next }}
                 </button>
             </div>
         </div>

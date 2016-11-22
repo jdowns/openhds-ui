@@ -1,15 +1,15 @@
-<row><h3>Location</h3></row>
+<row><h3>{{ 'legends.location' | i18next }}</h3></row>
 <row>
 
     <button id="displayNewLocationModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
-        <h3>Create New</h3>
+        <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
     </button>
 
     <button id="displaySelectLocationModal" class="btn btn-success"  data-toggle="modal" data-target="#locationSelectModal">
-        <h3> Select Existing </h3>
+        <h3>{{ 'legends.selectExisting' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-search"></span>
         </h2>
@@ -19,15 +19,15 @@
 <hr>
 
 <div ng-if="model.selectedLocation !=null">
-    <h4>Current Location:</h4>
+    <h4>{{ 'legends.currentLocation' | i18next }}:</h4>
 
     <table st-table="model.selectedLocation" class="table table-striped">
         <thead>
         <tr>
-            <th>uuid</th>
-            <th>extId</th>
-            <th>name</th>
-            <th>type</th>
+            <th>{{ 'tables.uuid' | i18next }}</th>
+            <th>{{ 'tables.extId' | i18next }}</th>
+            <th>{{ 'tables.name' | i18next }}</th>
+            <th>{{ 'tables.type' | i18next }}</th>
         </tr>
         </thead>
         <tbody>
@@ -40,9 +40,6 @@
         </tbody>
     </table>
 
-
-
-
 </div>
 
 <hr>
@@ -52,7 +49,7 @@
         onClick="$('#groupTab').tab('show')"
         ng-show="!model.emptyLocation"
         ng-disabled="model.selectedLocation == null">
-    Social Groups
+    {{ 'buttons.socialGroup' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
 
@@ -69,9 +66,6 @@
                   model.submittedMemberships = [];
                   model.submittedRelationships = [];
                   model.emptyLocation = false;">
-    Complete Baseline
+    {{ 'buttons.completeBaseline' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>
-
-
-

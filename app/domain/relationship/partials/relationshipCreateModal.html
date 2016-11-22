@@ -6,39 +6,39 @@
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Create New Relationship</h4>
+        <h4 class="modal-title">{{ 'legends.createRelationship' | i18next }}</h4>
       </div>
       <div class="modal-body">
 
         <fieldset>
           <div>
-            <selectbox ng-model="model.relationship.individualA" id="individualA" name="individualA" label="Individual A">
+            <selectbox ng-model="model.relationship.individualA" id="individualA" name="individualA" i18next="tables.individualA">
               <option ng-repeat="individual in model.selectedIndividuals" value="{{individual.uuid}}">{{individual.extId}}</option>
             </selectbox>
           </div>
 
           <br /> <br />
           <div>
-            <selectbox ng-model="model.relationship.individualB" id="individualB" name="individualB" label="Individual B">
+            <selectbox ng-model="model.relationship.individualB" id="individualB" name="individualB" i18next="tables.individualB">
               <option ng-repeat="individual in model.selectedIndividuals" value="{{individual.uuid}}">{{individual.extId}}</option>
             </selectbox>
           </div>
 
           <br /> <br />
           <div>
-            <selectbox ng-model="model.relationship.relationshipType" id="startType" name="startType" label="Start Type">
+            <selectbox ng-model="model.relationship.relationshipType" id="startType" name="startType" i18next="labels.startType">
               <option ng-if="code.codeGroup === 'relationshipType'" ng-repeat="code in model.codes" value="{{code.codeValue}}">{{code.codeName}}</option>
             </selectbox>
           </div>
 
           <br /> <br />
           <div>
-            <datebox label="Start Date"
+            <datebox i18next="labels.startDate"
                      max="{{model.collectionDateTime}}"
                      name="relationshipStartDate"
                      id="startDate"
                      ng-model="model.relationship.startDate"></datebox>
-            <span class="alert alert-danger" ng-show="form.relationship.$error.max">Start date cannot be in the future</span>
+            <span class="alert alert-danger" ng-show="form.relationship.$error.max">{{ 'errors.dateInFuture' | i18next }}</span>
 
           </div>
         </fieldset>
@@ -46,10 +46,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-          Cancel
+          {{ 'buttons.cancel' | i18next }}
         </button>
         <button id='submitRelationship' type="button" class="btn btn-primary" data-dismiss="modal" ng-click="model.submitRelationship(model.relationship)">
-          Submit
+          {{ 'buttons.submit' | i18next }}
           <span class="glyphicon glyphicon-arrow-right"></span>
         </button>
       </div>

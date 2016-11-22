@@ -1,7 +1,9 @@
-<label ng-i18next="[html]fieldWorkerLabel" for="currentFieldworker"></label>
-<div align="center">
-    <input type="text" id="currentFieldworker" ng-model="model.currentFieldWorker.id" disabled />
-    <button class="btn btn-default" id="fieldworker-select" data-toggle="modal" data-target="#fieldworkerModal">
-      <span ng-i18next="[html]fieldworkerSelectButtonLabel"></span>
+<!--label for="currentFieldworker">{{'labels.fieldworker' | i18next}}</label-->
+<div align="center" class="form-group">
+  <div class="col-md-4">
+    <button class="form-control btn btn-info" id="fieldworker-select" data-toggle="modal" data-target="#fieldworkerModal">
+      <span ng-i18next="[html]buttons.selectFieldworker"></span>
     </button>
+  </div>
+  <constbox id="currentFieldworker" ng-model="model.currentFieldWorker.id"> </constbox>
 </div>

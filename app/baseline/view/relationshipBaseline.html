@@ -1,8 +1,8 @@
-<row><h3>Relationship</h3></row>
+<row><h3>{{ 'legends.relationship' | i18next }}</h3></row>
 <row>
 
     <button id="createRelationship" class="btn btn-primary" data-toggle="modal" data-target="#relationshipCreateModal">
-        <h3>Create New</h3>
+        <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
         </h2>
@@ -12,14 +12,14 @@
 
 <div ng-if="model.submittedRelationships.length > 0">
     <!-- Display selected individuals -->
-    <h4>Relationships:</h4>
+    <h4>{{ 'legends.selectedRelationships' | i18next }}</h4>
     <table st-table="model.createdRelationships" class="table table-striped">
         <thead>
         <tr>
-            <th>Individual A</th>
-            <th>Individual B</th>
-            <th>Relationship Start Type</th>
-            <th>Relationship Start Date</th>
+            <th>{{ 'tables.individualA' | i18next }}</th>
+            <th>{{ 'tables.individualB' | i18next }}</th>
+            <th>{{ 'tables.relationshipStartType' | i18next }}</th>
+            <th>{{ 'tables.relationshipStartDate' | i18next }}</th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +52,6 @@
                   model.currentIndividual=null;
                   model.submittedMemberships = [];
                   model.submittedRelationships = []">
-    Complete Baseline
+    {{ 'buttons.completeBaseline' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

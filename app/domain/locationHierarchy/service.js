@@ -12,6 +12,45 @@ function LocationHierarchyService($rootScope, $http, $q) {
         }
     };
 
+    function Tree(data) {
+
+        function createNode(data) {
+            return {
+                id: data.uuid,
+                title: data.extId,
+                collapsed: true,
+                nodes: []
+            };
+        }
+
+        // Modified from http://stackoverflow.com/questions/14446511/what-is-the-most-efficient-method-to-groupby-on-a-javascript-array-of-objects/34890276#34890276
+        function groupByParent(data) {
+            var key = "parent";
+            return data.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
+        };
+
+        function buildTree(root, dataByParent) {
+            var tree = createNode(root);
+            var children = dataByParent[tree.id];
+
+            if (children !== undefined) {
+                tree.nodes = children.map(function(child) {
+                    return buildTree(child, dataByParent);
+                });
+            }
+            return tree;
+        }
+
+        var nodesByParent = groupByParent(data);
+        var root = nodesByParent[null][0]; // HIERARCHY_ROOT has a null parent!
+
+        return buildTree(root, nodesByParent);
+    }
+
+
     function LocationHierarchyLevel(json) {
         return {
             uuid: json.uuid,
@@ -44,6 +83,7 @@ function LocationHierarchyService($rootScope, $http, $q) {
     };
 
     service.buildTree = function(locationHierarchies) {
+        /*console.log(locationHierarchies);
         var tree = {};
 
         locationHierarchies.forEach(function(hierarchy) {
@@ -57,6 +97,10 @@ function LocationHierarchyService($rootScope, $http, $q) {
         });
 
         return tree;
+         */
+        var tree = Tree(locationHierarchies);
+        //console.log(tree);
+        return [tree];
     };
 
     service.locationHierarchies = function() {

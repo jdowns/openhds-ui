@@ -1,10 +1,8 @@
-FROM node:wheezy
+FROM node:6-onbuild
 MAINTAINER munk <munk@protonmail.com>
 ADD . /service
 COPY server.js /service/server.js
 COPY app /service
 WORKDIR /service
-RUN npm install
-RUN npm install express
 CMD node server.js
 

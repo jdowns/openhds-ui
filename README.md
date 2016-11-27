@@ -8,25 +8,7 @@ Data entry interface for the OpenHDS System.
 
 ### Run the application
 
-These instructions assume you have docker available and an instance of
-OpenHDS-Rest running and accessible from localhost.
-
-#### Edit app/config.json
-
-    {
-      "openhdsRest": "http://<openhds-rest-hostname>:<port>"
-    }
-
-#### Build docker container
-
-    $ ls  #  => Dockerfile ...
-    $ docker build -t ohdsui .
-
-#### Run docker container
-
-    $ docker run -p 3000:3000 -it ohdsui
-
-The rest application should be available at at localhost:3000
+    See instructions on the wiki at <https://github.com/munk/openhds-ui/wiki/Deployment>
 
 ### Starting application for development
 

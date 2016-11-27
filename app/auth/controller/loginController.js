@@ -1,23 +1,3 @@
-/*
-if(window.i18next) {
-    window.i18next.use(window.i18nextXHRBackend);
-
-    window.i18next.init({
-        debug: true,
-
-
-        backend: {
-            loadPath: '../locales/{{lng}}/{{ns}}.json'
-	    // uncomment for testing
-            //loadPath: '../locales/de/translation.json'
-        },
-        useCookie: false,
-        useLocalStorage: false
-    }, function (err, t) {
-        console.log('resources loaded');
-    });
-}
-*/
 angular.module('LoginModule', ['jm.i18next'])
     .controller('LoginController',
                 ['$rootScope', '$location', '$http', '$i18next', LoginController]);
@@ -34,10 +14,15 @@ function LoginController($rootScope, $location, $http, $i18next) {
         var encoded = btoa(credentials.username + ":" + credentials.password);
         var headers = {authorization : "Basic " + encoded};
 
-        $http.get($rootScope.restApiUrl, {headers : headers}).then(function(response) {
-            $rootScope.credentials = encoded;
-            $rootScope.authenticated = response.status === 200;
-            success && success();
+        $http.get($rootScope.restApiUrl + "/users/roles/" + credentials.username,
+                  {headers : headers})
+            .then(function(response) {
+                console.log(response.data);
+                $rootScope.credentials = encoded;
+                $rootScope.authenticated = response.status === 200;
+                $rootScope.userRole = response.data[0].name;
+                $rootScope.username = credentials.username;
+                success && success();
         }, function(_) {
             $rootScope.authenticated = false;
             failure && failure();

@@ -44,7 +44,7 @@ describe('LoginController', function() {
         var username = "username",
             password = "password";
 
-        $httpBackend.expectGET($rootScope.restApiUrl).respond('ok');
+        $httpBackend.expectGET($rootScope.restApiUrl + "/users/roles/username").respond('ok');
 
         controller.username = username;
         controller.password = password;
@@ -59,7 +59,10 @@ describe('LoginController', function() {
         var username = "username",
             password = "password";
 
-        $httpBackend.expectGET($rootScope.restApiUrl).respond(401);
+        $httpBackend.expectGET($rootScope.restApiUrl + "/users/roles/username").respond(401);
+
+        controller.username = username;
+        controller.password = password;
 
         controller.login(true);
         $httpBackend.flush();

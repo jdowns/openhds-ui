@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Individual Select</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.selectIndividual' | i18next}}</h4>
             </div>
             <div class="modal-body" style="overflow-y:auto; height:500px;">
 
@@ -14,25 +14,21 @@
                 <div style="border:1px solid black;">
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
-                            <a role="tab" style="border: 1px solid white;" id="lookupTab" data-toggle="tab"
-                               data-target="#lookup">
-                                Lookup External ID
-                            </a>
+                        <a role="tab" style="border: 1px solid white;" id="lookupTab" data-toggle="tab" data-target="#lookup" ng-i18next="[html]labels.lookup">
+                            {{labels.lookup}}
+                        </a>
                         </li>
                         <li role="presentation">
-                            <a role="tab" style="border: 1px solid white;" id="hierarchyTab" data-toggle="tab"
-                               data-target="#byHierarchy">
-                                Search By Hierarchy
+                            <a role="tab" style="border: 1px solid white;" id="hierarchyTab" data-toggle="tab" data-target="#byHierarchy" ng-i18next="[html]labels.locationHierarchy">
+                                {{labels.locationHierarchy}}
                             </a>
                         </li>
 
                         <li role="presentation">
-                            <a role="tab" style="border: 1px solid white;" id="searchTab" data-toggle="tab"
-                               data-target="#search">
-                                Search
+                            <a role="tab" style="border: 1px solid white;" id="searchTab" data-toggle="tab" data-target="#search" ng-i18next="[html]labels.search">
+                                {{labels.search}}
                             </a>
                         </li>
-
                     </ul>
 
 
@@ -60,7 +56,7 @@
                                         </button>
                                     </div>
                                     <div ng-hide="model.searchHierarchy != null">
-                                        <label for="hierarchy-select">Location Hierarchy: </label>
+                                        <label for="hierarchy-select">{{ 'labels.locationHierarchy' | i18next}}: </label>
 
                                         <div align="center">
                                             <button class="btn btn-default" id="hierarchy-select"
@@ -70,8 +66,7 @@
                                                     ng-disabled="model.entityType == null ||
                                     model.entityType != 'location' &&
                                     model.entityType != 'individual'">
-                                                Select Hierarchy
-                                            </button>
+                                                {{ 'buttons.selectHierarchy' | i18next}}                                            </button>
                                         </div>
                                     </div>
 
@@ -85,7 +80,8 @@
                                         class="btn btn-primary pull-right"
                                         ng-click="model.searchByHierarchy()"
                                         ng-disabled="model.searchHierarchy == null">
-                                    Search
+                                    {{ 'buttons.search' | i18next}}
+
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
                                 <br/><br/>
@@ -106,12 +102,14 @@
                             <button id="searchFields"
                                     class="btn btn-primary pull-right"
                                     ng-click="model.searchByFields()">
-                                Search
+                                {{ 'buttons.cancel' | i18next}}
+
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                             <button class="btn btn-danger pull-right"
                                     ng-click="model.currentSearch = null">
-                                reset
+                                {{ 'buttons.reset' | i18next}}
+
                             </button>
                             <br/><br/>
                         </div>
@@ -125,21 +123,21 @@
                 <div  ng-if="model.queryResult.displayCollection.length > 0" style="border:1px solid black;padding: 20px">
                     <button class="btn btn-danger pull-right"
                             ng-click="model.clearResults()">
-                        Clear Results
+                        {{ 'buttons.clear' | i18next}}
                     </button>
 
                     <!-- Search for existing individual -->
-                    <h4>Individuals:</h4>
+                    <h4> {{ 'labels.individuals' | i18next}}:</h4>
                     <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection"
                            class="table table-striped">
                         <thead>
                         <tr>
                             <th></th>
-                            <th>extId</th>
-                            <th st-sort="firstName">first</th>
-                            <th st-sort="lastName">last</th>
-                            <th>d.o.b.</th>
-                            <th>gender</th>
+                            <th>{{ 'tables.extId' | i18next}}</th>
+                            <th st-sort="firstName">{{ 'tables.firstName' | i18next}}</th>
+                            <th st-sort="lastName">{{ 'tables.lastName' | i18next}}</th>
+                            <th>{{ 'tables.lastName' | i18next}}</th>
+                            <th>{{ 'tables.gender' | i18next}}</th>
 
                         </tr>
                         <tr>
@@ -188,7 +186,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
-                        Done
+                        {{ 'buttons.done' | i18next}}
                     </button>
                 </div>
             </div>
@@ -233,7 +231,8 @@
                         data-target="#individualLookupModal"
                         data-dismiss="modal"
                         id="saveHierarchy">
-                    Close
+                    {{ 'buttons.close' | i18next}}
+
                 </button>
             </div>
         </div>

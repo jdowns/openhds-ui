@@ -18,7 +18,7 @@
         <div align="center" class="form-group">
           <div class="col-md-4">
             <button class="form-control btn btn-info" id="location-select" data-toggle="modal" data-target="#locationSelectModal"
-                    ng-disabled="model.selectedHierarchy.length < 1">
+                    ng-disabled="model.currentHierarchy === undefined">
               <span ng-i18next="[html]buttons.selectLocation"></span>
             </button>
           </div>
@@ -31,11 +31,11 @@
         <button id="begin_visit_button"
                 class="btn btn-primary pull-right"
                 ng-click="model.submitVisit()"
-                ng-disabled="model.visit.extId == '';
-                             model.visitDate == null;
-                             model.currentFieldworker == null;
-                             model.selectedHierarchy.length < 1;
-                             model.selectedLocation == null">
+                ng-disabled="model.visit.extId === '';
+                             model.visitDate === null;
+                             model.currentFieldworker === null;
+                             model.currentHierarchy === null;
+                             model.selectedLocation === null">
             {{ 'buttons.beginVisit' | i18next }}
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>

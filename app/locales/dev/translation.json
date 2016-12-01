@@ -167,7 +167,8 @@
         "pregnancyObservation": "Pregnancy Observation",
         "pregnancyOutcome": "Pregnancy Outcome",
         "death": "Death",
-        "selectFather": "Select Father"
+        "selectFather": "Select Father",
+        "createIndividual" : "Create Individual"
     },
     "tables": {
         "id": "ID",

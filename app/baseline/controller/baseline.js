@@ -73,16 +73,12 @@ function BaselineController($rootScope,
     vm.residencyStartType = "CEN";
 
 
-    vm.saveLocationHierarchy = function() {
-        var parentIndex = vm.selectedHierarchy.length - 2;
-        var lastIndex = vm.selectedHierarchy.length - 1;
-
-        var parent = vm.selectedHierarchy[parentIndex];
-        var last = vm.selectedHierarchy[lastIndex];
-        var children = vm.locationHierarchies[parent];
-        vm.currentHierarchy = children.filter(function(child) {
-            return child.uuid === last;
-        })[0];
+    vm.saveLocationHierarchy = function(hierarchy) {
+        console.log(hierarchy);
+        vm.currentHierarchy = {
+            uuid: hierarchy.id,
+            extId: hierarchy.title
+        };
 
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
@@ -187,6 +183,7 @@ function BaselineController($rootScope,
 
     vm.init = function() {
 
+
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
         $http.get(codesUrl, {headers: headers})
@@ -200,6 +197,8 @@ function BaselineController($rootScope,
 
         LocationHierarchyService.locationHierarchies().then(function(hierarchyTree) {
             vm.locationHierarchies = hierarchyTree;
+            console.log(hierarchyTree);
+            console.log('Hierarchy INIT complete');
         }, errorHandler);
         LocationHierarchyService.getLevels().then(function(response) {
             vm.allHierarchyLevels = response.data;
@@ -215,6 +214,9 @@ function BaselineController($rootScope,
     }
 
     vm.errorHandler = errorHandler;
+    vm.locationHierarchies = [];
 
+
+    console.log(vm.treeData);
     return vm;
 };

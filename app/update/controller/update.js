@@ -43,7 +43,6 @@ function UpdateController($rootScope,
 
     vm.selectedHierarchy = [];
 
-
     vm.selectedLocation = null;
     vm.selectedIndividual = null;
     vm.submittedEvents = [];
@@ -56,12 +55,16 @@ function UpdateController($rootScope,
     vm.currentPregnancyOutcome = null;
 
     vm.currentEventType = null;
+    vm.visitDate = null;
+    vm.currentFieldWorker = null;
+    vm.currentHierarchy = null;
 
 
     vm.setFather = function(row) {
         if (vm.currentPregnancyOutcome === null) {
             vm.currentPregnancyOutcome = {father: row};
         } else {
+
             vm.currentPregnancyOutcome.father = row;
         }
         console.log(vm.currentPregnancyOutcome);
@@ -230,16 +233,12 @@ function UpdateController($rootScope,
     ];
 
 
-    vm.saveLocationHierarchy = function() {
-        var parentIndex = vm.selectedHierarchy.length - 2;
-        var lastIndex = vm.selectedHierarchy.length - 1;
-
-        var parent = vm.selectedHierarchy[parentIndex];
-        var last = vm.selectedHierarchy[lastIndex];
-        var children = vm.locationHierarchies[parent];
-        vm.currentHierarchy = children.filter(function(child) {
-            return child.uuid === last;
-        })[0];
+    vm.saveLocationHierarchy = function(hierarchy) {
+        console.log(hierarchy);
+        vm.currentHierarchy = {
+            uuid: hierarchy.id,
+            extId: hierarchy.title
+        };
 
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {

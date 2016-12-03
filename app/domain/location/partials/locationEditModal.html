@@ -7,43 +7,39 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Edit Location</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editLocation' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
                 <fieldset>
-                    <div class="form-group">
-                    <constbox i18next="[html]tables.uuid" id="uuid" ng-model="model.tempLoc.uuid"></constbox>
-                    <br/>
-                        </div>
-                    <constbox i18next="[html]tables.extId" id="extId" ng-model="model.tempLoc.extId"></constbox>
-                    <br/>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempLoc.uuid"></constbox>
+                    <br/><br/>
+
+                    <constbox i18next="[html]labels.externalId" id="extId" ng-model="model.tempLoc.extId"></constbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.status" id="status" ng-model="model.tempLoc.entityStatus"></textbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.locationName" id="name" ng-model="model.tempLoc.name"></textbox>
+                    <br/><br/>
+
+                    <selectbox i18next="[html]labels.type"
+                               id="type"
+                               ng-model="model.tempLoc.type">
+                        <option ng-if="code.codeGroup === 'locationType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.description" id="name" ng-model="model.tempLoc.description"></textbox>
+                    <br/><br/>
 
                 </fieldset>
 
 
-                <div class="form-group">
-                    <label for="extId">External ID</label>
-                    <input type="text" class="form-control" id="extId" ng-model="model.tempLoc.extId" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="entityStatus">Entity Status</label>
-                    <input type="text" class="form-control" id="entityStatus" ng-model="model.tempLoc.entityStatus">
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" ng-model="model.tempLoc.name">
-                </div>
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <input type="text" class="form-control" id="type" ng-model="model.tempLoc.type">
-                </div>
-                <div class="form-group">
-                    <label for="descr">Description</label>
-                    <input type="text" class="form-control" id="descr" ng-model="model.tempLoc.description">
-                </div>
 
 
                 <div>
@@ -59,19 +55,19 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
 
 
                 <button class="btn" ng-click="model.setTemp('tempLoc')">
-                    Reset
+                    {{ 'buttons.reset' | i18next }}
                 </button>
                 <button class="btn" ng-click="model.saveLocation()">
-                    Save
+                    {{ 'buttons.save' | i18next }}
                 </button>
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
                         aria-label="Close" ng-click="model.submitLocation()">
-                    Update Location
+                    {{ 'buttons.submit' | i18next }}
                 </button>
 
 

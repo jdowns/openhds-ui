@@ -18,7 +18,14 @@
 
             <legend ng-i18next="[html]labels.entityAudit">{{labels.entityAudit}}</legend>
 
-
+          <div id="alertbox">
+            <div class="alert alert-danger" role="alert" ng-show="model.errorMessage">
+              <button type="button" class="close" ng-click="model.errorMessage = null">
+                <span>&times;</span>
+              </button>x
+              <strong>{{model.errorMessage.statusText}}</strong> {{model.errorMessage.data[0].message}}
+            </div>
+          </div>
 
             <!-- TODO: Need styling. Selectbox wouldn't work with ng-change" -->
             <div style="width: 400px;
@@ -38,18 +45,13 @@
 
             </div>
 
-
-
-
-
-
-
             <br /><br/>
             <br/><br/><br/>
 
 
             <div style="border:1px solid black;">
                 <ng-include src="'audit/view/auditTabBarPartial.html'"></ng-include>
+
 
 
                 <div class="tab-content"

@@ -513,6 +513,30 @@ function AuditController($rootScope,
         console.log(type);
     };
 
+    vm.deleteEntity = function(row) {
+        var id = row.uuid;
+
+        var success = function(response) {
+            console.log('deleting ' + row);
+            var index = vm.queryResult.displayCollection.indexOf(row);
+            if (index > -1) {
+                vm.queryResult.displayCollection.splice(index, 1);
+            }
+        };
+
+        var failure = function(response) {
+            vm.errorMessage = {statusText: "Unable to delete entity: " + row.extId,
+                               data: [{
+                                   message: "These entities must be deleted first: " +
+                                      (response.map(function(e) { return e.extId; }))
+                               }]
+                              };
+            console.log(vm.errorMessage);
+        };
+
+        VisitService.delete(id, "testing", success, failure);
+    };
+
 
 
 

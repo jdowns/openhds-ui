@@ -150,6 +150,12 @@ function EntityService($rootScope, $http, $q) {
             })
     };
 
+    service.safeDelete = function(urlBase, id, reason) {
+        var url = $rootScope.restApiUrl + urlBase + "/safeDelete/" + id;
+        var config = service.getHeaders();
+        config.data = reason;
+        return $http.delete(url, config);
+    };
 
     return service;
 }

@@ -137,28 +137,6 @@ function AuditController($rootScope,
             }, errorHandler);
     };
 
-    vm.saveLocation = function(){
-        var temp = angular.copy(vm.tempLoc);
-
-        vm.toSubmit = {};
-
-        // Placeholder
-        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
-
-
-        vm.toSubmit.location = {
-            'uuid': temp.uuid,
-            'entityStatus': temp.entityStatus,
-            'collectedBy': temp.collectedBy,
-            'collectionDateTime': temp.collectionDateTime,
-            'extId': temp.extId,
-            'name': temp.name,
-            'type': temp.type,
-            'description': temp.description
-        };
-
-        vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
-    };
 
     vm.saveIndividual = function(){
         var temp = angular.copy(vm.tempIndiv);
@@ -534,6 +512,34 @@ function AuditController($rootScope,
         vm.related['visit'][type].show = !vm.related['visit'][type].show;
         console.log(type);
     };
+
+
+
+
+    vm.submitEditedLocation = function(){
+        var temp = angular.copy(vm.tempLoc);
+
+        var toSub = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'name': temp.name,
+            'type': temp.type,
+            'description': temp.description
+        };
+
+        console.log("edited location: " + JSON.stringify(toSub));
+
+
+        LocationService.submitEdited(toSub)
+            .then(function(response) {
+                console.log(response.data);
+
+            }, errorHandler);
+
+
+    };
+
+
 
 
     vm.init = function() {

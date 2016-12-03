@@ -59,5 +59,10 @@ function LocationService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
+
+    service.submitEdited = function(location) {
+        return EntityService.submitEdited(urlBase, Request, location);
+    };
+
     return service;
 };

@@ -46,6 +46,13 @@
                     <pre>toSubmit: {{model.toSubmit | json}}</pre>
                 </div>
 
+                <div>
+                    <pre>tempLoc: {{model.tempLoc | json}}</pre>
+                </div>
+
+                <div>
+                    <pre>tempLoc: {{model.currentEntity | json}}</pre>
+                </div>
 
 
 
@@ -62,11 +69,9 @@
                 <button class="btn" ng-click="model.setTemp('tempLoc')">
                     {{ 'buttons.reset' | i18next }}
                 </button>
-                <button class="btn" ng-click="model.saveLocation()">
-                    {{ 'buttons.save' | i18next }}
-                </button>
+
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        aria-label="Close" ng-click="model.submitLocation()">
+                        aria-label="Close" ng-click="model.submitEditedLocation(model.tempLoc)">
                     {{ 'buttons.submit' | i18next }}
                 </button>
 

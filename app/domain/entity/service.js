@@ -139,6 +139,13 @@ function EntityService($rootScope, $http, $q) {
         return $http.post(url, request, service.getHeaders());
     };
 
+    service.submitEdited = function (urlBase, requestClass, model) {
+        var url = $rootScope.restApiUrl + urlBase + "/submitEdited" ;
+        console.log("url: " + url);
+        var request = requestClass(model);
+        return $http.post(url, request, service.getHeaders());
+    };
+
 
     return service;
 }

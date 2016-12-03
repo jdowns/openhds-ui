@@ -70,5 +70,18 @@ function VisitService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
+    service.delete = function(visitId, reason, success, failure) {
+        EntityService.safeDelete(urlBase, visitId, reason)
+            .then(function(response) {
+                if (response.data.length > 0) {
+                    console.log('unable to delete entity!');
+                    failure(response.data);
+                } else {
+                    console.log('delete succeeded!');
+                    success(response.data);
+                }
+            });
+    };
+
     return service;
 }

@@ -54,7 +54,7 @@
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header">Actions</li>
                             <li ng-click="model.editLocation(row)"><a >Edit</a></li>
-                            <li><a href="#">Delete</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
                             <li ng-click="model.viewRelated('location', row)"><a>Related Entities</a></li>
@@ -128,7 +128,7 @@
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header">Actions</li>
                             <li ng-click="model.editIndividual(row)"><a >Edit</a></li>
-                            <li><a href="#">Delete</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
                             <li ng-click="model.viewRelated('individual',row)"><a>Related Entities</a></li>
@@ -201,7 +201,7 @@
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header">Actions</li>
                             <li ng-click="model.editSocialGroup(row)"><a >Edit</a></li>
-                            <li><a href="#">Delete</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
                             <li ng-click="model.viewRelated('socialGroup', row)"><a>Related Entities</a></li>
@@ -269,7 +269,7 @@
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header">Actions</li>
                             <li ng-click="model.editVisit(row)"><a >Edit</a></li>
-                            <li><a href="#">Delete</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">View</li>
                             <li ng-click="model.viewRelated('visit',row)"><a>Related Entities</a></li>

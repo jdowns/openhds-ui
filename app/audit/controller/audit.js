@@ -519,7 +519,7 @@ function AuditController($rootScope,
     vm.submitEditedLocation = function(){
         var temp = angular.copy(vm.tempLoc);
 
-        var toSub = {
+        vm.toSubmit = {
             'uuid': temp.uuid,
             'entityStatus': temp.entityStatus,
             'name': temp.name,
@@ -527,16 +527,11 @@ function AuditController($rootScope,
             'description': temp.description
         };
 
-        console.log("edited location: " + JSON.stringify(toSub));
+        var res = LocationService.submitEdited(vm.toSubmit);
+        console.log(res);
 
 
-        LocationService.submitEdited(toSub)
-            .then(function(response) {
-                console.log(response);
-
-            },errorHandler);
-
-
+        console.log("got here");
     };
 
 
@@ -563,7 +558,8 @@ function AuditController($rootScope,
     };
 
     function errorHandler(error) {
-        console.log(error);
+        //console.log(error);
+        console.log("inside error handler");
         vm.errorMessage = error;
     }
 

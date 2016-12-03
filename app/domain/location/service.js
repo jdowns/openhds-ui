@@ -73,7 +73,7 @@ function LocationService(EntityService) {
 
 
     service.submitEdited = function(location) {
-        return EntityService.submitEdited(urlBase, EditRequest, location);
+        return EntityService.submitEdited(urlBase, location);
     };
 
     return service;

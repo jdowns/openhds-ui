@@ -28,7 +28,7 @@
                 <label for="entityTypeSelect" ng-i18next="[html]labels.entityType">{{labels.entityType}}</label>
                 <select id="entityTypeSelect"
                             ng-model="model.entityType"
-                            ng-change="model.currentSearch = {}"
+                            ng-change="model.currentSearch = null"
                             style="width:200px;
                                    height:30px;">
                             <option ng-repeat="ent in model.entityList" value="{{ent.code}}">

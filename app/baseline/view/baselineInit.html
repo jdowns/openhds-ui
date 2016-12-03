@@ -16,7 +16,7 @@
 
         <button id="next" class="btn btn-primary pull-right" onClick="$('#locationTab').tab('show')"
                 class="glyphicon glyphicon-arrow-right"
-                ng-disabled="model.collectionDateTime == null;model.currentFieldWorker == null;model.currentHierarchy == null">
+                ng-disabled="model.collectionDateTime == null || model.currentFieldWorker == null || model.currentHierarchy == null">
             {{'navigation.startLocation' | i18next}}
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>

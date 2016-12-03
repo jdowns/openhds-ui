@@ -532,9 +532,9 @@ function AuditController($rootScope,
 
         LocationService.submitEdited(toSub)
             .then(function(response) {
-                console.log(response.data);
+                console.log(response);
 
-            }, errorHandler);
+            },errorHandler);
 
 
     };
@@ -563,6 +563,7 @@ function AuditController($rootScope,
     };
 
     function errorHandler(error) {
+        console.log(error);
         vm.errorMessage = error;
     }
 

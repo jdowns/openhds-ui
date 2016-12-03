@@ -10,10 +10,17 @@
                 <h4 class="modal-title" id="myModalLabel">Edit Location</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="uuid">UUID</label>
-                    <input type="text" class="form-control" id="uuid" ng-model="model.tempLoc.uuid" readonly>
-                </div>
+
+                <fieldset>
+                    <div class="form-group">
+                    <constbox i18next="[html]tables.uuid" id="uuid" ng-model="model.tempLoc.uuid"></constbox>
+                    <br/>
+                        </div>
+                    <constbox i18next="[html]tables.extId" id="extId" ng-model="model.tempLoc.extId"></constbox>
+                    <br/>
+
+                </fieldset>
+
 
                 <div class="form-group">
                     <label for="extId">External ID</label>

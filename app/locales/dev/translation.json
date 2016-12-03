@@ -128,7 +128,9 @@
         "outMigrations": "Create Out Migration",
         "pregnancyObservation": "Create New Pregnancy Observation",
         "pregnancyOutcome": "Create New Pregnancy Outcome",
-        "deaths": "Create New Death Record"
+        "deaths": "Create New Death Record",
+
+        "editLocation" : "Edit Location"
     },
     "navigation": {
         "baseline": "Baseline Census",

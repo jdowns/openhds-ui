@@ -53,8 +53,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    console.log(response);
-                    var entities = response.data.content.map(responseClass);
+                    var entities = response.data.map(responseClass);
                     resolve(entities);
                 }
             );
@@ -137,6 +136,18 @@ function EntityService($rootScope, $http, $q) {
         var url = $rootScope.restApiUrl + urlBase;
         var request = requestClass(model);
         return $http.post(url, request, service.getHeaders());
+    };
+
+    service.submitEdited = function (urlBase, model) {
+        var url = $rootScope.restApiUrl + urlBase + "/submitEdited/" + model.uuid;
+      //  console.log("url: " + url);
+     //   console.log("model: " + JSON.stringify(model));
+        var request = model;
+     //   console.log("req: " + JSON.stringify(request));   //req: {"name":"location-2zxZx","type":"RURAL","description":"sample locationxZxZ","status":"xZXz"}
+        return $http.put(url, request, service.getHeaders())
+            .then(function(response){
+                console.log(response.status);
+            })
     };
 
     service.safeDelete = function(urlBase, id, reason) {

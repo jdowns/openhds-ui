@@ -137,28 +137,6 @@ function AuditController($rootScope,
             }, errorHandler);
     };
 
-    vm.saveLocation = function(){
-        var temp = angular.copy(vm.tempLoc);
-
-        vm.toSubmit = {};
-
-        // Placeholder
-        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
-
-
-        vm.toSubmit.location = {
-            'uuid': temp.uuid,
-            'entityStatus': temp.entityStatus,
-            'collectedBy': temp.collectedBy,
-            'collectionDateTime': temp.collectionDateTime,
-            'extId': temp.extId,
-            'name': temp.name,
-            'type': temp.type,
-            'description': temp.description
-        };
-
-        vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid
-    };
 
     vm.saveIndividual = function(){
         var temp = angular.copy(vm.tempIndiv);
@@ -560,6 +538,29 @@ function AuditController($rootScope,
     };
 
 
+
+
+    vm.submitEditedLocation = function(){
+        var temp = angular.copy(vm.tempLoc);
+
+        vm.toSubmit = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'name': temp.name,
+            'type': temp.type,
+            'description': temp.description
+        };
+
+        var res = LocationService.submitEdited(vm.toSubmit);
+        console.log(res);
+
+
+        console.log("got here");
+    };
+
+
+
+
     vm.init = function() {
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
@@ -581,6 +582,8 @@ function AuditController($rootScope,
     };
 
     function errorHandler(error) {
+        //console.log(error);
+        console.log("inside error handler");
         vm.errorMessage = error;
     }
 

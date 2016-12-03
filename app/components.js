@@ -59,7 +59,7 @@ function constbox() {
             modelKey: "=ngModel"
         },
         template: '<div class="form-group">' +
-        '<label class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
+        '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}"></label>' +
         '<div class="col-md-4">' +
         '<input ng-readonly="true" type="text" id="{{id}}" name="{{id}}" ng-model="modelKey" class="form-control input-md"/>' +
         '</div>' +

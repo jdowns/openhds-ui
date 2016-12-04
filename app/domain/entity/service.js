@@ -120,6 +120,21 @@ function EntityService($rootScope, $http, $q) {
         });
     };
 
+    service.getByAfterDate = function(urlBase, responseClass, visitDate) {
+
+        var url = $rootScope.restApiUrl + urlBase + '/bydate/bulk.json?after=' + visitDate;
+        var responsePromise = $http.get(url, service.getHeaders());
+
+        return $q(function(resolve, reject) {
+            responsePromise.then(
+                function(response) {
+                    var entities = response.data;
+                    resolve(entities);
+                }
+            );
+        });
+    };
+
 
     service.getBulk = function(urlBase, responseClass) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json';

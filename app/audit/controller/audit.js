@@ -131,6 +131,7 @@ function AuditController($rootScope,
     vm.lookupVisit = function(){
         VisitService.getVisitByExtId(vm.searchExtId)
             .then(function(response) {
+                console.log(response);
                 vm.currentEntity = response;
                 vm.queryResult.data = response;
                 vm.queryResult.displayCollection = [].concat(response);
@@ -513,8 +514,93 @@ function AuditController($rootScope,
         console.log(type);
     };
 
-    vm.deleteEntity = function(row) {
+    function deleteVisit(row) {
+        VisitService.getByAfterDate(row.visitDate)
+
+            .then(function(response) {
+                console.log(response);
+                var visitsAtLocation = response.filter(function(visit) {
+                    return visit.location.uuid === row.location.uuid;
+                });
+
+                console.log(visitsAtLocation);
+
+                if(visitsAtLocation.length > 0) {
+                    vm.errorMessage = {
+                        statusText: "Unable to delete visit. There are later visits at this location that must be deleted first."};
+                } else {
+                    VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
+                        .then(function(response) {
+                            if (response === []) {
+                                VisitService.delete(row.uuid);
+                            } else {
+                                vm.errorMessage = {
+                                    statusText: "Unable to delete visit. It has events that must be deleted first"
+                                };
+                            }
+                        });
+                }});
+    }
+
+    vm.deleteEntity = function(row, type) {
         var id = row.uuid;
+        var entityType = type || vm.entityType;
+
+        switch(entityType) {
+        case "visit":
+            deleteVisit(row);
+            break;
+        case "inMigration":
+        case "outMigration":
+        case "death":
+        case "pregnancyObservation":
+        case "pregnancyOutcome":
+        case "pregnancyResult":
+            if(vm.entityType === 'visit') {
+                // check if there are later visits
+                var visit = vm.currentEntity;
+                VisitService.getByAfterDate(vm.currentEntity.visitDate)
+                    .then(function(response) {
+                        var visitsAtLocation = response.filter(function(visit) {
+                            return visit.location.uuid === visit.location.uuid;
+                        });
+                        if(visitsAtLocation.length > 0) {
+                            vm.errorMessage = {
+                                statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
+                            };
+                        } else {
+                            VisitEventService.deleteEntity(row.uuid, entityType);
+                        }
+                    });
+            }
+        case "individual":
+            break;
+        case "socialGroup":
+            break;
+        case "location":
+            break;
+        case "relationship":
+            break;
+        case "membership":
+            break;
+        case "residency":
+            break;
+        }
+/*
+        var service;
+        if (vm.entityType === 'visit') {
+            service = VisitService;
+        } else if (vm.entityType === 'location') {
+            service = LocationService;
+        } else if (vm.entityType === 'socialGroup') {
+            service = SocialGroupService;
+        } else if (vm.entityType === 'individual') {
+            service = IndividualService;
+        } else {
+            vm.errorMessage = {statusText: "Unknow entity type: " + vm.entityType};
+        }
+
+
 
         var success = function(response) {
             console.log('deleting ' + row);
@@ -534,7 +620,8 @@ function AuditController($rootScope,
             console.log(vm.errorMessage);
         };
 
-        VisitService.delete(id, "testing", success, failure);
+        service.delete(id, "testing", success, failure);
+        */
     };
 
 

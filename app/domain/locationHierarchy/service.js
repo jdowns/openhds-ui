@@ -137,5 +137,18 @@ function LocationHierarchyService($rootScope, $http, $q) {
         }
     };
 
+    service.delete = function(id, reason, success, failure) {
+        EntityService.safeDelete(urlBase, id, reason)
+            .then(function(response) {
+                if (response.data.length > 0) {
+                    console.log('unable to delete entity!');
+                    failure(response.data);
+                } else {
+                    console.log('delete succeeded!');
+                    success(response.data);
+                }
+            });
+    };
+
     return service;
 }

@@ -578,7 +578,23 @@ function AuditController($rootScope,
         case "pregnancyObservation":
         case "pregnancyOutcome":
         case "pregnancyResult":
-            VisitEventService.deleteEntity(row.uuid, entityType);
+            if(vm.entityType === 'visit') {
+                // check if there are later visits
+                var visit = vm.currentEntity;
+                VisitService.getByAfterDate(vm.currentEntity.visitDate)
+                    .then(function(response) {
+                        var visitsAtLocation = response.filter(function(visit) {
+                            return visit.location.uuid === visit.location.uuid;
+                        });
+                        if(visitsAtLocation.length > 0) {
+                            vm.errorMessage = {
+                                statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
+                            };
+                        } else {
+                            VisitEventService.deleteEntity(row.uuid, entityType);
+                        }
+                    });
+            }
         case "individual":
             break;
         case "socialGroup":

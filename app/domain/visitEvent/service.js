@@ -51,6 +51,41 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
         });
     };
 
+    service.deleteEntity = function(id, type) {
+        var url;
+        switch(type) {
+        case "inMigration":
+            console.log('IN MIGRATION!')
+            url = $rootScope.restApiUrl + "/inMigrations/" + id;
+            break;
+        case "outMigration":
+            url = $rootScope.restApiUrl + "/outMigrations/" + id;
+            break;
+        case "death":
+            url = $rootScope.restApiUrl + "/deaths/" + id;
+            break;
+        case "pregnancyObservation":
+            url = $rootScope.restApiUrl + "/pregnancyObservations/" + id;
+            break;
+        case "pregnancyOutcome":
+            url = $rootScope.restApiUrl + "/pregnancyOutcome/" + id;
+            break;
+        case "pregnancyResult":
+            url = $rootScope.restApiUrl + "/pregnancyResult/" + id;
+            break;
+        }
+        console.log(url);
+        console.log(type);
+        console.log(id)
+        $http.delete(url, service.getHeaders()).then(
+            function(result) {
+                console.log(result);
+            }, function(result) {
+                console.log(result);
+            }
+        );
+    };
+
 
     return service;
 }

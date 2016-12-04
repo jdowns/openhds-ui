@@ -36,6 +36,8 @@ function VisitService(EntityService) {
         return {
             uuid: entity.uuid,
             extId: entity.extId,
+            location: entity.location,
+            visitDate: entity.visitDate,
             collectionDateTime : entity.collectionDateTime
         };
     }
@@ -60,6 +62,10 @@ function VisitService(EntityService) {
         return EntityService.getByVisitDate(urlBase, Response, visitDate);
     };
 
+    service.getByAfterDate = function(visitDate) {
+        return EntityService.getByAfterDate(urlBase, Response, visitDate);
+    };
+
     service.submit = function(fieldWorker, collectionDate, location, event) {
         var model = {
             fieldWorker: fieldWorker,
@@ -70,8 +76,8 @@ function VisitService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
-    service.delete = function(visitId, reason, success, failure) {
-        EntityService.safeDelete(urlBase, visitId, reason)
+    service.delete = function(id, reason, success, failure) {
+        EntityService.safeDelete(urlBase, id, reason)
             .then(function(response) {
                 if (response.data.length > 0) {
                     console.log('unable to delete entity!');

@@ -16,10 +16,6 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
         };
     };
 
-
-
-
-
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
@@ -32,7 +28,6 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
             }
         };
     }
-
 
     service.getRelationshipsByIndividual = function(individualUuid) {
 
@@ -71,6 +66,12 @@ function RelationshipService($rootScope, $http, $q, EntityService) {
         }
         var result = models.map(submitModel());
         return Promise.all(result);
+    };
+
+    service.delete = function(id) {
+        var url = $rootScope.restApiUrl + "/relationships/" + id;
+
+        return $http.delete(url, service.getHeaders());
     };
 
     return service;

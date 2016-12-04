@@ -61,6 +61,11 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
         return EntityService.getByHierarchy(urlBase, Response, hierarchyUuid);
     };
 
+    service.delete = function(id) {
+        var url = $rootScope.restApiUrl + "/residencies/" + id;
+
+        return $http.delete(url, service.getHeaders());
+    };
 
     service.submit = function(startType, fieldWorker, individual, location, collectionDate, entity) {
         var model = {

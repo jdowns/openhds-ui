@@ -544,19 +544,20 @@ function AuditController($rootScope,
         VisitService.getByAfterDate(row.visitDate)
 
             .then(function(response) {
-                console.log(response);
                 var visitsAtLocation = response.filter(function(visit) {
                     return visit.location.uuid === row.location.uuid;
                 });
 
+                console.log('visitsAtLocation:')
                 console.log(visitsAtLocation);
-
                 if(visitsAtLocation.length > 0) {
                     vm.errorMessage = {
                         statusText: "Unable to delete visit. There are later visits at this location that must be deleted first."};
                 } else {
                     VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
                         .then(function(response) {
+                            console.log('visit event service');
+                            console.log(response);
                             if (response === []) {
                                 VisitService.delete(row.uuid);
                             } else {

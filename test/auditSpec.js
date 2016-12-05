@@ -901,4 +901,24 @@ describe('AuditController', function() {
 
         $httpBackend.flush();
     });
+
+    it('deletes visits', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectGET('http://example.com/visits/getEvents?visitUuid=visitId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId',
+            visitDate: 'now',
+            location: {uuid: "locId"}
+        });
+
+        $httpBackend.flush();
+    });
 });

@@ -161,5 +161,12 @@ function EntityService($rootScope, $http, $q) {
         return $http.delete(url, config);
     };
 
+    service.delete = function(urlBase, id, reason) {
+        var url = $rootScope.restApiUrl + urlBase + "/" + id;
+        var config = service.getHeaders();
+        config.data = reason;
+        return $http.delete(url, config);
+    };
+
     return service;
 }

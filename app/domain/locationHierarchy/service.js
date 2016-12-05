@@ -83,23 +83,7 @@ function LocationHierarchyService($rootScope, $http, $q) {
     };
 
     service.buildTree = function(locationHierarchies) {
-        /*console.log(locationHierarchies);
-        var tree = {};
-
-        locationHierarchies.forEach(function(hierarchy) {
-            var uuid = hierarchy.uuid;
-
-            tree[uuid] = [];
-
-            if(hierarchy.parent) {
-                tree[hierarchy.parent].push(hierarchy);
-            }
-        });
-
-        return tree;
-         */
         var tree = Tree(locationHierarchies);
-        //console.log(tree);
         return [tree];
     };
 

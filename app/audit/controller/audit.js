@@ -638,7 +638,7 @@ function AuditController($rootScope,
     function deleteLocation(row) {
         var uuid = row.uuid;
 
-        ResidencyService.getByLocation(uuid)
+        IndividualService.getByLocation(uuid)
             .then(function(response) {
                 if(!checkForDependents(response, deleteResidencyMsg)) {
                     VisitService.getByLocation(uuid)

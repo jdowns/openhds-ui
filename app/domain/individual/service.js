@@ -76,12 +76,12 @@ function IndividualService(EntityService) {
             .then(function(response) {
                 if (response.data.length > 0) {
                     console.log('unable to delete entity!');
-                    if(failure !== undefined || failure !== null) {
+                    if(failure) {
                         failure(response.data);
                     }
                 } else {
                     console.log('delete succeeded!');
-                    if(success !== undefined || success !== null) {
+                    if(success) {
                         success(response.data);
                     }
                 }

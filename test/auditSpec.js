@@ -125,7 +125,8 @@ describe('AuditController', function() {
     });
 
     it('looks up visit', function() {
-        var entity = [{uuid: 1, extId: "id", collectionDateTime: "then"}];
+        var entity = [{uuid: 1, extId: "id", collectionDateTime: "then",
+                       location: "locId", visitDate: "then"}];
         $httpBackend.expectGET('http://example.com/visits/external/id')
             .respond({content: entity});
         controller.searchExtId = 'id';
@@ -244,17 +245,12 @@ describe('AuditController', function() {
         expect(controller.toSubmit).toEqual(expected);
     });
 
-    it('Save location hierarchy saves location hierarchy', function() {
-        controller.selectedHierarchy = [0, 1, 2, 3];
-        controller.locationHierarchies = {
-            0: [],
-            1: [{uuid: 2}],
-            2: [{uuid: 3}],
-            3: []
-        };
-        controller.saveLocationHierarchy();
+    it('Save location hierarchy sets search hierarchy', function() {
+        var hierarchy = {id: 3, title: "foo"};
 
-        expect(controller.searchHierarchy).toEqual({uuid: 3});
+        controller.saveLocationHierarchy(hierarchy);
+
+        expect(controller.searchHierarchy).toEqual({uuid: 3, extId: "foo"});
     });
 
     it('short circuits hierarchy search if entity type is null', function() {
@@ -832,4 +828,77 @@ describe('AuditController', function() {
         expect(controller.related['visit']['socialGroup'].loadMsg).toBe(true);
     });
 
+    it('deletes residencies', function() {
+        $httpBackend.expectDELETE('http://example.com/residencies/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'residency');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes memberships', function() {
+        $httpBackend.expectDELETE('http://example.com/memberships/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'membership');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes relationships', function() {
+        $httpBackend.expectDELETE('http://example.com/relationships/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'relationship');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes locations', function() {
+        $httpBackend.expectGET('http://example.com/individuals/findByLocation/?locationUuid=fooId')
+            .respond([]);
+        $httpBackend.expectGET('http://example.com/visits/findByLocation/?locationUuid=fooId')
+            .respond([]);
+        $httpBackend.expectDELETE('http://example.com/locations/fooId')
+            .respond(200);
+
+        controller.entityType = 'location';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('deletes social groups', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups/getMemberships?socialGroupUuid=fooId')
+            .respond([]);
+        $httpBackend.expectDELETE('http://example.com/socialGroups/safeDelete/fooId')
+            .respond([]);
+
+        controller.entityType = 'socialGroup';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('deletes individuals', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([]);
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getResidencies?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getEvents?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectDELETE('http://example.com/individuals/safeDelete/fooId')
+            .respond([]);
+
+        controller.entityType = 'individual';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
 });

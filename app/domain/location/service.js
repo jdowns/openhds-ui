@@ -59,5 +59,9 @@ function LocationService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
+    service.delete = function(id, reason) {
+        EntityService.delete(urlBase, id, reason);
+    };
+
     return service;
 };

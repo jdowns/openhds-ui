@@ -21,6 +21,18 @@ function LocationService(EntityService) {
         };
     }
 
+
+    function EditRequest(model) {
+        return {
+            name: model.name,
+            type: model.type,
+            description: model.description,
+            status: model.entityStatus
+        };
+    }
+
+
+
     function Response(data) {
         return {
             uuid: data.uuid,
@@ -61,6 +73,10 @@ function LocationService(EntityService) {
 
     service.delete = function(id, reason) {
         EntityService.delete(urlBase, id, reason);
+    }
+
+    service.submitEdited = function(location) {
+        return EntityService.submitEdited(urlBase, location);
     };
 
     return service;

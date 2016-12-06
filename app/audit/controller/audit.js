@@ -698,6 +698,24 @@ function AuditController($rootScope,
         }
     };
 
+    vm.submitEditedLocation = function(){
+        var temp = angular.copy(vm.tempLoc);
+
+        vm.toSubmit = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'name': temp.name,
+            'type': temp.type,
+            'description': temp.description
+        };
+
+        var res = LocationService.submitEdited(vm.toSubmit);
+        console.log(res);
+
+
+        console.log("got here");
+    };
+
     vm.init = function() {
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";
 
@@ -719,6 +737,8 @@ function AuditController($rootScope,
     };
 
     function errorHandler(error) {
+        //console.log(error);
+        console.log("inside error handler");
         vm.errorMessage = error;
     }
 

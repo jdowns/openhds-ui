@@ -59,17 +59,7 @@ function SocialGroupService(EntityService) {
     service.delete = function(id, reason, success, failure) {
         EntityService.safeDelete(urlBase, id, reason)
             .then(function(response) {
-                if (response.data.length > 0) {
-                    console.log('unable to delete entity!');
-                    if(failure) {
-                        failure(response.data);
-                    }
-                } else {
-                    console.log('delete succeeded!');
-                    if(success) {
-                        success(response.data);
-                    }
-                }
+                console.log(response.data);
             });
     };
 

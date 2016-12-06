@@ -55,7 +55,6 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
         var url;
         switch(type) {
         case "inMigration":
-            console.log('IN MIGRATION!')
             url = $rootScope.restApiUrl + "/inMigrations/" + id;
             break;
         case "outMigration":
@@ -68,19 +67,15 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
             url = $rootScope.restApiUrl + "/pregnancyObservations/" + id;
             break;
         case "pregnancyOutcome":
-            url = $rootScope.restApiUrl + "/pregnancyOutcome/" + id;
+            url = $rootScope.restApiUrl + "/pregnancyOutcomes/" + id;
             break;
         case "pregnancyResult":
-            url = $rootScope.restApiUrl + "/pregnancyResult/" + id;
+            url = $rootScope.restApiUrl + "/pregnancyResults/" + id;
             break;
         }
-        console.log(url);
-        console.log(type);
-        console.log(id)
+
         $http.delete(url, service.getHeaders()).then(
             function(result) {
-                console.log(result);
-            }, function(result) {
                 console.log(result);
             }
         );

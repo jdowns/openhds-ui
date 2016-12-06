@@ -542,23 +542,17 @@ function AuditController($rootScope,
 
     function deleteVisit(row) {
         VisitService.getByAfterDate(row.visitDate)
-
             .then(function(response) {
                 var visitsAtLocation = response.filter(function(visit) {
                     return visit.location.uuid === row.location.uuid;
                 });
-
-                console.log('visitsAtLocation:')
-                console.log(visitsAtLocation);
                 if(visitsAtLocation.length > 0) {
                     vm.errorMessage = {
                         statusText: "Unable to delete visit. There are later visits at this location that must be deleted first."};
                 } else {
                     VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
                         .then(function(response) {
-                            console.log('visit event service');
-                            console.log(response);
-                            if (response === []) {
+                            if (response.length === 0) {
                                 VisitService.delete(row.uuid);
                             } else {
                                 vm.errorMessage = {
@@ -666,22 +660,23 @@ function AuditController($rootScope,
         case "pregnancyObservation":
         case "pregnancyOutcome":
         case "pregnancyResult":
-            if(vm.entityType === 'visit') {
-                var visit = vm.currentEntity;
-                VisitService.getByAfterDate(vm.currentEntity.visitDate)
-                    .then(function(response) {
-                        var visitsAtLocation = response.filter(function(visit) {
-                            return visit.location.uuid === visit.location.uuid;
-                        });
-                        if(visitsAtLocation.length > 0) {
-                            vm.errorMessage = {
-                                statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
-                            };
-                        } else {
-                            VisitEventService.deleteEntity(row.uuid, entityType);
-                        }
+            var visit = vm.currentEntity;
+            VisitService.getByAfterDate(visit.visitDate)
+                .then(function(response) {
+                    var visitsAtLocation = response.filter(function(v) {
+                        console.log('v');
+                        console.log(v);
+                        return v.location.uuid === visit.location.uuid;
                     });
-            }
+                    if(visitsAtLocation.length > 0) {
+                        vm.errorMessage = {
+                            statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
+                        };
+                    } else {
+                        VisitEventService.deleteEntity(row.uuid, entityType);
+                    }
+                });
+            break;
         case "individual":
             deleteIndividual(row);
             break;

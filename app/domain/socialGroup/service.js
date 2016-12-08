@@ -63,5 +63,15 @@ function SocialGroupService(EntityService) {
             });
     };
 
+    service.getExtId = function() {
+        var data = {};
+        return EntityService.getExtId(urlBase, 'SocialGroup', data);
+    };
+
+    service.validateExtId = function(id) {
+        var data = {};
+        return EntityService.validateExtId(urlBase, 'SocialGroup', id, data);
+    };
+
     return service;
 }

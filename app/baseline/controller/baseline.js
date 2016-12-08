@@ -45,8 +45,6 @@ function BaselineController($rootScope,
 
     vm.selectedRelationships = [];
 
-
-
     vm.submittedLocations = [];
     vm.submittedMemberships = [];
     vm.submittedRelationships = [];
@@ -74,7 +72,6 @@ function BaselineController($rootScope,
 
 
     vm.saveLocationHierarchy = function(hierarchy) {
-        console.log(hierarchy);
         vm.currentHierarchy = {
             uuid: hierarchy.id,
             extId: hierarchy.title
@@ -82,21 +79,18 @@ function BaselineController($rootScope,
 
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allLocations = response;
                 vm.locationDisplayCollection = [].concat(response);
             }, errorHandler);
 
         IndividualService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allIndividuals = response;
                 vm.individualDisplayCollection = [].concat(response);
             }, errorHandler);
 
         ResidencyService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
-                console.log(response);
                 vm.allResidencies = response;
                 vm.residencyDisplayCollection = [].concat(response);
             }, errorHandler);
@@ -112,37 +106,55 @@ function BaselineController($rootScope,
     };
 
     vm.submitLocation = function(location) {
-        LocationService.submit(vm.currentFieldWorker,
-                               vm.collectionDateTime,
-                               vm.currentHierarchy,
-                               location)
-            .then(function(response) {
-                console.log(response.data);
-                vm.submittedLocations.push(response.data);
-                vm.selectedLocation = response.data;
-                vm.location = {};
-            }, errorHandler);
+        LocationService.validateExtId(location.extId).then(function(response) {
+            if (response.data === false) {
+                vm.errorMessage = {statusText: 'Invalid external ID'};
+                return;
+            }
+            LocationService.submit(vm.currentFieldWorker,
+                                   vm.collectionDateTime,
+                                   vm.currentHierarchy,
+                                   location)
+                .then(function(response) {
+                    console.log(response.data);
+                    vm.submittedLocations.push(response.data);
+                    vm.selectedLocation = response.data;
+                    vm.location = {};
+                }, errorHandler);
+        });
     };
 
     vm.submitSocialGroup = function(sg) {
-        SocialGroupService.submit(vm.currentFieldWorker,
-                                  vm.collectionDateTime,
-                                  sg)
-            .then(function(response) {
-                console.log(response.data);
-                vm.selectedSocialGroups.push(response.data);
-                vm.socialGroup = {};
-            }, errorHandler);
+        SocialGroupService.validateExtId(sg.extId).then(function(response) {
+            if (response.data === false) {
+                vm.errorMessage = {statusText: 'Invalid external ID'};
+                return;
+            }
+            SocialGroupService.submit(vm.currentFieldWorker,
+                                      vm.collectionDateTime,
+                                      sg)
+                .then(function(response) {
+                    console.log(response.data);
+                    vm.selectedSocialGroups.push(response.data);
+                    vm.socialGroup = {};
+                }, errorHandler);
+        });
     };
 
     vm.submitIndividual = function(indiv){
-        IndividualService.submit(vm.currentFieldWorker,
-                                 vm.collectionDateTime,
-                                 indiv)
-            .then(function(response) {
-                console.log(response.data);
-                vm.currentIndividual = response.data;
-            }, errorHandler);
+        IndividualService.validateExtId(indiv.extId).then(function(response) {
+            if(response.data === false) {
+                vm.errorMessage = {statusText: 'Invalid external ID'};
+                return;
+            }
+            IndividualService.submit(vm.currentFieldWorker,
+                                     vm.collectionDateTime,
+                                     indiv)
+                .then(function(response) {
+                    console.log(response.data);
+                    vm.currentIndividual = response.data;
+                }, errorHandler);
+        });
     };
 
     vm.submitResidency = function(res) {
@@ -212,6 +224,38 @@ function BaselineController($rootScope,
     function errorHandler(error) {
         vm.errorMessage = error;
     }
+
+    vm.getExtId = function(type) {
+        switch(type) {
+        case "Location":
+            LocationService.getExtId().then(function(response) {
+                if (vm.location) {
+                    vm.location.extId = response.data;
+                } else {
+                    vm.location = {extId: response.data};
+                }
+            });
+            break;
+        case "Individual":
+            IndividualService.getExtId().then(function(response) {
+                if (vm.individual) {
+                    vm.individual.extId = response.data;
+                } else {
+                    vm.individual = {extId: response.data};
+                }
+            });
+            break;
+        case "SocialGroup":
+            SocialGroupService.getExtId().then(function(response) {
+                if(vm.socialGroup) {
+                    vm.socialGroup.extId = response.data;
+                } else {
+                    vm.socialGroup = {extId: response.data};
+                }
+            });
+            break;
+        }
+    };
 
     vm.errorHandler = errorHandler;
     vm.locationHierarchies = [];

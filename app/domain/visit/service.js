@@ -8,22 +8,12 @@ function VisitService(EntityService) {
     var service = this;
     var urlBase = "/visits";
 
-    function visitUuid(model) {
-        var extId = model.location.extId +
-                "-" +
-                model.fieldWorker.id +
-                "-" +
-                model.collectionDate
-        ;
-        return extId;
-    }
-
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
-                extId: visitUuid(model),
+                extId: model.extId,
                 visitDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }
@@ -80,6 +70,16 @@ function VisitService(EntityService) {
             .then(function(response) {
                 console.log(response);
             });
+    };
+
+    service.getExtId = function() {
+        var data = {};
+        return EntityService.getExtId(urlBase, 'Visit', data);
+    };
+
+    service.validateExtId = function(id) {
+        var data = {};
+        return EntityService.validateExtId(urlBase, 'Visit', id, data);
     };
 
     return service;

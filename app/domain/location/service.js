@@ -73,10 +73,20 @@ function LocationService(EntityService) {
 
     service.delete = function(id, reason) {
         EntityService.delete(urlBase, id, reason);
-    }
+    };
 
     service.submitEdited = function(location) {
         return EntityService.submitEdited(urlBase, location);
+    };
+
+    service.getExtId = function() {
+        var data = {};
+        return EntityService.getExtId(urlBase, 'Location', data);
+    };
+
+    service.validateExtId = function(id) {
+        var data = {};
+        return EntityService.validateExtId(urlBase, 'Location', id, data);
     };
 
     return service;

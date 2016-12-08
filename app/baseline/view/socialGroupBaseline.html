@@ -1,6 +1,9 @@
 <row><h3>Social Group</h3></row>
 <row>
-    <button id="createSocialGroup" class="btn btn-primary" data-toggle="modal" data-target="#socialGroupCreateModal">
+  <button id="createSocialGroup" class="btn btn-primary" data-toggle="modal"
+          data-target="#socialGroupCreateModal"
+          ng-click="model.getExtId('SocialGroup')">
+
         <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>

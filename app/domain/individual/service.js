@@ -78,5 +78,15 @@ function IndividualService(EntityService) {
             });
     };
 
+    service.getExtId = function() {
+        var data = {};
+        return EntityService.getExtId(urlBase, 'Individual', data);
+    };
+
+    service.validateExtId = function(id) {
+        var data = {};
+        return EntityService.validateExtId(urlBase, 'Individual', id, data);
+    };
+
     return service;
 }

@@ -71,11 +71,14 @@ function UpdateController($rootScope,
     };
 
     vm.submitVisit = function() {
-        VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
-            .then(function(response) {
-                vm.currentVisit = response.data;
-            }, errorHandler);
-        $('#eventTab').tab('show');
+        VisitService.getExtId().then(function(response) {
+            vm.visit.extId = response.data;
+            VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
+                .then(function(response) {
+                    vm.currentVisit = response.data;
+                }, errorHandler);
+            $('#eventTab').tab('show');
+        });
     };
 
     vm.submitInMigration = function(event){

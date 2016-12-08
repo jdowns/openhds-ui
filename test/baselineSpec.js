@@ -157,16 +157,14 @@ describe('BaselineController', function() {
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3").respond({content: []});
-        controller.selectedHierarchy = [0, 1, 2, 3];
-        controller.locationHierarchies = {
-            0: [],
-            1: [{uuid: 2}],
-            2: [{uuid: 3}],
-            3: []
-        };
-        controller.saveLocationHierarchy();
+
+        var hierarchy = {id: 3, title: "foo"};
+
+        controller.saveLocationHierarchy(hierarchy);
+
         $httpBackend.flush();
-        expect(controller.currentHierarchy).toEqual({uuid: 3});
+
+        expect(controller.currentHierarchy).toEqual({uuid: 3, extId: "foo"});
     });
 
     it('Available hierarchies returns list of hierarchies', function() {

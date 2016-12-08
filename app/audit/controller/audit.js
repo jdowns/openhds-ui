@@ -32,6 +32,11 @@ function AuditController($rootScope,
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
+    var deleteMembershipsMsg = "You must delete memberships first.";
+    var deleteRelationshipMsg = "You must delete relationships first.";
+    var deleteResidencyMsg = "You must delete residencies first.";
+    var deleteVisitMsg = "You must delete visits first.";
+
     vm.selectedHierarchy = [];
     vm.currentEntity = null;
     vm.tempLoc = null;
@@ -138,6 +143,27 @@ function AuditController($rootScope,
             }, errorHandler);
     };
 
+    vm.saveLocation = function(){
+        var temp = angular.copy(vm.tempLoc);
+
+        vm.toSubmit = {};
+
+        // Placeholder
+        vm.toSubmit.registrationDateTime = vm.collectionDateTime;
+
+        vm.toSubmit.location = {
+            'uuid': temp.uuid,
+            'entityStatus': temp.entityStatus,
+            'collectedBy': temp.collectedBy,
+            'collectionDateTime': temp.collectionDateTime,
+            'extId': temp.extId,
+            'name': temp.name,
+            'type': temp.type,
+            'description': temp.description
+        };
+
+        vm.toSubmit.locationHierarchyUuid  = temp.locationHierarchy.uuid;
+    };
 
     vm.saveIndividual = function(){
         var temp = angular.copy(vm.tempIndiv);
@@ -157,7 +183,7 @@ function AuditController($rootScope,
         };
     };
 
-    vm.saveSocialGroup = function(){
+    vm.saveSocialGroup = function() {
         var temp = angular.copy(vm.tempSocial);
 
         vm.toSubmit = {};
@@ -516,22 +542,17 @@ function AuditController($rootScope,
 
     function deleteVisit(row) {
         VisitService.getByAfterDate(row.visitDate)
-
             .then(function(response) {
-                console.log(response);
                 var visitsAtLocation = response.filter(function(visit) {
                     return visit.location.uuid === row.location.uuid;
                 });
-
-                console.log(visitsAtLocation);
-
                 if(visitsAtLocation.length > 0) {
                     vm.errorMessage = {
                         statusText: "Unable to delete visit. There are later visits at this location that must be deleted first."};
                 } else {
                     VisitEventService.getEventsByVisit(vm.currentEntity.uuid)
                         .then(function(response) {
-                            if (response === []) {
+                            if (response.length === 0) {
                                 VisitService.delete(row.uuid);
                             } else {
                                 vm.errorMessage = {
@@ -540,6 +561,89 @@ function AuditController($rootScope,
                             }
                         });
                 }});
+    }
+
+    function deleteRelationship(row) {
+        console.log("deleting relationship " + row.uuid);
+        RelationshipService.delete(row.uuid);
+    }
+
+    function deleteMembership(row) {
+        console.log("deleting membership " + row.uuid);
+        MembershipService.delete(row.uuid);
+    }
+
+    function deleteResidency(row) {
+        console.log("deleting residency " + row.uuid);
+        ResidencyService.delete(row.uuid);
+    }
+
+    function checkForDependents(response, msg) {
+        if (response.length > 0) {
+            vm.errorMessage = {statusText: msg};
+            return true;
+        }
+        return false;
+    }
+
+    function deleteIndividual(row) {
+        var uuid = row.uuid;
+
+        function handleVisitEventResponse(response) {
+            if(!checkForDependents(response, deleteVisitMsg)) {
+                IndividualService.delete(uuid, "audit");
+            }
+        }
+
+        function handleResidencyResponse(response) {
+            if(!checkForDependents(response, deleteResidencyMsg)) {
+                VisitEventService.getEventsByIndividual(uuid)
+                    .then(handleVisitEventResponse);
+            }
+        }
+
+        function handleRelationshipResponse(response) {
+            if (!checkForDependents(response, deleteRelationshipMsg)) {
+                ResidencyService.getResidenciesByIndividual(uuid)
+                    .then(handleResidencyResponse);
+            }
+        }
+
+        function handleMembershipResponse(response) {
+            if(!checkForDependents(response, deleteMembershipsMsg)) {
+                RelationshipService.getRelationshipsByIndividual(uuid)
+                    .then(handleRelationshipResponse);
+            }
+        }
+
+        MembershipService.getMembershipsByIndividual(uuid)
+            .then(handleMembershipResponse);
+    }
+
+    function deleteSocialGroup(row) {
+        var uuid = row.uuid;
+        MembershipService.getMembershipsBySocialGroup(uuid)
+            .then(function(response) {
+                if(!checkForDependents(response, deleteMembershipsMsg)) {
+                    SocialGroupService.delete(uuid, "audit");
+                }
+            });
+    }
+
+    function deleteLocation(row) {
+        var uuid = row.uuid;
+
+        IndividualService.getByLocation(uuid)
+            .then(function(response) {
+                if(!checkForDependents(response, deleteResidencyMsg)) {
+                    VisitService.getByLocation(uuid)
+                        .then(function(response) {
+                            if(!checkForDependents(response, deleteVisitMsg)) {
+                                LocationService.delete(uuid, "audit");
+                            }
+                        });
+                }
+            });
     }
 
     vm.deleteEntity = function(row, type) {
@@ -556,76 +660,43 @@ function AuditController($rootScope,
         case "pregnancyObservation":
         case "pregnancyOutcome":
         case "pregnancyResult":
-            if(vm.entityType === 'visit') {
-                // check if there are later visits
-                var visit = vm.currentEntity;
-                VisitService.getByAfterDate(vm.currentEntity.visitDate)
-                    .then(function(response) {
-                        var visitsAtLocation = response.filter(function(visit) {
-                            return visit.location.uuid === visit.location.uuid;
-                        });
-                        if(visitsAtLocation.length > 0) {
-                            vm.errorMessage = {
-                                statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
-                            };
-                        } else {
-                            VisitEventService.deleteEntity(row.uuid, entityType);
-                        }
+            var visit = vm.currentEntity;
+            VisitService.getByAfterDate(visit.visitDate)
+                .then(function(response) {
+                    var visitsAtLocation = response.filter(function(v) {
+                        console.log('v');
+                        console.log(v);
+                        return v.location.uuid === visit.location.uuid;
                     });
-            }
+                    if(visitsAtLocation.length > 0) {
+                        vm.errorMessage = {
+                            statusText: "Unable to delete event. There are later visits at this location that must be deleted first."
+                        };
+                    } else {
+                        VisitEventService.deleteEntity(row.uuid, entityType);
+                    }
+                });
+            break;
         case "individual":
+            deleteIndividual(row);
             break;
         case "socialGroup":
+            deleteSocialGroup(row);
             break;
         case "location":
+            deleteLocation(row);
             break;
         case "relationship":
+            deleteRelationship(row);
             break;
         case "membership":
+            deleteMembership(row);
             break;
         case "residency":
+            deleteResidency(row);
             break;
         }
-/*
-        var service;
-        if (vm.entityType === 'visit') {
-            service = VisitService;
-        } else if (vm.entityType === 'location') {
-            service = LocationService;
-        } else if (vm.entityType === 'socialGroup') {
-            service = SocialGroupService;
-        } else if (vm.entityType === 'individual') {
-            service = IndividualService;
-        } else {
-            vm.errorMessage = {statusText: "Unknow entity type: " + vm.entityType};
-        }
-
-
-
-        var success = function(response) {
-            console.log('deleting ' + row);
-            var index = vm.queryResult.displayCollection.indexOf(row);
-            if (index > -1) {
-                vm.queryResult.displayCollection.splice(index, 1);
-            }
-        };
-
-        var failure = function(response) {
-            vm.errorMessage = {statusText: "Unable to delete entity: " + row.extId,
-                               data: [{
-                                   message: "These entities must be deleted first: " +
-                                      (response.map(function(e) { return e.extId; }))
-                               }]
-                              };
-            console.log(vm.errorMessage);
-        };
-
-        service.delete(id, "testing", success, failure);
-        */
     };
-
-
-
 
     vm.submitEditedLocation = function(){
         var temp = angular.copy(vm.tempLoc);
@@ -644,9 +715,6 @@ function AuditController($rootScope,
 
         console.log("got here");
     };
-
-
-
 
     vm.init = function() {
         var codesUrl = $rootScope.restApiUrl + "/projectCodes/bulk.json";

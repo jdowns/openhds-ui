@@ -1,7 +1,10 @@
 <row><h3>{{ 'legends.individual' | i18next }}</h3></row>
 <row>
 
-    <button id="openCreateIndividualsModal" class="btn btn-primary" data-toggle="modal" data-target="#individualCreateModal">
+  <button id="openCreateIndividualsModal" class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#individualCreateModal"
+          ng-click="model.getExtId('Individual')">
         <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>
@@ -13,7 +16,6 @@
         <h2>
             <span class="glyphicon glyphicon-search"></span>
         </h2>
-
 
     </button>
 </row>

@@ -1,7 +1,11 @@
 <row><h3>{{ 'legends.location' | i18next }}</h3></row>
 <row>
 
-    <button id="displayNewLocationModal" class="btn btn-primary" data-toggle="modal" data-target="#locationCreateModal">
+  <button id="displayNewLocationModal"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#locationCreateModal"
+          ng-click="model.getExtId('Location')">
         <h3>{{ 'legends.createNew' | i18next }}</h3>
         <h2>
             <span class="glyphicon glyphicon-plus"></span>

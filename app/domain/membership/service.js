@@ -65,9 +65,11 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         });
     };
 
+    service.delete = function(id) {
+        var url = $rootScope.restApiUrl + "/memberships/" + id;
 
-
-
+        return $http.delete(url, service.getHeaders());
+    };
 
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {

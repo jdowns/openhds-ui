@@ -8,23 +8,12 @@ function VisitService(EntityService) {
     var service = this;
     var urlBase = "/visits";
 
-    function visitUuid(model) {
-        var extId = model.location.extId +
-                "-" +
-                model.fieldWorker.id +
-                "-" +
-                model.collectionDate
-        ;
-        console.log(model.fieldWorker);
-        return extId;
-    }
-
     function Request(model) {
         return {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
-                extId: visitUuid(model),
+                extId: model.extId,
                 visitDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }
@@ -79,14 +68,18 @@ function VisitService(EntityService) {
     service.delete = function(id, reason, success, failure) {
         EntityService.safeDelete(urlBase, id, reason)
             .then(function(response) {
-                if (response.data.length > 0) {
-                    console.log('unable to delete entity!');
-                    failure(response.data);
-                } else {
-                    console.log('delete succeeded!');
-                    success(response.data);
-                }
+                console.log(response);
             });
+    };
+
+    service.getExtId = function() {
+        var data = {};
+        return EntityService.getExtId(urlBase, 'Visit', data);
+    };
+
+    service.validateExtId = function(id) {
+        var data = {};
+        return EntityService.validateExtId(urlBase, 'Visit', id, data);
     };
 
     return service;

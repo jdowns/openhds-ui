@@ -24,6 +24,7 @@ describe('AuditController', function() {
         var args = {};
         controller = _$controller_('AuditController', args);
         $rootScope.restApiUrl = 'http://example.com';
+        controller.errorMessage = null;
     }));
 
     afterEach(function() {
@@ -125,7 +126,8 @@ describe('AuditController', function() {
     });
 
     it('looks up visit', function() {
-        var entity = [{uuid: 1, extId: "id", collectionDateTime: "then"}];
+        var entity = [{uuid: 1, extId: "id", collectionDateTime: "then",
+                       location: "locId", visitDate: "then"}];
         $httpBackend.expectGET('http://example.com/visits/external/id')
             .respond({content: entity});
         controller.searchExtId = 'id';
@@ -244,17 +246,12 @@ describe('AuditController', function() {
         expect(controller.toSubmit).toEqual(expected);
     });
 
-    it('Save location hierarchy saves location hierarchy', function() {
-        controller.selectedHierarchy = [0, 1, 2, 3];
-        controller.locationHierarchies = {
-            0: [],
-            1: [{uuid: 2}],
-            2: [{uuid: 3}],
-            3: []
-        };
-        controller.saveLocationHierarchy();
+    it('Save location hierarchy sets search hierarchy', function() {
+        var hierarchy = {id: 3, title: "foo"};
 
-        expect(controller.searchHierarchy).toEqual({uuid: 3});
+        controller.saveLocationHierarchy(hierarchy);
+
+        expect(controller.searchHierarchy).toEqual({uuid: 3, extId: "foo"});
     });
 
     it('short circuits hierarchy search if entity type is null', function() {
@@ -830,6 +827,429 @@ describe('AuditController', function() {
         controller.toggleVisitRelated("socialGroup");
 
         expect(controller.related['visit']['socialGroup'].loadMsg).toBe(true);
+    });
+
+    it('deletes residencies', function() {
+        $httpBackend.expectDELETE('http://example.com/residencies/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'residency');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes memberships', function() {
+        $httpBackend.expectDELETE('http://example.com/memberships/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'membership');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes relationships', function() {
+        $httpBackend.expectDELETE('http://example.com/relationships/fooId')
+            .respond(200);
+
+        controller.deleteEntity({uuid: 'fooId'}, 'relationship');
+
+        $httpBackend.flush();
+    });
+
+    it('deletes locations', function() {
+        $httpBackend.expectGET('http://example.com/individuals/findByLocation/?locationUuid=fooId')
+            .respond([]);
+        $httpBackend.expectGET('http://example.com/visits/findByLocation/?locationUuid=fooId')
+            .respond([]);
+        $httpBackend.expectDELETE('http://example.com/locations/fooId')
+            .respond(200);
+
+        controller.entityType = 'location';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('deletes social groups', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups/getMemberships?socialGroupUuid=fooId')
+            .respond([]);
+        $httpBackend.expectDELETE('http://example.com/socialGroups/safeDelete/fooId')
+            .respond([]);
+
+        controller.entityType = 'socialGroup';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('deletes individuals', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([]);
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getResidencies?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getEvents?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectDELETE('http://example.com/individuals/safeDelete/fooId')
+            .respond([]);
+
+        controller.entityType = 'individual';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('deletes visits', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/visits/getEvents?visitUuid=visitId')
+            .respond([]);
+
+        $httpBackend.expectDELETE('http://example.com/visits/safeDelete/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId',
+            visitDate: 'now',
+            location: {uuid: "locId"}
+        });
+
+        $httpBackend.flush();
+    });
+
+    it('deletes in migrations', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/inMigrations/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'inMigration');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('deletes out migrations', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/outMigrations/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'outMigration');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('deletes deaths', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/deaths/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'death');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('deletes pregnancy observations', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/pregnancyObservations/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'pregnancyObservation');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('deletes pregnancy outcomes', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/pregnancyOutcomes/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'pregnancyOutcome');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('deletes pregnancy results', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "anotherLocation"}}]);
+
+        $httpBackend.expectDELETE('http://example.com/pregnancyResults/fooId')
+            .respond([]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'pregnancyResult');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toBe(null);
+    });
+
+    it('does not delete events if later visits are present', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{location: {uuid: "locId"}}]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        }, 'inMigration');
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({statusText: "Unable to delete event. There are later visits at this location that must be deleted first."});
+    });
+
+    it('does not delete locations if there are visits', function() {
+        $httpBackend.expectGET('http://example.com/individuals/findByLocation/?locationUuid=fooId')
+            .respond([]);
+        $httpBackend.expectGET('http://example.com/visits/findByLocation/?locationUuid=fooId')
+            .respond([{uuid: 'abc', location: {uuid: 'visitId'}}]);
+
+        controller.entityType = 'location';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('does not delete locations if there are residents', function() {
+        $httpBackend.expectGET('http://example.com/individuals/findByLocation/?locationUuid=fooId')
+            .respond([{uuid: "indId"}]);
+
+        controller.entityType = 'location';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('does not delete social groups if there are members', function() {
+        $httpBackend.expectGET('http://example.com/socialGroups/getMemberships?socialGroupUuid=fooId')
+            .respond([{uuid: "indId"}]);
+
+        controller.entityType = 'socialGroup';
+        controller.deleteEntity({uuid: 'fooId'});
+
+        $httpBackend.flush();
+    });
+
+    it('does not delete visits if there are later visits', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([{uuid: "locId2", location: {uuid: 'locId'}}]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "Unable to delete visit. There are later visits at this location that must be deleted first."
+        });
+    });
+
+    it('does not delete visits if there are later events', function() {
+        $httpBackend.expectGET('http://example.com/visits/bydate/bulk.json?after=now')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/visits/getEvents?visitUuid=visitId')
+            .respond([{uuid: "id"}]);
+
+        controller.entityType = 'visit';
+        controller.currentEntity = {
+            uuid: 'visitId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        };
+        controller.deleteEntity({
+            uuid: 'fooId',
+            visitDate: 'now',
+            location: {uuid: 'locId'}
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "Unable to delete visit. It has events that must be deleted first"
+        });
+    });
+
+    it('does not delete individuals if there are memberships', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([{uuid: 1}]);
+
+        controller.entityType = 'individual';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "You must delete memberships first."
+        });
+    });
+
+    it('does not delete individuals if there are relationships', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=fooId')
+            .respond([{uuid: 1}]);
+
+        controller.entityType = 'individual';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "You must delete relationships first."
+        });
+    });
+
+    it('does not delete individuals if there are residencies', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getResidencies?individualUuid=fooId')
+            .respond([{uuid: 1}]);
+
+        controller.entityType = 'individual';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "You must delete residencies first."
+        });
+    });
+
+    it('does not delete individuals if there are visits', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getRelationships?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getResidencies?individualUuid=fooId')
+            .respond([]);
+
+        $httpBackend.expectGET('http://example.com/individuals/getEvents?individualUuid=fooId')
+            .respond([{uuid: 1}]);
+
+        controller.entityType = 'individual';
+        controller.currentEntity = {
+            uuid: 'visitId'
+        };
+        controller.deleteEntity({
+            uuid: 'fooId'
+        });
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({
+            statusText: "You must delete visits first."
+        });
     });
 
 });

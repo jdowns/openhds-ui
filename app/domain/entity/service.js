@@ -53,7 +53,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    var entities = response.data.map(responseClass);
+                    var entities = response.data.content.map(responseClass);
                     resolve(entities);
                 }
             );
@@ -112,7 +112,6 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    console.log(response);
                     var entities = response.data;
                     resolve(entities);
                 }
@@ -155,14 +154,11 @@ function EntityService($rootScope, $http, $q) {
 
     service.submitEdited = function (urlBase, model) {
         var url = $rootScope.restApiUrl + urlBase + "/submitEdited/" + model.uuid;
-      //  console.log("url: " + url);
-     //   console.log("model: " + JSON.stringify(model));
         var request = model;
-     //   console.log("req: " + JSON.stringify(request));   //req: {"name":"location-2zxZx","type":"RURAL","description":"sample locationxZxZ","status":"xZXz"}
         return $http.put(url, request, service.getHeaders())
             .then(function(response){
                 console.log(response.status);
-            })
+            });
     };
 
     service.safeDelete = function(urlBase, id, reason) {
@@ -170,6 +166,25 @@ function EntityService($rootScope, $http, $q) {
         var config = service.getHeaders();
         config.data = reason;
         return $http.delete(url, config);
+    };
+
+    service.delete = function(urlBase, id, reason) {
+        var url = $rootScope.restApiUrl + urlBase + "/" + id;
+        var config = service.getHeaders();
+        config.data = reason;
+        return $http.delete(url, config);
+    };
+
+    service.getExtId = function(urlBase, type, data) {
+        var config = service.getHeaders();
+        data.type = type;
+        return $http.post($rootScope.restApiUrl + urlBase + "/generateExtId", data, config);
+    };
+
+    service.validateExtId = function(urlBase, type, id, data) {
+        var config = service.getHeaders();
+        data.type = type;
+        return $http.post($rootScope.restApiUrl + urlBase + "/validateExtId/" + id, data, config);
     };
 
     return service;

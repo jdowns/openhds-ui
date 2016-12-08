@@ -166,11 +166,22 @@ describe('LocationHierarchyService Test', function() {
 
     it('Should build hierarchy map', function() {
 
-        var expected = {'ROOT_HIERARCHY': [{uuid: '123', parent: 'ROOT_HIERARCHY'}],
-                        '123'           : []};
+        var expected = [
+            {id: 'ROOT_HIERARCHY',
+             title: 'ROOT',
+             collapsed: true,
+             nodes: [{id: '123',
+                      title: 'abc',
+                      collapsed: true,
+                      nodes: []}]
+            },
+        ];
 
-        var locationHierarchies = [{uuid: 'ROOT_HIERARCHY'},
+        var locationHierarchies = [{uuid: 'ROOT_HIERARCHY',
+                                    parent: null,
+                                    extId: 'ROOT'},
                                    {uuid: '123',
+                                    extId: 'abc',
                                     parent: 'ROOT_HIERARCHY'}];
 
         var tree = service.buildTree(locationHierarchies);
@@ -203,9 +214,53 @@ describe('LocationHierarchyService Test', function() {
         $httpBackend.expectGET('http://example.com/locationHierarchies/bulk.json')
             .respond(200, locationHierarchies);
 
+        var expected = [
+            {
+                id: 'HIERARCHY_ROOT',
+                title: 'hierarchy-root',
+                collapsed: true,
+                nodes: [
+                    { id: '32992957-e1ab-4b0f-9b76-1dd9e70f1cdf',
+                      title: 'hierarchy-0',
+                      collapsed: true,
+                      nodes: [
+                          { id: '93462979-8ac3-4ff9-8ae6-31166d246075',
+                            title: 'hierarchy-0-1',
+                            collapsed: true,
+                            nodes: [
+                                { id: '84a5f518-daf4-4847-9b18-4bea25122a93',
+                                  title: 'hierarchy-0-1-1',
+                                  collapsed: true,
+                                  nodes: [] },
+                                { id: 'be852417-1f1c-4c27-9202-85c04a5811da',
+                                  title: 'hierarchy-0-1-2',
+                                  collapsed: true,
+                                  nodes: [] },
+                                { id: '5d1997b2-657f-436b-bd4d-7c54a980a0a8',
+                                  title: 'hierarchy-0-1-3',
+                                  collapsed: true,
+                                  nodes: [] }
+                            ]
+                          },
+                          { id: '6295c8d2-1ff3-4491-a433-90b94f91e65b',
+                            title: 'hierarchy-0-2',
+                            collapsed: true,
+                            nodes: [
+                                { id: 'c34da482-c5f9-40b7-b9d3-a81eaaf0dbb9',
+                                  title: 'hierarchy-0-2-1',
+                                  collapsed: true,
+                                  nodes: []
+                                }
+                            ]
+                          }
+                      ]
+                    }
+                ]
+            }
+        ];
         var hierarchyPromise = service.locationHierarchies();
         hierarchyPromise.then(function(hierarchies) {
-            expect(hierarchyMap).toEqual(hierarchies);
+            expect(expected).toEqual(hierarchies);
         });
 
         $httpBackend.flush();

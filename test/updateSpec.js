@@ -238,16 +238,12 @@ describe('UpdateController', function() {
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3").respond({content: []});
-        controller.selectedHierarchy = [0, 1, 2, 3];
-        controller.locationHierarchies = {
-            0: [],
-            1: [{uuid: 2}],
-            2: [{uuid: 3}],
-            3: []
-        };
-        controller.saveLocationHierarchy();
+
+        var hierarchy = {id: 3, title: "foo"};
+
+        controller.saveLocationHierarchy(hierarchy);
         $httpBackend.flush();
-        expect(controller.currentHierarchy).toEqual({uuid: 3});
+        expect(controller.currentHierarchy).toEqual({uuid: 3, extId: "foo"});
     });
 
     it('setLocation sets selectedLocation and filters allResidencies', function() {
@@ -308,13 +304,13 @@ describe('UpdateController', function() {
             .respond(['code1', 'code2']);
 
         $httpBackend.expectGET("http://example.com/fieldWorkers/bulk.json")
-            .respond([{uuid: 1, fieldWorkerId: 1, firstName: "test", "lastName": "test"}]);
+            .respond([{uuid: 1, fieldWorkerId: 1, firstName: "test", lastName: "test"}]);
 
         $httpBackend.expectGET("http://example.com/locationHierarchyLevels/bulk.json")
             .respond([{uuid: 2}]);
 
         $httpBackend.expectGET("http://example.com/locationHierarchies/bulk.json")
-            .respond([{uuid: 1, level: {uuid: 2}}]);
+            .respond([{uuid: 1, extId: "ROOT", level: {uuid: 2}}]);
 
         $httpBackend.expectGET("http://example.com/locationHierarchyLevels/bulk.json")
             .respond([{uuid: 1}]);
@@ -323,8 +319,10 @@ describe('UpdateController', function() {
 
         $httpBackend.flush();
 
-        expect(controller.allFieldWorkers).toEqual([{uuid: 1, id: 1, firstName: "test", "lastName": "test"}]);
-        expect(controller.locationHierarchies).toEqual({1: []});
+        expect(controller.allFieldWorkers).toEqual([{uuid: 1, id: 1, firstName: "test", lastName: "test"}]);
+        expect(controller.locationHierarchies).toEqual([{
+            id: 1, title: 'ROOT', collapsed: true, nodes: []
+        }]);
         expect(controller.allHierarchyLevels).toEqual([{uuid: 1}]);
 
         delete $;

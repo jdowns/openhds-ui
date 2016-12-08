@@ -21,6 +21,7 @@ function LocationService(EntityService) {
         };
     }
 
+/* not used yet...
 
     function EditRequest(model) {
         return {
@@ -30,8 +31,7 @@ function LocationService(EntityService) {
             status: model.entityStatus
         };
     }
-
-
+*/
 
     function Response(data) {
         return {

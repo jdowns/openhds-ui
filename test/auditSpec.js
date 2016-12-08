@@ -1252,4 +1252,23 @@ describe('AuditController', function() {
         });
     });
 
+    it('submits edited location', function() {
+        var expected = {
+            uuid: 1,
+            entityStatus: "foo",
+            name: "name",
+            type: "test",
+            description:  "bkshgksdaghw"
+        };
+        $httpBackend.expectPUT('http://example.com/locations/submitEdited/1', expected)
+            .respond({uuid:  1});
+            controller.tempLoc = {uuid: 1, extId: "locId", name: "name",
+                                  entityStatus: "foo", type: "test",
+                                  description: "bkshgksdaghw"
+                                 };
+        controller.submitEditedLocation();
+
+        $httpBackend.flush();
+    });
+
 });

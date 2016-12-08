@@ -355,11 +355,12 @@ describe('UpdateController', function() {
             };
         };
 
+        $httpBackend.expectPOST('http://example.com/visits/generateExtId')
+            .respond("extId");
         $httpBackend.expectPOST("http://example.com/visits", {
             "collectedByUuid":123,
             "locationUuid":456,
             "visit":{
-                "extId":"locId-fwId-then",
                 "visitDate":"then",
                 "collectionDateTime": "then"
             }

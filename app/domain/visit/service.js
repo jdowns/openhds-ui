@@ -77,10 +77,5 @@ function VisitService(EntityService) {
         return EntityService.getExtId(urlBase, 'Visit', data);
     };
 
-    service.validateExtId = function(id) {
-        var data = {};
-        return EntityService.validateExtId(urlBase, 'Visit', id, data);
-    };
-
     return service;
 }

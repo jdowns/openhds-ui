@@ -102,7 +102,7 @@
         "login": "Login",
         "beginBaseline": "Begin Baseline",
         "fieldworkerSelect": "Fieldworker Select",
-        "hierarchySelect": "Location Hierarchy Select",
+        "hierarchySelect": "Region Select",
         "location": "Location",
         "createNew": "Create New",
         "createNewLocation": "Create New Location",
@@ -116,6 +116,7 @@
         "selectedRelationships": "Relationships",
         "selectLocation": "Select Location",
         "selectIndividual": "Select Individual",
+        "selectHierarchy": "Select Region",
         "createNewIndividual": "Create New Individual",
         "assignMembership": "Assign Membership",
         "selectSocialGroup": "Select Social Group",
@@ -134,7 +135,7 @@
     },
     "navigation": {
         "baseline": "Baseline Census",
-        "update": "Update Census",
+        "update": "Update Round",
         "audit": "Entity Audit",
         "logout": "Logout",
         "startLocation": "Location"
@@ -148,7 +149,7 @@
     },
     "buttons": {
         "selectFieldworker": "Select Fieldworker",
-        "selectHierarchy": "Select Hierarchy",
+        "selectHierarchy": "Select Region",
         "selectLocation": "Select Location",
         "selectIndividual": "Select Individual",
         "select": "select",

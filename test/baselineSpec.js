@@ -3,123 +3,27 @@ describe('BaselineController', function() {
     var controller,
         $rootScope,
         $location,
-        $httpBackend,
-        mockLocationService,
-        mockSocialGroupService,
-        mockIndividualService,
-        mockMembershipService,
-        mockRelationshipService;
+        $httpBackend;
+
 
     beforeEach(module('LoginModule'));
     beforeEach(module('BaselineModule'));
     beforeEach(module('openhds'));
     beforeEach(module('smart-table'));
 
-    beforeEach(inject(function(_$controller_, _$httpBackend_,
-                               _$rootScope_, _$location_){
-        mockLocationService = {
-            submit: function(fw, dt, loc) {
-                return {
-                    then: function(callback) {
-                        callback('created a location');
-                    }
-                };
-            },
-            getByHierarchy: function(huid) {
-                return {
-                    then: function(callback) {
-                        callback('got locations');
-                    }
-                };
-            }
-        };
+    beforeEach(inject(function(_$controller_,
+                               _$httpBackend_,
+                               _$rootScope_,
+                               _$location_) {
 
-        mockSocialGroupService = {
-            submit: function(fw, dt, loc) {
-                return {
-                    then: function(callback) {
-                        callback('created a location');
-                    }
-                };
-            },
-            getAllSocialGroups: function() {
-                return {
-                    then: function(callback) {
-                        callback('allSocialGroups');
-                    }
-                };
-            }
-        };
 
-        mockIndividualService = {
-            submit: function(fw, dt, loc) {
-                return {
-                    then: function(callback) {
-                        callback('created a location');
-                    }
-                };
-            },
-            getByHierarchy: function(huid) {
-                return {
-                    then: function(callback) {
-                        callback('got locations');
-                    }
-                };
-            }
-        };
-
-        mockMembershipService = {
-            submit: function(fw, dt, loc) {
-                return {
-                    then: function(callback) {
-                        callback('created a location');
-                    }
-                };
-            }
-        };
-
-        mockRelationshipService = {
-            submitOne: function(fw, dt, loc) {
-                return {
-                    then: function(callback) {
-                        callback('created a relationship');
-                    }
-                };
-            }
-        };
-
-        var mockFieldWorkerService = {
-            getAllFieldWorkers: function() {
-                return {
-                    then: function(callback) {
-                        callback('allFieldWorkers');
-                    }
-                };
-            }
-        };
-
-        var mockLocationHierarchyService = {
-            getLevels: function() {
-                return {
-                    then: function(callback) {
-                        callback({data: 'allLevels'});
-                    }
-                };
-            },
-            locationHierarchies: function() {
-                return {
-                    then: function(callback) {
-                        callback('allHierarchies');
-                    }
-                };
-            }
-        };
-
+        /*
         spyOn(mockLocationService, 'submit').and.callThrough();
         spyOn(mockSocialGroupService, 'submit').and.callThrough();
         spyOn(mockIndividualService, 'submit').and.callThrough();
         spyOn(mockMembershipService, 'submit').and.callThrough();
         spyOn(mockRelationshipService, 'submitOne').and.callThrough();
+
 
         var args = {
             LocationService: mockLocationService,
@@ -130,11 +34,12 @@ describe('BaselineController', function() {
             MembershipService: mockMembershipService,
             RelationshipService: mockRelationshipService
         };
-
+         */
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         $location = _$location_;
-        controller = _$controller_('BaselineController', args);
+        controller = _$controller_('BaselineController');
+        $rootScope.restApiUrl = 'http://example.com';
     }));
 
     afterEach(function() {
@@ -156,7 +61,12 @@ describe('BaselineController', function() {
 
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
-        $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3").respond({content: []});
+        $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3")
+            .respond({content: []});
+        $httpBackend.expectGET("http://example.com/individuals.json?locationHierarchyUuid=3")
+            .respond({content: []});
+        $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3")
+            .respond({content: []});
 
         var hierarchy = {id: 3, title: "foo"};
 
@@ -199,20 +109,29 @@ describe('BaselineController', function() {
 
         $httpBackend.expectGET("http://example.com/projectCodes/bulk.json")
             .respond(['code1', 'code2']);
+        $httpBackend.expectGET("http://example.com/fieldWorkers/bulk.json")
+            .respond([{fieldWorkerId: "fwid"}]);
+        $httpBackend.expectGET("http://example.com/locationHierarchyLevels/bulk.json")
+            .respond([{uuid: "lhl"}]);
+        $httpBackend.expectGET("http://example.com/locationHierarchies/bulk.json")
+            .respond([{uuid: "lh", level: {uuid: "lhl"}}]);
+        $httpBackend.expectGET("http://example.com/locationHierarchyLevels/bulk.json")
+            .respond([{uuid: "lhl"}]);
+        $httpBackend.expectGET("http://example.com/socialGroups/bulk.json")
+            .respond([]);
 
         controller.init();
 
         $httpBackend.flush();
 
-        expect(controller.allFieldWorkers).toEqual('allFieldWorkers');
-        expect(controller.locationHierarchies).toEqual('allHierarchies');
-        expect(controller.allHierarchyLevels).toEqual('allLevels');
-        expect(controller.allSocialGroups).toEqual('allSocialGroups');
-
         delete $;
     });
 
     it('saves location', function() {
+
+        $httpBackend.expectPOST('http://example.com/locations/validateExtId/extId')
+            .respond(true);
+        $httpBackend.expectPOST('http://example.com/locations').respond({});
         var location = {
             name: 'name',
             extId: 'extId',
@@ -223,55 +142,98 @@ describe('BaselineController', function() {
         controller.currentHierarchy = {uuid: 456};
         controller.submitLocation(location);
 
-        expect(mockLocationService.submit).toHaveBeenCalledWith(
-            controller.currentFieldWorker,
-            controller.collectionDateTime,
-            controller.currentHierarchy,
-            location
-        );
+        $httpBackend.flush();
     });
 
-    //  spyOn(mockSocialGroupService, 'submit').and.callThrough();
+    it('sets error message if location extId is invalid', function() {
+
+        $httpBackend.expectPOST('http://example.com/locations/validateExtId/extId')
+            .respond(false);
+        var location = {
+            name: 'name',
+            extId: 'extId',
+            type: 'UNIT TEST'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.currentHierarchy = {uuid: 456};
+        controller.submitLocation(location);
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({statusText: 'Invalid external ID'});
+    });
 
     it('saves social group', function() {
+
+        $httpBackend.expectPOST('http://example.com/socialGroups/validateExtId/extId')
+            .respond(true);
+        $httpBackend.expectPOST('http://example.com/socialGroups').respond({});
         var socialGroup = {
-            groupName: 'name',
+            name: 'name',
             extId: 'extId',
-            groupType: 'UNIT TEST'
+            type: 'UNIT TEST'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.currentHierarchy = {uuid: 456};
+        controller.submitSocialGroup(socialGroup);
+
+        $httpBackend.flush();
+    });
+
+    it('sets error message if social group extId is invalid', function() {
+
+        $httpBackend.expectPOST('http://example.com/socialGroups/validateExtId/extId')
+            .respond(false);
+        var socialGroup = {
+            name: 'name',
+            extId: 'extId',
+            type: 'UNIT TEST'
         };
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = 'nowish';
         controller.submitSocialGroup(socialGroup);
 
-        expect(mockSocialGroupService.submit).toHaveBeenCalledWith(
-            controller.currentFieldWorker,
-            controller.collectionDateTime,
-            socialGroup
-        );
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({statusText: 'Invalid external ID'});
     });
 
 
     it('saves individual', function() {
+        $httpBackend.expectPOST('http://example.com/individuals/validateExtId/extId')
+            .respond(true);
+        $httpBackend.expectPOST('http://example.com/individuals').respond({});
         var individual = {
-            firstName: 'first',
-            lastName: 'last',
-            extId: 'extId',
-            dateOfBirth: 'nowish',
-            gender: 'male'
+            name: 'name',
+            extId: 'extId'
         };
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = 'nowish';
         controller.submitIndividual(individual);
 
-        expect(mockIndividualService.submit).toHaveBeenCalledWith(
-            controller.currentFieldWorker,
-            controller.collectionDateTime,
-            individual
-        );
+        $httpBackend.flush();
     });
 
+    it('sets error message if individual extId is invalid', function() {
+        $httpBackend.expectPOST('http://example.com/individuals/validateExtId/extId')
+            .respond(false);
+        var individual = {
+            name: 'name',
+            extId: 'extId'
+        };
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = 'nowish';
+        controller.submitIndividual(individual);
+
+        $httpBackend.flush();
+
+        expect(controller.errorMessage).toEqual({statusText: 'Invalid external ID'});
+    });
 
     it('saves membership', function() {
+        $httpBackend.expectPOST('http://example.com/memberships').respond({uuid: 1});
         var membership = {
             individual: 'indB',
             socialGroup: 'grp',
@@ -282,14 +244,13 @@ describe('BaselineController', function() {
         controller.collectionDateTime = 'nowish';
         controller.submitMembership(membership);
 
-        expect(mockMembershipService.submit).toHaveBeenCalledWith(
-            controller.currentFieldWorker,
-            controller.collectionDateTime,
-            membership
-        );
+        $httpBackend.flush();
     });
 
     it('saves relationship', function() {
+
+        $httpBackend.expectPOST('http://example.com/relationships').respond([{uuid: 1}]);
+
         var relationship = {
             individualA: 'indA',
             individualB: 'indB',
@@ -300,11 +261,7 @@ describe('BaselineController', function() {
         controller.collectionDateTime = 'nowish';
         controller.submitRelationship(relationship);
 
-        expect(mockRelationshipService.submitOne).toHaveBeenCalledWith(
-            controller.currentFieldWorker,
-            controller.collectionDateTime,
-            relationship
-        );
+        $httpBackend.flush();
     });
 
     it('Allows a location to be selected', function() {
@@ -342,5 +299,68 @@ describe('BaselineController', function() {
     it('sets error message', function() {
         controller.errorHandler('oops');
         expect(controller.errorMessage).toEqual('oops');
-    })
+    });
+
+    it('gets location extId', function() {
+        $httpBackend.expectPOST('http://example.com/locations/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('Location');
+
+        $httpBackend.flush();
+
+        expect(controller.location.extId).toEqual('generatedId');
+    });
+
+    it('gets location extId', function() {
+        controller.location = {};
+        $httpBackend.expectPOST('http://example.com/locations/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('Location');
+
+        $httpBackend.flush();
+
+        expect(controller.location.extId).toEqual('generatedId');
+    });
+
+    it('gets individual extId', function() {
+        $httpBackend.expectPOST('http://example.com/individuals/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('Individual');
+
+        $httpBackend.flush();
+
+        expect(controller.individual.extId).toEqual('generatedId');
+    });
+
+    it('gets individual extId', function() {
+        controller.individual = {};
+        $httpBackend.expectPOST('http://example.com/individuals/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('Individual');
+
+        $httpBackend.flush();
+
+        expect(controller.individual.extId).toEqual('generatedId');
+    });
+
+    it('gets socialgroup extId', function() {
+        $httpBackend.expectPOST('http://example.com/socialGroups/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('SocialGroup');
+
+        $httpBackend.flush();
+
+        expect(controller.socialGroup.extId).toEqual('generatedId');
+    });
+
+    it('gets individual extId', function() {
+        controller.socialGroup = {};
+        $httpBackend.expectPOST('http://example.com/socialGroups/generateExtId')
+            .respond("generatedId");
+        controller.getExtId('SocialGroup');
+
+        $httpBackend.flush();
+
+        expect(controller.socialGroup.extId).toEqual('generatedId');
+    });
 });

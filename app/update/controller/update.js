@@ -73,8 +73,8 @@ function UpdateController($rootScope,
     vm.submitVisit = function() {
         VisitService.getExtId().then(function(response) {
             vm.visit = vm.visit || {};
-            vm.visit.extId = response.data;
-            VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
+            var extId = response.data;
+            VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit, extId)
                 .then(function(response) {
                     vm.currentVisit = response.data;
                 }, errorHandler);

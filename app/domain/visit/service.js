@@ -13,7 +13,7 @@ function VisitService(EntityService) {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
-                extId: model.extId,
+                extId: model.entity.extId,
                 visitDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }
@@ -55,7 +55,8 @@ function VisitService(EntityService) {
         return EntityService.getByAfterDate(urlBase, Response, visitDate);
     };
 
-    service.submit = function(fieldWorker, collectionDate, location, event) {
+    service.submit = function(fieldWorker, collectionDate, location, event, extId) {
+        event.extId = extId;
         var model = {
             fieldWorker: fieldWorker,
             collectionDate: collectionDate,

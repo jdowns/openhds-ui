@@ -99,48 +99,68 @@ function UpdateController($rootScope,
         vm.currentInMigration = null;
     };
 
-    vm.submitOutMigration = function(event) {
-        var individual = vm.currentIndividual;
+
+    function headOfHouseholdMigration(individual, callback) {
 
         MembershipService.getMembershipsByIndividual(individual.uuid)
             .then(function(response) {
-                console.log("membership type")
-                console.log(response.data)
-                if (response.data.startType === 'SELF') {
-                    // TODO: handle head of household logic
+
+                var headMemberships = [];
+                console.log(response);
+                if (response.length > 0) {
+                    var memberships = response;
+                    var headOfHouseholdValue = "SELF"; // TODO: this should check for a value based on project codes, but this handles the common case
+
+                    headMemberships = memberships.filter(function(m) {
+                        return m.startType === headOfHouseholdValue;
+                    });
                 }
-                OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
-                                   vm.currentVisit, individual, vm.currentResidency, event)
-                    .then(function(response) {
-                        var event = {
-                            uuid: response.data.uuid,
-                            individual: individual,
-                            eventType: "outMigration"
-                        };
-                        vm.submittedEvents.push(event);
-                    }, errorHandler);
-                vm.currentOutMigration = null;
+
+                callback();
+                if (headMemberships.length > 0) {
+                    console.log('Please create a new social group for the remaining members of ' + headMembships[0].socialGroup.uuid + ' and choose a new head');
+                }
             });
+    }
+
+    function handleEventSubmit(eventName, individual) {
+        return function(response) {
+            var event = {
+                uuid: response.data.uuid,
+                individual: individual,
+                eventType: eventName
+            };
+            vm.submittedEvents.push(event);
+        };
+    }
+
+    vm.submitOutMigration = function(event) {
+        var individual = vm.currentIndividual,
+            fieldWorker = vm.currentFieldWorker,
+            visitDate = vm.currentVisit.visitDate,
+            visit = vm.currentVisit,
+            residency = vm.currentResidency;
+
+        headOfHouseholdMigration(individual,
+                                 function() {
+                                     OutMigrationService.submit(fieldWorker, visitDate, visit, individual, residency, event)
+                                         .then(handleEventSubmit('outMigration', individual), errorHandler);
+                                     vm.currentOutMigration = null;
+                                 });
     };
 
     vm.submitDeath = function(event) {
-        // TODO: check for head of household and update if necessary
-        MembershipService.getMembershipsByIndividual(individual.uuid)
-            .then(function(response) {
-                if (response.data.startType === 'SELF') {
-                    //TODO: handle head of household logic
-                }
-                DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
-                    .then(function(response) {
-                        var event = {
-                            uuid: response.data.uuid,
-                            individual: vm.currentIndividual,
-                            eventType: "death"
-                        };
-                        vm.submittedEvents.push(event);
-                    }, errorHandler);
-                vm.currentDeath = null;
-            });
+        var individual = vm.currentIndividual,
+            fieldWorker = vm.currentFieldWorker,
+            collectionDate = vm.collectionDateTime,
+            visit = vm.currentVisit;
+
+        headOfHouseholdMigration(individual,
+                                 function() {
+                                     DeathService.submit(fieldWorker, collectionDate, visit, individual, event)
+                                         .then(handleEventSubmit('death', individual), errorHandler);
+                                     vm.currentDeath = null;
+                                 });
     };
 
     vm.submitPregnancyObservation = function(event) {
@@ -238,7 +258,6 @@ function UpdateController($rootScope,
         vm.selectedLocation = null;
         vm.selectedIndividual = null;
         $('#updateTab').tab('show');
-
 
     };
 

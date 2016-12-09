@@ -64,7 +64,6 @@ function UpdateController($rootScope,
         if (vm.currentPregnancyOutcome === null) {
             vm.currentPregnancyOutcome = {father: row};
         } else {
-
             vm.currentPregnancyOutcome.father = row;
         }
         console.log(vm.currentPregnancyOutcome);
@@ -98,7 +97,6 @@ function UpdateController($rootScope,
             }, errorHandler);
         vm.currentInMigration = null;
     };
-
 
     function headOfHouseholdMigration(individual, callback) {
 

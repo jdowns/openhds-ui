@@ -59,6 +59,8 @@ describe('UpdateController', function() {
     });
 
     it('submitOutMigration sets currentOutMigration', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=3456')
+            .respond([]);
         $httpBackend.expectPOST('http://example.com/outMigrations', {
                 "collectedByUuid":123,
                 "visitUuid":234,
@@ -82,6 +84,8 @@ describe('UpdateController', function() {
     });
 
     it('submitDeath sets currentDeath', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=789')
+            .respond([]);
         $httpBackend.expectPOST("http://example.com/deaths", {
             "collectedByUuid":123,
             "visitUuid":456,
@@ -350,6 +354,7 @@ describe('UpdateController', function() {
             "collectedByUuid":123,
             "locationUuid":456,
             "visit":{
+                "extId": "extId",
                 "visitDate":"then",
                 "collectionDateTime": "then"
             }

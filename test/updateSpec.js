@@ -83,6 +83,37 @@ describe('UpdateController', function() {
         expect(controller.currentOutMigration).toBeNull();
     });
 
+    it('submitOutMigration checks for head of household', function() {
+        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=3456')
+            .respond([{uuid: "foo",
+                       startType: "SELF",
+                       individual: {uuid: 3456},
+                       socialGroup: {uuid: 4567}}]);
+        $httpBackend.expectPOST('http://example.com/outMigrations', {
+                "collectedByUuid":123,
+                "visitUuid":234,
+                "individualUuid":3456,
+                "residencyUuid":456,
+                "outMigration":{"collectionDateTime":"sometime"}
+        }).respond({uuid: "xyz123"});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = "then";
+        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
+        controller.currentIndividual = {uuid: 3456};
+        controller.currentResidency = {uuid: 456};
+        controller.submitOutMigration({uuid: "foo"});
+
+        $httpBackend.flush();
+
+        expect(controller.submittedEvents).toEqual([{uuid: "xyz123",
+                                                     individual: {uuid: 3456},
+                                                     eventType: "outMigration"}]);
+        expect(controller.currentOutMigration).toBeNull();
+    });
+
+
+
     it('submitDeath sets currentDeath', function() {
         $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=789')
             .respond([]);

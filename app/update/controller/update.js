@@ -58,6 +58,7 @@ function UpdateController($rootScope,
     vm.visitDate = null;
     vm.currentFieldWorker = null;
     vm.currentHierarchy = null;
+    vm.visit = {};
 
 
     vm.setFather = function(row) {
@@ -71,16 +72,12 @@ function UpdateController($rootScope,
 
     vm.submitVisit = function() {
         VisitService.getExtId().then(function(response) {
-            vm.visit = vm.visit || {};
             var extId = response.data;
             VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit, extId)
                 .then(function(response) {
                     vm.currentVisit = response.data;
                 }, errorHandler);
             $('#eventTab').tab('show');
-        }, function(response) {
-            console.log("Error getting extId");
-            console.log(response);
         });
     };
 
@@ -104,7 +101,6 @@ function UpdateController($rootScope,
             .then(function(response) {
 
                 var headMemberships = [];
-                console.log(response);
                 if (response.length > 0) {
                     var memberships = response;
                     var headOfHouseholdValue = "SELF"; // TODO: this should check for a value based on project codes, but this handles the common case
@@ -116,7 +112,7 @@ function UpdateController($rootScope,
 
                 callback();
                 if (headMemberships.length > 0) {
-                    console.log('Please create a new social group for the remaining members of ' + headMembships[0].socialGroup.uuid + ' and choose a new head');
+                    console.log('Please create a new social group for the remaining members of ' + headMemberships[0].socialGroup.uuid + ' and choose a new head');
                 }
             });
     }

@@ -113,9 +113,34 @@ function UpdateController($rootScope,
                 callback();
                 if (headMemberships.length > 0) {
                     console.log('Please create a new social group for the remaining members of ' + headMemberships[0].socialGroup.uuid + ' and choose a new head');
+
+                    var groupId = headMemberships[0].socialGroup.uuid;
+
+                    IndividualService.getBySocialGroup(groupId)
+                        .then(function(response) {
+                            vm.individualsToUpdate(response.data);
+
+                            $('#updateHeadOfHouseholdModal').modal('show');
+
+                            // get individuals in social group
+                            // choose new head
+                            // choose relationship to head
+                            // create new group
+                            // cancel old memberships
+
+                        });
                 }
             });
     }
+
+    vm.submitNewHeadOfHousehold = function(socialGroup, individuals) {
+
+    };
+
+    vm.showUpdateHohModal = function() {
+        console.log('show modal')
+        $('#updateHeadOfHouseholdModal').modal('show');
+    };
 
     function handleEventSubmit(eventName, individual) {
         return function(response) {
@@ -242,7 +267,7 @@ function UpdateController($rootScope,
     };
 
 
-    vm.finishVisit = function(){
+    vm.finishVisit = function() {
 
         vm.submittedVisits.push(vm.currentVisit);
         vm.currentVisit = null;

@@ -149,8 +149,6 @@ function EntityService($rootScope, $http, $q) {
     service.submit = function (urlBase, requestClass, model) {
         var url = $rootScope.restApiUrl + urlBase;
         var request = requestClass(model);
-        console.log('?!?!?!?!')
-        console.log(request)
         return $http.post(url, request, service.getHeaders());
     };
 

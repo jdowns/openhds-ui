@@ -542,7 +542,7 @@ describe('UpdateController', function() {
 
     it('does nothing if current event type is unknown', function() {
         controller.currentEventType = "foo";
-        controller.currentPregnancyOutcome = {}
+        controller.currentPregnancyOutcome = {};
         controller.chooseIndividual();
         expect(controller.currentPregnancyOutcome.father).toBeUndefined();
         expect(controller.individual).toBeUndefined();
@@ -551,6 +551,6 @@ describe('UpdateController', function() {
     it('sets error message', function() {
         controller.errorHandler('oops');
         expect(controller.errorMessage).toEqual('oops');
-    })
+    });
 
 });

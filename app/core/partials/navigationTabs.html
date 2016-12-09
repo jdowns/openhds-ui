@@ -1,6 +1,10 @@
-<div> <a ng-i18next="[html]navigation.baseline" id="baseline_link" class="btn" href="/#/baseline"></a> </div>
-<div> <a ng-i18next="[html]navigation.update" id="update_link" class="btn" href="/#/update"></a> </div>
-<div ng-if="userRole === 'data-manager' || userRole === 'root-role'"> <a ng-i18next="[html]navigation.audit" id="audit_link" class="btn" href="/#/audit"></a> </div>
+<div>
+  <a ng-i18next="[html]navigation.baseline"
+     id="baseline_link"
+     class="btn"
+     href="/#!/baseline"></a> </div>
+<div> <a ng-i18next="[html]navigation.update" id="update_link" class="btn" href="/#!/update"></a> </div>
+<div ng-if="userRole === 'data-manager' || userRole === 'root-role'"> <a ng-i18next="[html]navigation.audit" id="audit_link" class="btn" href="/#!/audit"></a> </div>
 <div> <a ng-i18next="[html]navigation.logout" id="logout_link" class="btn" href="/#/"></a> </div>
 
 <hr />

@@ -72,12 +72,16 @@ function UpdateController($rootScope,
 
     vm.submitVisit = function() {
         VisitService.getExtId().then(function(response) {
+            vm.visit = vm.visit || {};
             vm.visit.extId = response.data;
             VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
                 .then(function(response) {
                     vm.currentVisit = response.data;
                 }, errorHandler);
             $('#eventTab').tab('show');
+        }, function(response) {
+            console.log("Error getting extId");
+            console.log(response);
         });
     };
 

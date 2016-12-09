@@ -18,7 +18,19 @@ angular.module('UpdateModule', ['ui.tree'])
                  'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
-                 UpdateController ]);
+                 UpdateController])
+    .controller('FooCtrl', [FooCtrl]);
+
+function FooCtrl() {
+    var vm = this;
+
+    vm.foo = function() {
+        console.log('oh hai!')
+    }
+
+    return vm;
+}
+
 
 
 function UpdateController($rootScope,
@@ -40,7 +52,7 @@ function UpdateController($rootScope,
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
-
+    vm.foo = function() {console.log('oh no')};
     vm.selectedHierarchy = [];
 
     vm.selectedLocation = null;

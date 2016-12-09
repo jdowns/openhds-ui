@@ -99,31 +99,48 @@ function UpdateController($rootScope,
         vm.currentInMigration = null;
     };
 
-    vm.submitOutMigration = function(event){
-        OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
-            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
+    vm.submitOutMigration = function(event) {
+        var individual = vm.currentIndividual;
+
+        MembershipService.getMembershipsByIndividual(individual.uuid)
             .then(function(response) {
-                var event = {
-                    uuid: response.data.uuid,
-                    individual: vm.currentIndividual,
-                    eventType: "outMigration"
-                };
-                vm.submittedEvents.push(event);
-            }, errorHandler);
-        vm.currentOutMigration = null;
+                console.log("membership type")
+                console.log(response.data)
+                if (response.data.startType === 'SELF') {
+                    // TODO: handle head of household logic
+                }
+                OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
+                                   vm.currentVisit, individual, vm.currentResidency, event)
+                    .then(function(response) {
+                        var event = {
+                            uuid: response.data.uuid,
+                            individual: individual,
+                            eventType: "outMigration"
+                        };
+                        vm.submittedEvents.push(event);
+                    }, errorHandler);
+                vm.currentOutMigration = null;
+            });
     };
 
     vm.submitDeath = function(event) {
-        DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+        // TODO: check for head of household and update if necessary
+        MembershipService.getMembershipsByIndividual(individual.uuid)
             .then(function(response) {
-                var event = {
-                    uuid: response.data.uuid,
-                    individual: vm.currentIndividual,
-                    eventType: "death"
-                };
-                vm.submittedEvents.push(event);
-            }, errorHandler);
-        vm.currentDeath = null;
+                if (response.data.startType === 'SELF') {
+                    //TODO: handle head of household logic
+                }
+                DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
+                    .then(function(response) {
+                        var event = {
+                            uuid: response.data.uuid,
+                            individual: vm.currentIndividual,
+                            eventType: "death"
+                        };
+                        vm.submittedEvents.push(event);
+                    }, errorHandler);
+                vm.currentDeath = null;
+            });
     };
 
     vm.submitPregnancyObservation = function(event) {
@@ -194,7 +211,6 @@ function UpdateController($rootScope,
                                  vm.currentVisit.visitDate,
                                  indiv)
             .then(function(response) {
-                console.log(response.data);
                 vm.currentIndividual = response.data;
             });
     };

@@ -20,7 +20,6 @@ function VisitService(EntityService) {
         };
     }
 
-
     function Response(entity) {
         return {
             uuid: entity.uuid,

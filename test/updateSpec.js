@@ -259,17 +259,6 @@ describe('UpdateController', function() {
     });
 
 
-    it('does not set individuals and location if location not found', function() {
-        $httpBackend.expectGET("http://example.com/individuals/findByLocation/?locationUuid=1").respond(404);
-        controller.allResidencies = [{uuid: 1, name: "test residency",
-                                      location: {uuid: 1}}];
-
-        controller.setLocation({uuid: 1});
-        $httpBackend.flush();
-
-        expect(controller.allIndividuals).toBeUndefined();
-    });
-
     it('Available hierarchies returns list of hierarchies', function() {
         controller.selectedHierarchy = [0, 1];
         controller.locationHierarchies = {
@@ -355,11 +344,12 @@ describe('UpdateController', function() {
             };
         };
 
+        $httpBackend.expectPOST('http://example.com/visits/generateExtId')
+            .respond("extId");
         $httpBackend.expectPOST("http://example.com/visits", {
             "collectedByUuid":123,
             "locationUuid":456,
             "visit":{
-                "extId":"locId-fwId-then",
                 "visitDate":"then",
                 "collectionDateTime": "then"
             }

@@ -7,44 +7,38 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Edit Individual</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editIndividual' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
-                <div class="form-group">
-                    <label for="uuid">UUID</label>
-                    <input type="text" class="form-control" id="uuid" ng-model="model.tempIndiv.uuid" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="extId">External ID</label>
-                    <input type="text" class="form-control" id="extId" ng-model="model.tempIndiv.extId" readonly>
-                </div>
+                <fieldset>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempIndiv.uuid"></constbox>
+                    <br/><br/>
 
-                <div class="form-group">
-                    <label for="entityStatus">Entity Status</label>
-                    <input type="text" class="form-control" id="entityStatus" ng-model="model.tempIndiv.entityStatus">
-                </div>
+                    <constbox i18next="[html]labels.externalId" id="extId" ng-model="model.tempIndiv.extId"></constbox>
+                    <br/><br/>
 
-                <div class="form-group">
-                    <label for="firstname">First Name</label>
-                    <input type="text" class="form-control" id="firstName" ng-model="model.tempIndiv.firstName">
-                </div>
-                <div class="form-group">
-                    <label for="lastname">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" ng-model="model.tempIndiv.lastName">
-                </div>
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <input type="text" class="form-control" id="gender" ng-model="model.tempIndiv.gender">
-                </div>
+                    <textbox i18next="[html]labels.status" id="status" ng-model="model.tempIndiv.entityStatus"></textbox>
+                    <br/><br/>
 
+                    <textbox i18next="[html]labels.firstName" id="name" ng-model="model.tempIndiv.firstName"></textbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.lastName" id="name" ng-model="model.tempIndiv.lastName"></textbox>
+                    <br/><br/>
+
+                    <selectbox i18next="[html]labels.gender"
+                               id="type"
+                               ng-model="model.tempIndiv.gender">
+                        <option ng-if="code.codeGroup === 'gender'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
 
 
-                <div>
-                    <pre>toSubmit: {{model.toSubmit | json}}</pre>
-                </div>
-
-
+                </fieldset>
 
 
 
@@ -55,21 +49,18 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
 
 
-                <button class="btn" ng-click="model.setTemp('tempIndiv')">
-                    Reset
+                <button class="btn" ng-click="model.setTemp('tempLoc')">
+                    {{ 'buttons.reset' | i18next }}
                 </button>
-                <button class="btn" ng-click="model.saveIndividual()">
-                    Save
-                </button>
+
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        aria-label="Close" ng-click="model.submitIndividual()">
-                    Update Individual
+                        aria-label="Close" ng-click="model.submitEdited('individual')">
+                    {{ 'buttons.submit' | i18next }}
                 </button>
-
 
 
             </div>

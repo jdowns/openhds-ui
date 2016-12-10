@@ -78,6 +78,10 @@ function IndividualService(EntityService) {
             });
     };
 
+    service.submitEdited = function(individual) {
+        return EntityService.submitEdited(urlBase, individual);
+    };
+
     service.getExtId = function() {
         var data = {};
         return EntityService.getExtId(urlBase, 'Individual', data);

@@ -1,41 +1,37 @@
 
-<!-- Edit Location modal -->
-<div class="modal fade" id="editLocationModal" tabindex="-1" role="dialog">
+<!-- Edit InMigration modal -->
+<div class="modal fade" id="editInMigrationModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editLocation' | i18next }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editInMigration' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
                 <fieldset>
-                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempLoc.uuid"></constbox>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempInMig.uuid"></constbox>
                     <br/><br/>
 
-                    <constbox i18next="[html]labels.externalId" id="extId" ng-model="model.tempLoc.extId"></constbox>
+                    <textbox i18next="[html]labels.origin" id="origin" ng-model="model.tempInMig.origin"></textbox>
                     <br/><br/>
 
-                    <textbox i18next="[html]labels.status" id="status" ng-model="model.tempLoc.entityStatus"></textbox>
+                    <textbox i18next="[html]labels.reason" id="reason" ng-model="model.tempInMig.reason"></textbox>
                     <br/><br/>
 
-                    <textbox i18next="[html]labels.locationName" id="name" ng-model="model.tempLoc.name"></textbox>
-                    <br/><br/>
 
                     <selectbox i18next="[html]labels.type"
                                id="type"
-                               ng-model="model.tempLoc.type">
-                        <option ng-if="code.codeGroup === 'locationType'"
+                               ng-model="model.tempInMig.migrationType">
+                        <option ng-if="code.codeGroup === 'migrationType'"
                                 ng-repeat="code in model.codes"
                                 value="{{code.codeValue}}">{{code.codeName}}
                         </option>
                     </selectbox>
                     <br/><br/>
 
-                    <textbox i18next="[html]labels.description" id="name" ng-model="model.tempLoc.description"></textbox>
-                    <br/><br/>
 
                 </fieldset>
 
@@ -53,7 +49,7 @@
                 </button>
 
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        aria-label="Close" ng-click="model.submitEdited('location')">
+                        aria-label="Close" ng-click="model.submitEdited('inMigration')">
                     {{ 'buttons.submit' | i18next }}
                 </button>
 

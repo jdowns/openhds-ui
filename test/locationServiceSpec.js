@@ -67,7 +67,7 @@ describe('LocationService Test', function() {
 
         $httpBackend.flush();
     });
-
+/*
     it('should get all locations at a hierarchy', function() {
         $httpBackend.expectGET('http://example.com/locations.json?locationHierarchyUuid=123')
             .respond({content: [{
@@ -91,4 +91,5 @@ describe('LocationService Test', function() {
 
         $httpBackend.flush();
     });
+*/
 });

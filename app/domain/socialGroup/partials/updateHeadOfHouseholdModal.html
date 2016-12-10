@@ -1,0 +1,63 @@
+<!-- social group select modal -->
+<div class="modal fade" id="updateHeadOfHouseholdModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title">{{ 'legends.createSocialGroup' | i18next }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <fieldset>
+                    <textbox i18next="[html]labels.groupName" id="groupName"
+                             ng-model="model.hohGroupUpdate.newGroupName"></textbox>
+                    <br /><br />
+                    <extidbox i18next="[html]labels.externalId" id="socialGroupExtId"
+                             ng-model="model.hohGroupUpdate.newGroupId"></extidbox>
+                    <br /><br />
+
+
+                    <selectbox i18next="[html]labels.groupType" id="groupType"
+                               ng-model="model.hohGroupUpdate.newGroupType">
+                        <option ng-if="code.codeGroup === 'socialGroupType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">
+                            {{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br>
+
+                    <div>
+                      <hr />
+                      <h5>{{ 'labels.startType' | i18next }}</h5>
+                      <hr />
+                      <div ng-repeat="individual in model.hohGroupUpdate.individualsToUpdate"
+                           ng-if="individual.uuid !== model.hohGroupUpdate.oldHead">
+                          <selectbox label="{{individual.extId}}" id="{{individual.extId}}-relToHead"
+                                     ng-model="model.hohGroupUpdate.newGroup[individual.uuid]">
+                            <option ng-if="code.codeGroup === 'membershipType'"
+                                    ng-repeat="code in model.codes"
+                                    value="{{code.codeValue}}">
+                              {{code.codeName}}
+                            </option>
+                          </selectbox>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    {{ 'buttons.cancel' | i18next }}
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    id="submitSocialGroup" ng-click="model.submitNewHeadOfHousehold(model.hohGroupUpdate)">
+                    {{ 'buttons.create' | i18next }}
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

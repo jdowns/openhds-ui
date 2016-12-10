@@ -18,8 +18,8 @@ angular.module('UpdateModule', ['ui.tree'])
                  'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
-                 UpdateController ]);
-
+                 'SocialGroupService',
+                 UpdateController]);
 
 function UpdateController($rootScope,
                           $http,
@@ -36,7 +36,8 @@ function UpdateController($rootScope,
                           OutMigrationService,
                           PregnancyObservationService,
                           PregnancyOutcomeService,
-                          PregnancyResultService) {
+                          PregnancyResultService,
+                          SocialGroupService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -122,30 +123,72 @@ function UpdateController($rootScope,
                     console.log('Please create a new social group for the remaining members of ' + headMemberships[0].socialGroup.uuid + ' and choose a new head');
 
                     var groupId = headMemberships[0].socialGroup.uuid;
+                    vm.hohGroupUpdate = {
+                        individualsToUpdate: [],
+                        oldGroup: groupId,
+                        oldHead: headMemberships[0].individual.uuid,
+                        newGroup: {},
+                        newGroupId: "",
+                        newGroupName: "",
+                        newGroupType: ""
+                    };
+
+                    SocialGroupService.getExtId().then(function(response) {
+                        vm.hohGroupUpdate.newGroupId = response.data;
+                    });
 
                     IndividualService.getBySocialGroup(groupId)
                         .then(function(response) {
-                            vm.individualsToUpdate(response.data);
+                            vm.hohGroupUpdate.individualsToUpdate = response;
 
                             $('#updateHeadOfHouseholdModal').modal('show');
-
-                            // get individuals in social group
-                            // choose new head
-                            // choose relationship to head
-                            // create new group
-                            // cancel old memberships
 
                         });
                 }
             });
     }
 
-    vm.submitNewHeadOfHousehold = function(socialGroup, individuals) {
+    vm.submitNewHeadOfHousehold = function(update) {
+        var startDate = vm.currentVisit.visitDate;
+        var fieldWorker = vm.currentFieldWorker;
+        var newGroup = {
+            groupName: update.newGroupName,
+            extId: update.newGroupId,
+            groupType: update.newGroupType,
+            collectionDateTime: startDate
+        };
 
+        SocialGroupService.submit(fieldWorker, startDate, newGroup).then(function(response) {
+            var groupId = response.data.uuid;
+
+            // TODO: cancel old memberships
+            // SocialGroupService.endMemberships(groupId);
+            update.individualsToUpdate.map(function(individual) {
+                if (!update.newGroup[individual.uuid]) {
+                    return null; // skip old head
+                }
+                var membership = {
+                    individual: {uuid: individual.uuid},
+                    socialGroup: {uuid: groupId},
+                    startType: update.newGroup[individual.uuid],
+                    startDate: startDate
+                };
+
+                console.log('Submitting memberships for')
+                console.log(individual)
+                console.log(membership)
+                console.log('*****')
+
+                MembershipService.submit(fieldWorker, startDate, membership)
+                    .then(function(response) {
+                        console.log('Membership create response');
+                        console.log(response);
+                    }, errorHandler);
+            });
+        });
     };
 
     vm.showUpdateHohModal = function() {
-        console.log('show modal')
         $('#updateHeadOfHouseholdModal').modal('show');
     };
 
@@ -314,12 +357,11 @@ function UpdateController($rootScope,
 
 
     vm.saveLocationHierarchy = function(hierarchy) {
-        console.log(hierarchy);
+
         vm.currentHierarchy = {
             uuid: hierarchy.id,
             extId: hierarchy.title
         };
-
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 vm.allLocations = response;
@@ -342,6 +384,10 @@ function UpdateController($rootScope,
 
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
+    };
+
+    vm.showCollection = function() {
+        console.log(vm.individualDisplayCollection);
     };
 
     vm.setLocation = function(row) {

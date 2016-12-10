@@ -141,7 +141,7 @@ function selectbox() {
             modelKey: '=ngModel'
         },
         template: '<div class="form-group">' +
-            '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}"></label>' +
+            '<label ng-i18next="{{i18next}}" class="col-md-4 control-label" for="{{id}}">{{label}}</label>' +
             '<div class="col-md-4">' +
             '<select required ng-transclude id="{{id}}_select" ng-model=modelKey ng-required="true" class="form-control">' +
             '</select>' +

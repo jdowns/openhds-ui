@@ -16,17 +16,17 @@ function EntityService($rootScope, $http, $q) {
     };
 
     service.getByHierarchy = function(urlBase, responseClass, uuid) {
-        var url = $rootScope.restApiUrl + urlBase + '.json?locationHierarchyUuid=' + uuid;
-
+        var url = $rootScope.restApiUrl + urlBase + '/bulk.json?locationHierarchyUuid=' + uuid;
         var responsePromise = $http.get(url, service.getHeaders());
 
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    var entities = response.data.content.map(responseClass);
+                    var entities = response.data.map(responseClass);
                     resolve(entities);
-                }
-            );
+                }).catch(function(response) {
+                    console.log(response);
+                });
         });
     };
 

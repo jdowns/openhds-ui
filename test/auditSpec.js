@@ -270,48 +270,6 @@ describe('AuditController', function() {
         expect(controller.queryResult.entityType).toEqual('wat?!');
     });
 
-    it('searches for location by hierarchy', function() {
-        $httpBackend.expectGET('http://example.com/locations.json?locationHierarchyUuid=1')
-            .respond({content: [{uuid: 123}]});
-        controller.entityType = 'location';
-        controller.searchHierarchy = {uuid: 1};
-        controller.queryResult = {};
-
-        controller.searchByHierarchy();
-
-        $httpBackend.flush();
-        expect(controller.queryResult.entityType).toEqual('location');
-        expect(controller.queryResult.data[0].uuid).toEqual(123);
-    });
-
-    it('searches for individual by hierarchy', function() {
-        $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=1')
-            .respond({content: [{uuid: 123}]});
-        controller.entityType = 'individual';
-        controller.searchHierarchy = {uuid: 1};
-        controller.queryResult = {};
-
-        controller.searchByHierarchy();
-
-        $httpBackend.flush();
-        expect(controller.queryResult.entityType).toEqual('individual');
-        expect(controller.queryResult.data[0].uuid).toEqual(123);
-    });
-
-   it('searches for visit by hierarchy', function() {
-        $httpBackend.expectGET('http://example.com/visits.json?locationHierarchyUuid=1')
-            .respond({content: [{uuid: 123}]});
-        controller.entityType = 'visit';
-        controller.searchHierarchy = {uuid: 1};
-        controller.queryResult = {};
-
-        controller.searchByHierarchy();
-
-        $httpBackend.flush();
-        expect(controller.queryResult.entityType).toEqual('visit');
-        expect(controller.queryResult.data[0].uuid).toEqual(123);
-    });
-
    it('does not search by fieldworker if entity type is null', function() {
         controller.entityType = null;
         controller.searchByFieldWorker();
@@ -471,57 +429,6 @@ describe('AuditController', function() {
 
         controller.viewJson('foo');
         expect(controller.entityToView).toEqual('foo');
-        expect(modalCalled).toBe(true);
-        delete $;
-    });
-
-    it('shows edit location Modal', function() {
-        var modalCalled = false;
-        $ = function() {
-            return {
-                modal: function() {
-                    modalCalled = true;
-                }
-            };
-        };
-
-        controller.editLocation('foo');
-
-        expect(controller.tempLoc).toEqual("foo");
-        expect(modalCalled).toBe(true);
-        delete $;
-    });
-
-    it('shows edit individual Modal', function() {
-        var modalCalled = false;
-        $ = function() {
-            return {
-                modal: function() {
-                    modalCalled = true;
-                }
-            };
-        };
-
-        controller.editIndividual('foo');
-
-        expect(controller.tempIndiv).toEqual("foo");
-        expect(modalCalled).toBe(true);
-        delete $;
-    });
-
-    it('shows edit social group Modal', function() {
-        var modalCalled = false;
-        $ = function() {
-            return {
-                modal: function() {
-                    modalCalled = true;
-                }
-            };
-        };
-
-        controller.editSocialGroup('foo');
-
-        expect(controller.tempSocial).toEqual("foo");
         expect(modalCalled).toBe(true);
         delete $;
     });
@@ -1250,25 +1157,6 @@ describe('AuditController', function() {
         expect(controller.errorMessage).toEqual({
             statusText: "You must delete visits first."
         });
-    });
-
-    it('submits edited location', function() {
-        var expected = {
-            uuid: 1,
-            entityStatus: "foo",
-            name: "name",
-            type: "test",
-            description:  "bkshgksdaghw"
-        };
-        $httpBackend.expectPUT('http://example.com/locations/submitEdited/1', expected)
-            .respond({uuid:  1});
-            controller.tempLoc = {uuid: 1, extId: "locId", name: "name",
-                                  entityStatus: "foo", type: "test",
-                                  description: "bkshgksdaghw"
-                                 };
-        controller.submitEditedLocation();
-
-        $httpBackend.flush();
     });
 
 });

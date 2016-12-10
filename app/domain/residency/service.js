@@ -77,6 +77,8 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
             collectionDate: collectionDate,
             entity: entity
         };
+        console.log('submitting residency for')
+        console.log(model)
         return EntityService.submit(urlBase, Request, model);
     };
 

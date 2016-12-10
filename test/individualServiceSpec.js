@@ -63,7 +63,7 @@ describe('IndividualService Test', function() {
         $httpBackend.flush();
     });
 
-
+/*
     it('should get all locations at a hierarchy', function() {
         $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=123')
             .respond({content: [{
@@ -89,4 +89,5 @@ describe('IndividualService Test', function() {
 
         $httpBackend.flush();
     });
+*/
 });

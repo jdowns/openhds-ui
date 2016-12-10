@@ -79,6 +79,7 @@ function BaselineController($rootScope,
             extId: hierarchy.title
         };
 
+        console.log('SAVING HIERARCHY ' + vm.currentHierarchy.uuid);
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 vm.allLocations = response;
@@ -148,14 +149,11 @@ function BaselineController($rootScope,
                 vm.errorMessage = {statusText: 'Invalid external ID'};
                 return;
             }
-            console.log('submitting individual!')
             IndividualService.submit(vm.currentFieldWorker,
                                      vm.collectionDateTime,
                                      individual)
                 .then(function(response) {
                     vm.currentIndividual = response.data;
-                    console.log('Submitted individual')
-                    console.log(vm.currentIndividual)
                     vm.submitResidency(residency);
                 }, errorHandler);
         });

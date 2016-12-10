@@ -1,0 +1,47 @@
+<!-- social group select modal -->
+<div class="modal fade" id="updateHeadOfHouseholdModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document"
+       ng-controller="FooCtrl as ctrl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title">{{ 'legends.createSocialGroup' | i18next }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <fieldset>
+                    <textbox i18next="[html]labels.groupName" id="groupName"
+                             ng-model="model.socialGroup.groupName"></textbox>
+                    <br /><br />
+                    <extidbox i18next="[html]labels.externalId" id="socialGroupExtId"
+                             ng-model="model.socialGroup.extId"></extidbox>
+                    <br /><br />
+                    <selectbox i18next="[html]labels.groupType" id="groupType"
+                               ng-model="model.socialGroup.groupType">
+                        <option ng-if="code.codeGroup === 'socialGroupType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">
+                            {{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br>
+
+                </fieldset>
+                <button ng-click="ctrl.foo()">Click me!</button><button ng-click="model.foo()">Click me!!</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    {{ 'buttons.cancel' | i18next }}
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    id="submitSocialGroup" ng-click="model.submitSocialGroup(model.socialGroup)">
+                    {{ 'buttons.create' | i18next }}
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -111,26 +111,6 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
                     cause : temp.cause
                 };
                 break;
-            /* TODO:  needed?
-            case "pregnancyObservation":
-                url = $rootScope.restApiUrl + "/pregnancyObservations/";
-                model = {
-                    uuid : temp.uuid,
-                    origin : temp.origin,
-                    reason : temp.reason,
-                    migrationType : temp.migrationType
-                };
-                break;
-            case "pregnancyOutcome":
-                url = $rootScope.restApiUrl + "/pregnancyOutcomes/";
-                model = {
-                    uuid : temp.uuid,
-                    origin : temp.origin,
-                    reason : temp.reason,
-                    migrationType : temp.migrationType
-                };
-                break;
-             */
             default:
                 break;
         }

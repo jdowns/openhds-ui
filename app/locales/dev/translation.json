@@ -136,7 +136,9 @@
 
         "editLocation" : "Edit Location",
         "editIndividual" : "Edit Individual",
-        "editInMigration" : "Edit InMigration"
+        "editInMigration" : "Edit InMigration",
+        "editOutMigration" : "Edit OutMigration",
+        "editDeath" : "Edit Death"
     },
     "navigation": {
         "baseline": "Baseline Census",

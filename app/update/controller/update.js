@@ -18,20 +18,7 @@ angular.module('UpdateModule', ['ui.tree'])
                  'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
-                 UpdateController])
-    .controller('FooCtrl', [FooCtrl]);
-
-function FooCtrl() {
-    var vm = this;
-
-    vm.foo = function() {
-        console.log('oh hai!')
-    }
-
-    return vm;
-}
-
-
+                 UpdateController]);
 
 function UpdateController($rootScope,
                           $http,
@@ -52,7 +39,7 @@ function UpdateController($rootScope,
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
-    vm.foo = function() {console.log('oh no')};
+
     vm.selectedHierarchy = [];
 
     vm.selectedLocation = null;
@@ -130,7 +117,7 @@ function UpdateController($rootScope,
 
                     IndividualService.getBySocialGroup(groupId)
                         .then(function(response) {
-                            vm.individualsToUpdate(response.data);
+                            vm.individualsToUpdate = response.data;
 
                             $('#updateHeadOfHouseholdModal').modal('show');
 
@@ -307,12 +294,11 @@ function UpdateController($rootScope,
 
 
     vm.saveLocationHierarchy = function(hierarchy) {
-        console.log(hierarchy);
+
         vm.currentHierarchy = {
             uuid: hierarchy.id,
             extId: hierarchy.title
         };
-
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 vm.allLocations = response;

@@ -1,7 +1,6 @@
 <!-- social group select modal -->
 <div class="modal fade" id="updateHeadOfHouseholdModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document"
-       ng-controller="FooCtrl as ctrl">
+  <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
@@ -27,6 +26,15 @@
                         </option>
                     </selectbox>
                     <br>
+
+                    <div>
+                      <ul>
+                        <li ng-repeat="individual in model.individualsToUpdate">
+                          {{individual.extId}} <input type="text" id="relationshipToHead"></text>
+                        </li>
+                      </ul>
+                    </div>
+
 
                 </fieldset>
                 <button ng-click="ctrl.foo()">Click me!</button><button ng-click="model.foo()">Click me!!</button>

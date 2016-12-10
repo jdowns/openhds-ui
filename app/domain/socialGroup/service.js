@@ -55,6 +55,15 @@ function SocialGroupService(EntityService) {
         return EntityService.submit(urlBase, Request, model);
     };
 
+    service.submitEdited = function(socialGroup) {
+        var model = {
+            uuid : socialGroup.uuid,
+            groupName : socialGroup.groupName,
+            groupType : socialGroup.groupType
+        };
+        return EntityService.submitEdited(urlBase, model);
+    };
+
     service.delete = function(id, reason, success, failure) {
         EntityService.safeDelete(urlBase, id, reason)
             .then(function(response) {

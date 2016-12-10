@@ -10,22 +10,22 @@
 
         <button class="btn btn-danger pull-right"
                 ng-click="model.clearResults()">
-            Clear Results
+            {{ 'buttons.clear' | i18next }}
         </button>
 
 
 
 
         <!-- Display locations -->
-        <h4>Locations:</h4>
+        <h4> {{ 'labels.locations' | i18next }}:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
 
             <thead>
             <tr>
                 <th></th>
-                <th>extId</th>
-                <th>name</th>
-                <th>type</th>
+                <th> {{ 'tables.extId' | i18next }}</th>
+                <th> {{ 'tables.name' | i18next }}</th>
+                <th> {{ 'tables.type' | i18next }}</th>
             </tr>
 
             <tr>
@@ -52,13 +52,13 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">Actions</li>
-                            <li ng-click="model.editLocation(row)"><a >Edit</a></li>
-                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
+                            <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                            <li ng-click="model.edit(row, 'location')"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelated('location', row)"><a>Related Entities</a></li>
-                            <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                            <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                            <li ng-click="model.viewRelated('location', row)"><a>{{ 'labels.relatedEntities' | i18next }}</a></li>
+                            <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                         </ul>
                     </div>
                 </td>
@@ -81,21 +81,21 @@
 
         <button class="btn btn-danger pull-right"
                 ng-click="model.clearResults()">
-            Clear Results
+            {{ 'buttons.clear' | i18next }}
         </button>
 
 
 
         <!-- Display individuals -->
-        <h4>Individuals:</h4>
+        <h4> {{ 'labels.individuals' | i18next }}:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
             <tr>
                 <th></th>
-                <th>extId</th>
-                <th>firstName</th>
-                <th>lastName</th>
-                <th>gender</th>
+                <th> {{ 'tables.extId' | i18next }}</th>
+                <th> {{ 'tables.firstName' | i18next }}</th>
+                <th> {{ 'tables.lastName' | i18next }}</th>
+                <th> {{ 'tables.gender' | i18next }}</th>
             </tr>
 
             <tr>
@@ -126,13 +126,13 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">Actions</li>
-                            <li ng-click="model.editIndividual(row)"><a >Edit</a></li>
-                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
+                            <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                            <li ng-click="model.edit(row, 'individual')"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelated('individual',row)"><a>Related Entities</a></li>
-                            <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                            <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                            <li ng-click="model.viewRelated('individual', row)"><a>{{ 'labels.relatedEntities' | i18next }}</a></li>
+                            <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                         </ul>
                     </div>
                 </td>
@@ -161,18 +161,18 @@
 
         <button class="btn btn-danger pull-right"
                 ng-click="model.clearResults()">
-            Clear Results
+            {{ 'buttons.clear' | i18next }}
         </button>
 
         <!-- Display Social Groups -->
-        <h4>Social Groups:</h4>
+        <h4> {{ 'labels.socialGroups' | i18next }}:</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
             <tr>
                 <th></th>
-                <th>extId</th>
-                <th>groupName</th>
-                <th>groupType</th>
+                <th> {{ 'tables.extId' | i18next }}</th>
+                <th> {{ 'tables.groupName' | i18next }}</th>
+                <th> {{ 'tables.groupType' | i18next }}</th>
             </tr>
 
             <tr>
@@ -199,13 +199,13 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">Actions</li>
-                            <li ng-click="model.editSocialGroup(row)"><a >Edit</a></li>
-                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
+                            <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                            <li ng-click="model.edit(row,'socialGroup')"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelated('socialGroup', row)"><a>Related Entities</a></li>
-                            <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                            <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                            <li ng-click="model.viewRelated('socialGroup', row)"><a>{{ 'labels.relatedEntities' | i18next }}</a></li>
+                            <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                         </ul>
                     </div>
                 </td>
@@ -230,17 +230,17 @@
 
         <button class="btn btn-danger pull-right"
                 ng-click="model.clearResults()">
-            Clear Results
+            {{ 'buttons.clear' | i18next }}
         </button>
 
         <!-- Display Visits -->
-        <h4>Visits:</h4>
+        <h4> {{ 'labels.visits' | i18next }}</h4>
         <table st-safe-src="model.queryResult.data" st-table="model.queryResult.displayCollection" class="table table-striped">
             <thead>
             <tr>
                 <th></th>
-                <th>extId</th>
-                <th>collectionDateTime</th>
+                <th> {{ 'tables.extId' | i18next }}</th>
+                <th> {{ 'labels.collectionDate' | i18next }}</th>
 
             </tr>
 
@@ -267,13 +267,12 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">Actions</li>
-                            <li ng-click="model.editVisit(row)"><a >Edit</a></li>
-                            <li ng-click="model.deleteEntity(row)"><a >Delete</a></li>
+                            <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                            <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">View</li>
-                            <li ng-click="model.viewRelated('visit',row)"><a>Related Entities</a></li>
-                            <li ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                            <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                            <li ng-click="model.viewRelated('visit', row)"><a>{{ 'labels.relatedEntities' | i18next }}</a></li>
+                            <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                         </ul>
                     </div>
                 </td>

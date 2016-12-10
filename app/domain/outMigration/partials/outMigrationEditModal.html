@@ -1,31 +1,31 @@
 
-<!-- Edit Social Group modal -->
-<div class="modal fade" id="editSocialGroupModal" tabindex="-1" role="dialog">
+<!-- Edit OutMigration modal -->
+<div class="modal fade" id="editOutMigrationModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">    {{ 'legends.editSocialGroup' | i18next }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editOutMigration' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
-
                 <fieldset>
-                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempSocial.uuid"></constbox>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempOutMig.uuid"></constbox>
                     <br/><br/>
 
-                    <constbox i18next="[html]labels.externalId" id="extId" ng-model="model.tempSocial.extId"></constbox>
+                    <textbox i18next="[html]labels.destination" id="destination" ng-model="model.tempOutMig.destination"></textbox>
                     <br/><br/>
 
-                    <textbox i18next="[html]labels.groupName" id="name" ng-model="model.tempSocial.groupName"></textbox>
+                    <textbox i18next="[html]labels.reason" id="reason" ng-model="model.tempOutMig.reason"></textbox>
                     <br/><br/>
 
-                    <selectbox i18next="[html]labels.groupType"
+
+                    <selectbox i18next="[html]labels.type"
                                id="type"
-                               ng-model="model.tempSocial.groupType">
-                        <option ng-if="code.codeGroup === 'socialGroupType'"
+                               ng-model="model.tempOutMig.migrationType">
+                        <option ng-if="code.codeGroup === 'migrationType'"
                                 ng-repeat="code in model.codes"
                                 value="{{code.codeValue}}">{{code.codeName}}
                         </option>
@@ -34,9 +34,6 @@
 
 
                 </fieldset>
-
-
-
 
             </div>
 
@@ -52,7 +49,7 @@
                 </button>
 
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        aria-label="Close" ng-click="model.submitEdited('socialGroup')">
+                        aria-label="Close" ng-click="model.submitEdited('outMigration')">
                     {{ 'buttons.submit' | i18next }}
                 </button>
 

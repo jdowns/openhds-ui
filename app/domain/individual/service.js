@@ -79,6 +79,17 @@ function IndividualService(EntityService) {
             });
     };
 
+    service.submitEdited = function(indiv) {
+        var model = {
+            uuid :  indiv.uuid,
+            status: indiv.status,
+            firstName : indiv.firstName,
+            lastName : indiv.lastName,
+            gender : indiv.gender
+        };
+        return EntityService.submitEdited(urlBase, model);
+    };
+
     service.getExtId = function() {
         var data = {};
         return EntityService.getExtId(urlBase, 'Individual', data);

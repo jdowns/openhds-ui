@@ -81,6 +81,44 @@ function VisitEventService($rootScope, $http, $q, EntityService) {
         );
     };
 
+    service.submitEdited = function(temp, type) {
+        var url;
+        var model;
+        switch(type) {
+            case "inMigration":
+                url = $rootScope.restApiUrl + "/inMigrations/";
+                model = {
+                    uuid : temp.uuid,
+                    origin : temp.origin,
+                    reason : temp.reason,
+                    migrationType : temp.migrationType
+                };
+                break;
+            case "outMigration":
+                url = $rootScope.restApiUrl + "/outMigrations/";
+                model = {
+                    uuid : temp.uuid,
+                    destination : temp.destination,
+                    reason : temp.reason,
+                    migrationType : temp.migrationType
+                };
+                break;
+            case "death":
+                url = $rootScope.restApiUrl + "/deaths/";
+                model = {
+                    uuid : temp.uuid,
+                    placeOfDeath : temp.placeOfDeath,
+                    cause : temp.cause
+                };
+                break;
+            default:
+                break;
+        }
+
+
+        return EntityService.submitEdited(url, model);
+    };
+
 
     return service;
 }

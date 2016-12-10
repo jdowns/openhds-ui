@@ -42,6 +42,7 @@ function AuditController($rootScope,
     vm.tempLoc = null;
     vm.tempIndiv = null;
     vm.tempSocial = null;
+    vm.tempInMig = null;
     vm.toSubmit = {};
 
     vm.queryResult = {
@@ -334,23 +335,39 @@ function AuditController($rootScope,
         $("#entityJsonModal").modal();
     };
 
-    vm.editLocation = function(row){
+    vm.edit = function(row, type){
         vm.currentEntity = row;
-        vm.setTemp("tempLoc");
-        $("#editLocationModal").modal();
+        switch(type){
+            case 'location':
+                vm.setTemp("tempLoc");
+                $("#editLocationModal").modal();
+                break;
+            case 'individual':
+                vm.setTemp("tempIndiv");
+                $("#editIndividualModal").modal();
+                break;
+            case 'socialGroup':
+                vm.setTemp("tempSocial");
+                $("#editSocialGroupModal").modal();
+                break;
+            case 'inMigration':
+                vm.setTemp("tempInMig");
+                $("#editInMigrationModal").modal();
+                break;
+            case 'outMigration':
+                vm.setTemp("tempOutMig");
+                $("#editOutMigrationModal").modal();
+                break;
+            case 'death':
+                vm.setTemp("tempDeath");
+                $("#editDeathModal").modal();
+                break;
+            default:
+                break;
+        }
+
     };
 
-    vm.editIndividual = function(row){
-        vm.currentEntity = row;
-        vm.setTemp("tempIndiv");
-        $("#editIndividualModal").modal();
-    };
-
-    vm.editSocialGroup = function(row){
-        vm.currentEntity = row;
-        vm.setTemp("tempSocial");
-        $("#editSocialGroupModal").modal();
-    };
 
     vm.availableHierarchies = function() {
         var result = [];
@@ -698,22 +715,44 @@ function AuditController($rootScope,
         }
     };
 
-    vm.submitEditedLocation = function(){
-        var temp = angular.copy(vm.tempLoc);
+    vm.submitEdited = function(type){
+        var temp;
+        var res;
 
-        vm.toSubmit = {
-            'uuid': temp.uuid,
-            'entityStatus': temp.entityStatus,
-            'name': temp.name,
-            'type': temp.type,
-            'description': temp.description
-        };
+        switch(type){
+            case "location":
+                temp = angular.copy(vm.tempLoc);
+                res = LocationService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "individual":
+                temp = angular.copy(vm.tempIndiv);
+                res = IndividualService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "socialGroup":
+                temp = angular.copy(vm.tempSocial);
+                res = SocialGroupService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "inMigration":
+                temp = angular.copy(vm.tempInMig);
+                res = VisitEventService.submitEdited(temp, 'inMigration');
+                console.log(res);
+                break;
+            case "outMigration":
+                temp = angular.copy(vm.tempOutMig);
+                res = VisitEventService.submitEdited(temp, 'outMigration');
+                console.log(res);
+                break;
+            case "death":
+                temp = angular.copy(vm.tempDeath);
+                res = VisitEventService.submitEdited(temp, 'death');
+                console.log(res);
+                break;
+        }
 
-        var res = LocationService.submitEdited(vm.toSubmit);
-        console.log(res);
 
-
-        console.log("got here");
     };
 
     vm.init = function() {

@@ -36,105 +36,6 @@ describe('UpdateController', function() {
         expect(controller).toBeDefined();
     });
 
-    it('submitInMigration submits currentInMigration', function() {
-        $httpBackend.expectPOST('http://example.com/inMigrations', {
-                "collectedByUuid":123,
-                "visitUuid":234,
-                "individualUuid":345,
-                "residencyUuid":456,
-                "inMigration":{"collectionDateTime":"sometime"}
-        }).respond({uuid: "xyz"});
-        controller.currentFieldWorker = {uuid: 123};
-        controller.collectionDateTime = "then";
-        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
-        controller.individual = {uuid: 345};
-        controller.currentResidency = {uuid: 456};
-        controller.submitInMigration({});
-
-        $httpBackend.flush();
-
-        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
-            individual: {uuid: 345},
-            eventType: "inMigration"}]);
-    });
-
-    it('submitOutMigration sets currentOutMigration', function() {
-        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=3456')
-            .respond([]);
-        $httpBackend.expectPOST('http://example.com/outMigrations', {
-                "collectedByUuid":123,
-                "visitUuid":234,
-                "individualUuid":3456,
-                "residencyUuid":456,
-                "outMigration":{"collectionDateTime":"sometime"}
-        }).respond({uuid: "xyz123"});
-        controller.currentFieldWorker = {uuid: 123};
-        controller.collectionDateTime = "then";
-        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
-        controller.currentIndividual = {uuid: 3456};
-        controller.currentResidency = {uuid: 456};
-        controller.submitOutMigration({});
-
-        $httpBackend.flush();
-
-        expect(controller.submittedEvents).toEqual([{uuid: "xyz123",
-                                                     individual: {uuid: 3456},
-                                                     eventType: "outMigration"}]);
-        expect(controller.currentOutMigration).toBeNull();
-    });
-/*
-    it('submitOutMigration checks for head of household', function() {
-        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=3456')
-            .respond([{uuid: "foo",
-                       startType: "SELF",
-                       individual: {uuid: 3456},
-                       socialGroup: {uuid: 4567}}]);
-        $httpBackend.expectPOST('http://example.com/outMigrations', {
-                "collectedByUuid":123,
-                "visitUuid":234,
-                "individualUuid":3456,
-                "residencyUuid":456,
-                "outMigration":{"collectionDateTime":"sometime"}
-        }).respond({uuid: "xyz123"});
-
-        controller.currentFieldWorker = {uuid: 123};
-        controller.collectionDateTime = "then";
-        controller.currentVisit = {uuid: 234, visitDate: "sometime"};
-        controller.currentIndividual = {uuid: 3456};
-        controller.currentResidency = {uuid: 456};
-        controller.submitOutMigration({uuid: "foo"});
-
-        $httpBackend.flush();
-
-        expect(controller.submittedEvents).toEqual([{uuid: "xyz123",
-                                                     individual: {uuid: 3456},
-                                                     eventType: "outMigration"}]);
-        expect(controller.currentOutMigration).toBeNull();
-    });
-*/
-
-
-    it('submitDeath sets currentDeath', function() {
-        $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=789')
-            .respond([]);
-        $httpBackend.expectPOST("http://example.com/deaths", {
-            "collectedByUuid":123,
-            "visitUuid":456,
-            "individualUuid":789,
-           "death":{"deathDate":"then"}
-        }) .respond({uuid: "xyz"});
-
-        controller.currentFieldWorker = {uuid: 123};
-        controller.currentVisit = {uuid: 456};
-        controller.currentIndividual = {uuid: 789};
-        controller.submitDeath({date: "then"});
-        $httpBackend.flush();
-
-        expect(controller.submittedEvents).toEqual([{uuid: "xyz",
-                                                     individual: {uuid: 789},
-                                                     eventType: "death"}]);
-    });
-
     it('submitPregnancyObservation sets currentPregnancyObservation', function() {
         $httpBackend.expectPOST("http://example.com/pregnancyObservations", {
             "collectedByUuid":123,
@@ -269,18 +170,7 @@ describe('UpdateController', function() {
         controller.currentIndividual = {};
         expect(controller.pregnancyDisableCheck()).toBe(true);
     });
-/*
-    it('Save location hierarchy saves location hierarchy', function() {
-        $rootScope.restApiUrl = 'http://example.com';
-        $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3").respond({content: []});
 
-        var hierarchy = {id: 3, title: "foo"};
-
-        controller.saveLocationHierarchy(hierarchy);
-        $httpBackend.flush();
-        expect(controller.currentHierarchy).toEqual({uuid: 3, extId: "foo"});
-    });
-*/
     it('setLocation sets selectedLocation and filters allResidencies', function() {
         $httpBackend.expectGET("http://example.com/individuals/findByLocation/?locationUuid=1").respond([{uuid: 1}, {uuid: 2}]);
         controller.allResidencies = [{uuid: 1, name: "test residency",
@@ -454,27 +344,7 @@ describe('UpdateController', function() {
             displayCollection: [entity]
         });
     });
-/*
-    it('looks up entity by hierarchy', function() {
-        $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=1').respond({content: [{
-            uuid: 1,
-            extId: "extId",
-            firstName: "first",
-            lastName: "lastName",
-            dateOfBirth: "then",
-            gender: "gender"
-        }]});
-        controller.searchHierarchy = {uuid: 1};
-        controller.searchByHierarchy();
-        $httpBackend.flush();
 
-        expect(controller.queryResult).toEqual({
-            entityType: "individual",
-            data: [{ uuid: 1, extId: 'extId', firstName: 'first', lastName: 'lastName', dateOfBirth: 'then', gender: 'gender' }],
-            displayCollection: [{ uuid: 1, extId: 'extId', firstName: 'first', lastName: 'lastName', dateOfBirth: 'then', gender: 'gender' }]
-        });
-    });
-*/
     it('does not search by fields if currentSearch is null', function() {
         controller.queryResult.data = "foo";
         controller.currentSearch = null;

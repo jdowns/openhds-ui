@@ -91,6 +91,13 @@ function UpdateController($rootScope,
                 };
                 vm.submittedEvents.push(event);
             }, errorHandler);
+
+        IndividualService.getByLocation(vm.selectedLocation.uuid).then(function(response){
+            vm.allIndividuals = response;
+            vm.individualDisplayCollection = [].concat(response);
+
+        });
+
         vm.currentInMigration = null;
     };
 
@@ -172,6 +179,12 @@ function UpdateController($rootScope,
                                          .then(handleEventSubmit('outMigration', individual), errorHandler);
                                      vm.currentOutMigration = null;
                                  });
+
+        IndividualService.getByLocation(vm.selectedLocation.uuid).then(function(response){
+            vm.allIndividuals = response;
+            vm.individualDisplayCollection = [].concat(response);
+
+        });
     };
 
     vm.submitDeath = function(event) {
@@ -186,6 +199,12 @@ function UpdateController($rootScope,
                                          .then(handleEventSubmit('death', individual), errorHandler);
                                      vm.currentDeath = null;
                                  });
+
+        IndividualService.getByLocation(vm.selectedLocation.uuid).then(function(response){
+            vm.allIndividuals = response;
+            vm.individualDisplayCollection = [].concat(response);
+
+        });
     };
 
     vm.submitPregnancyObservation = function(event) {

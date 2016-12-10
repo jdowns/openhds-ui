@@ -1,0 +1,51 @@
+
+<!-- Edit death modal -->
+<div class="modal fade" id="editDeathModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editDeath' | i18next }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <fieldset>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempDeath.uuid"></constbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.placeOfDeath" id="destination" ng-model="model.tempDeath.placeOfDeath"></textbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.cause" id="reason" ng-model="model.tempDeath.cause"></textbox>
+                    <br/><br/>
+
+
+
+                </fieldset>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    {{ 'buttons.cancel' | i18next }}
+                </button>
+
+
+                <button class="btn" ng-click="model.setTemp('tempLoc')">
+                    {{ 'buttons.reset' | i18next }}
+                </button>
+
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
+                        aria-label="Close" ng-click="model.submitEdited('death')">
+                    {{ 'buttons.submit' | i18next }}
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

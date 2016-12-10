@@ -12,6 +12,7 @@ function OutMigrationService(EntityService) {
         if (model.residency === null)  {
             model.residency = {uuid: "UNKNOWN"};
         }
+
         return {
             collectedByUuid: model.fieldWorker.uuid,
             visitUuid: model.visit.uuid,

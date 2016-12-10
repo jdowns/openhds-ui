@@ -46,7 +46,6 @@ function SocialGroupService(EntityService) {
 
     };
 
-
     service.submit = function(fieldWorker, collectionDate, entity) {
         var model = {
             fieldWorker: fieldWorker,

@@ -58,13 +58,13 @@ function UpdateController($rootScope,
     vm.visitDate = null;
     vm.currentFieldWorker = null;
     vm.currentHierarchy = null;
+    vm.visit = {};
 
 
     vm.setFather = function(row) {
         if (vm.currentPregnancyOutcome === null) {
             vm.currentPregnancyOutcome = {father: row};
         } else {
-
             vm.currentPregnancyOutcome.father = row;
         }
         console.log(vm.currentPregnancyOutcome);
@@ -72,16 +72,12 @@ function UpdateController($rootScope,
 
     vm.submitVisit = function() {
         VisitService.getExtId().then(function(response) {
-            vm.visit = vm.visit || {};
-            vm.visit.extId = response.data;
-            VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit)
+            var extId = response.data;
+            VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit, extId)
                 .then(function(response) {
                     vm.currentVisit = response.data;
                 }, errorHandler);
             $('#eventTab').tab('show');
-        }, function(response) {
-            console.log("Error getting extId");
-            console.log(response);
         });
     };
 
@@ -99,31 +95,91 @@ function UpdateController($rootScope,
         vm.currentInMigration = null;
     };
 
-    vm.submitOutMigration = function(event){
-        OutMigrationService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
-            vm.currentVisit, vm.currentIndividual, vm.currentResidency, event)
+    function headOfHouseholdMigration(individual, callback) {
+
+        MembershipService.getMembershipsByIndividual(individual.uuid)
             .then(function(response) {
-                var event = {
-                    uuid: response.data.uuid,
-                    individual: vm.currentIndividual,
-                    eventType: "outMigration"
-                };
-                vm.submittedEvents.push(event);
-            }, errorHandler);
-        vm.currentOutMigration = null;
+
+                var headMemberships = [];
+                if (response.length > 0) {
+                    var memberships = response;
+                    var headOfHouseholdValue = "SELF"; // TODO: this should check for a value based on project codes, but this handles the common case
+
+                    headMemberships = memberships.filter(function(m) {
+                        return m.startType === headOfHouseholdValue;
+                    });
+                }
+
+                callback();
+                if (headMemberships.length > 0) {
+                    console.log('Please create a new social group for the remaining members of ' + headMemberships[0].socialGroup.uuid + ' and choose a new head');
+
+                    var groupId = headMemberships[0].socialGroup.uuid;
+
+                    IndividualService.getBySocialGroup(groupId)
+                        .then(function(response) {
+                            vm.individualsToUpdate(response.data);
+
+                            $('#updateHeadOfHouseholdModal').modal('show');
+
+                            // get individuals in social group
+                            // choose new head
+                            // choose relationship to head
+                            // create new group
+                            // cancel old memberships
+
+                        });
+                }
+            });
+    }
+
+    vm.submitNewHeadOfHousehold = function(socialGroup, individuals) {
+
+    };
+
+    vm.showUpdateHohModal = function() {
+        console.log('show modal')
+        $('#updateHeadOfHouseholdModal').modal('show');
+    };
+
+    function handleEventSubmit(eventName, individual) {
+        return function(response) {
+            var event = {
+                uuid: response.data.uuid,
+                individual: individual,
+                eventType: eventName
+            };
+            vm.submittedEvents.push(event);
+        };
+    }
+
+    vm.submitOutMigration = function(event) {
+        var individual = vm.currentIndividual,
+            fieldWorker = vm.currentFieldWorker,
+            visitDate = vm.currentVisit.visitDate,
+            visit = vm.currentVisit,
+            residency = vm.currentResidency;
+
+        headOfHouseholdMigration(individual,
+                                 function() {
+                                     OutMigrationService.submit(fieldWorker, visitDate, visit, individual, residency, event)
+                                         .then(handleEventSubmit('outMigration', individual), errorHandler);
+                                     vm.currentOutMigration = null;
+                                 });
     };
 
     vm.submitDeath = function(event) {
-        DeathService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit, vm.currentIndividual, event)
-            .then(function(response) {
-                var event = {
-                    uuid: response.data.uuid,
-                    individual: vm.currentIndividual,
-                    eventType: "death"
-                };
-                vm.submittedEvents.push(event);
-            }, errorHandler);
-        vm.currentDeath = null;
+        var individual = vm.currentIndividual,
+            fieldWorker = vm.currentFieldWorker,
+            collectionDate = vm.collectionDateTime,
+            visit = vm.currentVisit;
+
+        headOfHouseholdMigration(individual,
+                                 function() {
+                                     DeathService.submit(fieldWorker, collectionDate, visit, individual, event)
+                                         .then(handleEventSubmit('death', individual), errorHandler);
+                                     vm.currentDeath = null;
+                                 });
     };
 
     vm.submitPregnancyObservation = function(event) {
@@ -194,7 +250,6 @@ function UpdateController($rootScope,
                                  vm.currentVisit.visitDate,
                                  indiv)
             .then(function(response) {
-                console.log(response.data);
                 vm.currentIndividual = response.data;
             });
     };
@@ -212,7 +267,7 @@ function UpdateController($rootScope,
     };
 
 
-    vm.finishVisit = function(){
+    vm.finishVisit = function() {
 
         vm.submittedVisits.push(vm.currentVisit);
         vm.currentVisit = null;
@@ -222,7 +277,6 @@ function UpdateController($rootScope,
         vm.selectedLocation = null;
         vm.selectedIndividual = null;
         $('#updateTab').tab('show');
-
 
     };
 

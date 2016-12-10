@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Edit Individual</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editIndividual' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
@@ -58,7 +58,7 @@
                 </button>
 
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        aria-label="Close" ng-click="model.submitEditedIndividual()">
+                        aria-label="Close" ng-click="model.submitEdited('individual')">
                     {{ 'buttons.submit' | i18next }}
                 </button>
 

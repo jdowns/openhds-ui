@@ -134,7 +134,8 @@
         "pregnancyOutcome": "Create New Pregnancy Outcome",
         "deaths": "Create New Death Record",
 
-        "editLocation" : "Edit Location"
+        "editLocation" : "Edit Location",
+        "editIndividual" : "Edit Individual"
     },
     "navigation": {
         "baseline": "Baseline Census",

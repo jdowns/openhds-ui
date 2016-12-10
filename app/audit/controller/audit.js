@@ -698,22 +698,29 @@ function AuditController($rootScope,
         }
     };
 
-    vm.submitEditedLocation = function(){
-        var temp = angular.copy(vm.tempLoc);
+    vm.submitEdited = function(type){
+        var temp;
+        var res;
 
-        vm.toSubmit = {
-            'uuid': temp.uuid,
-            'entityStatus': temp.entityStatus,
-            'name': temp.name,
-            'type': temp.type,
-            'description': temp.description
-        };
+        switch(type){
+            case "location":
+                temp = angular.copy(vm.tempLoc);
+                res = LocationService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "individual":
+                temp = angular.copy(vm.tempIndiv);
+                res = IndividualService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "socialGroup":
+                temp = angular.copy(vm.tempSocial);
+                res = SocialGroupService.submitEdited(temp);
+                console.log(res);
+                break;
+        }
 
-        var res = LocationService.submitEdited(vm.toSubmit);
-        console.log(res);
 
-
-        console.log("got here");
     };
 
     vm.init = function() {

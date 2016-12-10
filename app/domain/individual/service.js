@@ -68,7 +68,8 @@ function IndividualService(EntityService) {
             collectionDate: collectionDate,
             entity: entity
         };
-        return EntityService.submit(urlBase, Request, model);
+        var result = EntityService.submit(urlBase, Request, model);
+        return result;
     };
 
     service.delete = function(id, reason, success, failure) {

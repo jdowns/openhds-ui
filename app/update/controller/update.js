@@ -58,6 +58,7 @@ function UpdateController($rootScope,
     vm.visitDate = null;
     vm.currentFieldWorker = null;
     vm.currentHierarchy = null;
+    vm.visit = {};
 
 
     vm.setFather = function(row) {

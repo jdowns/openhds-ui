@@ -116,7 +116,6 @@ function BaselineController($rootScope,
                                    vm.currentHierarchy,
                                    location)
                 .then(function(response) {
-                    console.log(response.data);
                     vm.submittedLocations.push(response.data);
                     vm.selectedLocation = response.data;
                     vm.location = {};
@@ -141,6 +140,26 @@ function BaselineController($rootScope,
         });
     };
 
+    vm.submitIndividualAndResidency = function(individual, residency) {
+        IndividualService.validateExtId(individual.extId).then(function(response) {
+            if(response.data === false) {
+                vm.errorMessage = {statusText: 'Invalid external ID'};
+                return;
+            }
+            console.log('submitting individual!')
+            IndividualService.submit(vm.currentFieldWorker,
+                                     vm.collectionDateTime,
+                                     individual)
+                .then(function(response) {
+                    vm.currentIndividual = response.data;
+                    console.log('Submitted individual')
+                    console.log(vm.currentIndividual)
+                    vm.submitResidency(residency);
+                }, errorHandler);
+        });
+    };
+
+
     vm.submitIndividual = function(indiv){
         IndividualService.validateExtId(indiv.extId).then(function(response) {
             if(response.data === false) {
@@ -158,15 +177,15 @@ function BaselineController($rootScope,
     };
 
     vm.submitResidency = function(res) {
+        console.log('submitting residency!!');
         ResidencyService.submit(
             vm.residencyStartType,
             vm.currentFieldWorker,
-            vm.individual,
+            vm.currentIndividual,
             vm.selectedLocation,
             vm.collectionDateTime,
             res)
             .then(function(response) {
-                console.log(response.data);
                 vm.submittedResidencies.push(response.data);
             }, errorHandler);
     };

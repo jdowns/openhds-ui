@@ -16,25 +16,6 @@ describe('BaselineController', function() {
                                _$rootScope_,
                                _$location_) {
 
-
-        /*
-        spyOn(mockLocationService, 'submit').and.callThrough();
-        spyOn(mockSocialGroupService, 'submit').and.callThrough();
-        spyOn(mockIndividualService, 'submit').and.callThrough();
-        spyOn(mockMembershipService, 'submit').and.callThrough();
-        spyOn(mockRelationshipService, 'submitOne').and.callThrough();
-
-
-        var args = {
-            LocationService: mockLocationService,
-            SocialGroupService: mockSocialGroupService,
-            FieldWorkerService: mockFieldWorkerService,
-            LocationHierarchyService: mockLocationHierarchyService,
-            IndividualService: mockIndividualService,
-            MembershipService: mockMembershipService,
-            RelationshipService: mockRelationshipService
-        };
-         */
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         $location = _$location_;
@@ -60,7 +41,6 @@ describe('BaselineController', function() {
     });
 
     it('Save location hierarchy saves location hierarchy', function() {
-        $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3")
             .respond({content: []});
         $httpBackend.expectGET("http://example.com/individuals.json?locationHierarchyUuid=3")
@@ -273,7 +253,7 @@ describe('BaselineController', function() {
         controller.setCurrentIndividual("foo");
         expect(controller.currentIndividual).toEqual("foo");
     });
-
+/*
     it('submits residencies', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectPOST('http://example.com/residencies',
@@ -295,6 +275,7 @@ describe('BaselineController', function() {
 
         expect(controller.submittedResidencies).toEqual([{uuid: 1}]);
     });
+*/
 
     it('sets error message', function() {
         controller.errorHandler('oops');
@@ -362,5 +343,48 @@ describe('BaselineController', function() {
         $httpBackend.flush();
 
         expect(controller.socialGroup.extId).toEqual('generatedId');
+    });
+
+    it('does not submit individuals or residencies if extid is invalid', function() {
+
+        $httpBackend.expectPOST('http://example.com/individuals/validateExtId/extId')
+            .respond(false);
+
+        //.respond({uuid: "ind-id"});
+        var individual = {extId: "extId"},
+            residency = {};
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = "now";
+
+        controller.submitIndividualAndResidency(individual, residency);
+        $httpBackend.flush();
+
+        expect(controller.errorMessage.statusText).toEqual('Invalid external ID');
+
+    });
+
+    it('submits individuals then residencies', function() {
+        var individual = {extId: "extId"},
+            residency = {};
+
+        $httpBackend.expectPOST('http://example.com/individuals/validateExtId/extId')
+            .respond(true);
+        $httpBackend.expectPOST('http://example.com/individuals')
+            .respond({uuid: "ind-id"});
+        $httpBackend.expectPOST('http://example.com/residencies')
+            .respond({uuid: 'res-id'});
+
+        controller.currentFieldWorker = {uuid: 123};
+        controller.collectionDateTime = "now";
+        controller.residencyStartType = "UNIT TEST";
+        controller.selectedLocation = {uuid: 'loc-id'};
+
+        controller.submitIndividualAndResidency(individual, residency);
+        $httpBackend.flush();
+
+        expect(controller.currentIndividual).toEqual({uuid: 'ind-id'});
+        expect(controller.submittedResidencies).toEqual([{uuid: 'res-id'}]);
+
     });
 });

@@ -18,6 +18,7 @@ angular.module('UpdateModule', ['ui.tree'])
                  'PregnancyObservationService',
                  'PregnancyOutcomeService',
                  'PregnancyResultService',
+                 'SocialGroupService',
                  UpdateController]);
 
 function UpdateController($rootScope,
@@ -35,7 +36,8 @@ function UpdateController($rootScope,
                           OutMigrationService,
                           PregnancyObservationService,
                           PregnancyOutcomeService,
-                          PregnancyResultService) {
+                          PregnancyResultService,
+                          SocialGroupService) {
 
     var vm = this;
     var headers = { authorization: "Basic " + $rootScope.credentials };
@@ -121,15 +123,23 @@ function UpdateController($rootScope,
                     console.log('Please create a new social group for the remaining members of ' + headMemberships[0].socialGroup.uuid + ' and choose a new head');
 
                     var groupId = headMemberships[0].socialGroup.uuid;
+                    vm.hohGroupUpdate = {
+                        individualsToUpdate: [],
+                        oldGroup: groupId,
+                        oldHead: headMemberships[0].individual.uuid,
+                        newGroup: {},
+                        newGroupId: "",
+                        newGroupName: "",
+                        newGroupType: ""
+                    };
+
+                    SocialGroupService.getExtId().then(function(response) {
+                        vm.hohGroupUpdate.newGroupId = response.data;
+                    });
 
                     IndividualService.getBySocialGroup(groupId)
                         .then(function(response) {
-                            vm.hohGroupUpdate = {
-                                individualsToUpdate: response,
-                                oldGroup: groupId,
-                                oldHead: headMemberships[0].individual.uuid,
-                                newGroup: {}
-                            };
+                            vm.hohGroupUpdate.individualsToUpdate = response;
 
                             $('#updateHeadOfHouseholdModal').modal('show');
 
@@ -139,16 +149,46 @@ function UpdateController($rootScope,
     }
 
     vm.submitNewHeadOfHousehold = function(update) {
-        // TODO: suggest extId
-        //create new group
-        //cancel old memberships
-        //create new memberships
-        console.log('submit new head...')
-        console.log(update)
+        var startDate = vm.currentVisit.visitDate;
+        var fieldWorker = vm.currentFieldWorker;
+        var newGroup = {
+            groupName: update.newGroupName,
+            extId: update.newGroupId,
+            groupType: update.newGroupType,
+            collectionDateTime: startDate
+        };
+
+        SocialGroupService.submit(fieldWorker, startDate, newGroup).then(function(response) {
+            var groupId = response.data.uuid;
+
+            // TODO: cancel old memberships
+            // SocialGroupService.endMemberships(groupId);
+            update.individualsToUpdate.map(function(individual) {
+                if (!update.newGroup[individual.uuid]) {
+                    return null; // skip old head
+                }
+                var membership = {
+                    individual: {uuid: individual.uuid},
+                    socialGroup: {uuid: groupId},
+                    startType: update.newGroup[individual.uuid],
+                    startDate: startDate
+                };
+
+                console.log('Submitting memberships for')
+                console.log(individual)
+                console.log(membership)
+                console.log('*****')
+
+                MembershipService.submit(fieldWorker, startDate, membership)
+                    .then(function(response) {
+                        console.log('Membership create response');
+                        console.log(response);
+                    }, errorHandler);
+            });
+        });
     };
 
     vm.showUpdateHohModal = function() {
-        console.log('show modal')
         $('#updateHeadOfHouseholdModal').modal('show');
     };
 

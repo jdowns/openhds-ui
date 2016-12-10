@@ -33,6 +33,7 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
     };
 
     function Request(model) {
+        console.log(model)
         return {
             collectedByUuid: model.fieldWorker.uuid,
             individualUuid: model.individual.uuid,

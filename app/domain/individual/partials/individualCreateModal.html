@@ -56,7 +56,7 @@
                             data-target="#membershipCreateModal" data-dismiss="modal"
                             id="assignMembership"
                             ng-disabled="form.$invalid"
-                            ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
+                            ng-click="model.submitIndividualAndResidency(model.individual, model.residency)">
                         {{ 'buttons.assignMembership' | i18next }}
                         <span class="glyphicon glyphicon-arrow-right"></span>
                     </button>

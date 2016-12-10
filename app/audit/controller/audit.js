@@ -334,23 +334,27 @@ function AuditController($rootScope,
         $("#entityJsonModal").modal();
     };
 
-    vm.editLocation = function(row){
+    vm.edit = function(row, type){
         vm.currentEntity = row;
-        vm.setTemp("tempLoc");
-        $("#editLocationModal").modal();
+        switch(type){
+            case 'location':
+                vm.setTemp("tempLoc");
+                $("#editLocationModal").modal();
+                break;
+            case 'individual':
+                vm.setTemp("tempIndiv");
+                $("#editIndividualModal").modal();
+                break;
+            case 'socialGroup':
+                vm.setTemp("tempSocial");
+                $("#editSocialGroupModal").modal();
+                break;
+            default:
+                break;
+        }
+
     };
 
-    vm.editIndividual = function(row){
-        vm.currentEntity = row;
-        vm.setTemp("tempIndiv");
-        $("#editIndividualModal").modal();
-    };
-
-    vm.editSocialGroup = function(row){
-        vm.currentEntity = row;
-        vm.setTemp("tempSocial");
-        $("#editSocialGroupModal").modal();
-    };
 
     vm.availableHierarchies = function() {
         var result = [];

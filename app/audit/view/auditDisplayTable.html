@@ -53,7 +53,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
-                            <li ng-click="model.editLocation(row)"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.edit(row, 'location')"><a >{{ 'buttons.edit' | i18next }}</a></li>
                             <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
@@ -127,7 +127,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
-                            <li ng-click="model.editIndividual(row)"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.edit(row, 'individual')"><a >{{ 'buttons.edit' | i18next }}</a></li>
                             <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
@@ -200,7 +200,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
-                            <li ng-click="model.editSocialGroup(row)"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                            <li ng-click="model.edit(row,'socialGroup')"><a >{{ 'buttons.edit' | i18next }}</a></li>
                             <li ng-click="model.deleteEntity(row)"><a >{{ 'labels.delete' | i18next }}</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>

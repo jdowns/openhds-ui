@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Related Entities</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'labels.relatedEntities' | i18next }}</h4>
             </div>
             <div class="modal-body">
 
@@ -18,14 +18,14 @@
                         <div class="panel-heading" role="tab" id="headingOne" ng-click="model.toggleIndividualRelated('memberships')">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Memberships
+                                    {{ 'labels.memberships' | i18next }}
                                 </a>
                             </h4>
                         </div>
                         <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].memberships.show">
                             <div class="panel-body">
                                 <div ng-if="model.related['individual'].memberships.loadMsg">
-                                    <h4>LOADING...</h4>
+                                    <h4>{{ 'labels.loading' | i18next }}...</h4>
                                 </div>
 
                                 <div ng-if="!model.related['individual'].memberships.loadMsg">
@@ -36,9 +36,9 @@
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>groupName</th>
-                                            <th>startDate</th>
-                                            <th>endDate</th>
+                                            <th>{{ 'tables.groupName' | i18next }}</th>
+                                            <th>{{ 'labels.startDate' | i18next }}</th>
+                                            <th>{{ 'labels.endDate' | i18next }}</th>
                                         </tr>
 
                                         <tr>
@@ -66,8 +66,8 @@
                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                        <li class="dropdown-header">View</li>
-                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                        <li ng-click="model.viewJson(row)" data-dismiss="modal"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -90,7 +90,7 @@
                         <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('relationships')">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Relationships
+                                    {{ 'labels.relationships' | i18next }}
                                 </a>
                             </h4>
                         </div>
@@ -99,7 +99,7 @@
                                 <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].relationships.show">
                                     <div class="panel-body">
                                         <div ng-if="model.related['individual'].relationships.loadMsg">
-                                            <h4>LOADING...</h4>
+                                            <h4>{{ 'labels.loading' | i18next }}...</h4>
                                         </div>
 
                                         <div ng-if="!model.related['individual'].relationships.loadMsg">
@@ -110,10 +110,10 @@
                                                 <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>individualB</th>
-                                                    <th>relationshipType</th>
-                                                    <th>startDate</th>
-                                                    <th>endDate</th>
+                                                    <th>{{ 'tables.individualB' | i18next }}</th>
+                                                    <th>{{ 'labels.relationshipType' | i18next }}</th>
+                                                    <th>{{ 'labels.startDate' | i18next }}</th>
+                                                    <th>{{ 'labels.endDate' | i18next }}</th>
                                                 </tr>
 
                                                 <tr>
@@ -145,8 +145,8 @@
                                                                 <span class="glyphicon glyphicon-chevron-down"></span>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                <li class="dropdown-header">View</li>
-                                                                <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                <li ng-click="model.viewJson(row)" data-dismiss="modal"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -171,7 +171,7 @@
                         <div class="panel-heading" role="tab" ng-click="model.toggleIndividualRelated('residencies')">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" >
-                                    Residencies
+                                    {{ 'labels.residencies' | i18next }}
                                 </a>
                             </h4>
                         </div>
@@ -180,7 +180,7 @@
                                 <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" ng-if="model.related['individual'].residencies.show">
                                     <div class="panel-body">
                                         <div ng-if="model.related['individual'].residencies.loadMsg">
-                                            <h4>LOADING...</h4>
+                                            <h4>{{ 'labels.loading' | i18next }}...</h4>
                                         </div>
 
                                         <div ng-if="!model.related['individual'].residencies.loadMsg">
@@ -191,9 +191,9 @@
                                                 <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>location</th>
-                                                    <th>startType</th>
-                                                    <th>endDate</th>
+                                                    <th>{{ 'labels.location' | i18next }}</th>
+                                                    <th>{{ 'labels.startDate' | i18next }}</th>
+                                                    <th>{{ 'labels.endDate' | i18next }}</th>
                                                 </tr>
 
                                                 <tr>
@@ -222,8 +222,8 @@
                                                                 <span class="glyphicon glyphicon-chevron-down"></span>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                <li class="dropdown-header">View</li>
-                                                                <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                <li ng-click="model.viewJson(row)" data-dismiss="modal"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -259,7 +259,7 @@
                                             <div class="panel-body">
 
                                                 <div ng-if="model.related['individual'].events.loadMsg">
-                                                    <h4>LOADING...</h4>
+                                                    <h4>{{ 'labels.loading' | i18next }}...</h4>
                                                 </div>
 
                                                 <div ng-if="!model.related['individual'].events.loadMsg">
@@ -267,14 +267,13 @@
 
 
 
-                                                    <!-- Display memberships -->
                                                     <table st-safe-src="model.related['individual'].events.data" st-table="model.related['individual'].events.displayCollection" class="table table-striped">
                                                         <thead>
                                                         <tr>
                                                             <th></th>
-                                                            <th>event type</th>
-                                                            <th>first name</th>
-                                                            <th>last name</th>
+                                                            <th>{{ 'tables.type' | i18next }}</th>
+                                                            <th>{{ 'tables.firstName' | i18next }}</th>
+                                                            <th>{{ 'tables.lastName' | i18next }}</th>
 
                                                         </tr>
 
@@ -304,12 +303,16 @@
                                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                        <li class="dropdown-header">View</li>
-                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                        <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                                                                        <li ng-click="model.edit(row, 'inMigration')" data-dismiss="modal"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                                                                        <li ng-click="model.deleteEntity(row, 'inMigration')"><a>{{ 'labels.delete' | i18next }}</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                        <li ng-click="model.viewJson(row)" data-dismiss="modal"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td>inMigration</td>
+                                                            <td>{{ 'labels.inMigration' | i18next }}</td>
                                                             <td>{{row.individual.firstName}}</td>
                                                             <td>{{row.individual.lastName}}</td>
                                                         </tr>
@@ -321,12 +324,16 @@
                                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                        <li class="dropdown-header">View</li>
-                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                        <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                                                                        <li ng-click="model.edit(row, 'outMigration')" data-dismiss="modal"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                                                                        <li ng-click="model.deleteEntity(row, 'outMigration')"><a>{{ 'labels.delete' | i18next }}</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                        <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td>outMigration</td>
+                                                            <td>{{ 'labels.outMigration' | i18next }}</td>
                                                             <td>{{row.individual.firstName}}</td>
                                                             <td>{{row.individual.lastName}}</td>
                                                         </tr>
@@ -338,12 +345,16 @@
                                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                        <li class="dropdown-header">View</li>
-                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                        <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                                                                        <li ng-click="model.edit(row, 'death')" data-dismiss="modal"><a >{{ 'buttons.edit' | i18next }}</a></li>
+                                                                        <li ng-click="model.deleteEntity(row, 'death')"><a>{{ 'labels.delete' | i18next }}</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                        <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td>death</td>
+                                                            <td>{{ 'labels.death' | i18next }}</td>
                                                             <td>{{row.individual.firstName}}</td>
                                                             <td>{{row.individual.lastName}}</td>
                                                         </tr>
@@ -356,12 +367,15 @@
                                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                        <li class="dropdown-header">View</li>
-                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                        <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                                                                        <li ng-click="model.deleteEntity(row, 'pregnancyObservation')"><a>{{ 'labels.delete' | i18next }}</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                        <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td>pregnancyObservation</td>
+                                                            <td>{{ 'labels.pregnancyObservation' | i18next }}</td>
                                                             <td>{{row.mother.firstName}}</td>
                                                             <td>{{row.mother.lastName}}</td>
                                                         </tr>
@@ -374,12 +388,15 @@
                                                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                                                                        <li class="dropdown-header">View</li>
-                                                                        <li data-toggle="modal" data-dismiss="modal" ng-click="model.viewJson(row)"><a>Raw Data</a></li>
+                                                                        <li class="dropdown-header"> {{ 'labels.actions' | i18next }}</li>
+                                                                        <li ng-click="model.deleteEntity(row, 'pregnancyOutcome')"><a>{{ 'labels.delete' | i18next }}</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                                        <li class="dropdown-header">{{ 'buttons.view' | i18next }}</li>
+                                                                        <li ng-click="model.viewJson(row)"><a>{{ 'labels.rawData' | i18next }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td>pregnancyOutcome</td>
+                                                            <td>{{ 'labels.pregnancyOutcome' | i18next }}</td>
                                                             <td>{{row.mother.firstName}}</td>
                                                             <td>{{row.mother.lastName}}</td>
                                                         </tr>
@@ -400,13 +417,14 @@
 
                     <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
-                    Cancel
+                    {{ 'buttons.cancel' | i18next }}
                 </button>
 
 
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
                         aria-label="Close">
-                    Ok
+                    {{ 'buttons.done' | i18next }}
+
                 </button>
 
 

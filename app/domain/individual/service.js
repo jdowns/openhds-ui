@@ -78,8 +78,15 @@ function IndividualService(EntityService) {
             });
     };
 
-    service.submitEdited = function(individual) {
-        return EntityService.submitEdited(urlBase, individual);
+    service.submitEdited = function(indiv) {
+        var model = {
+            uuid :  indiv.uuid,
+            status: indiv.status,
+            firstName : indiv.firstName,
+            lastName : indiv.lastName,
+            gender : indiv.gender
+        };
+        return EntityService.submitEdited(urlBase, model);
     };
 
     service.getExtId = function() {

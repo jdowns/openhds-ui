@@ -135,6 +135,7 @@
         "deaths": "Create New Death Record",
 
         "editLocation" : "Edit Location",
+        "editSocialGroup" : "Edit Social Group",
         "editIndividual" : "Edit Individual",
         "editInMigration" : "Edit InMigration",
         "editOutMigration" : "Edit OutMigration",

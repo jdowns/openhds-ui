@@ -221,6 +221,26 @@ function BaselineController($rootScope,
             }, errorHandler);
     };
 
+    vm.submitBaseline = function(){
+        vm.selectedLocation = null;
+        vm.selectedSocialGroups = [];
+        vm.selectedIndividuals = [];
+        vm.selectedRelationships = [];
+
+        vm.currentIndividual = null;
+        vm.individual = null;
+        vm.location = null;
+        vm.socialGroup = null;
+        vm.relationship = null;
+
+        vm.submittedLocations = [];
+        vm.submittedMemberships = [];
+        vm.submittedRelationships = [];
+        vm.submittedResidencies = [];
+
+    };
+
+
     vm.init = function() {
 
 

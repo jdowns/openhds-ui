@@ -124,30 +124,27 @@ function UpdateController($rootScope,
 
                     IndividualService.getBySocialGroup(groupId)
                         .then(function(response) {
-                            // TODO: suggest extId
                             vm.hohGroupUpdate = {
-                                //individualsToUpdate = response.data
+                                individualsToUpdate: response,
                                 oldGroup: groupId,
-                                newGroup: {},
-                                individualsToUpdate : [
-                                    {uuid: 1, extId: "a"},
-                                    {uuid: 2, extId: "b"}]
+                                oldHead: headMemberships[0].individual.uuid,
+                                newGroup: {}
                             };
 
                             $('#updateHeadOfHouseholdModal').modal('show');
 
-                            // get individuals in social group
-                            // choose new head
-                            // choose relationship to head
-                            // create new group
-                            // cancel old memberships
                         });
                 }
             });
     }
 
-    vm.submitNewHeadOfHousehold = function(socialGroup, individuals) {
-
+    vm.submitNewHeadOfHousehold = function(update) {
+        // TODO: suggest extId
+        //create new group
+        //cancel old memberships
+        //create new memberships
+        console.log('submit new head...')
+        console.log(update)
     };
 
     vm.showUpdateHohModal = function() {

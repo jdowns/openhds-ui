@@ -17,6 +17,8 @@
                     <extidbox i18next="[html]labels.externalId" id="socialGroupExtId"
                              ng-model="model.hohGroupUpdate.newGroup.extId"></extidbox>
                     <br /><br />
+
+
                     <selectbox i18next="[html]labels.groupType" id="groupType"
                                ng-model="model.hohGroupUpdate.newGroup.groupType">
                         <option ng-if="code.codeGroup === 'socialGroupType'"
@@ -28,16 +30,22 @@
                     <br>
 
                     <div>
-                      <ul>
-                        <li ng-repeat="individual in model.hohGroupUpdate.individualsToUpdate">
-                          {{individual.extId}} <input type="text" id="relationshipToHead"></text>
-                        </li>
-                      </ul>
+                      <hr />
+                      <h5>{{ 'labels.startType' | i18next }}</h5>
+                      <hr />
+                      <div ng-repeat="individual in model.hohGroupUpdate.individualsToUpdate"
+                           ng-if="individual.uuid !== model.hohGroupUpdate.oldHead">
+                          <selectbox label="{{individual.extId}}" id="{{individual.extId}}-relToHead"
+                                     ng-model="model.hohGroupUpdate.newGroup[individual.uuid]">
+                            <option ng-if="code.codeGroup === 'membershipType'"
+                                    ng-repeat="code in model.codes"
+                                    value="{{code.codeValue}}">
+                              {{code.codeName}}
+                            </option>
+                          </selectbox>
+                        </div>
                     </div>
-
-
                 </fieldset>
-                <button ng-click="ctrl.foo()">Click me!</button><button ng-click="model.foo()">Click me!!</button>
 
             </div>
             <div class="modal-footer">
@@ -45,7 +53,7 @@
                     {{ 'buttons.cancel' | i18next }}
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    id="submitSocialGroup" ng-click="model.submitSocialGroup(model.socialGroup)">
+                    id="submitSocialGroup" ng-click="model.submitNewHeadOfHousehold(model.hohGroupUpdate)">
                     {{ 'buttons.create' | i18next }}
                 </button>
 

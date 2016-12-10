@@ -354,6 +354,14 @@ function AuditController($rootScope,
                 vm.setTemp("tempInMig");
                 $("#editInMigrationModal").modal();
                 break;
+            case 'outMigration':
+                vm.setTemp("tempOutMig");
+                $("#editOutMigrationModal").modal();
+                break;
+            case 'death':
+                vm.setTemp("tempDeath");
+                $("#editDeathModal").modal();
+                break;
             default:
                 break;
         }

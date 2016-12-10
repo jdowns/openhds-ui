@@ -117,7 +117,15 @@ function UpdateController($rootScope,
 
                     IndividualService.getBySocialGroup(groupId)
                         .then(function(response) {
-                            vm.individualsToUpdate = response.data;
+                            // TODO: suggest extId
+                            vm.hohGroupUpdate = {
+                                //individualsToUpdate = response.data
+                                oldGroup: groupId,
+                                newGroup: {},
+                                individualsToUpdate : [
+                                    {uuid: 1, extId: "a"},
+                                    {uuid: 2, extId: "b"}]
+                            };
 
                             $('#updateHeadOfHouseholdModal').modal('show');
 
@@ -126,7 +134,6 @@ function UpdateController($rootScope,
                             // choose relationship to head
                             // create new group
                             // cancel old memberships
-
                         });
                 }
             });
@@ -321,6 +328,10 @@ function UpdateController($rootScope,
 
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
+    };
+
+    vm.showCollection = function() {
+        console.log(vm.individualDisplayCollection);
     };
 
     vm.setLocation = function(row) {

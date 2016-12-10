@@ -17,7 +17,6 @@ function EntityService($rootScope, $http, $q) {
 
     service.getByHierarchy = function(urlBase, responseClass, uuid) {
         var url = $rootScope.restApiUrl + urlBase + '/bulk.json?locationHierarchyUuid=' + uuid;
-
         var responsePromise = $http.get(url, service.getHeaders());
 
         return $q(function(resolve, reject) {
@@ -26,7 +25,7 @@ function EntityService($rootScope, $http, $q) {
                     var entities = response.data.map(responseClass);
                     resolve(entities);
                 }).catch(function(response) {
-                        console.log(response);
+                    console.log(response);
                 });
         });
     };

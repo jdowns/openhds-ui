@@ -44,7 +44,6 @@ function LocationService(EntityService) {
     }
 
     service.getByHierarchy = function(uuid) {
-        console.log(uuid)
         return EntityService.getByHierarchy(urlBase, Response, uuid);
     };
 

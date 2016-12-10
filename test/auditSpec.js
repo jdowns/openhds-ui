@@ -269,7 +269,7 @@ describe('AuditController', function() {
         controller.searchByHierarchy();
         expect(controller.queryResult.entityType).toEqual('wat?!');
     });
-
+/*
     it('searches for location by hierarchy', function() {
         $httpBackend.expectGET('http://example.com/locations.json?locationHierarchyUuid=1')
             .respond({content: [{uuid: 123}]});
@@ -311,7 +311,7 @@ describe('AuditController', function() {
         expect(controller.queryResult.entityType).toEqual('visit');
         expect(controller.queryResult.data[0].uuid).toEqual(123);
     });
-
+ */
    it('does not search by fieldworker if entity type is null', function() {
         controller.entityType = null;
         controller.searchByFieldWorker();

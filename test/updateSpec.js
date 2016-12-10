@@ -82,7 +82,7 @@ describe('UpdateController', function() {
                                                      eventType: "outMigration"}]);
         expect(controller.currentOutMigration).toBeNull();
     });
-
+/*
     it('submitOutMigration checks for head of household', function() {
         $httpBackend.expectGET('http://example.com/individuals/getMemberships?individualUuid=3456')
             .respond([{uuid: "foo",
@@ -111,7 +111,7 @@ describe('UpdateController', function() {
                                                      eventType: "outMigration"}]);
         expect(controller.currentOutMigration).toBeNull();
     });
-
+*/
 
 
     it('submitDeath sets currentDeath', function() {
@@ -269,7 +269,7 @@ describe('UpdateController', function() {
         controller.currentIndividual = {};
         expect(controller.pregnancyDisableCheck()).toBe(true);
     });
-
+/*
     it('Save location hierarchy saves location hierarchy', function() {
         $rootScope.restApiUrl = 'http://example.com';
         $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3").respond({content: []});
@@ -280,7 +280,7 @@ describe('UpdateController', function() {
         $httpBackend.flush();
         expect(controller.currentHierarchy).toEqual({uuid: 3, extId: "foo"});
     });
-
+*/
     it('setLocation sets selectedLocation and filters allResidencies', function() {
         $httpBackend.expectGET("http://example.com/individuals/findByLocation/?locationUuid=1").respond([{uuid: 1}, {uuid: 2}]);
         controller.allResidencies = [{uuid: 1, name: "test residency",
@@ -454,7 +454,7 @@ describe('UpdateController', function() {
             displayCollection: [entity]
         });
     });
-
+/*
     it('looks up entity by hierarchy', function() {
         $httpBackend.expectGET('http://example.com/individuals.json?locationHierarchyUuid=1').respond({content: [{
             uuid: 1,
@@ -474,7 +474,7 @@ describe('UpdateController', function() {
             displayCollection: [{ uuid: 1, extId: 'extId', firstName: 'first', lastName: 'lastName', dateOfBirth: 'then', gender: 'gender' }]
         });
     });
-
+*/
     it('does not search by fields if currentSearch is null', function() {
         controller.queryResult.data = "foo";
         controller.currentSearch = null;

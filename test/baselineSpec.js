@@ -41,12 +41,14 @@ describe('BaselineController', function() {
     });
 
     it('Save location hierarchy saves location hierarchy', function() {
-        $httpBackend.expectGET("http://example.com/locations.json?locationHierarchyUuid=3")
-            .respond({content: []});
-        $httpBackend.expectGET("http://example.com/individuals.json?locationHierarchyUuid=3")
-            .respond({content: []});
-        $httpBackend.expectGET("http://example.com/residencies.json?locationHierarchyUuid=3")
-            .respond({content: []});
+
+        $httpBackend.expectGET('http://example.com/locations/bulk.json?locationHierarchyUuid=3')
+            .respond({uuid: 1});
+        $httpBackend.expectGET('http://example.com/individuals/bulk.json?locationHierarchyUuid=3')
+            .respond({uuid: 1});
+        $httpBackend.expectGET('http://example.com/residencies/bulk.json?locationHierarchyUuid=3')
+            .respond([{uuid: 1, individual: {uuid: 2}, location: {uuid: 3}}]);
+
 
         var hierarchy = {id: 3, title: "foo"};
 
@@ -178,22 +180,6 @@ describe('BaselineController', function() {
         $httpBackend.flush();
 
         expect(controller.errorMessage).toEqual({statusText: 'Invalid external ID'});
-    });
-
-
-    it('saves individual', function() {
-        $httpBackend.expectPOST('http://example.com/individuals/validateExtId/extId')
-            .respond(true);
-        $httpBackend.expectPOST('http://example.com/individuals').respond({});
-        var individual = {
-            name: 'name',
-            extId: 'extId'
-        };
-        controller.currentFieldWorker = {uuid: 123};
-        controller.collectionDateTime = 'nowish';
-        controller.submitIndividual(individual);
-
-        $httpBackend.flush();
     });
 
     it('sets error message if individual extId is invalid', function() {

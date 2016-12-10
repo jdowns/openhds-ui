@@ -12,13 +12,13 @@
 
                 <fieldset>
                     <textbox i18next="[html]labels.groupName" id="groupName"
-                             ng-model="model.socialGroup.groupName"></textbox>
+                             ng-model="model.hohGroupUpdate.newGroup.groupName"></textbox>
                     <br /><br />
                     <extidbox i18next="[html]labels.externalId" id="socialGroupExtId"
-                             ng-model="model.socialGroup.extId"></extidbox>
+                             ng-model="model.hohGroupUpdate.newGroup.extId"></extidbox>
                     <br /><br />
                     <selectbox i18next="[html]labels.groupType" id="groupType"
-                               ng-model="model.socialGroup.groupType">
+                               ng-model="model.hohGroupUpdate.newGroup.groupType">
                         <option ng-if="code.codeGroup === 'socialGroupType'"
                                 ng-repeat="code in model.codes"
                                 value="{{code.codeValue}}">
@@ -29,7 +29,7 @@
 
                     <div>
                       <ul>
-                        <li ng-repeat="individual in model.individualsToUpdate">
+                        <li ng-repeat="individual in model.hohGroupUpdate.individualsToUpdate">
                           {{individual.extId}} <input type="text" id="relationshipToHead"></text>
                         </li>
                       </ul>

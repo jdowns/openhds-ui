@@ -63,6 +63,8 @@ function BaselineController($rootScope,
         vm.selectedLocation = row;
     };
 
+
+
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
     };
@@ -159,6 +161,13 @@ function BaselineController($rootScope,
         });
     };
 
+    vm.selectExistingIndividual = function(indiv){
+        vm.currentIndividual = indiv;
+        vm.selectedIndividuals.push(indiv);
+        var res = { startDate : vm.collectionDateTime};
+        vm.submitResidency(res);
+    };
+
 
     vm.submitIndividual = function(indiv){
         IndividualService.validateExtId(indiv.extId).then(function(response) {
@@ -211,6 +220,26 @@ function BaselineController($rootScope,
                 vm.submittedRelationships.push(response.data);
             }, errorHandler);
     };
+
+    vm.submitBaseline = function(){
+        vm.selectedLocation = null;
+        vm.selectedSocialGroups = [];
+        vm.selectedIndividuals = [];
+        vm.selectedRelationships = [];
+
+        vm.currentIndividual = null;
+        vm.individual = null;
+        vm.location = null;
+        vm.socialGroup = null;
+        vm.relationship = null;
+
+        vm.submittedLocations = [];
+        vm.submittedMemberships = [];
+        vm.submittedRelationships = [];
+        vm.submittedResidencies = [];
+
+    };
+
 
     vm.init = function() {
 

@@ -46,12 +46,7 @@
         id="completeBaseline"
         data-toggle="tab"
         data-target="#baseline"
-        ng-click="model.selectedLocation = null;
-                  model.selectedSocialGroups = [];
-                  model.selectedIndividuals=[];
-                  model.currentIndividual=null;
-                  model.submittedMemberships = [];
-                  model.submittedRelationships = []">
+        ng-click="model.submitBaseline()">
     {{ 'buttons.completeBaseline' | i18next }}
     <span class="glyphicon glyphicon-arrow-right"></span>
 </button>

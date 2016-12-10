@@ -59,11 +59,13 @@
         "reset" : "Reset",
         "delete" : "Delete",
         "loading" : "Loading",
+        "actions" : "Actions",
         "collectedBy" : "Collected By",
         "description" : "Description",
         "status" : "Status",
         "entityAudit" : "Entity Audit",
         "relatedEntities" : "Related Entities",
+        "rawData" : "Raw Data",
 
         "empty": "Empty?",
         "fieldWorker" : "Field Worker",
@@ -76,6 +78,7 @@
         "locations" : "Locations",
         "locationHierarchy" : "Location Hierarchy",
         "socialGroup" : "Social Group",
+        "socialGroups" : "Social Groups",
         "membership" : "Membership",
         "memberships" : "Memberships",
         "relationship" : "Relationship",
@@ -87,7 +90,7 @@
 
         "username": "Username",
         "password": "Password",
-
+        "visits" : "Visits",
         "fieldworker": "Fieldworker",
 
         "dateOfBirth": "Date Of Birth",
@@ -156,9 +159,11 @@
         "done": "Done",
         "close": "Close",
         "cancel": "Cancel",
+        "edit" : "Edit",
         "create": "Create",
         "clear": "Clear",
         "submit": "Submit",
+        "view" : "View",
         "save": "Save",
         "reset": "Reset",
         "search": "Search",

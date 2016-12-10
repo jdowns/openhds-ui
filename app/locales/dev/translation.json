@@ -135,7 +135,8 @@
         "deaths": "Create New Death Record",
 
         "editLocation" : "Edit Location",
-        "editIndividual" : "Edit Individual"
+        "editIndividual" : "Edit Individual",
+        "editInMigration" : "Edit InMigration"
     },
     "navigation": {
         "baseline": "Baseline Census",

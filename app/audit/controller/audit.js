@@ -42,6 +42,7 @@ function AuditController($rootScope,
     vm.tempLoc = null;
     vm.tempIndiv = null;
     vm.tempSocial = null;
+    vm.tempInMig = null;
     vm.toSubmit = {};
 
     vm.queryResult = {
@@ -348,6 +349,10 @@ function AuditController($rootScope,
             case 'socialGroup':
                 vm.setTemp("tempSocial");
                 $("#editSocialGroupModal").modal();
+                break;
+            case 'inMigration':
+                vm.setTemp("tempInMig");
+                $("#editInMigrationModal").modal();
                 break;
             default:
                 break;
@@ -720,6 +725,21 @@ function AuditController($rootScope,
             case "socialGroup":
                 temp = angular.copy(vm.tempSocial);
                 res = SocialGroupService.submitEdited(temp);
+                console.log(res);
+                break;
+            case "inMigration":
+                temp = angular.copy(vm.tempInMig);
+                res = VisitEventService.submitEdited(temp, 'inMigration');
+                console.log(res);
+                break;
+            case "outMigration":
+                temp = angular.copy(vm.tempOutMig);
+                res = VisitEventService.submitEdited(temp, 'outMigration');
+                console.log(res);
+                break;
+            case "death":
+                temp = angular.copy(vm.tempDeath);
+                res = VisitEventService.submitEdited(temp, 'death');
                 console.log(res);
                 break;
         }

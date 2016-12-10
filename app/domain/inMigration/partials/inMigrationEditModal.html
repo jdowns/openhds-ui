@@ -1,0 +1,61 @@
+
+<!-- Edit InMigration modal -->
+<div class="modal fade" id="editInMigrationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{ 'legends.editInMigration' | i18next }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <fieldset>
+                    <constbox i18next="[html]labels.uuid" id="uuid" ng-model="model.tempInMig.uuid"></constbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.origin" id="origin" ng-model="model.tempInMig.origin"></textbox>
+                    <br/><br/>
+
+                    <textbox i18next="[html]labels.reason" id="reason" ng-model="model.tempInMig.reason"></textbox>
+                    <br/><br/>
+
+
+                    <selectbox i18next="[html]labels.type"
+                               id="type"
+                               ng-model="model.tempInMig.migrationType">
+                        <option ng-if="code.codeGroup === 'migrationType'"
+                                ng-repeat="code in model.codes"
+                                value="{{code.codeValue}}">{{code.codeName}}
+                        </option>
+                    </selectbox>
+                    <br/><br/>
+
+
+                </fieldset>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
+                    {{ 'buttons.cancel' | i18next }}
+                </button>
+
+
+                <button class="btn" ng-click="model.setTemp('tempLoc')">
+                    {{ 'buttons.reset' | i18next }}
+                </button>
+
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
+                        aria-label="Close" ng-click="model.submitEdited('inMigration')">
+                    {{ 'buttons.submit' | i18next }}
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

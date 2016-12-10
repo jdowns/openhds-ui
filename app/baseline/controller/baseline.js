@@ -63,6 +63,8 @@ function BaselineController($rootScope,
         vm.selectedLocation = row;
     };
 
+
+
     vm.setCurrentIndividual = function(row) {
         vm.currentIndividual = row;
     };
@@ -157,6 +159,13 @@ function BaselineController($rootScope,
                     vm.submitResidency(residency);
                 }, errorHandler);
         });
+    };
+
+    vm.selectExistingIndividual = function(indiv){
+        vm.currentIndividual = indiv;
+        vm.selectedIndividuals.push(indiv);
+        var res = { startDate : vm.collectionDateTime};
+        vm.submitResidency(res);
     };
 
 

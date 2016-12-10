@@ -23,13 +23,13 @@
 
 <div ng-if="model.selectedIndividuals.length > 0">
     <!-- Display selected individuals -->
-    <h4>{{ 'headers.selectedIndividuals' | i18next }}</h4>
+    <h4>{{ 'legends.selectedIndividuals' | i18next }}</h4>
     <table st-table="model.selectedIndividuals" class="table table-striped">
         <thead>
         <tr>
             <th>{{ 'tables.firstName' | i18next }}</th>
             <th>{{ 'tables.lastName' | i18next }}</th>
-            <th>{{ 'tables.dateOfBirth | i18next }}</th>
+            <th>{{ 'tables.dateOfBirth' | i18next }}</th>
             <th>{{ 'tables.extId' | i18next }}</th>
             <th>{{ 'tables.gender' | i18next }}</th>
         </tr>

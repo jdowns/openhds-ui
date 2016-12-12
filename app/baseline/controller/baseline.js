@@ -198,6 +198,8 @@ function BaselineController($rootScope,
     };
 
     vm.submitMembership = function(mem){
+        mem.individual = {uuid: vm.currentIndividual.uuid};
+        mem.socialGroup = {uuid: vm.selectedSocialGroups[0].uuid};
         MembershipService.submit(
             vm.currentFieldWorker,
             vm.collectionDateTime,

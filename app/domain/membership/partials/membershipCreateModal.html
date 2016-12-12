@@ -10,21 +10,15 @@
             </div>
             <form name="form">
                 <div class="modal-body">
-                    <selectbox i18next="[html]labels.individual"
+                    <constbox i18next="[html]labels.individual"
                                id="individual"
-                               ng-model="model.membership.individual.uuid">
-                        <option value="{{model.currentIndividual.uuid}}">
-                            {{model.currentIndividual.firstName}}
-                        </option>
-                    </selectbox>
+                               ng-model="model.currentIndividual.extId">
+                    </constbox>
                     <br/><br/>
-                    <selectbox i18next="[html]labels.socialGroup"
+                    <constbox i18next="[html]labels.socialGroup"
                                id="socialGroup"
-                               ng-model="model.membership.socialGroup.uuid">
-                        <option ng-repeat="sg in model.selectedSocialGroups"
-                                value="{{sg.uuid}}">{{sg.groupName}}
-                        </option>
-                    </selectbox>
+                               ng-model="model.selectedSocialGroups[0].extId">
+                    </constbox>
                     <br/><br/>
                     <selectbox i18next="[html]labels.membershipStartType"
                                id="membershipStartType"
@@ -35,11 +29,7 @@
                         </option>
                     </selectbox>
                     <br/><br/>
-                    <datebox i18next="labels.membershipStartDate"
-                             max="{{model.collectionDateTime}}"
-                             name="membershipStartDate"
-                             id="membershipStartDate"
-                             ng-model="model.membership.startDate"></datebox>
+
                     <span class="alert alert-danger" ng-show="form.membershipStartDate.$error.max">Start date cannot be in the future</span>
 
                     <br/><br/>

@@ -33,14 +33,13 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
     };
 
     function Request(model) {
-        console.log(model)
         return {
             collectedByUuid: model.fieldWorker.uuid,
             individualUuid: model.individual.uuid,
             locationUuid: model.location.uuid,
             residency: {
                 startType: model.startType,
-                startDate: model.entity.startDate,
+                startDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }
         };
@@ -77,8 +76,6 @@ function ResidencyService($rootScope, $http, $q, EntityService) {
             collectionDate: collectionDate,
             entity: entity
         };
-        console.log('submitting residency for')
-        console.log(model)
         return EntityService.submit(urlBase, Request, model);
     };
 

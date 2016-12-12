@@ -2,13 +2,11 @@
 
 var request = require('request');
 
-var selectDropdownbyNum = function (element, optionNum) {
-    if (optionNum){
-        var options = element(by.tagName('option'))
-                .then(function(options){
-                    options[optionNum].click();
-                });
-    }
+function selectDropdownbyNum (element, optionNum) {
+    element(by.tagName('option'))
+        .then(function(options){
+            options[optionNum].click();
+        });
 };
 
 function LoginPage() {

@@ -24,7 +24,7 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
             socialGroupUuid: model.entity.socialGroup.uuid,
             membership: {
                 startType: model.entity.startType,
-                startDate: model.entity.startDate,
+                startDate: model.collectionDate,
                 collectionDateTime: model.collectionDate
             }
         };

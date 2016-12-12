@@ -36,11 +36,6 @@
                         <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">{{ 'errors.dateInFuture' | i18next }}</span>
 
                         <br/><br/>
-                        <datebox i18next="[html]labels.residencyStartDate"
-                                 max="{{model.collectionDateTime}}"
-                                 name="residencyStartDate"
-                                 id="residencyStartDate"
-                                 ng-model="model.residency.startDate"></datebox>
                         <span class="alert alert-danger" ng-show="form.residencyStartDate.$error.max">Start date cannot be in the future</span>
 
                         <br/><br/>

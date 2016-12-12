@@ -25,6 +25,7 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
             membership: {
                 startType: model.entity.startType,
                 startDate: model.collectionDate,
+                endDate: model.entity.endDate || null,
                 collectionDateTime: model.collectionDate
             }
         };
@@ -69,6 +70,17 @@ function MembershipService( $rootScope, $http, $q, EntityService) {
         var url = $rootScope.restApiUrl + "/memberships/" + id;
 
         return $http.delete(url, service.getHeaders());
+    };
+
+    service.endMembership = function(membership, date) {
+        var id = membership.uuid;
+        var url = $rootScope.restApiUrl + "/memberships/" + id;
+        membership.endDate = date;
+        var data = {
+            collectionDateTime: date,
+            membership: membership
+        };
+        return $http.put(url, data, service.getHeaders());
     };
 
     service.submit = function(fieldWorker, collectionDate, entity) {

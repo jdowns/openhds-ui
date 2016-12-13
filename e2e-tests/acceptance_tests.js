@@ -343,8 +343,6 @@ describe('OpenHDS', function() {
         }
     });
 
-/*
-
     it('creates baseline with empty location', function() {
 
         var loginPage = new LoginPage();
@@ -505,7 +503,6 @@ describe('OpenHDS', function() {
         });
 
     });
-    */
 
     it('creates visit with updates', function() {
         var loginPage = new LoginPage();

@@ -10,14 +10,14 @@
             </div>
             <div class="modal-body">
 
-                <textbox i18next="[html]labels.origin" ng-model="model.currentInMigration.origin"></textbox>
+                <textbox i18next="[html]labels.origin" id="origin" ng-model="model.currentInMigration.origin"></textbox>
                 <br /><br /> <!-- todo css padding -->
-                <textbox i18next="[html]labels.reason"  ng-model="model.currentInMigration.reason"></textbox>
+                <textbox i18next="[html]labels.reason"  id="inmigrationreason" ng-model="model.currentInMigration.reason"></textbox>
                 <br /><br />
-                <datebox i18next="[html]labels.migrationDate"  ng-model="model.currentInMigration.migrationDate"> </datebox>
+                <datebox i18next="[html]labels.migrationDate" id="inMigrationDate" ng-model="model.currentInMigration.migrationDate"> </datebox>
                 <br /><br />
 
-                <selectbox i18next="[html]labels.migrationType"  ng-model="model.currentInMigration.migrationType">
+                <selectbox i18next="[html]labels.migrationType" id="inMigrationType" ng-model="model.currentInMigration.migrationType">
 
                     <option ng-repeat="type in model.migrationTypes"
                             value="{{type.codeValue}}">{{type.display}}</option>
@@ -33,7 +33,7 @@
                     </div>
                     <div ng-hide="model.individual != null">
                         <div align="center">
-                            <button class="btn btn-default" id="individual-select"
+                            <button class="btn btn-default" id="individual-lookup-button"
                                     data-toggle="modal"
                                     data-target="#individualLookupModal"
                                     data-dismiss="modal">
@@ -51,7 +51,7 @@
                     </div>
 
                     <div align="center" ng-hide="model.individual != null">
-                        <button class="btn btn-default" id="individual-create"
+                        <button class="btn btn-default" id="individual-create-button"
                                 data-toggle="modal"
                                 data-target="#individualCreateModalInMigrate">
                             {{ 'buttons.createIndividual' | i18next }}
@@ -70,7 +70,7 @@
                         id="createInMigration"
                         ng-click="model.submitInMigration(model.currentInMigration)"
                         ng-disabled="model.currentInMigration.migrationType == null;
-                                     model.individual == null">
+                                     model.currentIndividual == null">
                     {{ 'buttons.create' | i18next }}
                 </button>
             </div>
@@ -122,11 +122,7 @@
                     <span class="alert alert-danger" ng-show="form.dateOfBirth.$error.max">{{ 'errors.dateInFuture' | i18next }}</span>
 
                     <br/><br/>
-                    <datebox i18next="[html]labels.residencyStartDate"
-                             max="{{model.collectionDateTime}}"
-                             name="residencyStartDate"
-                             id="residencyStartDate"
-                             ng-model="model.residency.startDate"></datebox>
+
                     <span class="alert alert-danger" ng-show="form.residencyStartDate.$error.max">Start date cannot be in the future</span>
 
                     <br/><br/>
@@ -140,7 +136,7 @@
                 </button>
                 <button type="button" class="btn btn-primary" data-toggle="modal"
                         data-dismiss="modal"
-                        id="assignMembership"
+                        id="assignMembershipButton"
                         ng-disabled="form.$invalid"
                         ng-click="model.submitIndividual(model.individual);model.submitResidency(model.residency)">
                     {{ 'buttons.submit' | i18next }}
@@ -153,5 +149,3 @@
         </div>
     </div>
 </div>
-
-

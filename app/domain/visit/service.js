@@ -9,7 +9,7 @@ function VisitService(EntityService) {
     var urlBase = "/visits";
 
     function Request(model) {
-        return {
+        var req = {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
@@ -18,6 +18,7 @@ function VisitService(EntityService) {
                 collectionDateTime: model.collectionDate
             }
         };
+        return req;
     }
 
     function Response(entity) {
@@ -55,7 +56,11 @@ function VisitService(EntityService) {
     };
 
     service.submit = function(fieldWorker, collectionDate, location, event, extId) {
-        event.extId = extId;
+        if(event) {
+            event.extId = extId;
+        } else {
+            event = {extId: extId};
+        }
         var model = {
             fieldWorker: fieldWorker,
             collectionDate: collectionDate,

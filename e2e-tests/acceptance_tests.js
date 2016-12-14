@@ -228,9 +228,105 @@ function BaselineCreateRelationshipPage() {
     };
 }
 
+function UpdateInitPage() {
+    function openFieldWorkerModal() {
+        var fieldWorkerSelectModal_button = "fieldworker-select";
+        element(by.id(fieldWorkerSelectModal_button)).click();
+        browser.sleep(1000);
+    }
+
+    function openHierarchySelectModal() {
+        var hierarchySelect_button = "hierarchy-select";
+        element(by.id(hierarchySelect_button)).click();
+        browser.sleep(1000);
+    }
+    function openLocationTab() {
+        var tab_xpath = '//*[@id="tree-root"]/ol/li/div/ol/li[1]/div/div/div/div[1]/a/span';
+        element(by.xpath(tab_xpath)).click();
+
+        tab_xpath = '//*[@id="tree-root"]/ol/li/div/ol/li[1]/div/ol/li[1]/div/div/div/div[1]/a/span';
+        element(by.xpath(tab_xpath)).click();
+    }
+    return {
+        setVisitDate: function(visitDate) {
+            $('#visitDate_input').sendKeys(visitDate);
+        },
+        setFieldWorker: function(fieldworkerId) {
+            var fieldWorkerSelect_button = fieldworkerId;
+            openFieldWorkerModal();
+            element(by.id(fieldWorkerSelect_button)).click();
+            browser.sleep(1000); // Give dom time to hide elements. A timeout won't work yet https://github.com/angular/protractor/issues/2313
+        },
+        setRegion: function(region) {
+            openHierarchySelectModal();
+            openLocationTab();
+            var region_xpath = '//*[@id="tree-root"]/ol/li/div/ol/li[1]/div/ol/li[1]/div/ol/li[1]/div/div/div/div[2]/a'; // region 0-1-1
+            element(by.xpath(region_xpath)).click();
+            browser.sleep(1000);
+
+        },
+        selectLocation: function(location) {
+            var filterPath = '//*[@id="locationSelectModal"]/div/div/div[2]/table/thead/tr[2]/th[2]/input';
+            $('#location-select').click();
+            browser.sleep(1000);
+            element(by.xpath(filterPath)).sendKeys(location);
+            element(by.id(location)).click();
+        },
+        beginVisit: function() {
+            $('#begin_visit_button').click();
+            browser.sleep(1000);
+        }
+    };
+}
+
+function CreateVisitPage() {
+    return {
+        selectIndividual: function(individual) {
+            $('#individual-select').click();
+            browser.sleep(1000);
+            var individual_xpath = '//*[@id="individualSelectModal"]/div/div/div[2]/table/thead/tr[2]/th[2]/input';
+            element(by.xpath(individual_xpath)).sendKeys(individual);
+            element(by.id(individual)).click();
+            browser.sleep(1000);
+        },
+        openInMigrationModal: function() {
+            $('#displayNewInMigrationModal').click();
+            browser.sleep(1000);
+        },
+        setInMigrationOrigin: function(origin) {
+            $('#origin_input').sendKeys(origin);
+        },
+        setInMigrationReason: function(reason) {
+            $('#inmigrationreason_input').sendKeys(reason);
+        },
+        setInMigrationDate: function(migrationDate) {
+            $('#inMigrationDate_input').sendKeys(migrationDate);
+        },
+        setMigrationType: function(typeNum) {
+            var select = element(by.id('inMigrationType_select'));
+            selectDropdownbyNum(select, typeNum);
+        },
+        openInMigrationIndividualModal: function() {
+            browser.sleep(500);
+            $('#individual-create-button').click();
+            browser.sleep(1000);
+        },
+        completeVisit: function() {
+            $('#complete-visit').click();
+            browser.sleep(1000);
+        },
+        completeInMigration: function() {
+            $('#createInMigration').click();
+            browser.sleep(1000);
+        }
+    };
+}
+
+
 describe('OpenHDS', function() {
 
     beforeEach(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
         postValidations = [];
         browser.get('/');
         browser.driver.manage().window().setSize(1440, 900);
@@ -247,17 +343,13 @@ describe('OpenHDS', function() {
         }
     });
 
-
-
     it('creates baseline with empty location', function() {
 
-        /** Login **/
         var loginPage = new LoginPage();
         loginPage.login('user', 'password');
 
         expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#!/baseline');
 
-        /** Set up baseline **/
         var baselineInitPage = new BaselineInitPage();
         baselineInitPage.setCollectionDate('01-01-2016');
         baselineInitPage.setFieldWorker("fieldworker");
@@ -265,7 +357,6 @@ describe('OpenHDS', function() {
         baselineInitPage.startLocation();
         expect($('#locationTab').isDisplayed()).toBeTruthy();
 
-        /** Create empty location **/
         var baselineLocationPage = new BaselineLocationPage();
         baselineLocationPage.openNewLocationModal();
         expect(baselineLocationPage.getExternalId()).toMatch(/location-\d/);
@@ -413,4 +504,89 @@ describe('OpenHDS', function() {
 
     });
 
+    it('creates visit with updates', function() {
+        var loginPage = new LoginPage();
+        loginPage.login('user', 'password');
+        var baselineInitPage = new BaselineInitPage();
+        baselineInitPage.setCollectionDate('01-01-2016');
+        baselineInitPage.setFieldWorker("fieldworker");
+        baselineInitPage.setRegion();
+        baselineInitPage.startLocation();
+
+        var locationId = 'new-location-test-' + generateQuickGuid();
+        var baselineLocationPage = new BaselineLocationPage();
+        baselineLocationPage.openNewLocationModal();
+        baselineLocationPage.setExternalId(locationId);
+        baselineLocationPage.setLocationName('a-populated-location');
+        baselineLocationPage.setLocationType(1);
+        baselineLocationPage.closeLocationModalOK();
+        baselineLocationPage.startSocialGroups();
+
+        var socialGroupId = 'a-socialgroup-test-' + generateQuickGuid();
+        var baselineSocialGroupPage = new BaselineSocialGroupPage();
+        baselineSocialGroupPage.openNewSocialGroupModal();
+        baselineSocialGroupPage.setGroupName('a-test-socialgroup');
+        baselineSocialGroupPage.setExternalId(socialGroupId);
+        baselineSocialGroupPage.setGroupType(1);
+        baselineSocialGroupPage.closeModalOk();
+        baselineSocialGroupPage.startIndividuals();
+
+        var individualAId = 'an-individual-test-1' + generateQuickGuid();
+        var individualBId = 'an-individual-test-2' + generateQuickGuid();
+        var individualCId = 'an-individual-test-3' + generateQuickGuid();
+        var individualDId = 'an-individual-test-4' + generateQuickGuid();
+        var baselineIndividualPage = new BaselineIndividualPage();
+
+        function createIndividual(first, last, extId, gender, dob, membership) {
+            baselineIndividualPage.openNewIndividualModal();
+            baselineIndividualPage.setFirstName(first);
+            baselineIndividualPage.setLastName(last);
+            baselineIndividualPage.setExternalId(extId);
+            baselineIndividualPage.setGender(gender);
+            baselineIndividualPage.setDateOfBirth(dob);
+            baselineIndividualPage.assignMembership();
+            baselineIndividualPage.setMembershipStartType(membership);
+            baselineIndividualPage.createMembership();
+        }
+
+        createIndividual('a-first-name-1', 'a-last-name-1', individualAId, 1, "01-01-2000", 1);
+        createIndividual('a-first-name-2', 'a-last-name-2', individualBId, 1, "01-01-2000", 2);
+        createIndividual('a-first-name-3', 'a-last-name-3', individualCId, 1, "01-01-2000", 3);
+        createIndividual('a-first-name-4', 'a-last-name-4', individualDId, 1, "01-01-2000", 3);
+
+        baselineIndividualPage.startRelationships();
+        $('#completeBaseline').click();
+        browser.sleep(1000);
+        $('#update_link').click();
+        browser.sleep(1000);
+        expect($('#visitDate').isDisplayed()).toBeTruthy();
+
+        var updateInitPage = new UpdateInitPage();
+        updateInitPage.setVisitDate('06-06-2016');
+        updateInitPage.setFieldWorker('fieldworker');
+        updateInitPage.setRegion();
+        updateInitPage.selectLocation(locationId);
+        updateInitPage.beginVisit();
+
+        var createVisitPage = CreateVisitPage();
+        createVisitPage.selectIndividual(individualAId);
+        createVisitPage.openInMigrationModal();
+        createVisitPage.setInMigrationOrigin('a silly place');
+        createVisitPage.setInMigrationReason('searching for a grail');
+        createVisitPage.setInMigrationDate('06-06-2016');
+        createVisitPage.setMigrationType(2);
+        createVisitPage.openInMigrationIndividualModal();
+
+        var individualEId = 'an-individual-test-5' + generateQuickGuid();
+        var updateIndividualPage = new BaselineIndividualPage();
+        baselineIndividualPage.setFirstName('a-first-name-5');
+        baselineIndividualPage.setLastName('a-last-name-5');
+        baselineIndividualPage.setExternalId(individualDId);
+        baselineIndividualPage.setGender(1);
+        baselineIndividualPage.setDateOfBirth('01-01-2000');
+
+        $('#assignMembershipButton').click();
+        browser.sleep(1000);
+        createVisitPage.completeInMigration();
+    });
 });

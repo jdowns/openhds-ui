@@ -194,6 +194,7 @@ function BaselineController($rootScope,
             res)
             .then(function(response) {
                 vm.submittedResidencies.push(response.data);
+                vm.individual = null;
             }, errorHandler);
     };
 

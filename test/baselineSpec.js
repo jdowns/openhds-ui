@@ -206,8 +206,10 @@ describe('BaselineController', function() {
             startType: 'UNIT TEST',
             startDate: 'then'
         };
+        controller.currentIndividual = {uuid: 456};
         controller.currentFieldWorker = {uuid: 123};
         controller.collectionDateTime = 'nowish';
+        controller.selectedSocialGroups = [{uuid: 0}];
         controller.submitMembership(membership);
 
         $httpBackend.flush();

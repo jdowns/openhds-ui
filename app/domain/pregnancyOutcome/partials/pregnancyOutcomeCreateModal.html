@@ -15,36 +15,40 @@
           <br/><br/>
           <datebox i18next="[html]labels.outcomeDate" id="pregnancyDate" ng-model="model.currentPregnancyOutcome.outcomeDate"> </datebox>
           <br /><br />
+          <div ng-hide="model.currentPregnancyOutcome.father == null">
+            <constbox i18next="[html]labels.father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
+            <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">  {{ 'buttons.clear' | i18next }}</button>
+          </div>
+          <div ng-hide="model.currentPregnancyOutcome.father != null">
+            <br/>
+            <div align="center">
+              <button class="btn btn-default" id="individual-select"
+                      data-toggle="modal"
+                      data-target="#individualLookupModal"
+                      data-dismiss="modal">
+                {{ 'buttons.selectFather' | i18next }}
+              </button>
+            </div>
+          </div>
+
+
+
+          <br/>
+          <hr>
+
           <selectbox i18next="[html]labels.resultType" id="resultType" ng-model="model.currentPregnancyResult.type">
             <option ng-if="code.codeGroup === 'pregnancyResultType'"
                     ng-repeat="code in model.codes" value = "{{code.codeValue}}">
               {{code.codeName}}
             </option>
           </selectbox>
-          <br />
-          <div ng-if="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
-            <div ng-hide="model.currentPregnancyOutcome.father == null">
-              <constbox i18next="[html]labels.father" ng-model="model.currentPregnancyOutcome.father.extId"></constbox>
-              <button class="btn btn-danger" ng-click="model.currentPregnancyOutcome.father = null">clear</button>
-            </div>
-            <div ng-hide="model.currentPregnancyOutcome.father != null">
-              <br/>
-              <label for="individual-select">{{ 'labels.father' | i18next }}</label>
-              <div align="center">
-                <button class="btn btn-default" id="individual-select"
-                        data-toggle="modal"
-                        data-target="#individualLookupModal"
-                        data-dismiss="modal">
-                  {{ 'buttons.selectFather' | i18next }}
-                </button>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <br /><br />
+          <button type="button" class="btn btn-primary pull-left" ng-click="model.addPregnancyResult(model.currentPregnancyResult)">
+            {{ 'legends.add' | i18next }}
+          </button>
+
           <div id="liveBirthResults" ng-show="model.currentPregnancyResult.type === 'LIVE_BIRTH'">
             <br/><br/>
-            <label ng-i18next="[html]labels.child"></label> <br />
+            <label ng-i18next="[html]labels.child"></label>: <br /><br/>
             <textbox i18next="[html]labels.firstName" id="firstName" name="firstName"
                      ng-model="model.currentPregnancyResult.child.firstName"></textbox>
             <br /><br />
@@ -61,8 +65,31 @@
                       value="{{code.codeValue}}">{{code.codeName}}
               </option>
             </selectbox>
+
           </div>
         </fieldset>
+        <hr>
+
+        <br/>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th colspan="2">Results</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="row in model.currentPregnancyOutcome.resultList">
+            <td>{{row.type}}</td>
+            <td>{{row.child.firstName}}</td>
+          </tr>
+          </tbody>
+
+        </table>
+
+        <hr>
+        <br/>
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">

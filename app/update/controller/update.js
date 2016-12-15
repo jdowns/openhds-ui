@@ -53,7 +53,7 @@ function UpdateController($rootScope,
     vm.currentOutMigration = null;
     vm.currentDeath = null;
     vm.currentPregnancyObservation = null;
-    vm.currentPregnancyOutcome = null;
+    vm.currentPregnancyOutcome = { resultList : [] };
 
     vm.currentEventType = null;
     vm.visitDate = null;
@@ -81,6 +81,12 @@ function UpdateController($rootScope,
                 }, errorHandler);
             $('#eventTab').tab('show');
         });
+    };
+
+    vm.addPregnancyResult = function(res){
+        var tmp = angular.copy(res);
+        vm.currentPregnancyOutcome.resultList.push(tmp);
+        vm.currentPregnancyResult = null;
     };
 
     vm.submitInMigration = function(event){

@@ -18,7 +18,7 @@ describe('PregnancyObservation Service Test', function() {
             visitUuid: 456,
             motherUuid: 789,
             pregnancyObservation: {
-                pregnancyDate: "then",
+                pregnancyDate: "01-14-2016",
                 expectedDeliveryDate: "later",
                 collectionDateTime: "01-14-2016"
             }

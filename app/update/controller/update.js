@@ -74,6 +74,7 @@ function UpdateController($rootScope,
     vm.submitVisit = function() {
         VisitService.getExtId().then(function(response) {
             var extId = response.data;
+            console.log('suggesting id ' + extId);
             VisitService.submit(vm.currentFieldWorker, vm.visitDate, vm.selectedLocation, vm.visit, extId)
                 .then(function(response) {
                     vm.currentVisit = response.data;
@@ -161,11 +162,9 @@ function UpdateController($rootScope,
         SocialGroupService.submit(fieldWorker, startDate, newGroup).then(function(response) {
             var groupId = response.data.uuid;
 
-            // TODO: cancel old memberships
-            // SocialGroupService.endMemberships(groupId);
-            update.individualsToUpdate.map(function(individual) {
+            update.individualsToUpdate.forEach(function(individual) {
                 if (!update.newGroup[individual.uuid]) {
-                    return null; // skip old head
+                    return; // skip old head
                 }
                 var membership = {
                     individual: {uuid: individual.uuid},
@@ -174,16 +173,22 @@ function UpdateController($rootScope,
                     startDate: startDate
                 };
 
-                console.log('Submitting memberships for')
-                console.log(individual)
-                console.log(membership)
-                console.log('*****')
-
-                MembershipService.submit(fieldWorker, startDate, membership)
+                MembershipService.getMembershipsByIndividual(individual.uuid)
                     .then(function(response) {
-                        console.log('Membership create response');
-                        console.log(response);
-                    }, errorHandler);
+                        var memberships = response;
+
+                        memberships.forEach(function(m) {
+                            MembershipService.endMembership(m, startDate)
+                                .then(console.log, console.log);
+                        });
+
+
+                        MembershipService.submit(fieldWorker, startDate, membership)
+                            .then(function(response) {
+                                console.log('Membership create response');
+                                console.log(response);
+                            }, errorHandler);
+                    });
             });
         });
     };
@@ -332,7 +337,7 @@ function UpdateController($rootScope,
     vm.finishVisit = function() {
 
         vm.submittedVisits.push(vm.currentVisit);
-        vm.currentVisit = null;
+        vm.currentVisit = {};
         vm.visit = null;
 
         vm.submittedEvents = [];

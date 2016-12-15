@@ -2,7 +2,8 @@ exports.config = {
     allScriptsTimeout: 20000,
 
     specs: [
-        'scenarios.js'
+	'acceptance_tests.js'
+        //'scenarios.js'
         //'*.js'
     ],
 

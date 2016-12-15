@@ -194,10 +194,13 @@ function BaselineController($rootScope,
             res)
             .then(function(response) {
                 vm.submittedResidencies.push(response.data);
+                vm.individual = null;
             }, errorHandler);
     };
 
     vm.submitMembership = function(mem){
+        mem.individual = {uuid: vm.currentIndividual.uuid};
+        mem.socialGroup = {uuid: vm.selectedSocialGroups[0].uuid};
         MembershipService.submit(
             vm.currentFieldWorker,
             vm.collectionDateTime,

@@ -42,7 +42,7 @@ describe('UpdateController', function() {
             "visitUuid":456,
             "motherUuid":789,
             "pregnancyObservation": {
-                "pregnancyDate":"then",
+                "pregnancyDate":"now",
                 "expectedDeliveryDate":"later",
                 "collectionDateTime":"now"
             }
@@ -52,7 +52,6 @@ describe('UpdateController', function() {
         controller.currentVisit = {uuid: 456, visitDate: "now"};
         controller.currentIndividual = {uuid: 789};
         controller.submitPregnancyObservation({
-            pregnancyDate: "then",
             deliveryDate: "later"
         });
 

@@ -146,7 +146,8 @@
         "update": "Update Round",
         "audit": "Entity Audit",
         "logout": "Logout",
-        "startLocation": "Location"
+        "startLocation": "Location",
+        "welcome" : "Welcome"
     },
     "tabs": {
         "baseline": "Baseline",

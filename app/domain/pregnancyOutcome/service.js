@@ -9,10 +9,18 @@ function PregnancyOutcomeService(EntityService) {
     var urlBase = "/pregnancyOutcomes";
 
     function Request(model) {
+        var father;
+        if (model.father == null){
+            father = null;
+        }
+        else{
+            father = model.father.uuid;
+        }
+
         return {
             collectedByUuid: model.fieldWorker.uuid,
             visitUuid: model.visit.uuid,
-            fatherUuid: model.father.uuid,
+            fatherUuid: father,
             motherUuid: model.mother.uuid,
             pregnancyOutcome: {
                 outcomeDate: model.event.outcomeDate,

@@ -2,24 +2,24 @@
 
 angular.module('UpdateModule', ['ui.tree'])
     .controller('UpdateController',
-                ['$rootScope',
-                 '$http',
-                 'LocationHierarchyService',
-                 'FieldWorkerService',
-                 'LocationService',
-                 'IndividualService',
-                 'MembershipService',
-                 'RelationshipService',
-                 'ResidencyService',
-                 'VisitService',
-                 'DeathService',
-                 'InMigrationService',
-                 'OutMigrationService',
-                 'PregnancyObservationService',
-                 'PregnancyOutcomeService',
-                 'PregnancyResultService',
-                 'SocialGroupService',
-                 UpdateController]);
+        ['$rootScope',
+            '$http',
+            'LocationHierarchyService',
+            'FieldWorkerService',
+            'LocationService',
+            'IndividualService',
+            'MembershipService',
+            'RelationshipService',
+            'ResidencyService',
+            'VisitService',
+            'DeathService',
+            'InMigrationService',
+            'OutMigrationService',
+            'PregnancyObservationService',
+            'PregnancyOutcomeService',
+            'PregnancyResultService',
+            'SocialGroupService',
+            UpdateController]);
 
 function UpdateController($rootScope,
                           $http,
@@ -53,7 +53,8 @@ function UpdateController($rootScope,
     vm.currentOutMigration = null;
     vm.currentDeath = null;
     vm.currentPregnancyObservation = null;
-    vm.currentPregnancyOutcome = null;
+    vm.currentPregnancyOutcome = {results : []};
+    vm.currentResultList = {};
 
     vm.currentEventType = null;
     vm.visitDate = null;
@@ -81,6 +82,12 @@ function UpdateController($rootScope,
                 }, errorHandler);
             $('#eventTab').tab('show');
         });
+    };
+
+    vm.addPregnancyResult = function(res){
+        var tmp = angular.copy(res);
+        vm.currentPregnancyOutcome.results(tmp);
+        vm.currentPregnancyResult = null;
     };
 
     vm.submitInMigration = function(event){
@@ -216,11 +223,11 @@ function UpdateController($rootScope,
             residency = vm.currentResidency;
 
         headOfHouseholdMigration(individual,
-                                 function() {
-                                     OutMigrationService.submit(fieldWorker, visitDate, visit, individual, residency, event)
-                                         .then(handleEventSubmit('outMigration', individual), errorHandler);
-                                     vm.currentOutMigration = null;
-                                 });
+            function() {
+                OutMigrationService.submit(fieldWorker, visitDate, visit, individual, residency, event)
+                    .then(handleEventSubmit('outMigration', individual), errorHandler);
+                vm.currentOutMigration = null;
+            });
 
         IndividualService.getByLocation(vm.selectedLocation.uuid).then(function(response){
             vm.allIndividuals = response;
@@ -236,11 +243,11 @@ function UpdateController($rootScope,
             visit = vm.currentVisit;
 
         headOfHouseholdMigration(individual,
-                                 function() {
-                                     DeathService.submit(fieldWorker, collectionDate, visit, individual, event)
-                                         .then(handleEventSubmit('death', individual), errorHandler);
-                                     vm.currentDeath = null;
-                                 });
+            function() {
+                DeathService.submit(fieldWorker, collectionDate, visit, individual, event)
+                    .then(handleEventSubmit('death', individual), errorHandler);
+                vm.currentDeath = null;
+            });
 
         IndividualService.getByLocation(vm.selectedLocation.uuid).then(function(response){
             vm.allIndividuals = response;
@@ -262,9 +269,10 @@ function UpdateController($rootScope,
             }, errorHandler);
     };
 
-    vm.submitPregnancyOutcome = function(outcome, result){
+    vm.submitPregnancyOutcome = function(outcome){
         PregnancyOutcomeService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit,
-                                       vm.currentIndividual, vm.currentPregnancyOutcome.father, vm.currentPregnancyOutcome)
+                                       vm.currentIndividual, vm.currentPregnancyOutcome.father,
+                                       vm.currentPregnancyOutcome)
             .then(function(outcomeResponse) {
                 var event = {
                     uuid: outcomeResponse.data.uuid,
@@ -273,49 +281,66 @@ function UpdateController($rootScope,
                 };
                 vm.submittedEvents.push(event);
 
-                if (vm.currentPregnancyResult.type === 'LIVE_BIRTH') {
-                    IndividualService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate, result.child)
-                        .then(function(childResponse) {
-                            PregnancyResultService.submit(vm.currentFieldWorker,
-                                                          vm.currentVisit.visitDate,
-                                                          vm.currentVisit,
-                                                          outcomeResponse.data,
-                                                          childResponse.data,
-                                                          result)
-                                .then(function(response) {
-                                    var event = {
-                                        uuid: response.data.uuid,
-                                        individual: childResponse.uuid,
-                                        eventType: "pregnancy result"
-                                    };
-                                    vm.submittedEvents.push(event);
-                                }, errorHandler);
-                        }, errorHandler);
-                    vm.currentPregnancyOutcome = null;
-                    vm.currentPregnancyResult = null;
-                }
-                else {
-                    PregnancyResultService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
-                                                  vm.currentVisit, outcomeResponse, {}, vm.currentPregnancyResult)
-                        .then(function(response) {
-                            var event = {
-                                uuid: response.uuid,
-                                individual: null,
-                                eventType: "pregnancy result"
-                            };
-                            vm.submittedEvents.push(event);
-                            vm.currentPregnancyOutcome = null;
-                            vm.currentPregnancyResult = null;
-                        }, errorHandler);
+
+                console.log("a", outcome);
+
+
+
+
+                for(var i = 0; i <  outcome.results.length; i++){
+                    var result = outcome.results[i];
+
+
+                    if (result.type === 'LIVE_BIRTH') {
+                        IndividualService.submit(vm.currentFieldWorker,
+                                                 vm.currentVisit.visitDate,
+                                                 result.child)
+                            .then(function(childResponse) {
+                                PregnancyResultService.submit(vm.currentFieldWorker,
+                                                              vm.currentVisit.visitDate,
+                                                              vm.currentVisit,
+                                                              outcomeResponse.data,
+                                                              childResponse.data,
+                                                               result)
+                                    .then(function(response) {
+                                        var event = {
+                                            uuid: response.data.uuid,
+                                            individual: childResponse.uuid,
+                                            eventType: result.type
+                                        };
+                                        vm.submittedEvents.push(event);
+                                    }, errorHandler);
+                            }, errorHandler);
+
+                    }
+                    else {
+                        PregnancyResultService.submit(vm.currentFieldWorker,
+                                                      vm.currentVisit.visitDate,
+                                                      vm.currentVisit,
+                                                      outcomeResponse.data,
+                                                      {},
+                                                      result)
+                            .then(function(response) {
+                                var event = {
+                                    uuid: response.uuid,
+                                    individual: null,
+                                    eventType:  result.type
+                                };
+                                vm.submittedEvents.push(event);
+
+                            }, errorHandler);
+                    }
                 }
             }, errorHandler);
+        vm.currentPregnancyOutcome = { results : [] };
+        vm.currentPregnancyResult = null;
     };
 
     // For External In-Migration
     vm.submitIndividual = function(indiv){
         IndividualService.submit(vm.currentFieldWorker,
-                                 vm.currentVisit.visitDate,
-                                 indiv)
+            vm.currentVisit.visitDate,
+            indiv)
             .then(function(response) {
                 vm.currentIndividual = response.data;
             });
@@ -439,11 +464,11 @@ function UpdateController($rootScope,
 
 
     vm.searchByHierarchy = function(){
-                IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
-                    .then(function(response) {
-                        vm.queryResult.data = response;
-                        vm.queryResult.displayCollection = [].concat(response);
-                    }, errorHandler);
+        IndividualService.getByHierarchy(vm.searchHierarchy.uuid)
+            .then(function(response) {
+                vm.queryResult.data = response;
+                vm.queryResult.displayCollection = [].concat(response);
+            }, errorHandler);
 
     };
 

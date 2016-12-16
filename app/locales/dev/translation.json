@@ -128,6 +128,7 @@
         "visit": "New Visit",
         "submittedVisits": "Submitted Visits",
         "addEvents": "Add events",
+        "add" : "Add",
         "inMigrations": "Create In Migration",
         "outMigrations": "Create Out Migration",
         "pregnancyObservation": "Create New Pregnancy Observation",
@@ -146,7 +147,8 @@
         "update": "Update Round",
         "audit": "Entity Audit",
         "logout": "Logout",
-        "startLocation": "Location"
+        "startLocation": "Location",
+        "welcome" : "Welcome"
     },
     "tabs": {
         "baseline": "Baseline",

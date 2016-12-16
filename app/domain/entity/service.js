@@ -53,7 +53,8 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
-                    var entities = response.data.content.map(responseClass);
+                    console.log(response);
+                    var entities = response.data.map(responseClass);
                     resolve(entities);
                 }
             );

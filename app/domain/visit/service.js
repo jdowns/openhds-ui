@@ -9,7 +9,7 @@ function VisitService(EntityService) {
     var urlBase = "/visits";
 
     function Request(model) {
-        var req = {
+        return {
             collectedByUuid: model.fieldWorker.uuid,
             locationUuid: model.location.uuid,
             visit: {
@@ -18,7 +18,6 @@ function VisitService(EntityService) {
                 collectionDateTime: model.collectionDate
             }
         };
-        return req;
     }
 
     function Response(entity) {

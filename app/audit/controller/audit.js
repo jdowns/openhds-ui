@@ -290,7 +290,6 @@ function AuditController($rootScope,
             }
         });
         tmp = tmp.substring(0, tmp.length-1);
-        console.log(tmp);
 
         vm.queryResult.entityType = vm.entityType;
 

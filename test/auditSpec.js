@@ -78,7 +78,7 @@ describe('AuditController', function() {
     it('looks up location', function() {
         var entity = [{uuid: 1, extId: "id", name: "name", type: "test", description: "description"}];
         $httpBackend.expectGET('http://example.com/locations/external/id')
-            .respond({content: entity});
+            .respond(entity);
         controller.searchExtId = 'id';
         controller.entityType = "location";
         controller.lookupEntity();
@@ -95,7 +95,7 @@ describe('AuditController', function() {
     it('looks up individual', function() {
         var entity = [{uuid: 1, extId: "id", firstName: "fname", lastName: "lname", gender: "test", dateOfBirth: "dob"}];
         $httpBackend.expectGET('http://example.com/individuals/external/id')
-            .respond({content: entity});
+            .respond( entity);
         controller.searchExtId = 'id';
         controller.entityType = "individual";
         controller.lookupEntity();
@@ -111,7 +111,7 @@ describe('AuditController', function() {
     it('looks up social group', function() {
         var entity = [{uuid: 1, extId: "id", groupName: "group", groupType: "type"}];
         $httpBackend.expectGET('http://example.com/socialGroups/external/id')
-            .respond({content: entity});
+            .respond(entity);
         controller.searchExtId = 'id';
         controller.entityType = "socialGroup";
         controller.lookupEntity();
@@ -129,7 +129,7 @@ describe('AuditController', function() {
         var entity = [{uuid: 1, extId: "id", collectionDateTime: "then",
                        location: "locId", visitDate: "then"}];
         $httpBackend.expectGET('http://example.com/visits/external/id')
-            .respond({content: entity});
+            .respond( entity);
         controller.searchExtId = 'id';
         controller.entityType = "visit";
         controller.lookupEntity();

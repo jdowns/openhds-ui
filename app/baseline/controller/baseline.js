@@ -80,6 +80,8 @@ function BaselineController($rootScope,
         };
 
         console.log('SAVING HIERARCHY ' + vm.currentHierarchy.uuid);
+
+
         LocationService.getByHierarchy(vm.currentHierarchy.uuid)
             .then(function(response) {
                 vm.allLocations = response;
@@ -97,6 +99,7 @@ function BaselineController($rootScope,
                 vm.allResidencies = response;
                 vm.residencyDisplayCollection = [].concat(response);
             }, errorHandler);
+
     };
 
     vm.availableHierarchies = function() {

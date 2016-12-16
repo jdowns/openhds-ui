@@ -22,6 +22,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
+                    console.log("------", response.data);
                     var entities = response.data.map(responseClass);
                     resolve(entities);
                 }).catch(function(response) {
@@ -53,6 +54,7 @@ function EntityService($rootScope, $http, $q) {
         return $q(function(resolve, reject) {
             responsePromise.then(
                 function(response) {
+                    console.log(response);
                     var entities = response.data.map(responseClass);
                     resolve(entities);
                 }

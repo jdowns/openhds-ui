@@ -74,6 +74,7 @@ describe('UpdateController', function() {
 
         $httpBackend.expectPOST('http://example.com/pregnancyResults', {
             "collectedByUuid":123,
+            "pregnancyOutcomeUuid":"xyz",
             "pregnancyResult":{type: "test"}
         }).respond({});
 
@@ -83,17 +84,20 @@ describe('UpdateController', function() {
         controller.currentIndividual = {uuid: 789};
         controller.currentPregnancyOutcome = {
             father: {uuid: 987},
-            outcomeDate: "then"
+            outcomeDate: "then",
+            results : [ {type:"test"} ]
         };
+
+
         controller.currentPregnancyResult = {
             type: "test"
         };
 
-        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome, controller.currentPregnancyResult);
+        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome);
 
         $httpBackend.flush();
 
-        expect(controller.currentPregnancyOutcome).toBeNull();
+        expect(controller.currentPregnancyOutcome).toEqual({results :[]});
     });
 
     it('creates individual if live birth', function() {
@@ -122,18 +126,19 @@ describe('UpdateController', function() {
         controller.currentIndividual = {uuid: 789};
         controller.currentPregnancyOutcome = {
             father: {uuid: 987},
-            outcomeDate: "then"
-        };
-        controller.currentPregnancyResult = {
-            child: {uuid: 12345},
-            type: "LIVE_BIRTH"
+            outcomeDate: "then",
+            results : [
+                { child: {uuid: 12345}, type: "LIVE_BIRTH" }
+            ]
         };
 
-        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome, controller.currentPregnancyResult);
+
+
+        controller.submitPregnancyOutcome(controller.currentPregnancyOutcome);
 
         $httpBackend.flush();
 
-        expect(controller.currentPregnancyOutcome).toBeNull();
+        expect(controller.currentPregnancyOutcome).toEqual({results :[]});
     });
 
     it('finishVisit resets submittedEvents, selectLocation and selectedIndividual', function() {
@@ -330,18 +335,19 @@ describe('UpdateController', function() {
     });
 
     it('looks up entity by extId', function() {
-        var entity = { uuid: 1, extId: "id", firstName: "first", lastName: "last", dateOfBirth: "dob", gender: "test" };
-        $httpBackend.expectGET('http://example.com/individuals/external/extId').respond({content: [entity]});
-        controller.searchExtId = "extId";
+        var entity = [{uuid: 1, extId: "id", firstName: "fname", lastName: "lname", gender: "test", dateOfBirth: "dob"}];
+        $httpBackend.expectGET('http://example.com/individuals/external/id')
+            .respond( entity);
+        controller.searchExtId = 'id';
+        controller.entityType = "individual";
         controller.lookupEntity();
-        $httpBackend.flush();
 
-        expect(controller.currentEntity).toEqual([entity]);
+        $httpBackend.flush();
+        expect(controller.currentEntity).toEqual(entity);
         expect(controller.queryResult).toEqual({
             entityType: "individual",
-            data: [entity],
-            displayCollection: [entity]
-        });
+            data: entity,
+            displayCollection: entity});
     });
 
     it('does not search by fields if currentSearch is null', function() {
@@ -381,7 +387,7 @@ describe('UpdateController', function() {
             };
         };
         controller.currentEventType = "pregnancyOutcome";
-        controller.currentPregnancyOutcome = {}
+        controller.currentPregnancyOutcome = { results : []}
         controller.chooseIndividual("row");
         expect(controller.currentPregnancyOutcome.father).toEqual("row");
         expect(modalCalled).toBe(true);
@@ -404,7 +410,7 @@ describe('UpdateController', function() {
         controller.chooseIndividual("row");
         expect(controller.individual).toEqual("row");
         expect(modalCalled).toBe(true);
-        expect(controller.currentPregnancyOutcome).toBeNull();
+        expect(controller.currentPregnancyOutcome).toEqual({results :[]});
 
         delete $;
     });

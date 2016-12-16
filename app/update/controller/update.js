@@ -53,7 +53,8 @@ function UpdateController($rootScope,
     vm.currentOutMigration = null;
     vm.currentDeath = null;
     vm.currentPregnancyObservation = null;
-    vm.currentPregnancyOutcome = { resultList : [] };
+    vm.currentPregnancyOutcome = {results : []};
+    vm.currentResultList = {};
 
     vm.currentEventType = null;
     vm.visitDate = null;
@@ -85,7 +86,7 @@ function UpdateController($rootScope,
 
     vm.addPregnancyResult = function(res){
         var tmp = angular.copy(res);
-        vm.currentPregnancyOutcome.resultList.push(tmp);
+        vm.currentPregnancyOutcome.results(tmp);
         vm.currentPregnancyResult = null;
     };
 
@@ -270,7 +271,8 @@ function UpdateController($rootScope,
 
     vm.submitPregnancyOutcome = function(outcome){
         PregnancyOutcomeService.submit(vm.currentFieldWorker, vm.collectionDateTime, vm.currentVisit,
-            vm.currentIndividual, vm.currentPregnancyOutcome.father, vm.currentPregnancyOutcome)
+                                       vm.currentIndividual, vm.currentPregnancyOutcome.father,
+                                       vm.currentPregnancyOutcome)
             .then(function(outcomeResponse) {
                 var event = {
                     uuid: outcomeResponse.data.uuid,
@@ -279,19 +281,27 @@ function UpdateController($rootScope,
                 };
                 vm.submittedEvents.push(event);
 
-                for(var i = 0; i <  vm.currentPregnancyOutcome.resultList.length; i++){
-                    var result = vm.currentPregnancyOutcome.resultList[i];
+
+                console.log("a", outcome);
+
+
+
+
+                for(var i = 0; i <  outcome.results.length; i++){
+                    var result = outcome.results[i];
 
 
                     if (result.type === 'LIVE_BIRTH') {
-                        IndividualService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate, result.child)
+                        IndividualService.submit(vm.currentFieldWorker,
+                                                 vm.currentVisit.visitDate,
+                                                 result.child)
                             .then(function(childResponse) {
                                 PregnancyResultService.submit(vm.currentFieldWorker,
-                                    vm.currentVisit.visitDate,
-                                    vm.currentVisit,
-                                    outcomeResponse.data,
-                                    childResponse.data,
-                                    result)
+                                                              vm.currentVisit.visitDate,
+                                                              vm.currentVisit,
+                                                              outcomeResponse.data,
+                                                              childResponse.data,
+                                                               result)
                                     .then(function(response) {
                                         var event = {
                                             uuid: response.data.uuid,
@@ -304,8 +314,12 @@ function UpdateController($rootScope,
 
                     }
                     else {
-                        PregnancyResultService.submit(vm.currentFieldWorker, vm.currentVisit.visitDate,
-                            vm.currentVisit, outcomeResponse, {}, result)
+                        PregnancyResultService.submit(vm.currentFieldWorker,
+                                                      vm.currentVisit.visitDate,
+                                                      vm.currentVisit,
+                                                      outcomeResponse.data,
+                                                      {},
+                                                      result)
                             .then(function(response) {
                                 var event = {
                                     uuid: response.uuid,
@@ -316,12 +330,10 @@ function UpdateController($rootScope,
 
                             }, errorHandler);
                     }
-
-                    vm.currentPregnancyOutcome = { resultList : [] };
-                    vm.currentPregnancyResult = null;
                 }
-
             }, errorHandler);
+        vm.currentPregnancyOutcome = { results : [] };
+        vm.currentPregnancyResult = null;
     };
 
     // For External In-Migration

@@ -42,10 +42,14 @@ describe('BaselineController', function() {
 
     it('Save location hierarchy saves location hierarchy', function() {
 
+
+
         $httpBackend.expectGET('http://example.com/locations/bulk.json?locationHierarchyUuid=3')
-            .respond({uuid: 1});
+            .respond([{uuid: 1}]);
+
         $httpBackend.expectGET('http://example.com/individuals/bulk.json?locationHierarchyUuid=3')
-            .respond({uuid: 1});
+            .respond([{uuid: 1}]);
+
         $httpBackend.expectGET('http://example.com/residencies/bulk.json?locationHierarchyUuid=3')
             .respond([{uuid: 1, individual: {uuid: 2}, location: {uuid: 3}}]);
 
